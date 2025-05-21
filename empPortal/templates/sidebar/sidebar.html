@@ -17,7 +17,7 @@
             </a>
           </li>
            <li class="nav-item">
-              <a href="{% url 'client-view' %}" class="nav-link">
+              <a href="{% url 'client-view' %}" class="nav-link {% if 'client' in request.path %}active{% endif %}">
                 <svg class="sidbarmenu-svg">
                   <use xlink:href="#members" />
                 </svg>
@@ -25,7 +25,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a href="{% url 'policy-view' %}" class="nav-link">
+              <a href="{% url 'policy-view' %}" class="nav-link {% if 'policy' in request.path %}active{% endif %}">
                 <svg class="sidbarmenu-svg">
                   <use xlink:href="#policy-mgt" />
                 </svg>
@@ -33,7 +33,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a href="{% url 'employee-view' %}" class="nav-link">
+              <a href="{% url 'employee-view' %}" class="nav-link {% if 'employee' in request.path %}active{% endif %}">
                 <svg class="sidbarmenu-svg">
                   <use xlink:href="#employees-icon" />
                 </svg>
@@ -144,7 +144,7 @@
             </ul>
           </li>
           <li class="nav-item">
-              <a href="{% url 'settings-view' %}" class="nav-link">
+              <a href="{% url 'settings-view' %}" class="nav-link {% if 'settings' in request.path %}active{% endif %}">
                 <svg class="sidbarmenu-svg">
                   <use xlink:href="#setting-icon" />
                 </svg>
@@ -153,7 +153,7 @@
           </li>
          
           <li class="nav-item">
-              <a href="{% url 'tpa-view' %}" class="nav-link">
+              <a href="{% url 'tpa-view' %}" class="nav-link  {% if 'tpa' in request.path %}active{% endif %}">
                 <svg class="sidbarmenu-svg">
                   <use xlink:href="#document-icon" />
                 </svg>
