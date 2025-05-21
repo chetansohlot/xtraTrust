@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% block title %}
-    Policy Mgt.
+Policy Data
 {% endblock %}
 
 {% block content %}
@@ -9,10 +9,13 @@
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-    {% include 'navbar.html' %}
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
 
-    {% include 'sidebar/sidebar.html' %}
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar/sidebar.html' %}
 
+  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper white-bg">
     <!-- Content Header (Page header) -->
     <div class="content-header header-content-bg">
@@ -21,8 +24,8 @@
           <div class="col-sm-6">
             <h1 class="admin-title m-0 pt-2">Policy Mgt.</h1>
             <ul class="breadcrump">
-              <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
-              <li>Policy Mgt</li>
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Post Policies Mgt</li>
             </ul>
           </div>
           <div class="col-sm-6">
@@ -45,11 +48,13 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
+                      
                       <p class="card-text">
                         Total Policy
                       </p>
-                      <h5 class="card-title card-number">{{ policy_count|default:0 }}</h5>
+                      <h5 class="card-title card-number">{{ policy_count }}</h5>
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -61,11 +66,13 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
+                      
                       <p class="card-text">
                         Motor Policy
                       </p>
-                      <h5 class="card-title card-number">{{ policy_count|default:0 }}</h5>
+                      <h5 class="card-title card-number">{{ policy_count }}</h5>
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -413,6 +420,7 @@
                                 {% endif %}
                                 <br>
                               </td>
+                              
                             {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "2" %}
                               <td>
                                 {% if data.operator_verification_status|stringformat:"s" == "1" %}
@@ -424,6 +432,7 @@
                                 {% endif %}
                               </td>
                             {% endif %}
+
                             {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "5" %}
                               <td>
                                 {% if data.quality_check_status|stringformat:"s" == "1" %}

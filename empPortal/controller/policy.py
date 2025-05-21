@@ -1,65 +1,65 @@
-from django.http import HttpResponse
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth import update_session_auth_hash
-from django.shortcuts import render,redirect, get_object_or_404
-from django.contrib import messages
-from django.template import loader
-from ..models import Commission,Users, PolicyUploadDoc,Branch,PolicyInfo,PolicyDocument, DocumentUpload, FranchisePayment, InsurerPaymentDetails, PolicyVehicleInfo, AgentPaymentDetails, UploadedExcel, UploadedZip
-from ..models import BulkPolicyLog,ExtractedFile, BqpMaster, SingleUploadFile
-from ..model import Insurance
-from empPortal.model import Referral
-from datetime import datetime, timedelta
-from django.db.models import OuterRef, Subquery, Count
-
-from empPortal.model import BankDetails
-from ..forms import DocumentUploadForm
-from django.contrib.auth import authenticate, login ,logout
-from django.core.files.storage import FileSystemStorage
-from django.core.paginator import Paginator
-from django.db.models import Q
-
-from empPortal.model import Partner
-
-import re,openpyxl
-from django.db import IntegrityError
-import requests
-from fastapi import FastAPI, File, UploadFile
-import fitz
-import openai
-import time
-import json
-from django.http import JsonResponse
 import os
+import re
+import json
+import time
 import zipfile
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.core.cache import cache
-from django.db import connection
-from urllib.parse import quote
-from urllib.parse import urljoin
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-from urllib.parse import unquote
-from django.views.decorators.csrf import csrf_exempt
-from pprint import pprint 
-import pdfkit, logging
-from django.templatetags.static import static 
-from django.template.loader import render_to_string
-from django_q.tasks import async_task
-import pandas as pd
-from collections import Counter
+import logging
 from io import BytesIO
-from ..utils import getUserNameByUserId, policy_product
+from pprint import pprint
+from collections import Counter
+from datetime import datetime, timedelta
+from urllib.parse import quote, unquote, urljoin
 
-logging.getLogger('faker').setLevel(logging.WARNING)
-logger = logging.getLogger(__name__)
-OPENAI_API_KEY = settings.OPENAI_API_KEY
+import requests
+import pandas as pd
+import openpyxl
+import pdfkit
+import fitz  # PyMuPDF
+import openai
+from fastapi import FastAPI, File, UploadFile
+
+from django.conf import settings
+from django.db import connection, IntegrityError
+from django.db.models import Q, Count, OuterRef, Subquery
+from django.core.cache import cache
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage, default_storage
+from django.core.paginator import Paginator
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template import loader
+from django.template.loader import render_to_string
+from django.templatetags.static import static
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+
+from django_q.tasks import async_task
+
+from ..models import (
+    Commission, Users, PolicyUploadDoc, Branch, PolicyInfo, PolicyDocument,
+    DocumentUpload, FranchisePayment, InsurerPaymentDetails, PolicyVehicleInfo,
+    AgentPaymentDetails, UploadedExcel, UploadedZip, BulkPolicyLog, ExtractedFile,
+    BqpMaster, SingleUploadFile
+)
+from ..model import Insurance
+from empPortal.model import Referral, BankDetails, Partner
+
+from ..forms import DocumentUploadForm
+
+from ..utils import getUserNameByUserId, policy_product, send_sms_post
 
 app = FastAPI()
 
-# views.py
-from ..utils import send_sms_post
-from datetime import datetime
+def index(request):
+    if not request.user.is_authenticated and request.user.is_active != 1:
+        messages.error(request,'Please Login First')
+        return redirect('login')
+    
+    return render(request,'policy/index.html')
+
+
 
 def parse_date(date_str):
     try:
