@@ -32,7 +32,7 @@ class XtClientsBasicInfo(models.Model):
         db_table = 'xt_clients_basic_info'
 
     def __str__(self):
-        return self.client_name
+        return self.client_name or "Unnamed Client"
     
 class XtClientsContactInfo(models.Model):
     client = models.ForeignKey(
@@ -59,4 +59,4 @@ class XtClientsContactInfo(models.Model):
         db_table = 'xt_clients_contact_info'
 
     def __str__(self):
-        return f"Contacts for {self.client.name}"
+        return f"Contacts for {self.client.client_name}" if self.client and self.client.client_name else "Contacts for Unnamed Client"

@@ -212,7 +212,7 @@ Client
                                         <input type="checkbox" id="checkall" class="table-chk">
                                         <label for="checkall"></label>
                                     </th>
-                                    <th>Clients/Company ID</th>
+                                    <th>Clients/Company</th>
                                     <th>KYC Info</th>
                                     <th>Company Type</th>
                                     <th>Address</th>
@@ -231,7 +231,7 @@ Client
                                         <input type="checkbox" id="check{{ client.id }}" class="table-chk">
                                         <label for="check{{ client.id }}"></label>
                                     </td>
-                                    <td>{{ client }}</td>
+                                    <td>{{ client.client_name }}</td>
                                     <td>{{ client.pan_number }}
                                       <span class="d-block text-muted">{{ client.gst_number }}</span>
                                     </td>
@@ -248,7 +248,7 @@ Client
                                               {{ contact.primary_contact_no }}<br>
                                               <span class="text-info">{{ contact.primary_email }}</span><br>
                                               <hr class="my-1">
-                                              <span class="text-primary">{{ contact.secondary_first_name }} {{ contact.secondary_last_name }} </span><br>
+                                              <span class="text-primary">{{ contact.secondary_first_name }}{{ contact.secondary_last_name }} </span><br>
                                               <span class="text-muted">{{ contact.secondary_designation }}</span><br>
                                               {{ contact.secondary_contact_no }}<br>
                                               <span class="text-info">{{ contact.secondary_contact_email }}</span><br>
