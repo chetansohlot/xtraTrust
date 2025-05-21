@@ -1,0 +1,290 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Family Details
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Family Details</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Employee</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add Family Details</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                    {% include 'employee/common-link.html' with step=3 %}
+
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <form autocomplete="off" id="employeeFamilyForm" name="employeeForm"
+                      action="{% url 'employee-management-family-details' employee_id %}" method="post">
+                      {% csrf_token %}
+
+                      <div class="col-md-12">
+                          <h2 class="admin-title border-bottom pb-2 mb-4">Family Details</h2>
+                      </div>
+
+                      <!-- Father Section -->
+                      <div class="row border-bottom mb-3 pb-3">
+                          <div class="col-md-12"><h5>Father Details</h5></div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">First Name</label>
+                              <input type="text" class="form-field" name="father_first_name"
+                                  value="{{ family.Father.first_name|default:'' }}" placeholder="First Name">
+                          </div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Last Name</label>
+                              <input type="text" class="form-field" name="father_last_name"
+                                  value="{{ family.Father.last_name|default:'' }}" placeholder="Last Name">
+                          </div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Date of Birth</label>
+                              <input type="date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="father_dob"
+                                  value="{{ family.Father.date_of_birth|default:'' }}">
+                          </div>
+                      </div>
+
+                      <!-- Mother Section -->
+                      <div class="row border-bottom mb-3 pb-3">
+                          <div class="col-md-12"><h5>Mother Details</h5></div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">First Name</label>
+                              <input type="text" class="form-field" name="mother_first_name"
+                                  value="{{ family.Mother.first_name|default:'' }}" placeholder="First Name">
+                          </div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Last Name</label>
+                              <input type="text" class="form-field" name="mother_last_name"
+                                  value="{{ family.Mother.last_name|default:'' }}" placeholder="Last Name">
+                          </div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Date of Birth</label>
+                              <input type="date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="mother_dob"
+                                  value="{{ family.Mother.date_of_birth|default:'' }}">
+                          </div>
+                      </div>
+
+                      <!-- Spouse Section (only if married) -->
+                      {% if employee.marital_status == 'Married' %}
+                      <div class="row mb-4" id="spouseSection">
+                          <div class="col-md-12"><h5>Spouse Details</h5></div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">First Name</label>
+                              <input type="text" class="form-field" name="spouse_first_name"
+                                  value="{{ family.Spouse.first_name|default:'' }}" placeholder="First Name">
+                          </div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Last Name</label>
+                              <input type="text" class="form-field" name="spouse_last_name"
+                                  value="{{ family.Spouse.last_name|default:'' }}" placeholder="Last Name">
+                          </div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Date of Anniversary</label>
+                              <input type="date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="spouse_dob"
+                                  value="{{ family.Spouse.date_of_birth|default:'' }}">
+                          </div>
+                      </div>
+                      {% endif %}
+
+                      <div class="d-flex justify-content-between mt-4">
+                       <a href="{% url 'employee-management-update-address' employee_id=employee_id %}" class="btn btn-secondary"> Back</a>
+                          <button type="submit" class="form-submit-btn">Update Family Details</button>
+                      </div>
+                  </form>
+
+
+
+                  <!-- Validation Script -->
+                  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+                  <script>
+                  $(document).ready(function () {
+                      // Set initial validation rules for spouse fields to not be required
+                      var maritalStatus = "{{ employee.marital_status }}";
+                      var spouseFields = {
+                          spouse_first_name: {
+                              minlength: 2
+                          },
+                          spouse_last_name: {
+                              minlength: 2
+                          },
+                          spouse_dob: {
+                              date: true
+                          }
+                      };
+
+                      $("#employeeFamilyForm").validate({
+                          rules: {
+                              father_first_name: {
+                                  minlength: 2
+                              },
+                              father_last_name: {
+                                  minlength: 2
+                              },
+                              father_dob: {
+                                  date: true
+                              },
+                              mother_first_name: {
+                                  minlength: 2
+                              },
+                              mother_last_name: {
+                                  minlength: 2
+                              },
+                              mother_dob: {
+                                  date: true
+                              },
+                              // Add spouse fields conditionally
+                              spouse_first_name: spouseFields.spouse_first_name,
+                              spouse_last_name: spouseFields.spouse_last_name,
+                              spouse_dob: spouseFields.spouse_dob
+                          },
+                          messages: {
+                              father_first_name: {
+                                  required: "Enter father's first name",
+                                  minlength: "First name should be at least 2 characters"
+                              },
+                              father_last_name: {
+                                  required: "Enter father's last name",
+                                  minlength: "Last name should be at least 2 characters"
+                              },
+                              father_dob: {
+                                  required: "Enter father's date of birth",
+                                  date: "Enter a valid date"
+                              },
+                              mother_first_name: {
+                                  required: "Enter mother's first name",
+                                  minlength: "First name should be at least 2 characters"
+                              },
+                              mother_last_name: {
+                                  required: "Enter mother's last name",
+                                  minlength: "Last name should be at least 2 characters"
+                              },
+                              mother_dob: {
+                                  required: "Enter mother's date of birth",
+                                  date: "Enter a valid date"
+                              },
+                              spouse_first_name: {
+                                  required: "Enter spouse's first name",
+                                  minlength: "First name should be at least 2 characters"
+                              },
+                              spouse_last_name: {
+                                  required: "Enter spouse's last name",
+                                  minlength: "Last name should be at least 2 characters"
+                              },
+                              spouse_dob: {
+                                  required: "Enter spouse's date of anniversary",
+                                  date: "Enter a valid date"
+                              }
+                          },
+                          errorElement: "span",
+                          errorClass: "text-danger",
+                          highlight: function (element) {
+                              $(element).addClass("is-invalid");
+                          },
+                          unhighlight: function (element) {
+                              $(element).removeClass("is-invalid");
+                          },
+                          submitHandler: function (form) {
+                              form.submit();
+                          }
+                      });
+                  });
+                  </script>
+
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#role').change(function() {
+                var roleId = $(this).val();
+                var userSelect = $('#senior');
+
+                if (roleId) {
+                    $.ajax({
+                        url: "{% url 'get_users_by_role' %}",
+                        type: 'GET',
+                        data: { 'role_id': roleId },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(response) {
+                            userSelect.empty();
+                            userSelect.append('<option value="">Select User</option>');
+                            if (response.users && response.users.length > 0) {
+                                $.each(response.users, function(index, user) {
+                                    userSelect.append(
+                                        `<option value="${user.id}">${user.full_name}</option>`
+                                    );
+                                });
+                            } else {
+                                userSelect.append('<option value="">No users available</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching users');
+                        }
+                    });
+                } else {
+                    userSelect.empty().append('<option value="">Select User</option>');
+                }
+            });
+        });
+</script>
+</body>
+{% endblock %}

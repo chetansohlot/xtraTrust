@@ -1,0 +1,261 @@
+{% extends 'master.html' %}
+
+{% block title %}
+  Commission Report
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Commission Report</a>
+            </div>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li> <a href="#">Reports</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Commission Report</li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-end">
+              <!-- <a href="/create-user" class="breadcrump-addbtn mr-2"><i class="fas fa-plus"></i>Commission Report</a> -->
+              <!-- <a href="/new-role" class="dashboard-btn-outline"><i class="fas fa-plus"></i> New Role</a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid mobile-filter">
+            <div class="row">
+                <button type="button" class="mobile-filter-close">×</button>
+                <div class="col-sm-12">
+                    <form action=" " method="get">
+                        <input type="hidden" name="_token" value="A2fV8nxKXXE5tj11gwhB8wlsa7Q6oj2rS8WfPOGo">
+                        <div class="row">
+                            <input type="hidden" name="filter_is_on" value="filter_on">
+                            
+
+                            <div class="col-sm-2 form-group">
+                              <input type="text" placeholder="Insurer Name" name="insurer_name" class="form-field" value="{{ request.GET.insurer_name }}">
+                          </div>
+                          
+                          <div class="col-sm-2 form-group">
+                              <input type="text" placeholder="Policy No" name="policy_no" class="form-field" value="{{ request.GET.policy_no }}">
+                          </div>
+                            <!-- <div class="col-sm-2 form-group">
+                                <select name="bill_status" id="status" class="form-field">
+                                    <option value="">Select Status</option>
+                                    <option value="2">Rejected</option>
+                                    <option value="0">Drafted</option>
+                                    <option value="4">Approved</option>
+                                    <option value="3">Mark As Send</option>
+                                    <option value="1"> Convert To Tax Invoice</option>
+                                </select>
+                            </div> -->
+                            <!-- <div class="col-sm-1 form-group">
+                                <input class="form-field " placeholder="Invoice  Id " name="invoice_id" id="bill_invoive_date" type="text" value="">
+                            </div> -->
+                            <!-- <div class="col-sm-1 form-group">
+                                <input class="form-field datepicker_common hasDatepicker" placeholder="From Date " name="from_date" id="bill_from_date" type="text" value="" readonly="">
+                            </div> -->
+                            <!-- <div class="col-sm-1 form-group">
+                                <input class="form-field datepicker_common hasDatepicker" placeholder="To Date " name="to_date" id="bill_to_date" type="text" value="" readonly="">
+                            </div> -->
+
+
+                            <div class="col-sm-auto">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <input type="submit" name="submit_filter" class="filter-search-btn" value="Apply">
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="{% url 'commission-report' %}" class="filter-search-btn bg-dark">Clear</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="{% url 'export-commission-report' %}" class="breadcrump-addbtn bg-warning mx-1">Export</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <!-- <a class="nav-item nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab"
+                     aria-controls="tab1" aria-selected="true">Report</a> -->
+                  <!-- <a class="nav-item nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab"
+                    aria-controls="tab2" aria-selected="false">Roles</a> -->
+                </div>
+                <div>
+                
+                    
+                  </div>
+                <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    
+                    <div class="table-responsive table-ht">
+                      
+                      <table class="table table-design commission-report-table-width">
+                        <thead class="table-thead-bg-light table-header-fix">
+                            <tr>
+                              <th class="nowrap">Insurance Co.</th>
+                              <th class="nowrap">Reg. No.</th>
+                              <th class="nowrap">Holder</th>
+                              <th class="nowrap">Policy No.</th>
+                              <th class="nowrap">Policy Type</th>
+                              <th class="nowrap">Issue Date</th>
+                              <th class="nowrap">Start Date</th>
+                              <th class="nowrap">Expiry Date</th>
+                              <th class="nowrap">Net Premium</th>
+                              <th class="nowrap">Gross Premium</th>
+                              <th class="nowrap">OD Premium</th>
+                              <th class="nowrap">TP Premium</th>
+                              <th class="nowrap">GST</th>
+                              <th class="nowrap">RM Name</th>
+                              <th class="nowrap">Payment</th>
+                              <th class="nowrap">Vehicle Type</th>
+                              <th class="nowrap">Make/Model</th>
+                              <th class="nowrap">Gross Weight</th>
+                              <th class="nowrap">Sum Insured</th>
+                              <th class="nowrap">Manufacture Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in policy_data %}
+                          <tr>
+                              <!-- Vehicle Details Column -->
+                              <td>{{ data.policy.insurance_provider }}</td>
+                              <td>{{ data.policy.vehicle_number }}</td>
+                              <td>{{ data.policy.holder_name }}</td>
+                              <td>{{ data.policy.policy_number|default:"-" }}</td>
+                              <td>{{ data.policy.policy_type|default:"-" }}</td>
+                              <td>{{ data.policy.policy_issue_date|default:"-" }}</td>
+                              <td>{{ data.policy.policy_start_date|default:"-" }}</td>
+                              <td>{{ data.policy.policy_expiry_date|default:"-" }}</td>
+                              <td>{{ data.policy.policy_premium }}</td>
+                              <td>{{ data.policy.policy_total_premium }}</td>
+                              <td>{{ data.policy.od_premium }}</td>
+                              <td>{{ data.policy.tp_premium }}</td>
+                              <td>{{ data.policy.gst }}</td>
+                              <td>{{ data.policy.rm_name }}</td>
+                              <td>{{ data.policy.payment_status|default:"Not Paid" }}</td>
+                              <td>{{ data.policy.vehicle_type|default:"-" }}</td>
+                              <td>{{ data.policy.vehicle_make|default:"-" }} / {{ data.policy.vehicle_model|default:"-" }}</td>
+                              <td>{{ data.policy.vehicle_gross_weight|default:"-" }}</td>
+                              <td>{{ data.policy.sum_insured|default:"-" }}</td>
+                              <td>{{ data.policy.vehicle_manuf_date|default:"-" }}</td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              
+              <div class="bottom-fix-pagination">
+                <div class="d-flex justify-content-between align-items-center">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1&per_page={{ per_page }}" aria-label="First">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                    <span class="sr-only">First</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% with page_obj.number|add:"-5" as start_page %}
+                        {% with page_obj.number|add:"5" as end_page %}
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if num >= start_page and num <= end_page %}
+                                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                                        <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                        {% endwith %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&per_page={{ per_page }}" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                    <span class="sr-only">Last</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <form method="GET" class="d-flex">
+                        <select class="pagination-dropdown form-select" name="per_page" onchange="this.form.submit()">
+                            <option value="10" {% if per_page == '10' %}selected{% endif %}>10 / Page</option>
+                            <option value="20" {% if per_page == '20' %}selected{% endif %}>20 / Page</option>
+                            <option value="50" {% if per_page == '50' %}selected{% endif %}>50 / Page</option>
+                            <option value="100" {% if per_page == '100' %}selected{% endif %}>100 / Page</option>
+                        </select>
+                        <input type="hidden" name="page" value="1">
+                    </form>
+                </div>
+              </div>
+            
+            
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+</body>
+
+{% endblock %}

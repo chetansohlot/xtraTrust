@@ -1,0 +1,142 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}Add Franchise - Banking & Payout Details{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <div class="content-wrapper">
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Banking &amp; Payout Details</a>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Franchise</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Banking &amp; Payout Details</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+
+              <ul class="stepflow-text stepflow-five-col mt-0">
+                <li><a href="#" class="completed">Basic Info</a></li>
+                <li><a href="#" class="completed">Contact Information</a></li>
+                <li><a href="#" class="completed">Address Details</a></li>
+                <li><a href="#" class="completed">Regulatory & Compliance</a></li>
+                <li><a href="#" class="active">Banking & Payout Details</a></li>
+              </ul>
+
+              <ul class="new-stepflow mb-3">
+                <li class="active"></li>
+                <li class="active"></li>
+                <li class="active"></li>
+                <li class="active"></li>
+                <li class=""></li>
+              </ul>
+
+              <!-- <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <form action="{% url 'franchise-management-banking-details' franchise_id=franchise_id %}"
+                        method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row"> -->
+
+                       <!-- Card with form -->
+                      <div class="card box-shadow-none p-md-5 p-3">
+                        <div class="card-body px-0 pb-0 pt-0">
+                          <form action="{% url 'franchise-management-banking-details' franchise_id=franchise_id %}" method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="col-md-12">
+                                <h2 class="admin-title border-bottom pb-2 mb-4">Banking & Payout Details </h2>
+                      </div> 
+
+                      <div class="form-group col-md-4">
+                        <label for="account_holder_name">Account Holder Name</label>
+                        <input type="text" name="account_holder_name" id="account_holder_name"
+                               class="form-field" placeholder="Account Holder Name"
+                               value="{{ franchise.account_holder_name|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="bank_name">Bank Name</label>
+                        <input type="text" name="bank_name" id="bank_name"
+                               class="form-field" placeholder="Bank Name"
+                               value="{{ franchise.bank_name|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="account_number">Account Number</label>
+                        <input type="text" name="account_number" id="account_number"
+                               class="form-field" placeholder="Account Number"
+                               value="{{ franchise.account_number|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="ifsc_code">IFSC Code</label>
+                        <input type="text" name="ifsc_code" id="ifsc_code"
+                               class="form-field" placeholder="IFSC Code"
+                               value="{{ franchise.ifsc_code|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="upi_id">UPI ID</label>
+                        <input type="text" name="upi_id" id="upi_id"
+                               class="form-field" placeholder="UPI ID"
+                               value="{{ franchise.upi_id|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="payment_mode">Payment Mode</label>
+                        <select name="payment_mode" id="payment_mode" class="form-field">
+                           <option value="">Select Mode</option>
+                            <option value="NEFT" {% if franchise.payment_mode == 'NEFT' %}selected{% endif %}>NEFT</option>
+                            <option value="IMPS" {% if franchise.payment_mode == 'IMPS' %}selected{% endif %}>IMPS</option>
+                            <option value="UPI" {% if franchise.payment_mode == 'UPI' %}selected{% endif %}>UPI</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                      <a href="{% url 'franchise-management-regulatory-compliance' franchise_id=franchise_id %}"
+                         class="btn btn-outline-secondary">Back</a>
+                      <button type="submit" class="form-submit-btn">Next</button>
+                    </div>
+                  </form>
+
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+  </div>
+</body>
+{% endblock %}

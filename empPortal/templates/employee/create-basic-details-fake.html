@@ -1,0 +1,319 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Employee
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Employee</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Employee</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add Employee</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                
+                <ul class="stepflow-text">
+                    <li class=""><a href="#link1"><span>Basic Details </span></a></li>
+                    <li><a href="#link2"><span>Address</span></a></li>
+                    <li><a href="#link2"><span>Family Details</span></a></li>
+                    <li><a href="#link2"><span>Employment Info </span></a></li>
+                    <li><a href="#link2"><span>References</span></a></li>
+                </ul>
+                <ul class="new-stepflow">
+                    <li class=""><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                </ul>
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    <form autocomplete="off" id="employeeBasicForm" name="employeeForm"
+                        action="{% if employee %}{% url 'employee-management-update' employee.id %}{% else %}{% url 'employee-management-create' %}{% endif %}"
+                        method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                              <h2 class="admin-title border-bottom pb-2 mb-4">Basic Details</h2>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="first_name">First Name</label>
+                                <input type="text" class="form-field" name="first_name" id="first_name" placeholder="First Name"
+                                    value="{{ employee.first_name|default:'' }}">
+                                <span class="error first_name_err"></span>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="last_name">Last Name</label>
+                                <input type="text" class="form-field" name="last_name" id="last_name" placeholder="Last Name"
+                                    value="{{ employee.last_name|default:'' }}">
+                                <span class="error last_name_err"></span>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Date of Birth</label>
+                                <input type="text" class="form-field dob_datepicker" placeholder="DD-MM-YYYY"
+                                    value="">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Gender</label>
+                                <select class="form-field" name="gender" id="gender">
+                                  <option value="">Select Gender</option>
+                                  <option value="Male">Male</option>
+                                  <option value="Female">Female</option>
+                                  <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="pan_no">PAN Card</label>
+                                <input type="text" class="form-field text-uppercase" maxlength="10" name="pan_no" id="pan_no" placeholder="Enter PAN No"
+                                    value="{{ employee.pan_no|default:'' }}">
+                                <span class="error pan_no_err"></span>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Aadhaar Card</label>
+                                <input type="text" class="form-field" maxlength="12" placeholder="Aadhaar Number"
+                                    value="">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="phone">Mobile Number</label>
+                                <input type="text" class="form-field" name="phone" id="phone" placeholder="Mobile Number" maxlength="10"
+                                    value="{{ employee.phone|default:'' }}">
+                                <span class="error phone_err"></span>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="email">Email Address</label>
+                                <input type="email" class="form-field" name="email" id="email" placeholder="Email"
+                                    value="{{ employee.email|default:'' }}">
+                                <span class="error email_err"></span>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Blood Group</label>
+                                <select class="form-field" name="blood_group" id="blood_group">
+                                  <option value="">Select Blood Group</option>
+                                  <option value="A+" {% if employee.blood_group == 'A+' %}selected{% endif %}>A+</option>
+                                  <option value="A-" {% if employee.blood_group == 'A-' %}selected{% endif %}>A-</option>
+                                  <option value="B+" {% if employee.blood_group == 'B+' %}selected{% endif %}>B+</option>
+                                  <option value="B-" {% if employee.blood_group == 'B-' %}selected{% endif %}>B-</option>
+                                  <option value="O+" {% if employee.blood_group == 'O+' %}selected{% endif %}>O+</option>
+                                  <option value="O-" {% if employee.blood_group == 'O-' %}selected{% endif %}>O-</option>
+                                  <option value="AB+" {% if employee.blood_group == 'AB+' %}selected{% endif %}>AB+</option>
+                                  <option value="AB-" {% if employee.blood_group == 'AB-' %}selected{% endif %}>AB-</option>
+                                </select>
+
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Marital status</label>
+                                <select class="form-field" name="marital_status" id="marital_status">
+                                  <option value="">Select Marital Status</option>
+                                  <option value="Single" {% if employee.marital_status == 'Single' %}selected{% endif %}>Single</option>
+                                  <option value="Married" {% if employee.marital_status == 'Married' %}selected{% endif %}>Married</option>
+                                  <option value="Unmarried" {% if employee.marital_status == 'Unmarried' %}selected{% endif %}>Unmarried</option>
+                                </select>
+
+                            </div>
+                            
+                        </div>
+                        <div class="d-flex justify-content-end">
+                          <button type="submit" class="form-submit-btn">{% if employee %}Update Employee{% else %}Save Employee{% endif %}</button>
+                        </div>  
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#role').change(function() {
+                var roleId = $(this).val();
+                var userSelect = $('#senior');
+
+                if (roleId) {
+                    $.ajax({
+                        url: "{% url 'get_users_by_role' %}",
+                        type: 'GET',
+                        data: { 'role_id': roleId },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(response) {
+                            userSelect.empty();
+                            userSelect.append('<option value="">Select User</option>');
+                            if (response.users && response.users.length > 0) {
+                                $.each(response.users, function(index, user) {
+                                    userSelect.append(
+                                        `<option value="${user.id}">${user.full_name}</option>`
+                                    );
+                                });
+                            } else {
+                                userSelect.append('<option value="">No users available</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching users');
+                        }
+                    });
+                } else {
+                    userSelect.empty().append('<option value="">Select User</option>');
+                }
+            });
+        });
+</script>
+</body>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- jQuery Validate Plugin (Must be Loaded After jQuery) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  
+<script>
+$(document).ready(function () {
+    // Add custom regex method for PAN
+    $.validator.addMethod("panFormat", function (value, element) {
+        return this.optional(element) || /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value);
+    }, "Please enter a valid PAN number (e.g., ABCDE1234F)");
+
+    $("#employeeBasicForm").validate({
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 2
+            },
+            last_name: {
+                required: true,
+                minlength: 2
+            },
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            pan_no: {
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                panFormat: true
+            },
+            dob: {
+                required: true
+            },
+            gender: {
+                required: true
+            },
+            blood_group: {
+                required: true
+            },
+            marital_status: {
+                required: true
+            }
+        },
+        messages: {
+            first_name: {
+                required: "First name is required",
+                minlength: "At least 2 characters"
+            },
+            last_name: {
+                required: "Last name is required",
+                minlength: "At least 2 characters"
+            },
+            phone: {
+                required: "Mobile number is required",
+                digits: "Only digits allowed",
+                minlength: "Must be 10 digits",
+                maxlength: "Must be 10 digits"
+            },
+            email: {
+                required: "Email is required",
+                email: "Enter a valid email"
+            },
+            pan_no: {
+                required: "PAN number is required",
+                minlength: "PAN must be 10 characters",
+                maxlength: "PAN must be 10 characters"
+            },
+            dob: {
+                required: "Date of birth is required"
+            },
+            gender: {
+                required: "Gender is required"
+            },
+            blood_group: {
+                required: "Blood group is required"
+            },
+            marital_status: {
+                required: "Marital status is required"
+            }
+        },
+        errorElement: "span",
+        errorPlacement: function (error, element) {
+            const errorContainer = element.siblings(".error");
+            if (errorContainer.length) {
+                errorContainer.html(error);
+            } else {
+                error.addClass("text-danger").insertAfter(element);
+            }
+        },
+        highlight: function (element) {
+            $(element).addClass("is-invalid");
+        },
+        unhighlight: function (element) {
+            $(element).removeClass("is-invalid");
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+</script>
+
+{% endblock %}

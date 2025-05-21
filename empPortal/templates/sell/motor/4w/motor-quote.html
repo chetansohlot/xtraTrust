@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+    <section class="bg-light">
+      <div class="container">
+        <div class="row justify-content-between align-items-center pt-2">
+          <div class="col-lg-12">
+            <h1 class="wrap-title py-3">Quotes are valid upto <strong>25 Mar, 2025 23:59:59</strong></h1>
+            
+            <div class="form-box">
+              <form>
+                <div class="row">
+                  <div class="col-md-5 col-lg-4">
+                    <div class="row mb-3">
+                      <div class="col-auto">
+                        <p class="quote-filter-lbl">  Kia,  Seltos,  Petrol, </p>
+                      </div>
+                      <div class="col">
+                        <select name="" class="quote-filter">
+                          <option>1.5 GTX PLUS Turbo</option>
+                        </select>
+                      </div>  
+                    </div>
+                    <div class="row">
+                      <div class="col-md-auto">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">CRN </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">956000 </p>
+                          </div>      
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">HR-26-FH-0123 </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-lg">
+                    <div class="row">
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">Reg Date </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">8 Mar, 2024 </p>
+                          </div>      
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">New NCB </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">N/A </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">Claim </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">Yes</p>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">Exp Date </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">23 Dec, 2024 </p>
+                          </div>      
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">Previous NCB </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">N/A </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">Policy Type </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">OD Only</p>
+                          </div>
+                        </div>
+                      </div> 
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-lg-auto">
+                    <a href="#" class="wrap-btn-outline">Edit</a>
+                  </div>
+                  <div class="col-sm-12">
+                    <hr>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div class="col-auto">
+                        <p class="quote-filter-lbl-gray pt-1">Car Value (IDV) </p>
+                      </div>
+                      <div class="col">
+          
+                        <div class="dropdown d-inline-block cursor" id="myDropdown">
+                          <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Set IDV</span>
+                            <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                          </div>
+                          <form action="">
+                            <ul class="dropdown-menu shorting-dropdown-menu">
+                              <div class="d-flex align-items-center">
+                                <p class="quote-filter-lbl me-3 fw-bold">Set your own IDV</p>
+                                <div class="position-relative">
+                                  <input type="text" class="form-field w-auto ps-4" name="" id="idv-amt" value="863200">
+                                  <span class="field-rupee-icon"><i class="fa-solid fa-indian-rupee-sign"></i></span>
+                                </div>  
+                              </div>
+                              <div class="range-slider">
+                                  <div id="tooltip"></div>
+                                  <input id="range" type="range" step="5000" value="10000" min="0" max="1000000">
+                              </div>
+                              <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                <button type="submit" class="form-btn w-auto">Apply</button>
+                              </div>  
+  
+                            </ul>
+                          </form>
+                        </div>  
+                      </div>      
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div class="col-auto">
+                        <p class="quote-filter-lbl-gray pt-1">Addons </p>
+                      </div>
+                      <div class="col">
+                        <div class="dropdown d-inline-block cursor" id="myDropdown">
+                          <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Select Addons</span>
+                            <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                          </div>
+                          <form action="">
+                            <ul class="dropdown-menu shorting-dropdown-menu">
+                              <ul class="addons-list">
+                                <li>
+                                  <input type="checkbox" name="addons">
+                                  <label>Select All</label>
+                                </li>
+                                <li>
+                                  <input type="checkbox" name="addons">
+                                  <label>Zero Depreciation</label>
+                                </li>
+                                <li>
+                                  <input type="checkbox" name="addons">
+                                  <label>Road Side Assistance</label>
+                                </li>
+                                <li>
+                                  <input type="checkbox" name="addons">
+                                  <label>Engine Protection</label>
+                                </li>
+                              </ul>
+                             
+                              <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                <button type="submit" class="form-btn w-auto">Apply</button>
+                              </div>  
+  
+                            </ul>
+                          </form>
+                        </div>  
+                      </div>      
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0">
+                    <div class="row">
+                      <div class="col-auto">
+                        <p class="quote-filter-lbl-gray pt-1">Additional Cover </p>
+                      </div>
+                      <div class="col">
+                        <div class="dropdown d-inline-block cursor" id="myDropdown">
+                          <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Select Additional Cover</span>
+                            <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                          </div>
+                          <form action="">
+                            <ul class="dropdown-menu shorting-dropdown-menu">
+                              <p class="quote-filter-lbl me-3 fw-bold mb-2">Electrical Accessories:</p>
+                              <div class="position-relative">
+                                <input type="text" class="form-field ps-4" name="" id="electical=accessories" value="5000">
+                                <span class="field-rupee-icon"><i class="fa-solid fa-indian-rupee-sign"></i></span>
+                              </div> 
+                              <small class="quote-filter-lbl  text-muted">Min. 10,000 to Max. 50,000</small>
+  
+                              <p class="quote-filter-lbl me-3 fw-bold mb-2">Non-Electrical Accessories:</p>
+                              <div class="position-relative">
+                                <input type="text" class="form-field ps-4" name="" id="non-electical=accessories" value="0">
+                                <span class="field-rupee-icon"><i class="fa-solid fa-indian-rupee-sign"></i></span>
+                              </div> 
+                              <small class="quote-filter-lbl  text-muted">Min. 10,000 to Max. 50,000</small>
+  
+                              <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                <button type="submit" class="form-btn w-auto">Apply</button>
+                              </div>  
+  
+                            </ul>
+                          </form>
+                        </div>  
+                      </div>      
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div class="col-auto">
+                        <p class="quote-filter-lbl-gray pt-1">Discount </p>
+                      </div>
+                      <div class="col">
+                         <div class="dropdown d-inline-block cursor" id="myDropdown">
+                          <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Select Discount</span>
+                            <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                          </div>
+                          <form action="">
+                            <ul class="dropdown-menu shorting-dropdown-menu">
+                              <div class="form-group">
+                                <p class="quote-filter-lbl me-3 fw-bold mb-2">Anti Theft Device</p>
+                                <div class="d-flex">
+                                  <div class="d-flex align-items-center">
+                                    <input type="radio" class="radio-btn" name="anti-theft-device" id="anti-theft-device-yes" value="Yes">
+                                    <label for="anti-theft-device-yes">Yes</label>
+                                  </div>  
+                                  <div class="d-flex align-items-center">
+                                    <input type="radio" class="radio-btn" name="anti-theft-device" id="anti-theft-device-no" value="No">
+                                    <label for="anti-theft-device-no">No</label>
+                                  </div>  
+                                </div>
+                              </div>  
+                              <div class="form-group">
+                                <p class="quote-filter-lbl me-3 fw-bold mb-2">Pay As You Drive</p>
+                                <div class="d-flex">
+                                  <div class="d-flex align-items-center">
+                                    <input type="radio" class="radio-btn" name="pay-as-you-drive" id="pay-as-you-drive-yes" value="Yes">
+                                    <label for="pay-as-you-drive-yes">Yes</label>
+                                  </div>  
+                                  <div class="d-flex align-items-center">
+                                    <input type="radio" class="radio-btn" name="pay-as-you-drive" id="pay-as-you-drive-no" value="No">
+                                    <label for="pay-as-you-drive-no">No</label>
+                                  </div>  
+                                </div>
+                              </div>  
+  
+                              <div class="form-group">
+                                <p class="quote-filter-lbl me-3 fw-bold mb-2">Voluntry Excess</p>
+                                <div class="d-flex">
+                                  <div class="d-flex align-items-center">
+                                    <input type="radio" class="radio-btn" name="voluntry-excess" id="voluntry-excess-0" value="Yes">
+                                    <label for="voluntry-excess-0">No</label>
+                                  </div>  
+                                  <div class="d-flex align-items-center">
+                                    <input type="radio" class="radio-btn" name="voluntry-excess" id="voluntry-excess-2" value="No">
+                                    <label for="voluntry-excess-2"><i class="fa-solid fa-indian-rupee-sign"></i> 2500</label>
+                                  </div>  
+                                  <div class="d-flex align-items-center">
+                                    <input type="radio" class="radio-btn" name="voluntry-excess" id="voluntry-excess-3" value="No">
+                                    <label for="voluntry-excess-3"><i class="fa-solid fa-indian-rupee-sign"></i> 5000</label>
+                                  </div>  
+                                </div>
+                              </div>  
+                              
+  
+                              <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                <button type="submit" class="form-btn w-auto">Apply</button>
+                              </div>  
+  
+                            </ul>
+                          </form>
+                        </div>  
+                      </div>      
+                    </div>
+                  </div>
+                </div>
+              </div>   
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <section class="bg-light pb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-12">
+          <h2 class="wrap-subhding">6 Plans Found </h2>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/national-insurance-logo.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>National Insurance</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Policy Start</p>
+                      <p class="quote-lbl">30 Mar 2025</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Claim Settled</p>
+                      <p class="quote-lbl">96%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">IDV Cover Value</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 15,19,920</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Garages</p>
+                      <p class="quote-lbl">5529</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="{% url 'create-4w-motor-proposal-basic' %}" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-31.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>United India</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Policy Start</p>
+                      <p class="quote-lbl">30 Mar 2025</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Claim Settled</p>
+                      <p class="quote-lbl">96%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">IDV Cover Value</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 15,19,920</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Garages</p>
+                      <p class="quote-lbl">5529</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="{% url 'create-4w-motor-proposal-basic' %}" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-7.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>TATA AIG</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Policy Start</p>
+                      <p class="quote-lbl">30 Mar 2025</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Claim Settled</p>
+                      <p class="quote-lbl">96%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">IDV Cover Value</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 15,19,920</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Garages</p>
+                      <p class="quote-lbl">5529</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="{% url 'create-4w-motor-proposal-basic' %}" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-32.jpg' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>New India Assurance</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Policy Start</p>
+                      <p class="quote-lbl">30 Mar 2025</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Claim Settled</p>
+                      <p class="quote-lbl">96%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">IDV Cover Value</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 15,19,920</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Garages</p>
+                      <p class="quote-lbl">5529</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="{% url 'create-4w-motor-proposal-basic' %}" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-16.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>TATA AIA</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Policy Start</p>
+                      <p class="quote-lbl">30 Mar 2025</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Claim Settled</p>
+                      <p class="quote-lbl">96%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">IDV Cover Value</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 15,19,920</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Garages</p>
+                      <p class="quote-lbl">5529</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="{% url 'create-4w-motor-proposal-basic' %}" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-31.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>United India</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Policy Start</p>
+                      <p class="quote-lbl">30 Mar 2025</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Claim Settled</p>
+                      <p class="quote-lbl">96%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">IDV Cover Value</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 15,19,920</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Garages</p>
+                      <p class="quote-lbl">5529</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="{% url 'create-4w-motor-proposal-basic' %}" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+  
+          <!-- <div class="quote-box">
+            <div class="row">
+              <div class="col-auto">
+                <div class="quote-img">
+                  <img src="{% static 'home/assets/image/partner-logo/partner-logo-31.png' %}" alt="">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <p class="wrap-prgh mb-0"><strong>United India</strong></p>
+                <p class="quote-lbl-gray">Own Damage</p>
+              </div>
+              <div class="col-md-2">
+                <p class="quote-lbl-gray">Policy Start</p>
+                <p class="quote-lbl">30 Mar 2025</p>
+              </div>
+              <div class="col-md-2">
+                <p class="quote-lbl-gray">Claim Settled</p>
+                <p class="quote-lbl">96%</p>
+              </div>
+              <div class="col-md-2">
+                <p class="quote-lbl-gray">IDV Cover Value</p>
+                <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 15,19,920</p>
+              </div>
+              <div class="col-md-2">
+                <a href="#" class="wrap-btn mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                <a href="javascript:void(0)" class="quote-lbl text-primary d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+              </div>
+            </div>
+          </div> -->
+  
+        </div>
+      </div>
+    </div>  
+  </section>
+  
+  <div class="modal fade" id="policy-details-modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button class="modal-close" data-bs-dismiss="modal">&times;</button>  
+          <div class="row">
+            <div class="col-md-7">
+              <h2 class="wrap-subhding mb-0">Policy Details</h2>
+              <hr>
+              <div class="form-group">
+                <p class="quote-lbl-gray">Base Cove</p>
+                <div class="d-flex justify-content-between">
+                  <p class="quote-lbl">Own Damage Premium (A)</p>
+                  <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 5790</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="quote-lbl">Basic OD</p>
+                  <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 5790</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="quote-lbl">O.D. Discount</p>
+                  <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 0</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <p class="quote-lbl-gray">Third Party Cover</p>
+                <div class="d-flex justify-content-between">
+                  <p class="quote-lbl">Third Party Premium (B)</p>
+                  <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 0</p>
+                </div>
+              </div>  
+              <div class="form-group">
+                <p class="quote-lbl-gray">Taxes</p>
+                <div class="d-flex justify-content-between">
+                  <p class="quote-lbl">GST@18</p>
+                  <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 1028</p>
+                </div>
+              </div>  
+              <hr>
+              <div class="form-group">
+                <div class="d-flex justify-content-between">
+                  <p class="wrap-prgh">Final Premium</p>
+                  <p class="wrap-prgh fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 6,737</p>
+                </div>
+              </div>  
+            </div>
+            <div class="col-md-5">
+              <div class="quote-box mt-4">
+                <div class="row align-items-center mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/national-insurance-logo.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>National Insurance</strong></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Car Model</p>
+                      <p class="quote-lbl">Kia, Seltos, Petrol, HTK PLUS 1.5 (1497 CC)</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">IDV</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i>8,51,970</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">CRN</p>
+                      <p class="quote-lbl">9563409</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Reg Date</p>
+                      <p class="quote-lbl">18 Mar, 2024</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">New NCB</p>
+                      <p class="quote-lbl">N/A</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Plan Name</p>
+                      <p class="quote-lbl">OD</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="{% url 'create-4w-motor-proposal-basic' %}" class="wrap-btn w-100 text-center mb-1"> Buy Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% include 'home/layouts/footer.html' %}
+
+<script type="text/javascript">
+  const
+   range = document.getElementById('range'),
+   tooltip = document.getElementById('tooltip'),
+   setValue = ()=>{
+       const
+           newValue = Number( (range.value - range.min) * 100 / (range.max - range.min) ),
+           newPosition = 16 - (newValue * 0.32);
+       tooltip.innerHTML = `<span>${range.value}</span>`;
+       tooltip.style.left = `calc(${newValue}% + (${newPosition}px))`;
+       document.documentElement.style.setProperty("--range-progress", `calc(${newValue}% + (${newPosition}px))`);
+   };
+document.addEventListener("DOMContentLoaded", setValue);
+range.addEventListener('input', setValue);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2038 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+{% load custom_filters %}
+
+
+<body class="hold-transition sidebar-mini">
+{% load static %}
+
+    {% block content %}  
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include "sidebar.html" %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row pr-4">
+          <div class="col-12">
+            <h1 class="admin-title m-0 py-2">Dashboard</h1>
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="col-sm-12 col-md-12 mb-3">
+            <div class="card h-100 mb-0">
+              <div class="card-body">
+                <div class="d-flex justify-content-end align-items-center mb-2">
+                  <label class="form-lbl mr-3 pb-0">Filter</label>
+                  <select class="form-field w-auto mr-2">
+                    <option>Motor</option>
+                    <option>Health</option>
+                    <option>Term</option>
+                  </select>
+                  <div class="row">
+                    <div class="col-auto">
+                        <select name="consolidated_by" class="form-field" id="consolidated_by">
+                            <option value="1">All</option>
+                            <option value="2">Today</option>
+                            <option value="3">MTD</option>
+                            <option value="4">Custom Date</option>
+                        </select>
+                    </div>
+                    <div class="col-auto" style="display: none;">
+                        <select name="consolidated_by_month" class="form-field" id="consolidated_by_month">
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">March</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sept</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="col" style="display: none;">
+                        <input type="text" name="consolidated_from_date" class="form-fields datepicker_common" id="consolidated_from_date" placeholder="From Date" autocomplete="off">
+                        <span class="error consolidated_from_date_err"></span>
+                    </div>
+                    <div class="col" style="display: none;">
+                        <input type="text" name="consolidated_to_date" class=" form-fields datepicker_common" id="consolidated_to_date" placeholder="To Date" autocomplete="off">
+                        <span class="error consolidated_to_date_err"></span>
+                    </div>
+                  </div>
+                </div>  
+                <div class="row">
+                {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "5" %}
+                
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-active-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">
+                                Pending Policy
+                              </p>
+                              <h5 class="card-title card-number" id="policies_sold">{{ pendingQuality }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>  
+                  </div> 
+                  
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-active-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">
+                                Completed Policy
+                              </p>
+                              <h5 class="card-title card-number" id="policies_sold">{{ verifiedQuality }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>  
+                  </div> 
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-active-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">
+                                Re-Verification Policy
+                              </p>
+                              <h5 class="card-title card-number" id="policies_sold">{{ not_verifiedQuality }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>  
+                  </div> 
+                    
+                    
+                {% elif request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "2" %}
+
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-active-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">
+                                Pending Policy
+                              </p>
+                              <h5 class="card-title card-number" id="policies_sold">{{ pendingOperator }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>  
+                  </div> 
+                  
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-active-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">
+                                Verified Policy
+                              </p>
+                              <h5 class="card-title card-number" id="policies_sold">{{ verifiedOperator }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>  
+                  </div> 
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-active-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">
+                                Not-Verified Policy
+                              </p>
+                              <h5 class="card-title card-number" id="policies_sold">{{ not_verifiedOperator }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>  
+                  </div> 
+                {% else %}     
+                  
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="{% url 'policy-data' %}">
+                      <div class="card counter-img-card counter-active-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">
+                                Total Policies Sold
+                              </p>
+                              <h5 class="card-title card-number" id="policies_sold">{{ policy_count }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>  
+                  </div>    
+                 
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-deactive-card ">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">Gross Premium</p>
+                              <h5 class="card-title card-number" id="total_gross_premium">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>{{ total_gross_premium|indian_currency }}
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>  
+                   
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a href="#">
+                      <div class="card counter-img-card counter-deactive-card">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <p class="card-text text-dark">Net Premium</p>
+                              <h5 class="card-title card-number" id="total_net_premium">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>{{ total_net_premium|indian_currency }}
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                  {% if request.user.department_id and request.user.department_id == "1" %}
+                    <div class="col-xs-6 col-sm-4 col-md-3">
+                      <a href="{% url 'members_activated' %}">
+                        <div class="card counter-img-card counter-active-card ">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <p class="card-text text-dark">
+                                  Total Partners
+                                </p>
+                                <h5 class="card-title card-number" id="policies_sold">{{ total_partners }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3">
+                      <a href="#">
+                        <div class="card counter-img-card counter-active-card ">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <p class="card-text text-dark">
+                                  Active Partners
+                                </p>
+                                <h5 class="card-title card-number" id="policies_sold">{{ active_partners }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>  
+                    </div>            
+                    <div class="col-xs-6 col-sm-4 col-md-3">
+                      <a href="#">
+                        <div class="card counter-img-card counter-active-card ">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <p class="card-text text-dark">
+                                  Inactive Partners
+                                </p>
+                                <h5 class="card-title card-number" id="policies_sold">{{ inactive_partners }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>  
+                    </div>            
+                  {% endif %}
+                {% endif %}     
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% if request.user.department_id and request.user.department_id|stringformat:"s" != "2" %}
+
+          <div class="col-sm-6 col-md-6">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+                  <h5 class="card-hding pb-0">Lead Summary</h5>
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="col-auto">
+                      <select name="summary_insurer" class="form-field" id="summary_insurer">
+                        <option value="1">All</option>
+                        <option value="2">Today</option>
+                        <option value="3">MTD</option>
+                        <option value="4">Custom Date</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="month_select_wrapper" style="display: none;">
+                      <select name="summary_insurer_month" class="form-field" id="summary_insurer_month">
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">March</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sept</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="from_date_wrapper" style="display: none;">
+                      <input type="date" name="summary_insurer_from_date" class="form-field" id="summary_insurer_from_date" placeholder="From Date" autocomplete="off">
+                      <span class="error summary_insurer_from_date_err"></span>
+                    </div>
+                    <div class="col-auto" id="to_date_wrapper" style="display: none;">
+                      <input type="date" name="summary_insurer_to_date" class="form-field" id="summary_insurer_to_date" placeholder="To Date" autocomplete="off">
+                      <span class="error summary_insurer_to_date_err"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 px-0">
+                  <div class="card">
+                    <div class="card-body p-1">
+                      <div class="row">
+                          <div class="col-4 col-lg-4">
+                            <a href="#" class="anchor-card">
+                              <div class="card6 jd-icon tooltip-sec res-ht h-100 mb-0 border-right" data-title="Total Leads">
+                                  <div class="card-body p-0">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="d-flex align-items-center">
+                                            <div class="dashboard-icon text-success">
+                                                <i class="far fa-address-book"></i>
+                                            </div>
+                                            <h5 class="card-title" id="total_leads_div_id">{{total_leads}}</h5>
+                                          </div>  
+                                        </div>
+                                        <div class="col-12">
+                                          <p class="card-text">
+                                              Total Leads
+                                            </p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </a>  
+                          </div>
+                          <div class="col-4 col-lg-4">
+                            <a href="#" class="anchor-card">
+                              <div class="card6 jd-icon tooltip-sec res-ht h-100 mb-0 border-right" data-title="Assigned Leads">
+                                  <div class="card-body p-0">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="d-flex align-items-center">
+                                            <div class="dashboard-icon text-warning">
+                                              <i class="far fa-address-book"></i>
+                                            </div>
+                                            <h5 class="card-title" id="assigned_leads_div_id">{{assigned_leads}}</h5>
+                                          </div>  
+                                        </div>
+                                        <div class="col pr-0">
+                                          <p class="card-text">
+                                            Assigned Leads
+                                          </p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </a>
+                          </div>
+                          <div class="col-4 col-lg-4">
+                            <a href="#" class="anchor-card">
+                              <div class="card6 jd-icon tooltip-sec res-ht h-100 mb-0" data-title="Fresh Leads">
+                                  <div class="card-body p-0">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="d-flex align-items-center">
+                                            <div class="dashboard-icon text-primary">
+                                              <i class="fas fa-calendar-day"></i>
+                                            </div>
+                                            <h5 class="card-title" id="fresh_leads_div_id">{{fresh_leads}}</h5>
+                                          </div>  
+                                        </div>
+                                        <div class="col-12">
+                                          <p class="card-text">
+                                              Fresh Leads
+                                            </p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </a>
+                          </div>
+                      </div>
+                    </div>  
+                  </div>    
+              </div>
+          
+                <!-- <hr class="my-2"> -->
+                <div style="position: relative; height: 400px; max-height: 300px;">
+                  <canvas id="lead_bar_chart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if request.user.department_id and request.user.department_id|stringformat:"s" != "2" %}
+
+          <div class="col-sm-6 col-md-6">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+                  <h5 class="card-hding pb-0">Quote Summary</h5>
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="col-auto">
+                      <select name="summary_insurer" class="form-field" id="summary_insurer">
+                        <option value="1">All</option>
+                        <option value="2">Today</option>
+                        <option value="3">MTD</option>
+                        <option value="4">Custom Date</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="month_select_wrapper" style="display: none;">
+                      <select name="summary_insurer_month" class="form-field" id="summary_insurer_month">
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">March</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sept</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="from_date_wrapper" style="display: none;">
+                      <input type="date" name="summary_insurer_from_date" class="form-field" id="summary_insurer_from_date" placeholder="From Date" autocomplete="off">
+                      <span class="error summary_insurer_from_date_err"></span>
+                    </div>
+                    <div class="col-auto" id="to_date_wrapper" style="display: none;">
+                      <input type="date" name="summary_insurer_to_date" class="form-field" id="summary_insurer_to_date" placeholder="To Date" autocomplete="off">
+                      <span class="error summary_insurer_to_date_err"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 px-0">
+                  <div class="card">
+                    <div class="card-body p-1">
+                      <div class="row">
+                          <div class="col-4 col-lg-4">
+                            <a href="$" class="anchor-card">
+                              <div class="card6 jd-icon tooltip-sec res-ht h-100 mb-0 border-right" data-title="Total Quote">
+                                  <div class="card-body p-0">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="d-flex align-items-center">
+                                            <div class="dashboard-icon text-success">
+                                                <i class="far fa-address-book"></i>
+                                            </div>
+                                            <h5 class="card-title" id="today_leads_div_id">{{ total_quotation_count }}</h5>
+                                          </div>  
+                                        </div>
+                                        <div class="col-12">
+                                          <p class="card-text">
+                                              Total Quote
+                                            </p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </a>  
+                          </div>
+                          <div class="col-4 col-lg-4">
+                            <a href="#" class="anchor-card">
+                              <div class="card6 jd-icon tooltip-sec res-ht h-100 mb-0 border-right" data-title="Shared Quote">
+                                  <div class="card-body p-0">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="d-flex align-items-center">
+                                            <div class="dashboard-icon text-warning">
+                                              <i class="far fa-address-book"></i>
+                                            </div>
+                                            <h5 class="card-title" >0</h5>
+                                          </div>  
+                                        </div>
+                                        <div class="col pr-0">
+                                          <p class="card-text">
+                                              Shared Quote
+                                            </p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </a>
+                          </div>
+                          <div class="col-4 col-lg-4">
+                            <a href="#" class="anchor-card">
+                              <div class="card6 jd-icon tooltip-sec res-ht h-100 mb-0" data-title="Pending Quote">
+                                  <div class="card-body p-0">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="d-flex align-items-center">
+                                            <div class="dashboard-icon text-primary">
+                                              <i class="fas fa-calendar-day"></i>
+                                            </div>
+                                            <h5 class="card-title">{{pending_quotes}}</h5>
+                                          </div>  
+                                        </div>
+                                        <div class="col-12">
+                                          <p class="card-text">
+                                              Pending Quote
+                                            </p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </a>
+                          </div>
+                      </div>
+                    </div>  
+                  </div>    
+              </div>
+          
+                <!-- <hr class="my-2"> -->
+                <div style="position: relative; height: 400px; max-height: 300px;">
+                  <canvas id="quote_bar_chart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="col-sm-6 col-md-6">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+                  <h5 class="card-hding pb-0">Business Summary - Consolidated</h5>
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="col-auto">
+                      <select name="business_consolidated_by" class="form-field" id="business_consolidated_by">
+                        <option value="1">All</option>
+                        <option value="2">Today</option>
+                        <option value="3">MTD</option>
+                        <option value="4">Custom Date</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="business_consolidated_by_month_wrapper" style="display: none;">
+                      <select name="business_consolidated_by_month" class="form-field" id="business_consolidated_by_month">
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">March</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sept</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="business_consolidated_from_date_wrapper" style="display: none;">
+                      <input type="date" name="business_consolidated_from_date" class="form-field" id="business_consolidated_from_date" placeholder="From Date" autocomplete="off">
+                      <span class="error consolidated_from_date_err"></span>
+                    </div>
+                    <div class="col-auto" id="business_consolidated_to_date_wrapper" style="display: none;">
+                      <input type="date" name="business_consolidated_to_date" class="form-field" id="business_consolidated_to_date" placeholder="To Date" autocomplete="off">
+                      <span class="error business_consolidated_to_date_err"></span>
+                    </div>
+                  </div>
+                </div>
+                 
+                  
+                <hr class="my-2">
+                <div style="position: relative; height: 400px; max-height: 300px;">
+                  <canvas id="consolidated_bar_chart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-6">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+                  <h5 class="card-hding pb-0">Business Summary - Insurer</h5>
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="col-auto">
+                      <select name="summary_insurer" class="form-field" id="summary_insurer">
+                        <option value="1">All</option>
+                        <option value="2">Today</option>
+                        <option value="3">MTD</option>
+                        <option value="4">Custom Date</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="month_select_wrapper" style="display: none;">
+                      <select name="summary_insurer_month" class="form-field" id="summary_insurer_month">
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">March</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sept</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                      </select>
+                    </div>
+                    <div class="col-auto" id="from_date_wrapper" style="display: none;">
+                      <input type="date" name="summary_insurer_from_date" class="form-field" id="summary_insurer_from_date" placeholder="From Date" autocomplete="off">
+                      <span class="error summary_insurer_from_date_err"></span>
+                    </div>
+                    <div class="col-auto" id="to_date_wrapper" style="display: none;">
+                      <input type="date" name="summary_insurer_to_date" class="form-field" id="summary_insurer_to_date" placeholder="To Date" autocomplete="off">
+                      <span class="error summary_insurer_to_date_err"></span>
+                    </div>
+                  </div>
+                </div>
+                
+          
+                <hr class="my-2">
+                <div style="position: relative; height: 400px; max-height: 300px;">
+                  <canvas id="insurer_bar_chart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-sm-6 col-md-6">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="card-hding pb-0">Business Summary- Product Wise</h5>
+                  <ul class="nav nav-pills call-detail-tab">
+                    <li class="nav-item text-bold"><a class="nav-link active" href="#car" data-toggle="tab">2W/4 Wheeler</a></li>
+
+                    <li class="nav-item text-bold"><a class="nav-link" href="#commercial" data-toggle="tab">Commercial</a></li>
+                </ul>
+                </div>  
+                <hr class="my-2">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="car">
+                    <canvas id="product_wise_bar_chart" style="width:100%; height: 280px;"></canvas>
+                  </div>  
+                  <div class="tab-pane" id="commercial">
+                    <canvas id="product_commercial_bar_chart" style="width:100%; height: 280px;"></canvas>
+                  </div>  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-6">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="card-hding pb-0">Referal Business Summary</h5>
+                  <div class="row">
+                    <div class="col-auto">
+                        <select name="summary_referral" class="form-field" id="summary_referral">
+                            <option value="1">All</option>
+                            <option value="2">Today</option>
+                            <option value="3">MTD</option>
+                            <option value="4">Custom Date</option>
+                        </select>
+                    </div>
+                    <div class="col-auto" style="display: none;">
+                        <select name="summary_referral_month" class="form-field" id="summary_referral_month">
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">March</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sept</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="col" style="display: none;">
+                        <input type="text" name="summary_referral_from_date" class="form-field datepicker_common" id="summary_referral_from_date" placeholder="From Date" autocomplete="off">
+                        <span class="error consolidated_from_date_err"></span>
+                    </div>
+                    <div class="col" style="display: none;">
+                        <input type="text" name="summary_referral_to_date" class="form-field datepicker_common" id="summary_referral_to_date" placeholder="To Date" autocomplete="off">
+                        <span class="error summary_referral_to_date_err"></span>
+                    </div>
+                  </div>
+                </div>  
+                <hr class="my-2">
+                <canvas id="referal_bar_chart" style="width:100%; height: 140px;"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-6">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="card-hding pb-0">Partner Business Summary</h5>
+                  <div class="row">
+                    <div class="col-auto">
+                        <select name="summary_partner" class="form-field" id="summary_partner">
+                             <option value="">Select Partner</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>  
+                <hr class="my-2">
+                <canvas id="partner_bar_chart" style="width:100%; height: 140px;"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12">  
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 id="summary-heading" class="card-hding pb-0 mb-0">Business Summary Insurer Wise</h5>
+                     <div class="d-flex align-items-center gap-3">
+                      <!-- Insurer wise dropdown -->
+                         <div class="col">
+
+                      <select name="insurer_wise" class="form-field" id="insurer_wise">
+                        <option value="1" selected>Insurer Wise</option>
+                        <option value="2">Referral Wise</option>
+                        <option value="3">Branch Wise</option>
+                        <option value="4">POS Wise</option>
+                      </select>
+                      </div>
+                    </div>
+                  </div>  
+                
+                        
+                <div class="table-responsive">
+                  <!-- INSURER WISE -->
+                  <div id="table-wrapper-1">
+                    <table id="insurer-wise-table" class="table table-design table-trlink">
+                      <thead class="table-thead-bg-light table-header-fix">
+                        <tr>
+                          <th>Insurer</th>
+                          <th>Policy Sold</th>
+                          <th>Net Premium</th>
+                          <th>Gross Premium</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for provider in provider_summary %}
+                        <tr>
+                          <td>{{ provider.insurance_provider|default:"N/A" }}</td>
+                          <td>{{ provider.policies_sold }}</td>
+                          <td>₹{{ provider.total_net_premium|floatformat:2|default:"0" }}</td>
+                          <td>₹{{ provider.total_gross_premium|floatformat:2|default:"0" }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+          
+                  <!-- REFERRAL WISE -->
+                  <div id="table-wrapper-2">
+                    <table id="referral-wise-table" class="table table-design table-trlink">
+                      <thead class="table-thead-bg-light table-header-fix">
+                        <tr>
+                          <th>Referral</th>
+                          <th>Policy Sold</th>
+                          <th>Net Premium</th>
+                          <th>Gross Premium</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for referral in referral_summary %}
+                        <tr>
+                          <td>{{ referral.referral_name|default:"N/A" }}</td>
+                          <td>{{ referral.policies_sold }}</td>
+                          <td>₹{{ referral.total_net_premium|floatformat:2|default:"0" }}</td>
+                          <td>₹{{ referral.total_gross_premium|floatformat:2|default:"0" }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+          
+                  <!-- BRANCH WISE -->
+                  <div id="table-wrapper-3">
+                    <table id="branch-wise-table" class="table table-design table-trlink">
+                      <thead class="table-thead-bg-light table-header-fix">
+                        <tr>
+                          <th>Branch</th>
+                          <th>Policy Sold</th>
+                          <th>Net Premium</th>
+                          <th>Gross Premium</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for branch in branch_summary %}
+                        <tr>
+                          <td>{{ branch.branch_name|default:"N/A" }}</td>
+                          <td>{{ branch.policies_sold }}</td>
+                          <td>₹{{ branch.total_net_premium|floatformat:2|default:"0" }}</td>
+                          <td>₹{{ branch.total_gross_premium|floatformat:2|default:"0" }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+          
+                  <!-- POS WISE -->
+                  <div id="table-wrapper-4">
+                    <table id="pos-wise-table" class="table table-design table-trlink">
+                      <thead class="table-thead-bg-light table-header-fix">
+                        <tr>
+                          <th>POS</th>
+                          <th>Policy Sold</th>
+                          <th>Net Premium</th>
+                          <th>Gross Premium</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for pos_agent in formatted_pos_summary %}
+                        <tr>
+                          <td>{{ pos_agent.pos_name|default:"N/A" }}</td>
+                          <td>{{ pos_agent.policies_sold }}</td>
+                          <td>₹{{ pos_agent.total_net_premium|floatformat:2|default:"0" }}</td>
+                          <td>₹{{ pos_agent.total_gross_premium|floatformat:2|default:"0" }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const dropdown = document.getElementById("insurer_wise");
+              const heading = document.getElementById("summary-heading");
+          
+              const headingMap = {
+                "1": "Business Summary Insurer Wise",
+                "2": "Business Summary Referral Wise",
+                "3": "Business Summary Branch Wise",
+                "4": "Business Summary POS Wise"
+              };
+          
+              function toggleTableView(selectedId) {
+                for (let i = 1; i <= 4; i++) {
+                  const wrapper = document.getElementById(`table-wrapper-${i}`);
+                  wrapper.style.display = (parseInt(selectedId) === i) ? "block" : "none";
+                }
+                // Update the heading
+                heading.textContent = headingMap[selectedId] || "Business Summary";
+              }
+          
+              // Initial visibility
+              toggleTableView(dropdown.value);
+          
+              // Listen for dropdown change
+              dropdown.addEventListener("change", function () {
+                toggleTableView(this.value);
+              });
+            });
+          </script>
+
+          <!-- Place this right before </body> -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dateFilter = document.getElementById("date_filter");
+    const customDateRange = document.getElementById("custom-date-range");
+    const fromDateField = document.getElementById("insurer_wise_from_date").parentElement;
+    const toDateField = document.getElementById("insurer_wise_to_date").parentElement;
+    const monthDropdown = document.getElementById("month-dropdown");
+
+    function updateDateUI() {
+      const value = dateFilter.value;
+      if (value === "custom") {
+        customDateRange.style.display = "flex";
+        fromDateField.style.display = "block";
+        toDateField.style.display = "block";
+        monthDropdown.style.display = "none";
+      } else if (value === "mtd") {
+        customDateRange.style.display = "none";
+        monthDropdown.style.display = "block";
+      } else {
+        customDateRange.style.display = "none";
+        monthDropdown.style.display = "none";
+      }
+    }
+
+    dateFilter.addEventListener("change", updateDateUI);
+    updateDateUI(); // call on load to set correct state
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var csrfToken = "{{ csrf_token }}";
+
+    // Handle visibility of date inputs and month dropdown
+    document.getElementById("consolidated_by").addEventListener("change", function() {
+        var consolidatedBy = this.value;
+        console.log("Consolidated by selected: " + consolidatedBy);
+
+        var fromDateField = document.getElementById("consolidated_from_date").parentElement;
+        var toDateField = document.getElementById("consolidated_to_date").parentElement;
+        var monthField = document.getElementById("consolidated_by_month").parentElement;
+
+        if (consolidatedBy === "4") {
+            // Custom Date selected: show date range, hide month
+            fromDateField.style.display = "block";
+            toDateField.style.display = "block";
+            monthField.style.display = "none";
+        } else if (consolidatedBy === "3") {
+            // MTD selected: show month dropdown, hide dates
+            fromDateField.style.display = "none";
+            toDateField.style.display = "none";
+            monthField.style.display = "block";
+        } else {
+            // All or Today selected: hide all
+            fromDateField.style.display = "none";
+            toDateField.style.display = "none";
+            monthField.style.display = "none";
+        }
+
+        fetchDashboardData(); // Trigger data update
+    });
+
+    function fetchDashboardData() {
+        var consolidatedBy = document.getElementById("consolidated_by").value;
+        var consolidatedByMonth = document.getElementById("consolidated_by_month").value;
+        var fromDate = document.getElementById("consolidated_from_date").value;
+        var toDate = document.getElementById("consolidated_to_date").value;
+
+        console.log("Fetching data with values:");
+        console.log("Consolidated By: " + consolidatedBy);
+        console.log("Selected Month: " + consolidatedByMonth);
+        console.log("From Date: " + fromDate);
+        console.log("To Date: " + toDate);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/dashboard-ajax/?" +
+            "consolidated_by=" + consolidatedBy +
+            "&consolidated_from_date=" + fromDate +
+            "&consolidated_to_date=" + toDate +
+            "&consolidated_by_month=" + consolidatedByMonth, true);
+        xhr.setRequestHeader("X-CSRFToken", csrfToken);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    console.log("Server Response:", data);
+
+                    if (data.error || data.message === "No data found for the given filters") {
+                        console.warn("No data found, resetting values to 0.");
+                        updateDashboard(0, 0, 0);
+                    } else {
+                        updateDashboard(
+                            data.policies_sold ?? 0,
+                            data.total_net_premium ?? 0,
+                            data.total_gross_premium ?? 0
+                        );
+                    }
+                } else {
+                    console.error("AJAX failed with status: " + xhr.status);
+                    updateDashboard(0, 0, 0);
+                }
+            }
+        };
+
+        xhr.send();
+    }
+
+    function formatIndianCurrency(amount) {
+        return '₹' + new Intl.NumberFormat('en-IN', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(amount);
+    }
+
+    function updateDashboard(policiesSold, netPremium, grossPremium) {
+        document.getElementById("policies_sold").textContent = policiesSold;
+        document.getElementById("total_net_premium").textContent = formatIndianCurrency(netPremium);
+        document.getElementById("total_gross_premium").textContent = formatIndianCurrency(grossPremium);
+    }
+
+    // Attach change events to all inputs
+    document.getElementById("consolidated_by_month").addEventListener("change", fetchDashboardData);
+    document.getElementById("consolidated_from_date").addEventListener("change", fetchDashboardData);
+    document.getElementById("consolidated_to_date").addEventListener("change", fetchDashboardData);
+});
+</script>
+        </div>  
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  
+
+  <!-- Main Footer -->
+  {% include 'footer.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- Payment overdue modal-->
+<div class="modal fade" id="payment-overdue-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" >&times;</button>
+        <h2 class="form-title font-weight-bold">Payment Overdue</h2>
+        <p class="pb-2">Your payment is overdue. Please clear your due to add new members.</p>
+        <div class="d-flex justify-content-end">
+          <a href="/checkout" class="dashboard-addbtn">Pay Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'footer-script.html' %}
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+<script src="http://retention.netcrm.in/js/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+
+{{ consolidated_month_labels|json_script:"monthLabels" }}
+{{ consolidated_month_counts|json_script:"motorData" }}
+
+<script type="text/javascript">
+  Chart.register(ChartDataLabels);
+
+  // Parse the JSON data once
+  const monthLabels = JSON.parse(document.getElementById('monthLabels').textContent);
+  const motorData    = JSON.parse(document.getElementById('motorData').textContent);
+
+  // Hold the chart instance in a scoped variable
+  let consolidatedBarChart = null;
+  
+  
+  function consolidated_bar_chart_open(monthLabels, motorData, sumInsuredData) {
+    // If a chart already exists, destroy it before creating a new one
+    if (consolidatedBarChart) {
+      consolidatedBarChart.destroy();
+    }
+  
+    // Function to format large numbers into K, M, B for readability
+    function formatNumber(value) {
+      if (value >= 1000000000) {
+        return (value / 1000000000).toFixed(1) + 'B';  // Billions
+      } else if (value >= 1000000) {
+        return (value / 1000000).toFixed(1) + 'M';  // Millions
+      } else if (value >= 1000) {
+        return (value / 1000).toFixed(1) + 'K';  // Thousands
+      } else {
+        return value;  // No format needed for smaller values
+      }
+    }
+  
+    // Create the new chart and save its instance
+    consolidatedBarChart = new Chart(
+      document.getElementById("consolidated_bar_chart"),
+      {
+        type: 'bar',
+        data: {
+          labels: monthLabels,
+          datasets: [
+            {
+              label: 'Motor Count',
+              data: motorData, // Document counts
+              backgroundColor: "#FFAB91",  // Orange color for count
+              borderColor: '#FFAB91',      // Orange border
+              yAxisID: 'y1'
+            },
+            {
+              label: 'Gross Premium (₹)',
+              data: sumInsuredData, // Gross Premium values
+              backgroundColor: "#ABEBC6",  // Blue color for Gross Premium
+              borderColor: '#ABEBC6',      // Blue border
+              yAxisID: 'y2'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: { padding: 20, font: { size: 11 } },
+              position: 'top'
+            },
+            datalabels: {
+              anchor: 'middle',
+              align: 'middle',
+              color: '#000',
+              font: { weight: 'bold' },
+              formatter: v => formatNumber(v)  // Apply number formatting to data labels
+            }
+          },
+          scales: {
+            y1: {
+              beginAtZero: true,
+              title: { display: true, text: 'Policy Count' },
+              position: 'left',
+              ticks: {
+                beginAtZero: true
+              }
+            },
+            y2: {
+              beginAtZero: true,
+              title: { display: true, text: 'Gross Premium (₹)' },
+              position: 'right',
+              ticks: {
+                beginAtZero: true,
+                callback: function(value) {
+                  // Format tick labels for the Gross Premium values
+                  return '₹' + formatNumber(value);
+                }
+              }
+            },
+            x: {
+              title: { display: true, text: 'Month' }
+            }
+          }
+        }
+      }
+    );
+  }
+  
+  
+  
+
+  // Example: run on DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    consolidated_bar_chart_open(monthLabels, motorData);
+  });
+</script>
+
+{{ insurer_motor_counts|json_script:"insurerMotorCounts" }}
+{{ insurer_provider_labels|json_script:"insurerProviderLabels" }}
+
+<script type="text/javascript">
+  Chart.register(ChartDataLabels);
+
+  // 1) Parse your JSON‐script data
+  const insurerMotorCounts   = JSON.parse(document.getElementById('insurerMotorCounts').textContent);
+  const insurerProviderLabels = JSON.parse(document.getElementById('insurerProviderLabels').textContent);
+
+  // 2) Hold the chart instance in a variable
+  let insurerBarChart = null;
+  function insurer_bar_chart_open(counts, labels, insurer_sum_insured) {
+    // 3) If we already drew one, destroy it
+    if (insurerBarChart) {
+      insurerBarChart.destroy();
+    }
+  
+    const ctx = document.getElementById("insurer_bar_chart").getContext("2d");
+  
+    insurerBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Motor',
+          data: counts,
+          backgroundColor: "#4593dd",
+          borderColor: '#4593dd',
+          fill: false,
+          //barThickness: 80,       // Fixed bar width in pixels
+          //maxBarThickness: 90,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { padding: 20, font: { size: 11 } },
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              title: function(tooltipItem) {
+                return tooltipItem[0].label; // Show the label (insurance provider name)
+              },
+              label: function(tooltipItem) {
+                // Show both policies sold and sum insured in the tooltip
+                const policiesSold = counts[tooltipItem.dataIndex];
+                const sumInsured = insurer_sum_insured[tooltipItem.dataIndex];
+                return `Policies Sold: ${policiesSold} | Gross Premium: ₹${sumInsured.toLocaleString()}`;
+              }
+            }
+          },
+          datalabels: {
+            anchor: 'middle',
+            align: 'middle',
+            color: '#000',
+            font: { weight: 'bold' },
+            formatter: v => v
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              maxRotation: 45,
+              minRotation: 45,
+              autoSkip: false
+            }
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+  
+
+  document.addEventListener('DOMContentLoaded', () => {
+    insurer_bar_chart_open(insurerMotorCounts, insurerProviderLabels, insurer_sum_insured);
+  });
+</script>
+
+{{ referral_counts|json_script:"referralMotorCounts" }}
+{{ referral_agent_labels|json_script:"referralProviderLabels" }}
+
+<script type="text/javascript">
+  Chart.register(ChartDataLabels);
+
+  // 1) Parse your JSON‐script data
+  const referralMotorCounts = JSON.parse(document.getElementById('referralMotorCounts').textContent);
+  const referralProviderLabels = JSON.parse(document.getElementById('referralProviderLabels').textContent);
+
+  // 2) Hold the chart instance in a variable
+  let referralBarChart = null;
+
+  function referral_bar_chart_open(counts, labels) {
+    // 3) If we already drew one, destroy it
+    if (referralBarChart) {
+      referralBarChart.destroy();
+    }
+    const ctx = document.getElementById("referal_bar_chart").getContext("2d");
+    referralBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Motor',
+          data: counts,
+          backgroundColor: "#4593dd",
+          borderColor: '#4593dd',
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        indexAxis: 'x', // horizontal bars
+        plugins: {
+          legend: {
+            labels: { padding: 20, font: { size: 11 } },
+            position: 'top'
+          },
+          datalabels: {
+            anchor: 'center',
+            align: 'center',
+            color: '#000',
+            font: { weight: 'bold' },
+            formatter: v => v
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    referral_bar_chart_open(referralMotorCounts, referralProviderLabels);
+  });
+</script>
+
+{{ agent_labels|json_script:"agentMotorLabels" }}
+{{ agent_counts|json_script:"agentCountLabels" }}
+
+
+<script type="text/javascript">
+  // Register the ChartDataLabels plugin
+  Chart.register(ChartDataLabels);
+
+  // Parse the Django-provided JSON on page load
+  const agentLabels = JSON.parse(document.getElementById("agentMotorLabels").textContent);
+  const agentCounts = JSON.parse(document.getElementById("agentCountLabels").textContent);
+
+  let agentBarChart = null;
+
+  // Draw or redraw the bar chart
+  function partner_bar_chart_open(counts, labels) {
+    if (agentBarChart) {
+      agentBarChart.destroy();
+    }
+    const ctx = document.getElementById("partner_bar_chart").getContext("2d");
+    agentBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Policies Sold',
+          data: counts,
+          backgroundColor: "#4593dd",
+          borderColor: '#4593dd',
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        indexAxis: 'y',
+        plugins: {
+          legend: { position: 'top' },
+          datalabels: {
+            anchor: 'center',
+            align: 'center',
+            color: '#000',
+            font: { weight: 'bold' }
+          }
+        },
+        scales: {
+          x: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    partner_bar_chart_open(agentCounts, agentLabels);  
+  });
+</script>
+
+{{ product_wise_labels|json_script:"productWiseLabels" }}
+{{ product_wise_counts|json_script:"productWiseCounts" }}
+{{ productCommercialLabels|json_script:"productCommercialLabels" }}
+{{ productCommercialCounts|json_script:"productCommercialCounts" }}
+
+<script type="text/javascript">
+  Chart.register(ChartDataLabels);
+
+  const productWiseLabels = JSON.parse(document.getElementById("productWiseLabels").textContent);
+  const productWiseCounts = JSON.parse(document.getElementById("productWiseCounts").textContent);
+
+  const productCommercialLabels = JSON.parse(document.getElementById("productCommercialLabels").textContent);
+  const productCommercialCounts = JSON.parse(document.getElementById("productCommercialCounts").textContent);
+
+  new Chart("product_wise_bar_chart", {
+    type: 'bar',
+    data: {
+      labels: productWiseLabels,
+      datasets: [{
+        label: 'Motor',
+        data: productWiseCounts,
+        backgroundColor: "#4593dd",
+        fill: false,
+        borderColor: '#4593dd'
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      plugins: {
+        legend: {
+          labels: {
+            padding: 20,
+            font: { size: 11 }
+          },
+          position: 'top',
+        },
+        datalabels: {
+          anchor: 'middle',
+          align: 'middle',
+          color: '#000',
+          font: { weight: 'bold' },
+          formatter: (value) => value
+        }
+      }
+    }
+  });
+
+  new Chart("product_commercial_bar_chart", {
+    type: 'bar',
+    data: {
+      labels: productCommercialLabels,
+      datasets: [{
+        label: 'Motor',
+        data: productCommercialCounts,
+        backgroundColor: "#4593dd",
+        fill: false,
+        borderColor: '#4593dd'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend: {
+          labels: {
+            padding: 20,
+            font: { size: 11 }
+          },
+          position: 'top',
+        },
+        datalabels: {
+          anchor: 'middle',
+          align: 'middle',
+          color: '#000',
+          font: { weight: 'bold' },
+          formatter: (value) => value
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  function updateProductWiseChart() {
+      // AJAX request to fetch the data
+      $.ajax({
+          url: '/business_summary_product_wiseajax/',
+          type: 'GET',
+          success: function(response) {
+              console.log("Product Counts:", response.product_wise_counts);
+              console.log("Product Labels:", response.product_wise_labels);
+              console.log("Commercial Counts:", response.productCommercialCounts);
+              console.log("Commercial Labels:", response.productCommercialLabels);
+
+              // Update both charts
+              updateProductWiseBarChart(response.product_wise_counts, response.product_wise_labels);
+              updateProductCommercialBarChart(response.productCommercialCounts, response.productCommercialLabels);
+          },
+          error: function(xhr, status, error) {
+              console.error('AJAX Error: ' + error);
+          }
+      });
+  }
+
+  // Function to update the Product Wise Bar Chart
+  function updateProductWiseBarChart(counts, labels) {
+      var chartInstance = Chart.getChart("product_wise_bar_chart");
+
+      if (chartInstance) {
+          chartInstance.data.labels = labels;
+          chartInstance.data.datasets[0].data = counts;
+          chartInstance.update();
+      } else {
+          console.error('Product-wise chart instance not found');
+      }
+  }
+
+  // Function to update the Commercial Bar Chart
+  function updateProductCommercialBarChart(counts, labels) {
+      var chartInstance = Chart.getChart("product_commercial_bar_chart");
+
+      if (chartInstance) {
+          chartInstance.data.labels = labels;
+          chartInstance.data.datasets[0].data = counts;
+          chartInstance.update();
+      } else {
+          console.error('Commercial chart instance not found');
+      }
+  }
+
+  // DOM Events
+  document.addEventListener('DOMContentLoaded', function() {
+      updateProductWiseChart();
+  });
+
+  document.getElementById('update_chart_button').addEventListener('click', function() {
+      updateProductWiseChart();
+  });
+
+  document.getElementById('select_product').addEventListener('change', function() {
+      updateProductWiseChart();
+  });
+</script>
+
+
+<script>
+  //Function to update the Insurer business chart
+  function updateChart() {
+      var startDate = document.getElementById('start_date').value;
+      var endDate = document.getElementById('end_date').value;
+
+      // Check if both dates are selected
+      if (!startDate || !endDate) {
+          alert('Please select both start and end dates');
+          return;
+      }
+
+      // AJAX request to fetch the data
+      $.ajax({
+          url: '/business_summary_insurer_chartajax/',  // Django view URL
+          type: 'GET',
+          data: {
+              start_date: startDate,
+              end_date: endDate
+          },
+          success: function(response) {
+              console.log("Counts:", response.insurer_motor_counts);
+              console.log("Provider:", response.insurer_provider_labels);
+              console.log("Provider:", response.insurer_sum_insured);
+              insurer_bar_chart_open(response.insurer_motor_counts, response.insurer_provider_labels, response.insurer_sum_insured);
+          },
+          error: function(xhr, status, error) {
+              console.error('AJAX Error: ' + error);
+          }
+      });
+  }
+</script>
+
+<script>
+  // Function to update the consolidated business chart
+  function updateConsolidatedChart() {
+      var startDate = document.getElementById('start_date').value;
+      var endDate = document.getElementById('end_date').value;
+
+      if (!startDate || !endDate) {
+          alert('Please select both start and end dates');
+          return;
+      }
+
+      // AJAX request to fetch data
+      $.ajax({
+          url: '/business_consolidated_ajax/',  // Django view URL
+          type: 'GET',
+          data: {
+              start_date: startDate,
+              end_date: endDate,
+              filter: '4'  // Custom date filter
+          },
+          success: function(response) {
+              console.log("Months:", response.consolidated_month_labels);
+              console.log("Document Counts:", response.consolidated_month_counts);
+              consolidated_bar_chart_open(consolidated_month_labels, consolidated_month_counts);
+          },
+          error: function(xhr, status, error) {
+              console.error('AJAX Error: ' + error);
+          }
+      });
+  }
+</script>
+
+<script>
+  // Function to update the Referral business chart
+  function updateReferralChart() {
+      var startDate = document.getElementById('start_date').value;
+      var endDate = document.getElementById('end_date').value;
+
+      // Check if both dates are selected
+      if (!startDate || !endDate) {
+          alert('Please select both start and end dates');
+          return;
+      }
+
+      // AJAX request to fetch the data for referral chart
+      $.ajax({
+          url: '/referral_summary_chartajax/',  // Django view URL for referral data
+          type: 'GET',
+          data: {
+              start_date: startDate,
+              end_date: endDate
+          },
+          success: function(response) {
+              console.log("Referral Counts:", response.referral_counts);
+              console.log("Referral Agent Labels:", response.referral_agent_labels);
+              referral_bar_chart_open(response.referral_counts, response.referral_agent_labels);
+          },
+          error: function(xhr, status, error) {
+              console.error('AJAX Error: ' + error);
+          }
+      });
+  }
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const summarySelect = document.getElementById("insurer_wise");
+    const monthDropdown = document.getElementById("summary_referal_month").parentElement;
+    const fromDateField = document.getElementById("summary_referal_from_date").parentElement;
+    const toDateField = document.getElementById("summary_referal_to_date").parentElement;
+
+    function updateReferalFilters() {
+      const value = summarySelect.value;
+
+      // Hide all first
+      monthDropdown.style.display = "none";
+      fromDateField.style.display = "none";
+      toDateField.style.display = "none";
+
+      if (value === "3") {
+        // MTD → show Month dropdown
+        monthDropdown.style.display = "block";
+      } else if (value === "4") {
+        // Custom Date → show From/To Date fields
+        fromDateField.style.display = "block";
+        toDateField.style.display = "block";
+      }
+    }
+
+    // Initial call
+    updateReferalFilters();
+
+    // On select change
+    summarySelect.addEventListener("change", updateReferalFilters);
+  });
+</script>
+
+<script>
+  let partnerChart = null; // Global chart variable
+  let allAgentLabels = [];
+  let allAgentCounts = [];
+
+  // Function to fetch and render the Partner chart
+  function fetchAndRenderPartnerChart() {
+    fetch('/partner_policy_summary_ajax/')
+      .then(response => response.json())
+      .then(data => {
+        console.log("AJAX payload:", data);
+        allAgentLabels = data.agent_labels;
+        allAgentCounts = data.agent_counts;
+
+        populatePartnerDropdown(allAgentLabels);
+        partner_bar_chart_open(allAgentCounts, allAgentLabels); // show all by default
+      })
+      .catch(error => {
+        console.error("Chart fetch error:", error);
+      });
+  }
+
+  // Function to update the Partner chart manually (e.g., via a button)
+  function updatePartnerChart() {
+    $.ajax({
+      url: '/partner_policy_summary_ajax/',
+      type: 'GET',
+      success: function (response) {
+        console.log("Agent Labels:", response.agent_labels);
+        console.log("Agent Counts:", response.agent_counts);
+
+        allAgentLabels = response.agent_labels;
+        allAgentCounts = response.agent_counts;
+
+        populatePartnerDropdown(allAgentLabels);
+        partner_bar_chart_open(allAgentCounts, allAgentLabels);
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX Error: ' + error);
+      }
+    });
+  }
+
+  // Populate the agent dropdown
+  function populatePartnerDropdown(agentLabels) {
+    const dropdown = document.getElementById("summary_partner");
+    dropdown.innerHTML = '<option value="">Select Partner</option>';
+    agentLabels.forEach(label => {
+      const option = document.createElement("option");
+      option.value = label;
+      option.textContent = label;
+      dropdown.appendChild(option);
+    });
+  }
+
+  // Handle dropdown change
+  document.addEventListener("DOMContentLoaded", function () {
+    fetchAndRenderPartnerChart();
+
+    document.getElementById("summary_partner").addEventListener("change", function () {
+      const selectedAgent = this.value;
+
+      if (!selectedAgent) {
+        // Show all agents
+        partner_bar_chart_open(allAgentCounts, allAgentLabels);
+        return;
+      }
+
+      const index = allAgentLabels.indexOf(selectedAgent);
+      if (index !== -1) {
+        partner_bar_chart_open(
+          [allAgentCounts[index]],
+          [allAgentLabels[index]]
+        );
+      }
+    });
+  });
+</script>
+
+
+<script>
+  let consolidatedChart = null;
+  function fetchAndRenderConsolidatedChart() {
+    const filter = document.getElementById("business_consolidated_by").value;
+    const month = document.getElementById("business_consolidated_by_month").value;
+    const fromDate = document.getElementById("business_consolidated_from_date").value;
+    const toDate = document.getElementById("business_consolidated_to_date").value;
+  
+    // Initialize the URL with the selected filter type
+    let url = `/business_consolidated_ajax?filter=${filter}`;
+  
+    // Append parameters based on the selected filter type
+    if (filter === "3") {
+      url += `&month=${month}`;
+    } else if (filter === "4") {
+      url += `&start_date=${fromDate}&end_date=${toDate}`;
+    }
+  
+    // Fetch data from the backend
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        console.log("AJAX payload:", data);
+  
+        // Call the chart rendering function with both counts and sum insured data
+        consolidated_bar_chart_open(
+          data.consolidated_month_labels, 
+          data.consolidated_month_counts,  // Document counts
+          data.consolidated_sum_insured    // Sum insured values
+        );
+      })
+      .catch(error => {
+        console.error("Chart fetch error:", error);
+      });
+  }
+  
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const consolidatedBy = document.getElementById("business_consolidated_by");
+    const monthInput = document.getElementById("business_consolidated_by_month");
+    const fromDateInput = document.getElementById("business_consolidated_from_date");
+    const toDateInput = document.getElementById("business_consolidated_to_date");
+
+    const monthDiv = monthInput.parentElement;
+    const fromDateDiv = fromDateInput.parentElement;
+    const toDateDiv = toDateInput.parentElement;
+
+    function updateConsolidatedFiltersAndChart() {
+      const selected = consolidatedBy.value;
+
+      monthDiv.style.display = "none";
+      fromDateDiv.style.display = "none";
+      toDateDiv.style.display = "none";
+
+      if (selected === "3") {
+        monthDiv.style.display = "block";
+      } else if (selected === "4") {
+        fromDateDiv.style.display = "block";
+        toDateDiv.style.display = "block";
+      }
+
+      fetchAndRenderConsolidatedChart();
+    }
+
+    // Bind change listeners
+    consolidatedBy.addEventListener("change", updateConsolidatedFiltersAndChart);
+    monthInput.addEventListener("change", fetchAndRenderConsolidatedChart);
+    fromDateInput.addEventListener("change", fetchAndRenderConsolidatedChart);
+    toDateInput.addEventListener("change", fetchAndRenderConsolidatedChart);
+
+    updateConsolidatedFiltersAndChart(); // initial load
+  });
+</script>
+
+
+
+<script>
+  let insurerChart = null; // Global chart variable
+
+  function fetchAndRenderInsurerChart() {
+    const filter = document.getElementById("summary_insurer").value;
+    const month = document.getElementById("summary_insurer_month").value;
+    const fromDate = document.getElementById("summary_insurer_from_date").value;
+    const toDate = document.getElementById("summary_insurer_to_date").value;
+
+    let url = `/business_summary_insurer_chartajax?filter=${filter}`;
+
+    if (filter === "3") {
+      url += `&month=${month}`;
+    } else if (filter === "4") {
+      url += `&start_date=${fromDate}&end_date=${toDate}`;
+    }
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+
+         console.log("AJAX payload:", data);
+         insurer_bar_chart_open(data.insurer_motor_counts, data.insurer_provider_labels, data.insurer_sum_insured);
+      })
+      .catch(error => {
+        console.error("Chart fetch error:", error);
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const summarySelect = document.getElementById("summary_insurer");
+    const monthDropdown = document.getElementById("summary_insurer_month").parentElement;
+    const fromDateField = document.getElementById("summary_insurer_from_date").parentElement;
+    const toDateField = document.getElementById("summary_insurer_to_date").parentElement;
+
+    function updateSummaryFiltersAndChart() {
+      const value = summarySelect.value;
+
+      monthDropdown.style.display = "none";
+      fromDateField.style.display = "none";
+      toDateField.style.display = "none";
+
+      if (value === "3") {
+        monthDropdown.style.display = "block";
+      } else if (value === "4") {
+        fromDateField.style.display = "block";
+        toDateField.style.display = "block";
+      }
+
+      fetchAndRenderInsurerChart();
+    }
+
+    summarySelect.addEventListener("change", updateSummaryFiltersAndChart);
+    document.getElementById("summary_insurer_month").addEventListener("change", fetchAndRenderInsurerChart);
+    document.getElementById("summary_insurer_from_date").addEventListener("change", fetchAndRenderInsurerChart);
+    document.getElementById("summary_insurer_to_date").addEventListener("change", fetchAndRenderInsurerChart);
+
+    updateSummaryFiltersAndChart(); // initial load
+  });
+</script>
+
+<script>
+  let referralChart = null; // Global chart variable
+
+  function fetchAndRenderReferralChart() {
+    const filter = document.getElementById("summary_referral").value;
+    const month = document.getElementById("summary_referral_month").value;
+    const fromDate = document.getElementById("summary_referral_from_date").value;
+    const toDate = document.getElementById("summary_referral_to_date").value;
+
+    let url = `/referral_summary_chartajax?filter=${filter}`;
+
+    if (filter === "3") {
+      url += `&month=${month}`;
+    } else if (filter === "4") {
+      url += `&start_date=${fromDate}&end_date=${toDate}`;
+    }
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        console.log("AJAX payload:", data);
+        referral_bar_chart_open(data.referral_counts, data.referral_agent_labels);
+      })
+      .catch(error => {
+        console.error("Chart fetch error:", error);
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const summarySelect = document.getElementById("summary_referral");
+    const monthDropdown = document.getElementById("summary_referral_month").parentElement;
+    const fromDateField = document.getElementById("summary_referral_from_date").parentElement;
+    const toDateField = document.getElementById("summary_referral_to_date").parentElement;
+
+    function updateSummaryFiltersAndChart() {
+      const value = summarySelect.value;
+
+      monthDropdown.style.display = "none";
+      fromDateField.style.display = "none";
+      toDateField.style.display = "none";
+
+      if (value === "3") {
+        monthDropdown.style.display = "block";
+      } else if (value === "4") {
+        fromDateField.style.display = "block";
+        toDateField.style.display = "block";
+      }
+
+      fetchAndRenderReferralChart();
+    }
+
+    summarySelect.addEventListener("change", updateSummaryFiltersAndChart);
+    document.getElementById("summary_referral_month").addEventListener("change", fetchAndRenderReferralChart);
+    document.getElementById("summary_referral_from_date").addEventListener("change", fetchAndRenderReferralChart);
+    document.getElementById("summary_referral_to_date").addEventListener("change", fetchAndRenderReferralChart);
+
+    updateSummaryFiltersAndChart();
+  });
+</script>
+
+<script>
+  const ctxfour = document.getElementById('lead_bar_chart').getContext('2d');
+    new Chart(ctxfour, {
+        data: {
+            datasets: [{
+                    type: 'bar'
+                    , label: 'Total Leads'
+                    , data: [10, 15, 35, 40, 80]
+                    , backgroundColor: "#17a2b8"
+
+                }
+                , {
+                    type: 'bar'
+                    , label: 'Assigned Leads'
+                    , data: [30, 50, 20, 1, 10],
+                    //borderWidth: 0,
+                    backgroundColor: "#a5ceac"
+                }
+                , {
+                    type: 'bar'
+                    , label: 'Fresh Leads'
+                    , data: [15, 20, 8, 4, 12],
+                    //borderWidth: 0,
+                    backgroundColor: "#969798"
+                }
+            ]
+            , labels: ['Motor', 'Health', 'Term', 'Life', 'Marine']
+        , }
+        , options: {
+            
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            
+                 plugins: {
+                  datalabels: {
+                      formatter: function(value, context) {
+                          return value;
+                      },
+                      color: '#000',
+                      anchor: 'end',
+                      // align: 'end',
+                      font: {
+                        weight: 'bold',
+                          // size: 16 // Increase the font size for labels
+                      },
+                      padding: {
+                          // top: 10, // Increase top padding for labels
+                          // bottom: 10 // Increase bottom padding for labels
+                      },
+                  }
+                   
+                 }
+        }
+    });
+</script>
+<script>
+  const ctxquote = document.getElementById('quote_bar_chart').getContext('2d');
+    new Chart(ctxquote, {
+        data: {
+            datasets: [{
+                    type: 'bar'
+                    , label: 'Total Quote'
+                    , data: [10, 15, 35, 40, 80]
+                    , backgroundColor: "#17a2b8"
+
+                }
+                , {
+                    type: 'bar'
+                    , label: 'Shared Quote'
+                    , data: [30, 50, 20, 1, 10],
+                    //borderWidth: 0,
+                    backgroundColor: "#a5ceac"
+                }
+                , {
+                    type: 'bar'
+                    , label: 'Pending Quote'
+                    , data: [15, 20, 8, 4, 12],
+                    //borderWidth: 0,
+                    backgroundColor: "#969798"
+                }
+            ]
+            , labels: ['Motor', 'Health', 'Term', 'Life', 'Marine']
+        , }
+        , options: {
+            
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            
+                 plugins: {
+                  datalabels: {
+                      formatter: function(value, context) {
+                          return value;
+                      },
+                      color: '#000',
+                      anchor: 'end',
+                      // align: 'end',
+                      font: {
+                        weight: 'bold',
+                          // size: 16 // Increase the font size for labels
+                      },
+                      padding: {
+                        
+                      },
+                  }
+                   
+                 }
+        }
+    });
+</script>
+
+</body>
+
+{% endblock %}

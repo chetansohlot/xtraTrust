@@ -1,0 +1,159 @@
+  <div class="col-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="policy_number" type="text" placeholder="Policy Number" value="{{filters.policy_number }}">
+    </div>
+  </div>
+
+  <div class="col-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="policy_type" type="text" placeholder="Policy Type" value="{{filters.policy_type }}">
+    </div>
+  </div>
+
+          <!-- Vehicle Number -->
+  <div class="col-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="vehicle_number" type="text" placeholder="Vehicle Number" value="{{ filters.vehicle_number }}">
+    </div>
+  </div> 
+  
+  <!-- Engine Number -->
+  <div class="col-sm-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="engine_number" type="text" placeholder="Engine Number" value="{{ filters.engine_number }}">
+    </div>
+  </div>
+
+  <!-- Chassis Number -->
+  <div class="col-sm-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="chassis_number" type="text" placeholder="Chassis Number" value="{{ filters.chassis_number }}">
+    </div>
+  </div>
+
+  <!-- Vehicle Type -->
+  <div class="col-sm-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="vehicle_type" type="text" placeholder="Vehicle Type" value="{{ filters.vehicle_type }}">
+    </div>
+  </div>
+
+  <!-- Customer Name -->
+  <div class="col-sm-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="policy_holder_name" type="text" placeholder="Customer Name" value="{{filters.policy_holder_name }}">
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-2">
+    <div class="form-group">
+      <input class="form-field" name="insurance_provider" type="text" placeholder="Insurance Company" value="{{ filters.insurance_provider }}">
+    </div>
+  </div>
+
+  <!-- Start Date -->
+  <div class="col-sm-6 col-md-2">
+      <div class="form-group">
+      <input class="form-field" name="start_date" type="date" placeholder="Start Date" value="{{ filters.start_date }}">
+      </div>
+  </div>
+
+  <!-- End Date -->
+  <div class="col-sm-6 col-md-2">
+      <div class="form-group">
+      <input class="form-field" name="end_date" type="date" placeholder="End Date" value="{{ filters.end_date }}">
+      </div>
+  </div>
+
+  <!-- Manufacturing Year From -->
+  <div class="col-sm-6 col-md-2">
+      <div class="form-group">
+      <input class="form-field" name="manufacturing_year_from" type="number" min="1900" max="2100" placeholder="Mfg Year From" value="{{ filters.manufacturing_year_from }}">
+      </div>
+  </div>
+
+  <!-- Manufacturing Year To -->
+  <div class="col-sm-6 col-md-2">
+      <div class="form-group">
+      <input class="form-field" name="manufacturing_year_to" type="number" min="1900" max="2100" placeholder="Mfg Year To" value="{{ filters.manufacturing_year_to }}">
+      </div>
+  </div>
+
+  <!-- Fuel Type -->
+  <div class="col-sm-6 col-md-2">
+      <div class="form-group">
+        
+        {% with filters.fuel_type as selected_fuel %}
+        <select class="form-field" name="fuel_type" id="fuel_type">
+          <option value="">Select Fuel</option>
+          <option value="Petrol" {% if selected_fuel == 'Petrol' %}selected{% endif %}>Petrol</option>
+          <option value="Diesel" {% if selected_fuel == 'Diesel' %}selected{% endif %}>Diesel</option>
+          <option value="Cng" {% if selected_fuel == 'Cng' %}selected{% endif %}>Cng</option>
+          <option value="Be-Fuel" {% if selected_fuel == 'Be-Fuel' %}selected{% endif %}>Be-Fuel</option>
+          
+        </select>
+        {% endwith %}
+      </div>
+  </div>
+
+  <!-- GVW/Cubic Capacity From -->
+  <div class="col-sm-6 col-md-2">
+      <div class="form-group">
+      <input class="form-field" name="gvw_from" type="number" placeholder="GVW/CC From" value="{{ filters.gvw_from }}">
+      </div>
+  </div>
+  
+  <div class="col-sm-6 col-md-2">
+    <div class="form-group">
+        <input class="form-field" name="gvw_to" type="number" placeholder="GVW/CC To" value="{{ filters.gvw_to }}">
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-2">
+    <div class="form-group">
+      <select id="branch_name" name="branch_name" class="form-field">
+          <option value="">Select Branch</option>
+          {% for branch in branches %}
+          <option value="{{ branch.id }}" {% if branch.id|stringformat:"s" == filters.branch_name|stringformat:"s" %}selected{% endif %}>
+              {{ branch.branch_name }}
+          </option>
+          {% endfor %}
+      </select>
+    </div>
+</div>
+
+
+<div class="col-sm-6 col-md-2">
+  <div class="form-group">
+    <select name="bqp" class="form-field" id="bqp">
+      <option value="">Select BQP</option>
+      {% for bqp in bqpList %}
+        <option value="{{bqp.id}}" {% if bqp.id == filters.bqp %}selected{% endif %}>{{bqp.bqp_name}}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+
+
+<div class="col-sm-6 col-md-2">
+    <div class="form-group">
+        <select name="pos_name" id="pos_name" class="form-field" data-value="{{ filters.pos_name|default:None }}">
+          <option value="">Select POS Name</option>
+          {% for partner in partners %}
+            <option value="{{partner.id}}" {% if partner.id == filters.pos_name %}selected{% endif %}>{{partner.name}}</option>
+          {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="col-sm-6 col-md-2">
+    <div class="form-group">
+        <select class="form-field" name="referred_by" id="referred_by">
+          <option value="">Select Referral</option>
+          {% for referral in referrals %}
+          <option value="{{ referral.id }}" {% if referral.id|stringformat:"s" == filters.referred_by|stringformat:"s" %}selected{% endif %}>
+              {{ referral.name }} - {{ referral.referral_code }}
+          </option>
+          {% endfor %}
+      </select>
+    </div>
+</div>

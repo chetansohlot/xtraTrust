@@ -1,0 +1,96 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Partner
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+    
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid ">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Partner</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Partner</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add Partner</li>
+                </ul>
+              </div>
+            </div>
+            
+    
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12 col-md-6">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <div class="add-member-img">
+                      <img src="{% static 'dist/img/excel.png' %}" alt="">
+                    </div>   
+                    <h1 class="no-data-found-hding">Add via Excel</h1>
+                    <p class="no-data-found-prgh px-md-5">Invite multiple team members to {{ COMPANY_FIRST_NAME }} at once using excel spreadsheet template</p>
+                    <a href="{% url 'upload-partners-excel' %}" class="dashboard-btn-outline mx-auto d-table mt-4">Get Started</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <div class="add-member-img">
+                      <img src="{% static 'dist/img/form.png' %}" alt="">
+                    </div>   
+                    <h1 class="no-data-found-hding">Add via Form</h1>
+                    <p class="no-data-found-prgh px-md-5">Invite new team members individually by filling their basic details</p>
+                    <a href="{% url 'add-partner' %}"  class="dashboard-btn-outline mx-auto d-table mt-4">Get Started</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+          
+      </div>
+        
+    </div>
+      <!-- /.content-wrapper -->
+    
+      
+    
+      <!-- Main Footer -->
+      {% include "footer.html" %}
+    </div>
+    <!-- ./wrapper -->
+    
+    {% include "footer-script.html" %}
+    
+    
+    
+    
+    
+    </body>
+{% endblock %}
+
+
+

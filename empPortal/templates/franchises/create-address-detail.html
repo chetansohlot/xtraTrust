@@ -1,0 +1,132 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}Add Franchise - Address Details{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <div class="content-wrapper">
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Address Details</a>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Franchise</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Address Details</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+
+              <ul class="stepflow-text stepflow-five-col mt-0">
+                <li><a href="#" class="completed">Basic Info</a></li>
+                <li><a href="#" class="completed">Contact Information</a></li>
+                <li><a href="#" class="active">Address Details</a></li>
+                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="#">Banking & Payout Details</a></li>
+              </ul>
+
+              <ul class="new-stepflow mb-3">
+                <li class="active"></li>
+                <li class="active"></li>
+                <li class=""></li>
+                <li></li>
+                <li></li>
+              </ul>
+
+              <!-- <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <form action="{% url 'franchise-management-address-details' franchise_id=franchise_id %}" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row"> -->
+
+                     <!-- Card with form -->
+                      <div class="card box-shadow-none p-md-5 p-3">
+                        <div class="card-body px-0 pb-0 pt-0">
+                          <form action="{% url 'franchise-management-address-details' franchise_id=franchise_id %}" method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="col-md-12">
+                                <h2 class="admin-title border-bottom pb-2 mb-4">Address Details</h2>
+                      </div> 
+
+                      <div class="form-group col-md-6">
+                        <label for="address_line_1">Address Line 1</label>
+                        <textarea name="address_line_1" id="address_line_1" class="form-field" placeholder="Office Address Line 1" rows="3">{{ franchise.address_line_1|default:'' }}</textarea>
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="address_line_2">Address Line 2</label>
+                        <textarea name="address_line_2" id="address_line_2" class="form-field" placeholder="Office Address Line 2" rows="3">{{ franchise.address_line_2|default:'' }}</textarea>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="city">City</label>
+                        <input type="text" name="city" id="city" class="form-field" placeholder="Operating City" value="{{ franchise.city|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="state">State</label>
+                        <input type="text" name="state" id="state" class="form-field" placeholder="Operating State" value="{{ franchise.state|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="pincode">Pincode</label>
+                        <input type="text" name="pincode" id="pincode" class="form-field" placeholder="Postal Code" value="{{ franchise.pincode|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="country">Country</label>
+                        <input type="text" name="country" id="country" class="form-field" placeholder="Country" value="{{ franchise.country|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="office_contact_number">Office Contact Number</label>
+                        <input type="tel" name="office_contact_number" id="office_contact_number" class="form-field" placeholder="Landline (if any)" value="{{ franchise.office_contact_number|default:'' }}">
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                      <a href="{% url 'franchise-management-contact-info' franchise_id=franchise_id %}" class="btn btn-outline-secondary">Back</a>
+                      <button type="submit" class="form-submit-btn">Next</button>
+                    </div>
+                  </form>
+
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+  </div>
+</body>
+{% endblock %}

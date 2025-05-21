@@ -1,0 +1,173 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}
+  Register
+{% endblock %}
+
+{% block content %}
+<body class="signup-bg">
+
+    <section class="d-flex justify-content-center align-items-center vh-md-100">
+      <div class="container">
+        <div class="row justify-content-between pt-2">
+          <div class="col-sm-12">
+            <div class="signup-container-bg">
+              <div class="row">
+                <div class="col-lg-8">
+                    <div class="signup-form-area">
+                      <img src="{% static GLOBAL_BIG_LOGO %}" alt="" class="singup-logo">
+                      <h1 class="signup-hding">Say Hello to a Smarter, Faster, and Successful Insurance Sales journey</h1>
+                      <p class="signup-prgh">With Leap, you'll have everything you need at your fingertips to become a top-performing Point of Sale Partner</p>
+                                              
+                        <!-- Form -->
+                        <form id="registerForm" action="{% url 'register' %}" method="post" class="mt-4 pt-2" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="signup-form-group">
+                                        <label class="signup-form-lbl">Full Name <span class="asterisk">*</span></label>
+                                        <input type="text" name="full_name" value="{{ request.user.user_name }}" class="signup-form-field" placeholder="As per Aadhaar Card">
+                                    </div>    
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="signup-form-group">
+                                        <label class="signup-form-lbl">Pan Card <span class="asterisk">*</span></label>
+                                        <input type="text" name="pan_no" value="{{ request.user.pan_no }}" class="signup-form-field" placeholder="Pan Card Number">
+                                    </div>    
+                                </div>
+
+                                <div class="col-md-6">
+                                  <div class="signup-form-group">
+                                      <label class="signup-form-lbl">Gender <span class="asterisk">*</span></label>
+                                      <div class="signup-gender-box">
+                                          <div class="signup-radio-btn-area">
+                                              <input type="radio" name="gender" class="signup-radio-button" value="1" id="male"
+                                                  {% if request.user.gender == 1 %} checked {% elif not request.user.gender %} checked {% endif %}>
+                                              <label for="male">Male</label>
+                                          </div>
+                                          <div class="signup-radio-btn-area">
+                                              <input type="radio" name="gender" class="signup-radio-button" value="2" id="female"
+                                                  {% if request.user.gender == 2 %} checked {% endif %}>
+                                              <label for="female">Female</label>
+                                          </div>
+                                      </div>   
+                                  </div>  
+                              </div>
+
+                                <div class="col-md-6">
+                                    <div class="signup-form-group">
+                                        <label class="signup-form-lbl">Enter Your Email <span class="asterisk">*</span></label>                        
+                                        <input type="text" name="email" value="{{ request.user.email }}" id="email" class="signup-form-field" placeholder="Email Id">
+                                    </div>    
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="signup-form-group">
+                                        <label class="signup-form-lbl">Enter 10-Digit Mobile Number <span class="asterisk">*</span></label>
+                                        <input type="text" name="mobile" value="{{ request.user.phone }}" id="mobile" class="signup-form-field mobile" maxlength="10" placeholder="Register Mobile Number">
+                                    </div>    
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="signup-form-group">
+                                      <label class="signup-form-lbl">Enter Password <span class="asterisk">*</span></label>
+                                      <input 
+                                          type="password" 
+                                          id="password" 
+                                          name="password" 
+                                          class="signup-form-field" 
+                                          placeholder="Enter Password"
+                                          value="" 
+                                          autocomplete="new-password" 
+                                          onfocus="this.removeAttribute('readonly');" 
+                                          readonly>
+                                  </div>    
+                              </div>
+                              
+                              <div class="col-md-6">
+                                  <div class="signup-form-group">
+                                      <label class="signup-form-lbl">Confirm Password <span class="asterisk">*</span></label>
+                                      <input 
+                                          type="password" 
+                                          name="confirm_password" 
+                                          class="signup-form-field" 
+                                          placeholder="Confirm Password"
+                                          value="" 
+                                          autocomplete="new-password" 
+                                          onfocus="this.removeAttribute('readonly');" 
+                                          readonly>
+                                  </div>    
+                              </div>
+                              
+
+                                <div class="col-sm-12 mt-5">
+                                    <div class="signup-terms">
+                                        <input type="checkbox" name="terms" class="terms-checkbtn" id="signup-terms">
+                                        <label for="signup-terms">By continuing, you agree to <a href="{% get_media_prefix %}terms/Terms_And_Conditions.pdf" target="_blank">Terms & Conditions</a></label>
+                                    </div>
+                                    <button type="submit" class="signup-submit-btn">Let's Get Started</button>
+                                </div>
+                            </div>
+
+                
+                        </form>
+
+
+                      <div class="col-sm-12 text-center mt-3">
+                          <p>Already have an account? <a href="{% url 'login' %}" class="text-primary">Sign in here</a></p>
+                      </div>
+                    
+                    </div>
+                    
+                </div>
+                <div class="col-lg-4">
+                  <div class="signup-righ-bg">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                      </div>
+                      <div class="carousel-inner pb-4 pb-md-5" >
+                        <div class="carousel-item active">
+                          <img src="{% static 'dist/img/svg/work.svg' %}" class="d-block mt-5 px-4" alt="...">
+                          <div class="d-md-block mt-4 px-4">
+                            <h5 class="signup-hding text-white text-center">Work and Earn at your pace!</h5>
+                            <p class="signup-prgh text-white text-center">Earn upto ₹50,000 a month easily with flexible timings.</p>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="{% static 'dist/img/svg/step.svg' %}" class="d-block mt-5 px-4" alt="...">
+                          <div class="d-md-block mt-4 px-4">
+                            <h5 class="signup-hding text-white text-center">Ready to take the Leap?</h5>
+                            <p class="signup-prgh text-white text-center">Simplify your insurance sales process and achieve new heights in the insurance industry.</p>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="{% static 'dist/img/svg/manage.svg' %}" class="d-block mt-5 px-4" alt="...">
+                          <div class="d-md-block mt-4 px-4">
+                            <h5 class="signup-hding text-white text-center">Manage all your insurance at one place!</h5>
+                            <p class="signup-prgh text-white text-center">Add your clients, send quotations, file claims and ensure good honest business, just in one place.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+    </body>
+{% endblock %}

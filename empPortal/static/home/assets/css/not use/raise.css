@@ -1,0 +1,104 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-bg{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19);
+padding: 2px 30px 0px 30px;
+}
+.Insuramcepro-dash{
+    font-size:28px;
+     font-weight: 600; 
+    font-family: sans-serif;
+}
+.Insuramcepro-dash-p{
+color: blue;
+}
+/*----------------------sidebar------------------css-------------start------------------*/
+.bg-sidebar{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19);
+    height : 100dvh;
+}
+ul > li {
+font-size: 14px;
+font-weight: 500;
+list-style-type: none;
+padding-top: 13px;
+
+} 
+ul > li > .sidebar-arrow{
+    float: right;
+}
+ul > li a{
+    color: rgb(70, 58, 58);
+    text-decoration: none;
+    padding: 7px 10px 7px 10px;
+    border-radius: 0px 20px 20px 0px;
+
+}
+ul > li:hover > a {
+    color: blue;
+    background-color: rgb(223, 218, 218);
+    
+}
+.sidebar-menu{margin: 0px;padding: 0px;}
+.sidebar-menu li a{display: flex;justify-content: space-between;}
+.sidebar-menu li a div i{margin-right: 5px;}
+.right-arrow{
+    font-size: 11px;
+}
+/*-------------------------------sidebar---------------------------end--------------------------*/
+
+.bg-raise-mappping{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19);
+    height : 100dvh;
+}
+.raise-mapping{
+    font-size:20px;
+     font-weight: 700; 
+     margin: 3px 0px 0px 5px;
+    font-family: sans-serif;
+}
+.star-color{
+    color: red;
+}
+label{
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0px 10px 6px 3px;
+    color: rgb(43, 61, 73);
+}
+.input-hit{
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    color: black;
+    background-color: transparent;
+    padding: 5px 10px 7px 10px;
+}
+.input-hit::placeholder{
+    color: black;
+    font-size: 12px;
+}
+.input-text-area{
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    color: black;
+    background-color: transparent;
+    padding: 5px 10px 7px 10px;
+}
+.raise-upload-file{
+    font-size: 16px;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+.raise-file-formate{
+    font-size: 16px; 
+    font-weight: 600;
+    padding-top: 7px;
+}

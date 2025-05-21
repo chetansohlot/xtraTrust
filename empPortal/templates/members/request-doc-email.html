@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document Request</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+    <div style="text-align: center;">
+        <img src="{{ logo_url }}" alt="{{ COMPANY_SHORT_NAME }} Logo" style="height: 60px; margin-bottom: 20px;">
+    </div>
+
+    <p>Dear {{ user.first_name|default:user.user_name }},</p>
+
+    <p>Welcome to <strong>{{ COMPANY_SHORT_NAME }}</strong>!</p>
+
+    <p>To activate your account and proceed with onboarding, we kindly request you to upload the following mandatory documents:</p>
+
+    <ul>
+        <li><strong>Aadhaar Card</strong> (Front and Back)</li>
+        <li><strong>PAN Card</strong></li>
+        <li><strong>Cancelled Cheque</strong></li>
+        <li><strong>10th Marksheet</strong></li>
+    </ul>
+
+    <p>You can upload these documents by logging into your account using your registered email: <strong>{{ user.email }}</strong>.</p>
+
+    <p>If you have already submitted your documents, kindly ignore this message. Our team will review and verify them shortly.</p>
+
+    <hr style="margin: 30px 0;">
+
+    <p><strong>Need Help?</strong><br>
+    📧 Email: <a href="mailto:{{ support_email }}">{{ support_email }}</a><br>
+    📞 Call/WhatsApp: {{ support_number }}</p>
+
+    <p>Visit our website: <a href="{{ company_website }}">{{ company_website }}</a></p>
+
+    <p>Thank you for choosing {{ COMPANY_SHORT_NAME }}.<br>
+    <strong>Team {{ COMPANY_SHORT_NAME }}</strong></p>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Material & Question Paper - {{ COMPANY_SHORT_NAME }}</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .question {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .header, .footer {
+            background: #003366;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+        .header h1, .footer p {
+            margin: 0;
+        }
+        .thank-you {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #3c763d;
+            text-align: center;
+        }
+        .nav-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #003366;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>{{ COMPANY_SHORT_NAME }} Training & Examination</h1>
+        <p>Empowering Agents with Knowledge</p>
+    </header>
+    <div class="container">
+        <section class="section" id="exam-section">
+            <h2>Examination - Question Paper</h2>
+            <form id="examForm">
+                <div id="question-container"></div>
+                <div class="nav-buttons">
+                    <button type="button" id="prevButton" onclick="prevQuestion()" disabled>Previous</button>
+                    <button type="button" id="nextButton" onclick="nextQuestion()">Next</button>
+                    <button type="button" id="submitButton" onclick="submitExam()" style="display: none;">Submit</button>
+                </div>
+            </form>
+        </section>
+        <div id="thank-you" class="thank-you">
+            Thank you for completing the exam!
+            Score : <span id="exam_score"></span>
+            Result : <span id="result"></span>
+            Attempt Questions : <span id="attempted_questions"></span>
+            <span id="greeting" class="text-red"></span>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2025 {{ COMPANY_SHORT_NAME }}. All Rights Reserved.</p>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        const questions = [
+            {% for question in questions %}
+                {
+                    question: "{{ question.question_text|escapejs }}",
+                    question_id: "{{ question.id|escapejs }}",
+                    options: [
+                    {% for option in question.options.all %}
+                        { text: "{{ option.option_text|escapejs }}",id:"{{option.id|escapejs}}"}
+                        {% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                    ]
+                }
+                {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        let currentQuestionIndex = 0;
+
+      
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+            const questionContainer = document.getElementById("question-container");
+        
+            questionContainer.innerHTML = `
+                <div class="question">${currentQuestionIndex + 1}. ${question.question}</div>
+                <div class="options">
+                    ${question.options.map((opt, index) => `
+                        <label>
+                            <input type="radio" name="q${question.question_id}" value="${opt.id}"
+                            ${selectedAnswers[question.question_id] == index+1 ? "checked" : ""}>
+                            ${opt.text}
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+        
+            document.getElementById("prevButton").disabled = currentQuestionIndex === 0;
+            document.getElementById("nextButton").style.display = currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
+            document.getElementById("submitButton").style.display = currentQuestionIndex === questions.length - 1 ? "inline-block" : "none";
+        }
+
+        let selectedAnswers = {}; 
+
+        function nextQuestion() {
+            saveSelectedAnswer();
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            saveSelectedAnswer();
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadQuestion);
+
+        function saveSelectedAnswer() {
+            let selectedOption = document.querySelector(`input[name="q${questions[currentQuestionIndex].question_id}"]:checked`);
+            if (selectedOption) {
+                selectedAnswers[questions[currentQuestionIndex].question_id] = selectedOption.value;
+            }
+        }
+        
+        function submitExam() {
+            let answers = [];
+            Object.entries(selectedAnswers).forEach(([question_id, selected_option]) => {
+                answers.push({
+                    question_id: question_id,
+                    selected_option: selected_option
+                });
+            });
+            $.ajax({
+                url: "{% url 'submit-exam' %}",
+                type: "POST",
+                contentType: "application/json",
+                headers: { "X-CSRFToken": getCSRFToken() }, // Ensure CSRF protection
+                data: JSON.stringify({ answers: answers }),
+                success: function(response) {
+                    $("#exam-section").hide();
+                    $("#thank-you").show();
+                    $('#exam_score').text(response.percentage)
+                    $('#result').text(response.result)
+                    $('#attempted_questions').text(response.attempted_questions)
+                  
+                    if (response.result === 'failed') {
+                        $('#greeting').text('Better luck next time!');
+                    } else {
+                        $('#greeting').text(response.greeting || 'Congratulations!');
+                    }
+                    
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+        function getCSRFToken() {
+            return document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
+        }
+
+    </script>
+</body>
+</html>

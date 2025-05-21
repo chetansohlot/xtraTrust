@@ -1,0 +1,92 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block content %}
+    <body>
+      <div class="checkout-bg">
+        <div class="container checkout-box">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="px-5 pb-3">
+                <img src="{% static 'dist/img/checkout-thankyou.png' %}" alt="" class="img-fluid">
+              </div>  
+              <div class="pl-md-5">
+                <h4 class="card-hding">Please confirm your details</h4>
+                <ul class="checkout-detail-list">
+                  <li>
+                    <img src="{% static 'dist/img/svg/smiley.svg' %}" alt="">
+                    <span>Ratnesh Kumar Sharma</span>
+                  </li>
+                  <li>
+                    <img src="{% static 'dist/img/svg/mobile.svg' %}" alt="">
+                    <span>9876543210</span>
+                  </li>
+                  <li>
+                    <img src="{% static 'dist/img/svg/email.svg' %}" alt="">
+                    <span>ratnesh@netleafinfosoft.com</span>
+                  </li>
+                </ul>
+                <div class="row">
+                  <div class="col-md-9 col-lg-7">
+                    <p>Confirm payee contact number</p>
+                    <input type="text" name="" class="form-field" value="9876543210" readonly>
+                    <div class="checkout-same-reg-mobile-number">
+                      <input type="checkbox" name="" id="same-register-mobile-number"  checked>
+                      <label for="same-register-mobile-number">Same as registered contact number</label>
+                    </div>
+                  </div>  
+                </div> 
+              </div>   
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex justify-content-between">
+                <h4 class="card-hding">Purchase Details</h4>
+                <p class="wrap-prgh text-gray mb-0">2 Item(s)</p>
+              </div>  
+              <div class="checkout-purchase-list-scrollbar">
+                <div class="purchase-list">
+                  <p class="font-weight-bold mb-0">NETnyx • 10 Members</p>
+                  <p class="wrap-prgh mb-0">Includes: Team Member</p>
+                  <a href="javascript:void(0)" class="small" data-toggle="modal" data-target="#checkout-payment-detail-modal">View Details</a>
+                </div>  
+                <div class="purchase-list">
+                  <p class="font-weight-bold mb-0">NETnyx • 4 Members</p>
+                  <p class="wrap-prgh mb-0">Includes: Team Member, Spouse and two</p>
+                  <a href="javascript:void(0)" class="small">View Details</a>
+                </div>  
+              </div>  
+              <h4 class="card-hding text-primary">Billing Summary</h4>
+              <div class="checkout-price-box">
+                <ul class="checkout-price-list">
+                  <li>
+                    <span class="checkout-detail">Charge for the period</span>
+                    <span class="checkout-price">₹2,744</span>
+                  </li>
+                  <li>
+                    <span class="checkout-detail">GST (18%)</span>
+                    <span class="checkout-price">₹494</span>
+                  </li>
+                  <li>
+                    <span class="checkout-detail">Total Amount</span>
+                    <span class="checkout-price">₹3,238</span>
+                  </li>
+                </ul>
+              </div>
+              <p class="wrap-prgh pt-3">In case of queries, please send mail to support@netinsurancepro.com</p>
+              <div class="d-flex justify-content-end mt-4">
+                <button type="button" class="dashboard-addbtn">Pay ₹3,238</button>
+              </div>   
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+{% include "footer-script.html" %}
+{% endblock  %}
+
+
+

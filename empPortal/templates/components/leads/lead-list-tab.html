@@ -1,0 +1,11 @@
+<ul class="nav nav-pills profile-tab">
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if motor_active %}active{% endif %}" href="{% url 'leads-mgt' %}">MOTOR</a>
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if health_active %}active{% endif %}" href="{% url 'health-lead' %}">HEALTH</a>
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if term_active %}active{% endif %}" href="{% url 'term-lead' %}">TERM</a>
+    </li>
+</ul>

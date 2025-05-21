@@ -1,0 +1,210 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Policy Data
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-12 col-md-6">
+            <h2 class="admin-title m-0 pt-2 text-dark">Policy Logs </h2>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li> <a href="#">Post Policies Mgt</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Policy Log</li>
+            </ul>
+          </div>
+          <div class="col-md-6">  
+            <div class="d-flex align-items-center justify-content-end">
+              <div>
+                <a href="#" class="breadcrump-addbtn mx-1">Add Bulk Policy</a>
+                <a href="#" class="breadcrump-addbtn mx-1">Add Policy</a>
+                <a href="#" class="breadcrump-addbtn mx-1">View Policy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 col-sm-4 col-md-3">
+              <div class="card counter-img-card active">
+                  <div class="card-body">
+                      <p class="card-text">File Uploaded</p>
+                      <h5 class="card-title card-number">{{ total_files }}</h5>
+                  </div>
+              </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-info">File Reading</p>
+                <h5 class="card-title card-number text-info">{{ status_counts.1|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text success-color">Reading Complete</p>
+                <h5 class="card-title card-number success-color">{{ status_counts.2|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text warning-color">File Analysing</p>
+                <h5 class="card-title card-number warning-color">{{ status_counts.3|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-primary">File Analysed</p>
+                <h5 class="card-title card-number text-primary">{{ status_counts.4|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-dark">Policy Creating</p>
+                <h5 class="card-title card-number text-dark">{{ status_counts.5|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text success-color">Complete</p>
+                <h5 class="card-title card-number success-color">{{ status_counts.6|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text danger-color">Duplicate File</p>
+                <h5 class="card-title card-number danger-color">{{ status_counts.7|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="table-responsive table-ht">
+                      
+                       <!-- Logs Table -->
+                    <table class="table table-design">
+                      <thead class="table-thead-bg-light table-header-fix">
+                        <tr>
+                          <th>Campaign Name</th>
+                          <!-- <th>View Uploaded Files</th> -->
+                          
+                          <!-- <th>File Info</th> -->
+                          <th>Files Data</th>
+                          <!-- <th>PDF Files</th>
+                          <th>Non-PDF Files</th> -->
+                          <th>Result</th>
+                          <!-- <th>Uploaded Files</th> -->
+                          <th>Date of Upload</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for log in logs %}
+                          <tr>
+                            <td>{{ log.camp_name }} </td>
+                            
+                            <!-- <td>
+                              <div class="bulk-info">
+                                {{ log.file_name }}
+                                
+                              </div>   
+                            </td> -->
+                            <td>
+                              Total : {{ log.count_total_files }} <br>
+                              PDF : {{ log.count_pdf_files }} <br>
+                              Non PDF : {{ log.count_not_pdf }}
+                            </td>
+                            <td>
+                              Error : {{ log.count_error_pdf_files }} / {{ log.count_error_process_pdf_files }} <br>
+                              Success : {{ log.count_uploaded_files }}
+                            </td>
+                            <td>{{ log.created_date }}</td>
+                            <td>
+                              {% if log.status == 1 %}
+                                <span class="badge badge-info">Zip Uploaded</span>
+                              {% elif log.status == 2 %}
+                                <span class="badge badge-dark">In Progress</span>
+                              {% elif log.status == 3 %}
+                                <span class="badge badge-success">Complete</span>
+                              {% else %}
+                                <span class="badge badge-warning">Pending</span>
+                              {% endif %}
+                            </td>
+                            <td>
+                              <div class="action-btns">
+                                <a href="#" class="btn btn-primary btn-xs"><i class="fas fa-eye"></i></a>
+                                <a href="#" target="_blank" class="btn btn-success btn-xs"><i class="fa-solid fa-download"></i> </a>
+                              </div>  
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+</body>
+
+{% endblock %}

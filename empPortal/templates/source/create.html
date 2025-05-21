@@ -1,0 +1,108 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Create Source
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header breadcrump-bg">
+                <div class="container-fluid">
+                    <div class="row py-2">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Create Source</a>
+                            </div>
+                            <ul class="breadcrump">
+                                <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                                <li> <a href="{% url 'source_list' %}">Source</a> <i class="fas fa-chevron-right"></i></li>
+                                <li>Add Source</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-end">
+                              <a href="{% url 'source_list' %}" class="breadcrump-addbtn">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <!-- /.content-header -->
+    
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card box-shadow-none p-md-5 p-3">
+                                <div class="card-body px-0 pb-0 pt-0">
+                                    <form autocomplete="off" id="sourceForm" name="sourceForm"
+                                          action="{% if source %}{% url 'source_edit' source.id %}{% else %}{% url 'source_create' %}{% endif %}"
+                                          method="post">
+                                        {% csrf_token %}
+
+                                        <div class="row">
+                                            <!-- Source Name -->
+                                            <div class="form-group col-md-6">
+                                                <label for="source_name">Source Name</label>
+                                                <input type="text" class="form-control" name="source_name" id="source_name" 
+                                                       placeholder="Enter Source Name" maxlength="255"
+                                                       value="{{ source.source_name|default_if_none:'' }}">
+                                            </div>
+
+                                            <!-- Sort Source Name -->
+                                            <div class="form-group col-md-6">
+                                                <label for="sort_source_name">Sort Source Name</label>
+                                                <input type="text" class="form-control" name="sort_source_name" id="sort_source_name" 
+                                                       placeholder="Enter Sort Source Name" maxlength="255"
+                                                       value="{{ source.sort_source_name|default_if_none:'' }}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <button type="submit" class="btn btn-primary mt-3">
+                                            {% if source %}Update Source{% else %}Add Source{% endif %}
+                                        </button>
+                                    </form>
+                                </div>
+                                <div id="loader" class="form-loader" style="display: none;">
+                                    <div>
+                                        <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                                        <span class="visually-hidden d-block pt-2">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+        document.getElementById("sourceForm").addEventListener("submit", function() {
+            document.getElementById("loader").style.display = "flex";
+        });
+    </script>
+</body>
+
+{% endblock %}

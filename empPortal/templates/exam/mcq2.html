@@ -1,0 +1,16 @@
+function loadQuestion() {
+    const questionContainer = document.getElementById("question-container");
+    questionContainer.innerHTML = `
+        <div class="question">${currentQuestionIndex + 1}. ${questions[currentQuestionIndex].question}</div>
+        <div class="options">
+        ${questions[currentQuestionIndex].options.map((opt, index) => `
+            <label>
+                    <input type="radio" name="q${questions[currentQuestionIndex].question_id}" value="${index}"> ${opt.text}
+                </label>
+            `).join('')}
+        </div>
+    `;
+    document.getElementById("prevButton").disabled = currentQuestionIndex === 0;
+    document.getElementById("nextButton").style.display = currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
+    document.getElementById("submitButton").style.display = currentQuestionIndex === questions.length - 1 ? "inline-block" : "none";
+}

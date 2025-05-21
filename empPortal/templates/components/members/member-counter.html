@@ -1,0 +1,184 @@
+{% if request.user.department_id|stringformat:"s" != "1" %}
+
+<div class="row">
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card active">
+          <a href="{% url 'members' %}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Total Partners</p>
+                <h5 class="card-title card-number">
+                  {{ counters.total }}</h5>
+              </div>
+            </div>
+          </div>
+          </a>
+        </div>
+       
+    </div>  
+
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-active-card">
+          <a href="{% url 'members_activated' %}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Activated Partners</p>
+                <h5 class="card-title card-number">
+                  {{ counters.activated }}</h5>
+              </div>
+            </div>
+          </div>
+        </a> 
+        </div> 
+    </div> 
+
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-active-card">
+          <a href="{% url 'members_requested'%}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Registered Partners</p>
+                <h5 class="card-title card-number">
+                  {{ counters.requested }}</h5>
+              </div>
+            </div>
+          </div>
+        </a> 
+        </div>
+     
+    </div>  
+
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-active-card">
+          <a href="{%url 'members_document_upload'%}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Document Upload</p>
+                <h5 class="card-title card-number">
+                  {{ counters.doc_upload }}</h5>
+              </div>
+            </div>
+          </div>
+        </a> 
+        </div> 
+    </div>  
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-active-card">
+          <a href="{%url 'members_document_pending_upload'%}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Document In-Pending</p>
+                <h5 class="card-title card-number">
+                  {{ counters.pending_docs }}</h5>
+              </div>
+            </div>
+          </div>
+        </a> 
+        </div> 
+    </div>  
+
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-deactive-card">
+          <a href="{%url 'members_intraining'%}"> 
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">In-Training Partners</p>
+                <h5 class="card-title card-number">
+                   {{ counters.in_training }}</h5>
+              </div>
+            </div>
+          </div>
+        </a> 
+        </div> 
+    </div> 
+
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-deactive-card">
+          <a href="{%url 'members_inexam'%}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">In-Exam Partners</p>
+                <h5 class="card-title card-number">
+                  {{ counters.in_exam }}</h5>
+              </div>
+            </div>
+          </div>
+        </a>
+        </div> 
+    </div> 
+
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-deactive-card">
+          <a href="{%url 'members_rejected'%}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Rejected Partners</p>
+                <h5 class="card-title card-number">
+                  {{ counters.rejected }}</h5>
+              </div>
+            </div>
+          </div>
+        </a> 
+        </div> 
+    </div> 
+
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="#">
+        <div class="card counter-img-card counter-deactive-card">
+          <a href="{% url 'members_inactive' %}" >
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">InActive Partners</p>
+                <h5 class="card-title card-number">
+                  {{ counters.inactive }}</h5>
+              </div>
+            </div>
+          </div>
+        </a> 
+        </div>
+    </div>   
+</div>
+
+  {% else %}     
+  <div class="row">
+    <div class="col-xs-6 col-sm-4 col-md-2">
+      <a href="{% url 'members_requested' %}">
+        <div class="card counter-img-card active">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Activated Partners</p>
+                <h5 class="card-title card-number">
+                  {% if not request.user.department_id or request.user.department_id != "1" %}
+                    {{ counters.activated }}
+                  {% else %}
+                    {{ active_agents|default:0 }}
+                  {% endif %}
+
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  {% endif %}     

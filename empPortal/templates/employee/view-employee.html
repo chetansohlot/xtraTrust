@@ -1,0 +1,449 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+View Employee
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">View Employee</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Employee</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>View Employee</li>
+                </ul>
+              </div>
+                
+                <div class="col-sm-6 d-flex justify-content-end align-items-start">
+                  <a href="{% url 'employee-management' %}" class="breadcrump-addbtn mt-2">
+                     Go Back
+                  </a>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content px-0">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-4 px-0">
+                <div class="card member-detail-left-card">
+                  <div class="card-body box-profile">
+                    <!-- Example profile image section if you have it, otherwise keep default -->
+                    <!-- 
+                    {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="Profile Image" class="card-profile-img">
+                    {% else %}
+                        <img src="{% static 'dist/img/svg/profile-avatar-male.svg' %}" alt="Default Profile" class="card-profile-img">
+                    {% endif %}
+                    -->
+
+                    <h3 class="profile-username text-center">
+                        {{ employee.first_name }} {{ employee.last_name }} ({{ employee.gender }})
+                          {% if request.user.department_id|stringformat:"s" != "1" %}
+
+                          <a href="{% url 'employee-management-update' employee_id=employee.user_id %}" class="ms-2 text-primary" title="Edit Employee">
+                            <i class="fa fa-edit"></i>
+                          </a>
+                          {% endif %}     
+
+                    </h3>
+                    <div class="d-flex justify-content-center mt-2">
+                        <span class="text-muted">DOB: {{ employee.date_of_birth|date:"d-m-Y" }}</span>
+                    </div>  
+                    <div class="profile-info-divider"></div>
+                    <ul class="member-detail-list">
+                        <li>
+                            <span class="list">PAN No</span>
+                            <span class="list-output">{{ employee.pan_card }}</span>
+                        </li>
+                        <li>
+                            <span class="list">Aadhaar No.</span>
+                            <span class="list-output">{{ employee.aadhaar_card }}</span>
+                        </li>
+                        <li>
+                            <span class="list">Employee Code</span>
+                            <span class="list-output">
+                                {% if employment_info %}
+                                    {{ employment_info.employee_code }}
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="list">Designation</span>
+                            <span class="list-output">
+                                {% if employment_info %}
+                                    {{ employment_info.designation }}
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="list">Date of Joining</span>
+                            <span class="list-output">
+                                {% if employment_info %}
+                                    {{ employment_info.date_of_joining|date:"d-m-Y" }}
+                                {% endif %}
+                            </span>
+                        </li>
+
+                        <li>
+                            <span class="list">Mobile Number</span>
+                            <span class="list-output">{{ employee.mobile_number }}</span>
+                        </li>
+                        <li>
+                            <span class="list">E-mail</span>
+                            <span class="list-output">{{ employee.email_address }}</span>
+                        </li>
+                        <li>
+                            <span class="list">Blood Group</span>
+                            <span class="list-output">{{ employee.blood_group }}</span>
+                        </li>
+                        <li>
+                            <span class="list">Marital Status</span>
+                            <span class="list-output">{{ employee.marital_status }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                </div>
+              </div>
+              <div class="col-md-8 px-0">
+                <div class="card member-detail-right-card">
+                  <ul class="nav nav-pills profile-tab">
+                    <li class="nav-item text-bold"><a class="nav-link active" href="#address-tab" data-toggle="tab">Address</a></li>
+                    <li class="nav-item text-bold"><a class="nav-link" href="#family-details-tab" data-toggle="tab">Family Details</a></li>
+                    <li class="nav-item text-bold"><a class="nav-link" href="#reference-tab" data-toggle="tab">Reference </a></li>
+                    <li class="nav-item text-bold"><a class="nav-link" href="#allocation-tab" data-toggle="tab">Allocations </a></li>
+                    
+                    <!-- <li class="nav-item text-bold"><a class="nav-link" href="#address-tab" data-toggle="tab">Documents</a></li> -->
+                  </ul>
+                                <!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="tab-content tab-scrollbar">
+                      <div class="active tab-pane" id="address-tab">
+                        <div class="row mt-3">
+                          <div class="col-md-12">
+                            <h2 class="admin-title border-bottom pb-2 mb-4">Permanent Address</h2>
+                          </div>
+                          {% if permanent_address %}
+                            <div class="col-md-6">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">Address</p>
+                                <p class="userdetail-highligt">{{ permanent_address.address }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">State</p>
+                                <p class="userdetail-highligt">{{ permanent_address.get_state.name }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">City</p>
+                                <p class="userdetail-highligt">{{ permanent_address.get_city.city }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">Pincode</p>
+                                <p class="userdetail-highligt">{{ permanent_address.pincode }}</p>
+                              </div>
+                            </div>
+                          {% else %}
+                            <p>No permanent address available.</p>
+                          {% endif %}
+
+                          <div class="col-md-12">
+                            <h2 class="admin-title border-bottom pb-2 my-4">Correspondence Address</h2>
+                          </div>
+                          {% if correspondence_address %}
+                            <div class="col-md-6">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">Address</p>
+                                <p class="userdetail-highligt">{{ correspondence_address.address }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">State</p>
+                                <p class="userdetail-highligt">{{ correspondence_address.get_state.name }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">City</p>
+                                <p class="userdetail-highligt">{{ correspondence_address.get_city.city }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">Pincode</p>
+                                <p class="userdetail-highligt">{{ correspondence_address.pincode }}</p>
+                              </div>
+                            </div>
+                          {% else %}
+                            <p>No correspondence address available.</p>
+                          {% endif %}
+                        </div>
+
+                      </div>
+                      <div class="tab-pane" id="family-details-tab">
+                        <div class="row mt-3">
+                          <div class="col-md-12">
+                            <h2 class="admin-title border-bottom pb-2 mb-4">Family Details</h2>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="table-responsive">
+                              <table class="table table-design">
+                                <thead class="table-thead-bg-light table-header-fix">
+                                  <tr>
+                                    <th>Relation</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Date of Birth</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for member in family_members %}
+                                  <tr>
+                                    <th>{{ member.relation }}</th>
+                                    <td>{{ member.first_name }}</td>
+                                    <td>{{ member.last_name }}</td>
+                                    <td>{{ member.date_of_birth|date:"d-m-Y" }}</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                    <td colspan="4" class="text-center">No family details available.</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>  
+                          </div>
+                        </div>
+
+                      </div>
+                      
+                      <div class="tab-pane" id="reference-tab">
+                        <!-- Personal Details -->
+                        <div class="row mt-3">
+                          <div class="col-md-12">
+                            <h2 class="admin-title border-bottom pb-2 mb-4">Reference Details</h2>
+                          </div>
+                          <div class="table-responsive">
+                            <table class="table table-design">
+                              <thead class="table-thead-bg-light table-header-fix">
+                                <tr>
+                                  <th>Relation</th>
+                                  <th>First Name</th>
+                                  <th>Last Name</th>
+                                  <th>Mobile No.</th>
+                                  <th>Email</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% if references %}
+                                  {% for ref in references %}
+                                  <tr>
+                                    <td>{{ ref.relation }}</td>
+                                    <td>{{ ref.first_name }}</td>
+                                    <td>{{ ref.last_name }}</td>
+                                    <td>{{ ref.mobile_number }}</td>
+                                    <td>{{ ref.email_address }}</td>
+                                  </tr>
+                                  {% endfor %}
+                                {% else %}
+                                  <tr>
+                                    <td colspan="5" class="text-center">No references found.</td>
+                                  </tr>
+                                {% endif %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <!-- Edit Button -->
+                      </div>
+                      <div class="tab-pane" id="allocation-tab">
+                        <div class="row mt-3">
+                          <div class="col-md-12">
+                            <h2 class="admin-title border-bottom pb-2 mb-4">Allocation Details</h2>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="userdetail-group">
+                              <p class="userdetail-lbl">Branch</p>
+                              <p class="userdetail-highligt">
+                                {{ user.branch.branch_name|default:"N/A" }}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="userdetail-group">
+                              <p class="userdetail-lbl">Role</p>
+                              <p class="userdetail-highligt">
+                                {{ user.role.roleName|default:user.role_name|default:"N/A" }}
+                              </p>
+                            </div>
+                          </div>
+                          {% if user.role_id|stringformat:"s" >= "5" %}
+                          
+                            <div class="col-md-4">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">Department</p>
+                                <p class="userdetail-highligt">
+                                  {% if user.department %}
+                                    {{ user.department.name }}
+                                  {% else %}
+                                    N/A
+                                  {% endif %}
+                                </p>
+                              </div>
+                            </div>
+                          {% elif user.role_id|stringformat:"s" >= "6" %}
+
+                            <div class="col-md-4">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">Manager</p>
+                                <p class="userdetail-highligt">
+                                  {% if manager_details %}
+                                    {{ manager_details.first_name }} {{ manager_details.last_name }}
+                                  {% else %}
+                                    N/A
+                                  {% endif %}
+                                </p>
+                              </div>
+                            </div>
+                          {% elif user.role_id|stringformat:"s" == "7" %}
+
+                            <div class="col-md-4">
+                              <div class="userdetail-group">
+                                <p class="userdetail-lbl">Team Leader</p>
+                                <p class="userdetail-highligt">
+                                  {% if senior_details %}
+                                    {{ senior_details.first_name }} {{ senior_details.last_name }}
+                                  {% else %}
+                                    N/A
+                                  {% endif %}
+                                </p>
+                              </div>
+                            </div>
+                          {% endif %}
+                          
+                          <div class="col-md-4">
+                            <div class="userdetail-group">
+                              <p class="userdetail-lbl">Annual CTC</p>
+                              <p class="userdetail-highligt">
+                                {{ user.annual_ctc|default:"N/A" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="userdetail-group">
+                              <p class="userdetail-lbl">Monthly CTC</p>
+                              <p class="userdetail-highligt">
+                                {{ user.monthly_ctc|default:"N/A" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="userdetail-group">
+                              <p class="userdetail-lbl">Annual Target</p>
+                              <p class="userdetail-highligt">
+                                {{ user.target_amt|default:"N/A" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="userdetail-group">
+                              <p class="userdetail-lbl">Monthly Target</p>
+                              <p class="userdetail-highligt">
+                                {{ user.monthly_target_amt|default:'N/A' }}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </div>
+
+        </div>
+      </div>
+    </div>
+        
+
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#role').change(function() {
+                var roleId = $(this).val();
+                var userSelect = $('#senior');
+
+                if (roleId) {
+                    $.ajax({
+                        url: "{% url 'get_users_by_role' %}",
+                        type: 'GET',
+                        data: { 'role_id': roleId },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(response) {
+                            userSelect.empty();
+                            userSelect.append('<option value="">Select User</option>');
+                            if (response.users && response.users.length > 0) {
+                                $.each(response.users, function(index, user) {
+                                    userSelect.append(
+                                        `<option value="${user.id}">${user.full_name}</option>`
+                                    );
+                                });
+                            } else {
+                                userSelect.append('<option value="">No users available</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching users');
+                        }
+                    });
+                } else {
+                    userSelect.empty().append('<option value="">Select User</option>');
+                }
+            });
+        });
+</script>
+</body>
+
+
+
+{% endblock %}

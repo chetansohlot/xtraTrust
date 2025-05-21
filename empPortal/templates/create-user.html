@@ -1,0 +1,186 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Members
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Members</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                
+                <ul class="stepflow-text">
+                    <li class="active"><a href="#link1"><span>Create User</span></a></li>
+                    <li><a href="#link2"><span>Allocation Details</span></a></li>
+                </ul>
+                <ul class="new-stepflow">
+                    <li><a href="#link1"></a></li>
+                    <li><a href="#link2"></a></li>
+                </ul>
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    <form autocomplete="off" id="myForm" name="saveUser" action="/insert-user/" method="post">
+                      {% csrf_token %}
+                        <div class="row">
+
+                            <div class="form-group col-sm-6">
+                                <label for="username">User Name</label>
+                                <input type="text" class="form-control username" name="username" id="username" placeholder="Username">
+                                <span class="error username_err"></span>
+                            </div>
+                            
+                            <div class="form-group col-sm-6">
+                                <label for="first_name">First Name</label>
+                                <input type="text" class="form-control firstname" name="first_name" id="first_name" placeholder="First Name">
+                                <span class="error first_name_err"></span>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" class="form-control name" name="last_name" id="last_name" placeholder="Last Name">
+                                <span class="error last_name_err"></span>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control email" name="email" id="email" placeholder="Email">
+                                <span class="error email_err"></span>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control mobile" name="phone" id="phone" placeholder="Phone" maxlength="10">
+                                <span class="error phone_err"></span>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="department">Department</label>
+                                <select class="form-control" name="department" id="department">
+                                    <option value="">Select Department</option>
+                                    {% if departments %}
+                                        {% for department in departments %}
+                                            <option value={{ department.id }}>{{ department.name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="branch">Branch</label>
+                                <select class="form-control" name="branch" id="branch">
+                                    <option value="">Select Branch</option>
+                                    {% if branches %}
+                                        {% for branch in branches %}
+                                            <option value={{ branch.id }}>{{ branch.branch_name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="role">Role</label>
+                                <select class="form-control" name="role" id="role">
+                                    <option value="">Select Role</option>
+                                    {% if role_data %}
+                                        {% for rl in role_data %}
+                                            <option value={{ rl.id }}>{{ rl.roleName }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="role">Select Senior</label>
+                                <select class="form-control" name="senior" id="senior">
+                                    <option value="">Select Senior</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                              <label for="password">Password</label>
+                              <input type="text" class="form-control password" name="password" id="password" placeholder="password" maxlength="10">
+                              <span class="error password_err"></span>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save User</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#role').change(function() {
+                var roleId = $(this).val();
+                var userSelect = $('#senior');
+
+                if (roleId) {
+                    $.ajax({
+                        url: "{% url 'get_users_by_role' %}",
+                        type: 'GET',
+                        data: { 'role_id': roleId },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(response) {
+                            userSelect.empty();
+                            userSelect.append('<option value="">Select User</option>');
+                            if (response.users && response.users.length > 0) {
+                                $.each(response.users, function(index, user) {
+                                    userSelect.append(
+                                        `<option value="${user.id}">${user.full_name}</option>`
+                                    );
+                                });
+                            } else {
+                                userSelect.append('<option value="">No users available</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching users');
+                        }
+                    });
+                } else {
+                    userSelect.empty().append('<option value="">Select User</option>');
+                }
+            });
+        });
+</script>
+</body>
+{% endblock %}

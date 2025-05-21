@@ -1,0 +1,296 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Address
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Address</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Employee</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add Address</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                  {% include 'employee/common-link.html' with step=2 %}
+
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    
+                    <form autocomplete="off" id="employeeForm"
+                          action="{% url 'employee-management-update-address' employee.employee_id %}" method="post">
+                      {% csrf_token %}
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h2 class="admin-title border-bottom pb-2 mb-4">Permanent Address</h2>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                          <label class="form-lbl">Permanent Address</label>
+                          <textarea rows="3" name="permanent_address" id="permanent_address" class="form-field"
+                                    placeholder="Permanent Address">{{ permanent.address }}</textarea>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4">
+                          <label class="form-lbl">State</label>
+                          <select name="permanent_state" id="permanent_state" class="form-field" required>
+                            <option value="">Select State</option>
+                            {% for state in states %}
+                              <option value="{{ state.id }}" {% if state.id|stringformat:"s" == permanent.state|stringformat:"s" %}selected{% endif %}>
+                                {{ state.name }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+
+                                            
+                        <div class="form-group col-sm-6 col-md-4">
+                          <label class="form-lbl">City</label>
+                          <select name="permanent_city" id="permanent_city" class="form-field" required>
+                            <option value="">Select City</option>
+                            {% for city in permanent_cities %}
+                              <option value="{{ city.id }}" {% if city.id|stringformat:"s" == permanent.city|stringformat:"s" %}selected{% endif %}>
+                                {{ city.city }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4">
+                          <label class="form-lbl">Pincode</label>
+                          <input type="text" name="permanent_pincode" id="permanent_pincode" class="form-field"
+                                placeholder="Pincode" maxlength="6" value="{{ permanent.pincode }}">
+                        </div>
+
+                        <div class="col-md-12 mt-5">
+                          <h2 class="admin-title border-bottom pb-2 mb-4">Correspondence Address</h2>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                          <label class="form-lbl">Correspondence Address</label>
+                          <textarea rows="3" name="correspondence_address" id="correspondence_address" class="form-field"
+                                    placeholder="Correspondence Address">{{ correspondence.address }}</textarea>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4">
+                          <label class="form-lbl">State</label>
+                          <select name="correspondence_state" id="correspondence_state" class="form-field" >
+                            <option value="">Select State</option>
+                            {% for state in states %}
+                              <option value="{{ state.id }}" {% if state.id|stringformat:"s" == correspondence.state|stringformat:"s" %}selected{% endif %}>
+                                {{ state.name }}
+                            </option>
+
+                            {% endfor %}
+                          </select>
+                        </div>
+
+
+                                                
+                        <div class="form-group col-sm-6 col-md-4">
+                          <label class="form-lbl">City</label>
+                          <select name="correspondence_city" id="correspondence_city" class="form-field" >
+                            <option value="">Select City</option>
+                            {% for city in correspondence_cities %}
+                              <option value="{{ city.id }}" {% if city.id|stringformat:"s" == correspondence.city|stringformat:"s" %}selected{% endif %}>
+                                {{ city.city }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4">
+                          <label class="form-lbl">Pincode</label>
+                          <input type="text" name="correspondence_pincode" id="correspondence_pincode" class="form-field"
+                                placeholder="Pincode" maxlength="6" value="{{ correspondence.pincode }}">
+                        </div>
+                      </div>
+
+                      <div class="d-flex justify-content-between mt-4">
+                      <a href="{% url 'employee-management-update' employee_id=employee.user_id %}" class="btn btn-secondary"> Back</a>
+                        <button type="submit" class="form-submit-btn">Update Addresses</button>
+                      </div>
+                    </form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $("#employeeForm").validate({
+        rules: {
+            permanent_address: {
+                required: true,
+                minlength: 5
+            },
+            permanent_state: {
+                required: true
+            },
+            permanent_city: {
+                required: true
+            },
+            permanent_pincode: {
+                required: true,
+                digits: true,
+                minlength: 6,
+                maxlength: 6
+            },
+            correspondence_address: {
+                minlength: 5
+            },
+            correspondence_pincode: {
+                digits: true,
+                minlength: 6,
+                maxlength: 6
+            }
+        },
+        messages: {
+            permanent_address: "Enter permanent address",
+            permanent_state: "Enter state",
+            permanent_city: "Enter city",
+            permanent_pincode: {
+                required: "Enter pincode",
+                digits: "Only digits allowed",
+                minlength: "6 digits required",
+                maxlength: "6 digits required"
+            },
+            correspondence_pincode: {
+                digits: "Only digits allowed",
+                minlength: "6 digits required",
+                maxlength: "6 digits required"
+            }
+        },
+        errorElement: "span",
+        errorClass: "text-danger",
+        highlight: function (element) {
+            $(element).addClass("is-invalid");
+        },
+        unhighlight: function (element) {
+            $(element).removeClass("is-invalid");
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+</script>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#role').change(function() {
+                var roleId = $(this).val();
+                var userSelect = $('#senior');
+
+                if (roleId) {
+                    $.ajax({
+                        url: "{% url 'get_users_by_role' %}",
+                        type: 'GET',
+                        data: { 'role_id': roleId },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(response) {
+                            userSelect.empty();
+                            userSelect.append('<option value="">Select User</option>');
+                            if (response.users && response.users.length > 0) {
+                                $.each(response.users, function(index, user) {
+                                    userSelect.append(
+                                        `<option value="${user.id}">${user.full_name}</option>`
+                                    );
+                                });
+                            } else {
+                                userSelect.append('<option value="">No users available</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching users');
+                        }
+                    });
+                } else {
+                    userSelect.empty().append('<option value="">Select User</option>');
+                }
+            });
+        });
+</script>
+
+
+<script>
+$(document).ready(function() {
+    // On change of state (for permanent and correspondence)
+    $('#permanent_state, #correspondence_state').change(function() {
+        var stateId = $(this).val();
+        var citySelect = $(this).attr('id') == 'permanent_state' ? '#permanent_city' : '#correspondence_city';
+
+        if (stateId) {
+            // Send AJAX request to fetch cities based on state
+            $.ajax({
+                url: "{% url 'get_cities' %}",  // URL to handle AJAX request
+                method: 'GET',
+                data: { state_id: stateId },
+                success: function(response) {
+                    // Clear the city dropdown and append new cities
+                    $(citySelect).empty().append('<option value="">Select City</option>');
+
+                    if (response.cities && response.cities.length > 0) {
+                        $.each(response.cities, function(index, city) {
+                            $(citySelect).append('<option value="' + city.id + '">' + city.city + '</option>');
+                        });
+                    }
+                },
+                error: function() {
+                    // Handle any error that occurs during the AJAX request
+                    Swal.fire('Error', 'Unable to fetch cities. Please try again later.', 'error');
+                }
+            });
+        } else {
+            $(citySelect).empty().append('<option value="">Select City</option>');
+        }
+    });
+});
+</script>
+</body>
+{% endblock %}

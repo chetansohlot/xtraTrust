@@ -1,0 +1,281 @@
+<div class="tab-pane" id="previous-policy-info-tab">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="admin-title pb-2 mb-3 border-bottom">Previous Policy Information</h2>
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Policy Number</p>
+                <p class="userdetail-highligt">
+                    {{lead.policy_number|default:"N/A"}}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Previous Insurer Name</p>
+                <p class="userdetail-highligt">
+                    {{lead.previous_insurer_name|default:"N/A"}}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Policy Type</p>
+                <p class="userdetail-highligt">
+                    {% if lead.policy_type == 1 %}
+                        Comprehensive
+                    {% elif lead.policy_type == 2 %}
+                        Third Party
+                    {% elif lead.policy_type == 3 %}
+                        OD Only
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Policy Start Date</p>
+                <p class="userdetail-highligt">
+                    {{ lead.policy_date|date:'d-m-Y' |default:"N/A"}}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Policy End Date</p>
+                <p class="userdetail-highligt">
+                    {{ lead.policy_end_date|date:'d-m-Y'|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Expiry Status</p>
+                <p class="userdetail-highligt">
+                    {% if lead.expiry_status == "Expired" %}
+                        Expired
+                    {% elif lead.expiry_status == "Active" %}
+                        Active
+                    {% elif lead.expiry_status == "Grace" %}
+                        Grace Period
+                    {% else %}
+                        N/A
+                    {% endif %}
+                    
+                    {{ lead.expiry_status|default:"N/A"}}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">No Claim Bonus (NCB)</p>
+                <p class="userdetail-highligt">
+                    {% if lead.ncb == "1" %}
+                        0%
+                    {% elif lead.ncb == "2" %}
+                        20%
+                    {% elif lead.ncb == "3" %}
+                        25%
+                    {% elif lead.ncb == "4" %}
+                        35%
+                    {% elif lead.ncb == "5" %}
+                        45%
+                    {% elif lead.ncb == "6" %}
+                        50%
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Previous IDV (for Motor)</p>
+                <p class="userdetail-highligt">
+                    ₹{{ lead.previous_idv|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Previous Sum Insured (for Health)</p>
+                <p class="userdetail-highligt">
+                    ₹{{ lead.previous_sum_insured|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Claims Made</p>
+                <p class="userdetail-highligt">
+                    {% if lead.claim_made == "1"  %}
+                        Yes
+                    {% elif lead.claim_made == "2"  %}
+                        No                                                  
+                    {% else %}
+                        N/A
+                    {% endif %}
+                    
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Claim Amount </p>
+                <p class="userdetail-highligt">
+                    ₹{{ lead.claim_amount|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Copy of Previous Policy </p>
+                <p class="userdetail-highligt">
+                    <!--Uploaded File <a href="#">View</a>-->
+                    {% if lead.previous_policy_copy %}
+                        <a href="{{ lead.previous_policy_copy.url }}" target="_blank">View File</a>
+                    {% else %}
+                        No File Uploaded
+                {% endif %}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Previous Policy Source </p>
+                <p class="userdetail-highligt">
+                    {% if lead.previous_policy_source == "1" %}
+                        Agent
+                    {% elif lead.previous_policy_source == "2" %}
+                        Online
+                    {% elif lead.previous_policy_source == "3" %}
+                        Dealer
+                    {% elif lead.previous_policy_source == "4" %}
+                        Direct
+                    {% elif lead.previous_policy_source == "5" %}
+                        Aggregator
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Vehicle Type </p>
+                <p class="userdetail-highligt">
+                    {% if lead.vehicle_type == "1" %}
+                        Private
+                    {% elif lead.vehicle_type == "2" %}
+                        Commercial                              
+                    {% elif lead.vehicle_type == "3" %}
+                        Other                         
+                    {% else %}
+                        N/A                       
+                    {% endif %}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Vehicle Class </p>
+                <p class="userdetail-highligt">
+                    {% if lead.vehicle_class == "1" %}
+                        Two-Wheeler
+                    {% elif lead.vehicle_class == "2" %}
+                        Four-Wheeler 
+                    {% elif lead.vehicle_class == "3" %}
+                    Other
+                    {% endif %}
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Insurance Type </p>
+                <p class="userdetail-highligt">
+                    {% if lead_data.insurance_type == "1" %}
+                        Motor
+                    {% elif lead_data.insurance_type == "2" %}
+                        Health
+                    {% elif lead_data.insurance_type == "3" %}
+                        Life
+                    {% elif lead_data.insurance_type == "4" %}
+                        Travel
+                    {% elif lead_data.insurance_type == "5" %}
+                        General
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Product Category </p>
+                <p class="userdetail-highligt">
+                    {% if lead.product_category == "1" %}
+                        Private Car
+                    {% elif lead.product_category == "2" %}
+                        Mediclaim
+                    {% elif lead.product_category == "3" %}
+                        Two Wheeler
+                    {% elif lead.product_category == "4" %}
+                        Term Life
+                    {% elif lead.product_category == "5" %}
+                        Fire Insurance
+                    {% elif lead.product_category == "6" %}
+                        Commercial Vehicle
+                    {% else %}
+                        Not Specified
+                    {% endif %}
+                </p>
+            </div>  
+        </div>
+        <div class="col-sm-12">
+            <h2 class="admin-title pb-2 mb-3 border-bottom">Vehicle Details</h2>
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Registration No</p>
+                <p class="userdetail-highligt">
+                    {{ lead.vehicle_reg_no|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Make</p>
+                <p class="userdetail-highligt">
+                    {{ lead.vehicle_make|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Modal</p>
+                <p class="userdetail-highligt">
+                    {{ lead.vehicle_model|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Year</p>
+                <p class="userdetail-highligt">
+                    {{ lead.mgf_year|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+        <div class="col-md-3">
+            <div class="userdetail-group">
+                <p class="userdetail-lbl">Sum Insured</p>
+                <p class="userdetail-highligt">
+                    ₹{{ lead.sum_insured|default:"N/A" }}
+                </p>
+            </div>  
+        </div>
+    </div>
+</div>

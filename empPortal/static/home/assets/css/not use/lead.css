@@ -1,0 +1,195 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-bg{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19);
+    padding: 2px 30px 0px 30px;
+}
+.Insuramcepro-dash{
+    font-size:28px;
+     font-weight: 600; 
+    font-family: sans-serif;
+
+}
+.Insuramcepro-dash-p{
+color: blue;
+
+}
+.lead-h4{
+    font-size: 23px;
+   font-weight: 700;
+}
+.lead-img-no-data{
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .lead-more-infomation{
+  line-height: 11px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  }
+  .lead-more-infomation p > a{
+      text-decoration: none;
+  }
+  .lead-id{
+      padding: 6px 10px 6px 10px; 
+      border: none; 
+      border-radius: 5px 0px 0px 5px;
+      color: black;
+      font-size: 13px;
+  }
+  .vl{
+      height: 25px;
+   color: black;
+      border-left: 0px solid black;
+  }
+  .enter-lead-id{
+      padding: 0px 10px 0px 10px; 
+       border: none;
+     border: none;
+  
+  }
+  .enter-lead-id::placeholder{
+      color: black;
+      font-size: 13px;
+      padding-left: 10px;
+  }
+  .lead-search{
+      padding: 3px 25px 3px 10px; 
+      border: none;
+      background-color: rgb(169, 206, 241);
+      color: rgb(31, 31, 223);
+      border-radius: 0px 5px 5px 0px;
+  }
+  .well-icon-user{
+      border:1px solid rgb(82, 80, 80);
+      padding: 4px 6px 4px 6px;
+      border-radius: 50%;
+      margin-right: 5px;
+  }
+  .btn-user{
+      padding: 2px 10px 2px 10px;
+      border-radius: 20px;
+      background-color: #fff;
+      border:1px solid rgb(82, 80, 80);
+  }
+  .btn-user i{
+      margin-right:7px;
+  }
+  .user-right-arrow{
+      margin-left: 7px;
+      font-size: 12px;
+  }
+/*-----------------------------------sidebar------------------------------css--------------------start------------------*/
+ul > li {
+font-size: 14px;
+font-weight: 500;
+list-style-type: none;
+padding-top: 13px;
+
+} 
+ul > li > .sidebar-arrow{
+    float: right;
+}
+ul > li a{
+    /* color: rgb(70, 58, 58); */
+color: black;
+    text-decoration: none;
+    padding: 7px 10px 7px 10px;
+    border-radius: 0px 20px 20px 0px;
+
+}
+ul > li:hover > a {
+    color: blue;
+    background-color: rgb(223, 218, 218);
+    
+}
+.sidebar-menu{margin: 0px;padding: 0px;}
+.sidebar-menu li a{display: flex;justify-content: space-between;}
+.sidebar-menu li a div i{margin-right: 5px;}
+.right-arrow{
+    font-size: 11px;
+}
+/*----------------------sidebar------------------css-------------end------------------*/
+.bg-sidebar{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+  0 6px 20px 0 rgba(216, 211, 211, 0.19); 
+  height: 100dvh;  
+}
+/*------------------------lead-----------------------------------id--------------------start-----------------------------*/
+
+/*------------------------lead---------------------------------id-----------------------end--------------------------*/
+/*---------------------------------next--------------start----------------------------------------*/
+
+
+
+.bg-box-shadow-col{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19); 
+    height: 100dvh; 
+}
+
+
+.lead-bg-product{
+/* background-color: rgb(124, 120, 120); */
+border-radius: 15px 10px 0px 0px;
+}
+.lead-product{
+margin: 13px;
+padding: 5px 15px 5px 15px;
+border-radius: 5px;
+border: none;
+box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+0 6px 20px 0 rgba(216, 211, 211, 0.19); 
+}
+
+
+/* #archived-main-col{
+    padding: 5px 10px 5px 10px;
+    margin: 13px;
+} */
+#archived-main-col > button{
+    margin: 13px;
+padding: 5px 15px 5px 15px;
+border-radius: 5px;
+background-color: rgb(169, 206, 241);
+color: rgb(31, 31, 223);
+border: none;
+}
+#archived-main-col > button i{
+margin-right: 7px;
+border: 1px solid ;
+}
+#archived-main-col > input{
+    margin: 13px;
+padding: 5px 15px 5px 15px;
+border-radius: 5px;
+}
+input{
+    color-scheme:white;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    /* display: none; */
+    -webkit-appearance: none;
+    width: 15px;
+    color: blue;
+ }
+
+.showing-leads{
+    float: right;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 3px 10px 0px 0px;
+}
+
+/*-------------------------------------------------------------------------------------------------*/
+.social-icon{
+padding: 10px;
+    font-size: 25px;
+}

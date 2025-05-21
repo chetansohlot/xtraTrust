@@ -1,0 +1,36 @@
+{% if request.user.department_id|stringformat:"s" != "1" %}
+
+<ul class="nav nav-pills profile-tab">
+    {% comment %} <li class="nav-item text-bold">
+        <a class="nav-link {% if members_all %}active{% endif %}" href="{% url 'members' %}">All Partner</a>
+    </li> {% endcomment %}
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if requested %}active{% endif %}" href="{% url 'members_requested' %}">Registered Partner</a>
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if docpendingupload %}active{% endif %}" href="{% url 'members_document_pending_upload' %}">Pending Upload</a> 
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if docupload %}active{% endif %}" href="{% url 'members_document_upload' %}">Document Upload</a> 
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if docinpending %}active{% endif %}" href="{% url 'members_document_inpending' %}">Doc In-Process</a> <!--Replaces In Process with Document Info-->
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if intraining %}active{% endif %}" href="{% url 'members_intraining' %}">In Training</a>
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if inexam %}active{% endif %}" href="{% url 'members_inexam' %}">In Exam</a>
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if activated %}active{% endif %}" href="{% url 'members_activated' %}">Activated</a>
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if rejected %}active{% endif %}" href="{% url 'members_rejected' %}">Rejected</a> <!--Replaces In Rejected with InActive-->
+    </li>
+    <li class="nav-item text-bold">
+        <a class="nav-link {% if inactive %}active{% endif %}" href="{% url 'members_inactive' %}">InActive</a> <!--Replaces In Rejected with InActive-->
+    </li>
+</ul>
+
+  {% endif %}     

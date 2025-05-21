@@ -1,0 +1,66 @@
+{% with request.GET.urlencode as query_string %}
+    {% with query_string|cut:'page='|cut:'&page='|cut:'per_page='|cut:'&per_page=' as preserved_filters %}
+        <div class="bottom-fix-pagination">
+            <div class="d-flex justify-content-between align-items-center">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1&per_page={{ per_page }}{% if preserved_filters %}&{{ preserved_filters }}{% endif %}" aria-label="First">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                                <span class="sr-only">First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}{% if preserved_filters %}&{{ preserved_filters }}{% endif %}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% with page_obj.number|add:"-5" as start_page %}
+                    {% with page_obj.number|add:"5" as end_page %}
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if num >= start_page and num <= end_page %}
+                                <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}{% if preserved_filters %}&{{ preserved_filters }}{% endif %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+                    {% endwith %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}{% if preserved_filters %}&{{ preserved_filters }}{% endif %}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&per_page={{ per_page }}{% if preserved_filters %}&{{ preserved_filters }}{% endif %}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                                <span class="sr-only">Last</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <form method="GET" class="d-flex">
+                    <select class="pagination-dropdown form-select" name="per_page" onchange="this.form.submit()">
+                        <option value="10" {% if per_page == '10' %}selected{% endif %}>10 / Page</option>
+                        <option value="20" {% if per_page == '20' %}selected{% endif %}>20 / Page</option>
+                        <option value="50" {% if per_page == '50' %}selected{% endif %}>50 / Page</option>
+                        <option value="100" {% if per_page == '100' %}selected{% endif %}>100 / Page</option>
+                    </select>
+                    <input type="hidden" name="page" value="1">
+                    {% for key, value in request.GET.items %}
+                        {% if key != 'per_page' and key != 'page' %}
+                            <input type="hidden" name="{{ key }}" value="{{ value }}">
+                        {% endif %}
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+    {% endwith %}
+{% endwith %}

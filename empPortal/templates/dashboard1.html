@@ -1,0 +1,448 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+{% load custom_filters %}
+
+<body class="hold-transition sidebar-mini">
+{% load static %}
+
+    {% block content %}
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+        <!-- /.navbar -->
+      
+        <!-- Main Sidebar Container -->
+         {% include "sidebar.html" %}
+      
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Main content -->
+          <div class="content">
+            <div class="container-fluid">
+              <div class="row pr-4">
+                <div class="col-12">
+                  <h1 class="admin-title m-0 py-2">Dashboard</h1>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-md-12 mb-3">
+                  <div class="card h-100 mb-0">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xs-6 col-sm-4 col-md-4">
+                          <a href="#">
+                            <div class="card counter-img-card counter-active-card ">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col">
+                                    <p class="card-text text-dark">
+                                      Total Policies Sold
+                                    </p>
+                                    <h5 class="card-title card-number">
+                                      <i class="fa-solid fa-indian-rupee-sign"></i>
+                                      {{ policy_count }}
+                                  </h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>  
+                        </div>  
+                        <div class="col-xs-6 col-sm-4 col-md-4">
+                          <a href="#">
+                            <div class="card counter-img-card counter-deactive-card ">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col">
+                                    <p class="card-text text-dark">
+                                      Total Revenue
+                                    </p>
+                                    <h5 class="card-title card-number">
+                                      <i class="fa-solid fa-indian-rupee-sign"></i>
+                                      {{ total_revenue|indian_currency }}
+                                  </h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>  
+                        </div>  
+                        <div class="col-xs-6 col-sm-4 col-md-4">
+                          <a href="#">
+                            <div class="card counter-img-card counter-pending-card ">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col">
+                                    <p class="card-text text-dark">
+                                      Current Payout
+                                    </p>
+                                    <h5 class="card-title card-number"><i class="fa-solid fa-indian-rupee-sign"></i>0</h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>  
+                        </div>  
+                      </div>
+                      <div class="row">
+                          <div class="col-6 col-sm-6">
+                            <h5 class="card-hding mb-0">Insurer-wise Policies Sold</h5>
+                          </div>
+                      </div>
+                      <div class="table-responsive dashboard-table-ht">
+                        <table class="table table-design">
+                          <thead class="table-thead-bg-light">
+                            <tr>
+                              <th>Insurer</th>
+                              <th>Policy Sold</th>
+                              <th>Revenue</th>
+                              <th>Pending Payments</th>
+                              <th>Received Payments</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for provider in provider_summary %}
+                                <tr>
+                                    <td>{{ provider.insurance_provider|default:"N/A" }}</td>
+                                    <td>{{ provider.policies_sold }}</td>
+                                    <td>₹{{ provider.policy_income|floatformat:2|default:"0" }}</td>
+                                    <td>₹0</td>
+                                    <td>₹0</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                              <td colspan="5" class="text-center">No Data Available</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                       <div class="row">
+                        <div class="col-6 col-sm-6">
+                          <h5 class="card-hding mb-0">Payment Status</h5>
+                        </div>
+                         <div class="col-6 col-sm-6">
+                          <div class="d-flex justify-content-end">
+                            <a href="#" class="dashboard-addbtn"><i class="fa-solid fa-download"></i> Export</a>
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="table-responsive dashboard-table-ht">
+                        <table class="table table-design">
+                          <thead class="table-thead-bg-light">
+                            <tr>
+                              <th>Insurer</th>
+                              <th>Policy Sold</th>
+                              <th>Revenue</th>
+                              <th>Pending Payments</th>
+                              <th>Received Payments</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                           
+                            <tr>
+                              <td colspan="5" class="text-center">No Data Available</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="d-flex justify-content-center">
+                        <a href="#" class="dashboard-btn-outline"> View More Details</a>
+                      </div> 
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-6 col-md-6 mb-3">  
+                  <div class="card h-100 mb-0">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="card-hding">Your bill is over due <span class="primary-color"><i class="fas fa-exclamation-circle"></i></span></h5>
+                        <p class="text-gray card-hding">Over Due date: <span class="text-primary">17 Jan 2025</span></p>
+                      </div>
+                      <div class="bg-light p-3">  
+                        <div class="row">
+                          <div class="col-5">
+                            <p class="dashboard-number"><i class="fas fa-rupee-sign"></i> 3,238 </p>
+                            <p class="present-team">Est Invoice for January</p>
+                          </div>
+                          <div class="col-7">
+                            <div class="d-flex justify-content-end">
+                              <div class="text-right">
+                                <a href="/checkout" class="dashboard-addbtn">Pay Now</a>
+                                <a href="#" class="present-team d-block">Estimate Summary Detailed Calculation</a>
+                              </div>  
+                            </div>  
+                          </div>
+                        </div>
+                      </div>  
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p class="card-hding text-primary mt-3 mb-0 pb-0">10 Jan 2025 </p>
+                          <p class="present-team text-gray pt-1 my-0">Last Billing Date</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="text-right">
+                            <p class="card-hding text-primary mt-3 mb-0 pb-0"><i class="fas fa-rupee-sign"></i> 1,675 </p>
+                            <p class="present-team text-gray pt-1 my-0">Invoice Amount</p>
+                          </div>
+                        </div>
+                      </div> 
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-6 mb-3">  
+                  <div class="card h-100 mb-0">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="card-hding">Team Members Summary</h5>
+                        
+                      </div>  
+                      <div class="row">
+                        <div class="col-6 col-md">
+                          <p class="present-team">Active Members</p>
+                          <div class="row">
+                            <div class="col-6">
+                              <p class="card-hding text-dark mt-3 mb-0 pb-0"><span class="bg-warning rounded-circle px-2 py-1 mr-2"><i class="fas fa-long-arrow-alt-right"></i></span> 2 </p>
+                              <p class="present-team text-gray pt-1 my-0">Incoming</p>
+                            </div>
+                            <div class="col-6">
+                              <p class="card-hding text-dark mt-3 mb-0 pb-0"><span class="bg-danger rounded-circle px-2 py-1 mr-2"><i class="fas fa-long-arrow-alt-left"></i></span> 0 </p>
+                              <p class="present-team text-gray pt-1 my-0">Outgoing</p>
+                            </div>
+                          </div>
+                          
+                        </div>
+                        <div class="col-6 col-md">
+                          <p class="present-team">Deactivated Members</p>
+      
+                        </div>
+                        <div class="col-md-auto">
+                          <select class="form-field w-auto mt-5">
+                            <option>This Month</option>
+                            <option>This Week</option>
+                            <option>This Year</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                {% comment %} HERE  {% endcomment %}
+
+                {% if request.user.role_id != 4 %}
+
+                <div class="col-sm-12 col-md-12">  
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-6 col-sm-6">
+                            <h5 class="card-hding mb-0">Recent Team Members</h5>
+                          </div>
+                          <div class="col-6 col-sm-6">
+                            <div class="d-flex justify-content-end">
+                              <a href="#" class="dashboard-addbtn" data-toggle="modal" data-target="#payment-overdue-modal"><i class="fas fa-plus"></i> Add Members</a>
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                          <table class="table table-design">
+                            <thead class="table-thead-bg-light">
+                              <tr>
+                                <th>Name/ Employee ID</th>
+                                <th>Membership ID</th>
+                                <th>Contact Details</th>
+                                <th>Membership Plan(s)</th>
+                                <th>Member Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              
+                            <tr>
+                              <td colspan="5" class="text-center">No Data Available</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a href="/members" class="dashboard-btn-outline"><i class="fas fa-plus"></i> View All Members</a>
+                          </div> 
+                      </div>
+                  </div>
+                </div>
+                
+                {% endif %}
+                {% comment %} HERE  {% endcomment %}
+                <div class="col-sm-6 col-md-6">  
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-hding">Subscription Summary</h5>
+                      <canvas id="subscription_bar_chart" style="width:100%; height: 280px;"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-6">  
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-hding">Activation Summary</h5>
+                      <div style="width:400px; height:280px; padding:10px 50px;">
+                          <canvas id="activation_pie_chart" style="width:100%; height: 100%;"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                </div>
+      
+              </div>  
+              <!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+      
+        
+      
+        <!-- Main Footer -->
+         {% include 'footer.html' %}
+      </div>
+      <!-- ./wrapper -->
+      
+      <!-- Payment overdue modal-->
+      <div class="modal fade" id="payment-overdue-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button type="button" class="close" data-dismiss="modal" >&times;</button>
+              <h2 class="form-title font-weight-bold">Payment Overdue</h2>
+              <p class="pb-2">Your payment is overdue. Please clear your due to add new members.</p>
+              <div class="d-flex justify-content-end">
+                <a href="/checkout" class="dashboard-addbtn">Pay Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include 'footer-script.html' %}
+      
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+      <script src="http://retention.netcrm.in/js/chart.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+      
+      <script type="text/javascript">
+        Chart.register(ChartDataLabels);
+      
+        
+      
+        new Chart("subscription_bar_chart", {
+          data: {
+                  datasets: [{
+                      type: 'bar',
+                      label: 'Monthly Subscription Paid',
+                      data: [2000, 1020, 1600, 975, 3000],
+                      backgroundColor: "#ff751d",
+                      fill: false,
+                      borderColor: '#ff751d'
+                  }, {
+                      type: 'bar',
+                      label: 'Monthly Utilized Amount',
+                      data: [1000, 1800, 4200, 2500, 2000],
+                      backgroundColor: "#ffbe1d",
+                      borderColor: '#ffbe1d'
+                  }],
+                  labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              },
+              options: {
+                  responsive: true,
+                  scales: {
+                      x: {
+                          display: true,
+                          
+                        },
+                        
+                  },
+                  plugins: {
+                      legend: {
+                          labels: {
+                            padding: 20, // Add space between graph and labels
+                            font: {
+                              size: 11, // Adjust font size for better readability
+                            },
+                          },
+                          position: 'bottom', // Position the legend at the top
+                        },
+                      datalabels: {
+                          anchor: 'middle',
+                          align: 'middle',
+                          color: '#000',
+                          font: {
+                              weight: 'bold',
+                          },
+                          formatter: function(value, context) {
+                              return value;
+                          }
+                      }
+                  }
+              }
+          });
+      
+      
+          /* Calling Pie Chart */
+          var piexValues = ['Active Members', 'Pending Activation '];
+          var pieyValues = [40, 20];
+          var piebarColors = [
+                        '#4593dd',
+                        '#85c7de',
+                    ];
+      
+          new Chart("activation_pie_chart", {
+              type: "pie",
+              data: {
+                  labels: piexValues,
+                  datasets: [{
+                      backgroundColor: piebarColors,
+                      data: pieyValues
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  tooltips: {
+                      enabled: false
+                  },
+                  plugins: {
+                      legend: {
+                          display: true, // Pie chart right sidebar label hide
+                          value: true,
+                          position: "right",
+                          align: "middle"
+                      },
+                      datalabels: {
+                          formatter: (value, ctx) => {
+                              let sum = 0;
+                              let dataArr = ctx.chart.data.datasets[0].data;
+                              dataArr.map(data => {
+                                  sum += data;
+                              });
+                              let percentage = (value * 100 / sum).toFixed(2) + "%";
+                              return percentage;
+                          },
+                          color: '#000',
+                      }
+      
+                  }
+              }
+          });
+      
+      
+      
+      
+      </script>
+</body>
+
+    {% endblock %}
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Activation - Training Instructions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 15px;
+        }
+        .header img {
+            max-width: 160px;
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            font-size: 22px;
+            color: #007bff;
+            margin: 0;
+        }
+        .content {
+            padding: 20px 0;
+            line-height: 1.6;
+        }
+        .content p {
+            font-size: 16px;
+            color: #333;
+        }
+        .highlight {
+            color: green;
+            font-weight: bold;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .section h2 {
+            font-size: 18px;
+            color: #007bff;
+            margin-bottom: 8px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="{{ logo_url }}" alt="Company Logo">
+            <h1>Your Account is Activated - Complete Training Before Taking the Sub-Broker Test</h1>
+        </div>
+
+        <div class="content">
+            <p>Dear <strong>{{ user.full_name }}</strong>,</p>
+            <p>We are pleased to inform you that your account has been successfully <span class="highlight">activated</span>!</p>
+            <p>Before you proceed with the <strong>Sub-Broker Test</strong>, we request you to review the training material carefully.</p>
+
+            <div class="section">
+                <h2>Step 1: Read the Training Material</h2>
+                <a href="{{ training_material_url }}" class="btn">View Training Material</a>
+            </div>
+
+            <div class="section">
+                <h2>Step 2: Take the Sub-Broker Test</h2>
+                <a href="{{ sub_broker_test_url }}" class="btn">Start Sub-Broker Test</a>
+            </div>
+
+            <div class="section">
+                <h2>📄 Terms & Conditions</h2>
+                <p>Please find the attached <strong>Terms & Conditions</strong> document. By continuing, you agree to comply with our policies.</p>
+                <a href="{{ terms_conditions_url }}" class="btn">View Terms & Conditions</a>
+            </div>
+
+            <p>If you have any questions, feel free to contact our support team at <strong>{{ support_email }}</strong> or call us at <strong>{{ support_number }}</strong>.</p>
+        </div>
+
+        <div class="footer">
+            <p>Best Regards,</p>
+            <p><strong>{{ COMPANY_SHORT_NAME }}</strong></p>
+            <p>
+                <a href="{{ company_website }}">Company Website</a> | 
+                <a href="mailto:{{ support_email }}">{{ support_email }}</a> | 
+                {{ support_number }}
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

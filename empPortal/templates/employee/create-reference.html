@@ -1,0 +1,249 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Reference
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Reference</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Employee</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add Reference</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                
+                  {% include 'employee/common-link.html' with step=5 %}
+                
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    
+                    
+                    <form autocomplete="off" id="employeeForm" name="employeeForm"
+                        action="{% url 'employee-management-update-refrences' employee_id=employee_id %}" method="post">
+                      {% csrf_token %}
+                      <div class="row">
+                          <div class="col-md-12">
+                              <h2 class="admin-title border-bottom pb-2 mb-4">References</h2>
+                          </div>
+                      </div>
+
+                      <!-- Reference 1 -->
+                      <div class="row">
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Relation</label>
+                              <select name="reference1_relation_type" class="form-field">
+                                  <option value="">Select Relation</option>
+                                  {% for rel in relation_choices %}
+                                      <option value="{{ rel }}" {% if reference1 and reference1.relation == rel %}selected{% endif %}>{{ rel }}</option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">First Name</label>
+                              <input type="text" name="reference1_first_name" class="form-field" placeholder="First Name"
+                                    value="{% if reference1 %}{{ reference1.first_name }}{% endif %}">
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Last Name</label>
+                              <input type="text" name="reference1_last_name" class="form-field" placeholder="Last Name"
+                                    value="{% if reference1 %}{{ reference1.last_name }}{% endif %}">
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Mobile Number</label>
+                              <input type="text" maxlength="10" name="reference1_mobile_number" class="form-field" placeholder="Mobile Number"
+                                    value="{% if reference1 %}{{ reference1.mobile_number }}{% endif %}">
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Email Address</label>
+                              <input type="email" name="reference1_email_address" class="form-field" placeholder="Email"
+                                    value="{% if reference1 %}{{ reference1.email_address }}{% endif %}">
+                          </div>
+                      </div>
+
+                      <!-- Reference 2 -->
+                      <div class="row mt-4">
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Relation</label>
+                              <select name="reference2_relation_type" class="form-field">
+                                  <option value="">Select Relation</option>
+                                  {% for rel in relation_choices %}
+                                      <option value="{{ rel }}" {% if reference2 and reference2.relation == rel %}selected{% endif %}>{{ rel }}</option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">First Name</label>
+                              <input type="text" name="reference2_first_name" class="form-field" placeholder="First Name"
+                                    value="{% if reference2 %}{{ reference2.first_name }}{% endif %}">
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Last Name</label>
+                              <input type="text" name="reference2_last_name" class="form-field" placeholder="Last Name"
+                                    value="{% if reference2 %}{{ reference2.last_name }}{% endif %}">
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Mobile Number</label>
+                              <input type="text" maxlength="10" name="reference2_mobile_number" class="form-field" placeholder="Mobile Number"
+                                    value="{% if reference2 %}{{ reference2.mobile_number }}{% endif %}">
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Email Address</label>
+                              <input type="email" name="reference2_email_address" class="form-field" placeholder="Email"
+                                    value="{% if reference2 %}{{ reference2.email_address }}{% endif %}">
+                          </div>
+                      </div>
+
+                      <div class="d-flex justify-content-between mt-4">
+                      <a href="{% url 'employee-management-employment-info'  employee_id=employee_id  %}" class="btn btn-secondary"> Back</a>
+                          <button type="submit" class="form-submit-btn">Update References</button>
+                      </div>
+                    </form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
+<script>
+  $(document).ready(function () {
+  $("#employeeForm").validate({
+    rules: {
+      
+      reference1_mobile_number: {
+        digits: true,
+        minlength: 10,
+        maxlength: 10
+      },
+      reference1_email_address: {
+        email: true
+      },
+
+      reference2_mobile_number: {
+        digits: true,
+        minlength: 10,
+        maxlength: 10
+      },
+      reference2_email_address: {
+        email: true
+      }
+    },
+    messages: {
+      reference1_relation_type: "Please select a relation.",
+      reference1_first_name: "First name is required.",
+      reference1_last_name: "Last name is required.",
+      reference1_mobile_number: {
+        digits: "Enter only digits.",
+        minlength: "Enter a valid 10-digit number.",
+        maxlength: "Enter a valid 10-digit number."
+      },
+      reference1_email_address: {
+        email: "Enter a valid email address."
+      },
+
+      reference2_relation_type: "Please select a relation.",
+      reference2_first_name: "First name is required.",
+      reference2_last_name: "Last name is required.",
+      reference2_mobile_number: {
+        required: "Mobile number is required.",
+        digits: "Enter only digits.",
+        minlength: "Enter a valid 10-digit number.",
+        maxlength: "Enter a valid 10-digit number."
+      },
+      reference2_email_address: {
+        required: "Email is required.",
+        email: "Enter a valid email address."
+      }
+    },
+    errorPlacement: function (error, element) {
+      error.insertAfter(element);
+    },
+    submitHandler: function (form) {
+      form.submit(); // normal submit
+    }
+  });
+});
+
+</script>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#role').change(function() {
+                var roleId = $(this).val();
+                var userSelect = $('#senior');
+
+                if (roleId) {
+                    $.ajax({
+                        url: "{% url 'get_users_by_role' %}",
+                        type: 'GET',
+                        data: { 'role_id': roleId },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(response) {
+                            userSelect.empty();
+                            userSelect.append('<option value="">Select User</option>');
+                            if (response.users && response.users.length > 0) {
+                                $.each(response.users, function(index, user) {
+                                    userSelect.append(
+                                        `<option value="${user.id}">${user.full_name}</option>`
+                                    );
+                                });
+                            } else {
+                                userSelect.append('<option value="">No users available</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching users');
+                        }
+                    });
+                } else {
+                    userSelect.empty().append('<option value="">Select User</option>');
+                }
+            });
+        });
+</script>
+</body>
+{% endblock %}

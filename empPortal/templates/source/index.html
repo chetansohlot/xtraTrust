@@ -1,0 +1,271 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Source Master
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+        {% include 'sidebar.html' %}
+    
+        <div class="content-wrapper white-bg">
+            <!-- Content Header (Page header) -->
+            <div class="content-header header-content-bg">
+                <div class="container-fluid">
+                    <div class="row pt-2 pb-2">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <h1 class="admin-title m-0 pt-2">Source Master</h1>
+                            </div>
+                            <ul class="breadcrump">
+                                <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                                <li><a href="{% url 'source_list' %}">Source Master</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-end">
+                                <a href="{% url 'source_create' %}" class="breadcrump-addbtn"><i class="fas fa-plus"></i> Add Source</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-4 col-md-3">
+                            <a href="#">
+                                <div class="card counter-img-card active">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="card-text">Total Sources</p>
+                                                <h5 class="card-title card-number">{{ total_count }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>   
+                        </div>  
+                        <div class="col-xs-6 col-sm-4 col-md-3">
+                            <a href="#">
+                                <div class="card counter-img-card counter-active-card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="card-text">Active Sources</p>
+                                                <h5 class="card-title card-number">{{ active_count }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>  
+                        </div>  
+                        <div class="col-xs-6 col-sm-4 col-md-3">
+                            <a href="#">
+                                <div class="card counter-img-card counter-deactive-card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="card-text">Inactive Sources</p>
+                                                <h5 class="card-title card-number">{{ inactive_count }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>  
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="card box-shadow-none">
+                                <div class="card-body px-0 pb-0">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="table-search-area">
+                                                <form method="GET" class="d-flex">
+                                                    <select class="table-select-field" name="search_field">
+                                                        <option value="" disabled selected>Filter By</option>
+                                                        <option value="name" {% if search_field == "name" %}selected{% endif %}>Source Name</option>
+                                                        <option value="description" {% if search_field == "Sort Source Name" %}selected{% endif %}>Sort Source Name</option>
+                                                    </select>
+                                                
+                                                    <input type="text" name="search_query" class="table-search-field" placeholder="Search" value="{{ search_query }}">
+                                                
+                                                    <button type="submit" class="table-search-btn">
+                                                        <img src="{% static 'dist/img/svg/search-icon.svg' %}" alt="Search">
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex justify-content-end">
+                                                <div class="dropdown">
+                                                    <div class="shorting-select" data-toggle="dropdown" aria-expanded="false">
+                                                        <img src="{% static 'dist/img/svg/shorting-icon.svg' %}" alt="">
+                                                        <span>Sort</span>
+                                                        <img src="{% static 'dist/img/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                                                    </div>
+                                                
+                                                    <form method="get">
+                                                        <ul class="dropdown-menu shorting-dropdown-menu">
+                                                            <p class="border-bottom pb-1 title2">Sort</p>
+                                                
+                                                            <li>
+                                                                <input type="radio" name="sort_by" id="name-a_z" value="name-a_z"
+                                                                    {% if sort_by == 'name-a_z' %}checked{% endif %}>
+                                                                <label for="name-a_z">Name A &gt; Z</label>
+                                                            </li>
+                                                
+                                                            <li>
+                                                                <input type="radio" name="sort_by" id="name-z_a" value="name-z_a"
+                                                                    {% if sort_by == 'name-z_a' %}checked{% endif %}>
+                                                                <label for="name-z_a">Name Z &lt; A</label>
+                                                            </li>
+                                                
+                                                            <li>
+                                                                <input type="radio" name="sort_by" id="recently_activated" value="recently_activated"
+                                                                    {% if sort_by == 'recently_activated' %}checked{% endif %}>
+                                                                <label for="recently_activated">Recently Activated</label>
+                                                            </li>
+                                                
+                                                            <li>
+                                                                <input type="radio" name="sort_by" id="recently_deactivated" value="recently_deactivated"
+                                                                    {% if sort_by == 'recently_deactivated' %}checked{% endif %}>
+                                                                <label for="recently_deactivated">Recently Deactivated</label>
+                                                            </li>
+                                                
+                                                            <div class="d-flex justify-content-center border-top pt-3 mt-2 pb-2">
+                                                                <button type="submit" class="dashboard-addbtn w-100">Apply</button>
+                                                            </div>
+                                                        </ul>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="table-responsive table-ht">
+                                        <table class="table table-design table-trlink">
+                                            <thead class="table-thead-bg-light table-header-fix">
+                                                <tr>
+                                                    <th width="10">
+                                                        <input type="checkbox" id="checkall" class="table-chk">
+                                                        <label for="checkall"></label>
+                                                    </th>
+                                                    <th>Source Name</th>
+                                                    <th>Source Sort Name</th>
+                                                    <th>Status</th>
+                                                    <th>Created At</th>
+                                                    <th>Updated At</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for source in sources %}
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" id="check{{ source.id }}" class="table-chk">
+                                                        <label for="check{{ source.id }}"></label>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{% url 'source_edit' source_id=source.id %}" class="trlink">
+                                                            {{ source.source_name }}
+                                                            <span class="text-gray d-block small">#{{ source.id }}</span>
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ source.sort_source_name }}</td>
+                                                    <td>
+                                                            <span class="badge {% if source.status %}bg-success{% else %}bg-danger{% endif %}">
+                                                              {% if source.status %}Active{% else %}Inactive{% endif %}
+                                                            </span>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fas fa-clock text-primary"></i> {{ source.updated_at|date:"d M Y, H:i:s" }} </td>
+                                                        <td>
+                                                        <i class="fas fa-calendar-alt text-secondary"></i> {{ source.created_at|date:"d M Y, H:i:s" }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{% url 'source_edit' source_id=source.id %}" class="btn btn-xs btn-warning">
+                                                            <i class="fas fa-edit"></i> 
+                                                        </a>
+                                                        <a href="{% url 'source_delete' source_id=source.id %}" class="btn btn-xs btn-warning" title="Delete" onclick="return confirm('Are U Sure Want to delete ??')">
+                                                            <i class="fas fa-trash"></i> 
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <div class="bottom-fix-pagination">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=1&per_page={{ per_page }}" aria-label="First">
+                                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                                    <span class="sr-only">First</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                
+                                        {% for num in page_obj.paginator.page_range %}
+                                            <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                                                <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}">{{ num }}</a>
+                                            </li>
+                                        {% endfor %}
+                                
+                                        {% if page_obj.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&per_page={{ per_page }}" aria-label="Last">
+                                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                                    <span class="sr-only">Last</span>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                        
+                                    <form method="GET" class="d-flex">
+                                        <select class="pagination-dropdown form-select" name="per_page" onchange="this.form.submit()">
+                                            <option value="10" {% if per_page == '10' %}selected{% endif %}>10 / Page</option>
+                                            <option value="20" {% if per_page == '20' %}selected{% endif %}>20 / Page</option>
+                                            <option value="50" {% if per_page == '50' %}selected{% endif %}>50 / Page</option>
+                                            <option value="100" {% if per_page == '100' %}selected{% endif %}>100 / Page</option>
+                                        </select>
+                                        <input type="hidden" name="page" value="1">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+    </div>
+</body>
+
+{% endblock %}

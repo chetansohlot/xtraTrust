@@ -1,0 +1,100 @@
+{% load static %}
+<!-- jQuery -->
+<script src="{% static 'dist/js/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'dist/js/bootstrap.bundle.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+<script src="{% static 'dist/js/jquery-ui.js' %}"></script>
+
+<script>
+    $('.dob_datepicker').datepicker({
+        // format: 'dd/mm/yyyy' 
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-100:+0", // last hundred years
+        maxDate: 0,
+    });
+    $('.datepicker_common').datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+    });
+</script>    
+<!-- Include Tom Select -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".tomselect").forEach(function (el) {
+          let maxItems = 3; // Maximum allowed selections
+          let ts = new TomSelect(el, {
+              plugins: ['remove_button'],
+              create: false,
+              persist: false,
+              hideSelected: false,
+              maxItems: maxItems,
+              placeholder: "Select up to " + maxItems + " options",
+              onItemAdd: function() {
+                  if (this.items.length >= maxItems) {
+                      this.control_input.disabled = true;
+                  }
+              },
+              onItemRemove: function() {
+                  if (this.items.length < maxItems) {
+                      this.control_input.disabled = false;
+                  }
+              }
+          });
+      });
+  });
+</script>
+
+<!-- Search Filter Show-->
+<script type="text/javascript">
+  $(document).ready(function(){
+    /*$("#search-modal").click(function(){
+      $(".filter-modal").show();
+    })
+    $(".filter-modal-close").click(function(){
+      $(".filter-modal").hide();
+    })*/
+
+    
+    $('nav .dropdown-menu, .shorting-dropdown-menu').on('click', function(event) {
+        event.stopPropagation();
+    });
+
+
+  })
+  // When dropdown is shown (opened)
+    $('.dropdown').on('shown.bs.dropdown', function () {
+        $('.shorting-select').attr('aria-expanded', "true");
+        $('.change-arrow').attr('src', 'dist/img/svg/up-arrow-icon.svg'); // Change to up arrow
+    });
+
+    // When dropdown is hidden (closed)
+    $('.dropdown').on('hidden.bs.dropdown', function () {
+        $('.shorting-select').attr('aria-expanded', "false");
+        $('.change-arrow').attr('src', 'dist/img/svg/down-arrow-icon.svg'); // Change back to down arrow
+    });
+
+    $(document).ready(function() {
+        // Show mobile filter
+        $(".mobile-filter-show-icon").click(function() {
+            $(".mobile-filter").toggle();
+            // add class on body for scrollbar hide 
+            //$("body").addClass("open-filter");
+        })
+        // Close mobile filter
+        $('.mobile-filter-close').click(function() {
+            $(".mobile-filter").hide();
+            $("body").removeClass("open-filter");
+        })
+    })
+  
+</script>

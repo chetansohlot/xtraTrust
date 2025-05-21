@@ -1,0 +1,210 @@
+<div class="tab-pane" id="lead-details-tab">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h2 class="admin-title pb-2 mb-3 border-bottom">Basic Info</h2>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Lead ID</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{ lead.lead_id|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Customer Name</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{ lead.name_as_per_pan|default:"-" }}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Mobile Number</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.mobile_number|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Gender</p>
+                                                            <p class="userdetail-highligt">
+                                                                {% if lead.lead_customer_gender == 1 %}
+                                                                    <span class="userdetail-highligt">Male</span>
+                                                                {% elif lead.lead_customer_gender == 2 %}
+                                                                    <span class="userdetail-highligt">Female</span>
+                                                                {% elif lead.lead_customer_gender == 3 %}
+                                                                    <span class="userdetail-highligt">Others</span>
+                                                                {% else %}
+                                                                    N/A
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Date of Birth</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.date_of_birth|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Identity No.</p>
+                                                            <p class="userdetail-highligt text-uppercase">
+                                                                {{lead.lead_customer_identity_no|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-auto">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Email ID</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.email_address|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <h2 class="admin-title pb-2 mb-3 border-bottom">Lead Source Info</h2>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Lead Source Type</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{ lead.lead_source_type.source_name|default:"N/A" }}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Lead Source Name</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{ lead.lead_source|default:"N/A" }}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Referral Name</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.referral_name|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Source Medium</p>
+                                                            <p class="userdetail-highligt">
+                                                                {% if lead.lead_source_medium == 1 %}
+                                                                    Facebook
+                                                                {% elif lead.lead_source_medium == 2 %}
+                                                                    Google
+                                                                {% elif lead.lead_source_medium == 3 %}
+                                                                    WhatsApp
+                                                                {% elif lead.lead_source_medium == 4 %}
+                                                                    Walk-in
+                                                                {% elif lead.lead_source_medium == 5 %}
+                                                                    Embedded Partner
+                                                                {% else %}
+                                                                    N/A
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <h2 class="admin-title pb-2 mb-3 border-bottom">Location Info</h2>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">State</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.state|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">City</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.city|default:"N/A"}}                                       
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Pin Code</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.pincode|default:"N/A"}}                                      
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <h2 class="admin-title pb-2 mb-3 border-bottom">Assignment</h2>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Assigned To</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.assigned_to.full_name|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Branch</p>
+                                                            <p class="userdetail-highligt">
+                                                                {{lead.branch.branch_name|default:"N/A"}}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Lead Status Type</p>
+                                                            <p class="userdetail-highligt">
+                                                                {% if lead.lead_status_type == 1 %}
+                                                                    <p>New</p>
+                                                                {% elif lead.lead_status_type == 2 %}
+                                                                    <p>Follow-up</p>
+                                                                {% elif lead.lead_status_type == 3 %}
+                                                                    <p>Quoted</p>
+                                                                {% elif lead.lead_status_type == 4 %}
+                                                                    <p>Booked</p>
+                                                                {% elif lead.lead_status_type == 5 %}
+                                                                    <p>Closed</p>
+                                                                {% else %}
+                                                                    <p>N/A</p>
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="userdetail-group">
+                                                            <p class="userdetail-lbl">Lead Tag</p>
+                                                            <p class="userdetail-highligt">
+                                                                {% if lead.lead_tag == 1 %}
+                                                                    <p>Hot</p>
+                                                                {% elif lead.lead_tag == 2 %}
+                                                                    <p>Warm</p>
+                                                                {% elif lead.lead_tag == 3 %}
+                                                                    <p>Cold</p>
+                                                                {% elif lead.lead_tag == 4 %}
+                                                                    <p>Renewal</p>
+                                                                {% elif lead.lead_tag == 5 %}
+                                                                    <p>Break-in</p>
+                                                                {% elif lead.lead_tag == 6 %}
+                                                                    <p>etc.</p>
+                                                                {% else %}
+                                                                    <p>N/A</p>
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>  
+                                                    </div>
+                                                </div>
+                                            </div>

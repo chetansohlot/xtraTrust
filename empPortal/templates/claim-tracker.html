@@ -1,0 +1,67 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Claim Tracker
+{% endblock %}
+
+{% block content %}
+
+
+{% load static %}
+
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    {% include 'navbar.html' %}
+    {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Claim</a>
+            </div>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          
+          <div class="col-sm-12 col-md-12">  
+              <div class="card box-shadow-none">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <img src="{% static 'dist/img/no-claim-found.png' %}" alt="" class="no-claim-found-img">
+                  <h1 class="no-data-found-hding">Your team is thriving!</h1>
+                  <p class="no-data-found-prgh">None of your members have raised a claim</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+      
+    </div>
+    
+  </div>
+  <!-- /.content-wrapper -->
+
+   {% include 'footer.html' %}
+</div>
+<!-- ./wrapper -->
+
+
+{% include 'footer-script.html' %}
+</body>
+{% endblock %}

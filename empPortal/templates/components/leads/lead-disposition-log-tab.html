@@ -1,0 +1,33 @@
+ <div class="tab-pane" id="disposition-logs">
+                                                <div class="row mt-3">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-design table-bordered">
+                                                            <tbody>
+                                                                {% if disposition_logs %}
+                                                                  {% for disposition_log in disposition_logs %}
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="d-flex">
+                                                                                <div class="ml-2">
+                                                                                    <span class="d-block">{{disposition_log.create_date}}</span>
+                                                                                    <span class="text-muted">{{disposition_log.create_time}}</span>
+                                                                                </div>    
+                                                                            </div>    
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="d-flex flex-wrap">
+                                                                                <!-- <span class="d-block text-primary">Ishank Ahuja - NEET UG</span> -->
+                                                                                <span class="ml-1">Disposition: {{disposition_log.log_disp.disp_name}} - Sub Disposition: {{disposition_log.log_sub_disp.sub_disp_name}}</span>
+                                                                            </div>    
+                                                                            <span class="text-muted d-block">Added by {{disposition_log.log_created_by.full_name}} on {{disposition_log.log_created_at}}</span>
+                                                                        </td>
+                                                                </tr>
+                                                                  {% endfor %}
+                                                                {% endif %}
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                            
+                                                </div>
+                                            </div>

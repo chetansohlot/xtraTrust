@@ -1,0 +1,316 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Edit Policy Docs
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Edit Policy Docs</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Policy Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Edit Policy</li>
+                </ul>
+              </div>
+              
+              <div class="col-sm-6">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'edit-policy-vehicle-details' policy_data.id %}" class="breadcrump-addbtn mx-1">Back</a>
+                    <a href="{% url 'policy-data' %}" class="breadcrump-addbtn mx-1">Exit</a>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <form autocomplete="off" id="myForm" name="updatePolicy" action="{% url 'edit-policy-docs' policy_data.id %}"  method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                      
+                        <input type="hidden" class="form-field" name="policy_id" id="policy_id" value="{{ policy_data.id }}">
+                        
+                        <div class="form-box-shadow">
+                          <h2 class="form-bg-title">Basic Policy</h2>
+                          <div class="form-padding">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_number">Policy Number</label>
+                                  <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Policy Number" value="{{ policy_data.policy_number }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_issue_date">Policy Issue Date</label>
+                                  <input type="text" class="form-field" name="policy_issue_date" id="policy_issue_date" placeholder="Policy Issue Date" value="{{ policy.policy_issue_date|default:policy_data.policy_issue_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_start_date">Policy Start Date</label>
+                                  <input type="text" class="form-field" name="policy_start_date" id="policy_start_date" placeholder="Policy Start Date" value="{{ policy.policy_start_date|default:policy_data.policy_start_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_expiry_date">Policy Expiry Date</label>
+                                  <input type="text" class="form-field" name="policy_expiry_date" id="policy_expiry_date" placeholder="Policy Expiry Date" value="{{ policy.policy_expiry_date|default:policy_data.policy_expiry_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-box-shadow">
+                              <iframe src="{{ pdf_path }}" frameborder="0" width="100%" height="400px"></iframe>
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                            <ul class="new-stepflow">
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                             </ul>
+                            
+                             <style>
+                              .gap-2 {
+                                gap: 0.5rem;
+                              }
+                              .d-flex {
+                                display: flex;
+                              }
+                              .align-items-center {
+                                align-items: center;
+                              }
+                              
+                             </style>
+                             
+                             <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Document Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                            
+                                  <!-- Re Other Endorsement -->
+                                  <div class="col-md-6 mb-4">
+                                    <label class="form-lbl">Re Other Endorsement</label>
+                                    <div class="position-relative w-100">
+                                      <input type="file" id="re_other_endorsement" class="form-field">
+                                      <div class="doc-btn-pos">
+                                        <button type="button" class="form-submit-btn bg-info h-100" onclick="uploadDoc('re_other_endorsement')">
+                                          <i class="fas fa-upload me-1" title="Upload"></i> 
+                                        </button>
+                                        {% if doc_data.re_other_endorsement %}
+                                          <a href="{{ doc_data.re_other_endorsement.url }}" target="_blank" class="form-submit-btn bg-success d-inline-block h-100">
+                                            <i class="fas fa-download me-1" title="Download"></i> 
+                                          </a>
+                                        {% endif %}
+                                      </div>
+                                    </div>  
+                                  </div>
+                            
+                                  <!-- Previous Policy -->
+                                  <div class="col-md-6 mb-4">
+                                    <label class="form-lbl">Previous Policy</label>
+                                    <div class="position-relative w-100">
+                                      <input type="file" id="previous_policy" class="form-field">
+                                      <div class="doc-btn-pos">
+                                        <button type="button" class="form-submit-btn bg-info h-100" onclick="uploadDoc('previous_policy')">
+                                          <i class="fas fa-upload me-1" title="Upload"></i>
+                                        </button>
+                                        {% if doc_data.previous_policy %}
+                                          <a href="{{ doc_data.previous_policy.url }}" target="_blank" class="form-submit-btn bg-success d-inline-block h-100">
+                                            <i class="fas fa-download me-1" title="Download"></i>
+                                          </a>
+                                        {% endif %}
+                                      </div>
+                                    </div>  
+                                  </div>
+                            
+                                  <!-- KYC Document -->
+                                  <div class="col-md-6 mb-4">
+                                    <label class="form-lbl">KYC Document</label>
+                                    <div class="position-relative w-100">
+                                      <input type="file" id="kyc_document" class="form-field">
+                                      <div class="doc-btn-pos">
+                                        <button type="button" class="form-submit-btn bg-info h-100" onclick="uploadDoc('kyc_document')">
+                                          <i class="fas fa-upload me-1" title="Upload"></i>
+                                        </button>
+                                        {% if doc_data.kyc_document %}
+                                          <a href="{{ doc_data.kyc_document.url }}" target="_blank" class="form-submit-btn bg-success d-inline-block h-100">
+                                            <i class="fas fa-download me-1" title="Download"></i>
+                                          </a>
+                                        {% endif %}
+                                      </div>
+                                    </div>  
+                                  </div>
+                            
+                                  <!-- Proposal Document -->
+                                  <div class="col-md-6 mb-4">
+                                    <label class="form-lbl">Proposal Document</label>
+                                    <div class="position-relative w-100">
+                                      <input type="file" id="proposal_document" class="form-field">
+                                      <div class="doc-btn-pos">
+                                        <button type="button" class="form-submit-btn bg-info h-100" onclick="uploadDoc('proposal_document')">
+                                          <i class="fas fa-upload me-1" title="Upload"></i>
+                                        </button>
+                                        {% if doc_data.proposal_document %}
+                                          <a href="{{ doc_data.proposal_document.url }}" target="_blank" class="form-submit-btn bg-success d-inline-block h-100">
+                                            <i class="fas fa-download me-1" title="Download"></i>
+                                          </a>
+                                        {% endif %}
+                                      </div>
+                                    </div>  
+                                  </div>
+                            
+                                  <!-- CSRF Token -->
+                                  <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+                            
+                                </div>
+                              </div>
+                            </div>
+                            
+
+                            
+
+                            <div class="d-flex justify-content-end mt-4">
+        
+                              <a href="{% url 'edit-agent-payment-info' policy_id=policy_data.id|urlencode %}" class="dashboard-addbtn">
+                                Save and Continue
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        
+                        
+                    </form>
+                    <div id="loader" class="form-loader" style="display: none;">
+                      <div>
+                        <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                        <span class="visually-hidden d-block pt-2">Loading...</span>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+
+    <script>
+      
+      function uploadDoc(fieldName) {
+        const fileInput = document.getElementById(fieldName);
+        const file = fileInput.files[0];
+        if (!file) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'No file selected',
+                text: 'Please choose a file before uploading.',
+            });
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append(fieldName, file);
+        formData.append('field_name', fieldName);
+    
+        const csrftoken = document.querySelector('[name="csrf-token"]').content;
+    
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Upload Successful!',
+                    text: 'The file has been uploaded successfully.',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    location.reload(); // reload to show updated link
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upload Failed',
+                    text: data.error || 'Unknown error occurred.'
+                });
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Something went wrong during upload.'
+            });
+        });
+    }
+    
+    </script>
+    
+      
+</body>
+{% endblock %}

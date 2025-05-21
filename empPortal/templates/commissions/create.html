@@ -1,0 +1,128 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Commission
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Commission</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Commission</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add Commission</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <form autocomplete="off" id="myForm" name="saveCommission" action="{% url 'store-commission' %}" method="post">
+                      {% csrf_token %}
+                      
+                  
+                      <div class="row">
+                          <!-- Member -->
+                          <div class="form-group col-md-6">
+                              <label class="form-lbl" for="member">Member</label>
+                              <select class="form-field" name="member" id="member">
+                                  <option value="">Select Member</option>
+                                  {% for member in members %}
+                                      <option value="{{ member.id }}" {% if request.POST.member == member.id|stringformat:"s" %}selected{% endif %}>
+                                          {{ member.first_name }} {{ member.last_name }}
+                                      </option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+                  
+                          <!-- Product -->
+                          <div class="form-group col-md-6">
+                              <label class="form-lbl" for="product">Product</label>
+                              <select class="form-field" name="product" id="product">
+                                  <option value="">Select Product</option>
+                                  {% for product in products %}
+                                      <option value="{{ product.id }}" {% if request.POST.product == product.id|stringformat:"s" %}selected{% endif %}>
+                                          {{ product.name }}
+                                      </option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+                  
+                      <div class="row">
+                          <!-- TP %, OD %, Net % in a single row and smaller -->
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="tp_percentage">TP %</label>
+                              <input type="text" class="form-field percentage" name="tp_percentage" id="tp_percentage" 
+                                     placeholder="Enter TP percentage" value="{{ request.POST.tp_percentage }}">
+                              <span class="error tp_percentage_err"></span>
+                          </div>
+                  
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="od_percentage">OD %</label>
+                              <input type="text" class="form-field percentage" name="od_percentage" id="od_percentage" 
+                                     placeholder="Enter OD percentage" value="{{ request.POST.od_percentage }}">
+                              <span class="error od_percentage_err"></span>
+                          </div>
+                  
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="net_percentage">Net %</label>
+                              <input type="text" class="form-field percentage" name="net_percentage" id="net_percentage" 
+                                     placeholder="Enter Net percentage" value="{{ request.POST.net_percentage }}">
+                              <span class="error net_percentage_err"></span>
+                          </div>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button type="submit" class="form-submit-btn">Save Commission</button>
+                      </div>  
+                  </form>
+                  
+                  
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    
+</body>
+{% endblock %}

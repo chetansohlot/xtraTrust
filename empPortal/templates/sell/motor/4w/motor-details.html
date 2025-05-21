@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+    <section class="">
+      <div class="container pb-5">
+        <div class="row justify-content-between align-items-center pt-2">
+          <div class="col-lg-7">
+            <!-- <h1 class="wrap-hding mt-5">Motor Details</h1> -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-box mt-4">
+                  <form action="{% url 'create-4w-motor-quote' %}">
+                    <div class="fetch-detail-bg mb-3">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="wrap-subhding mb-0"><strong>Car Details</strong> </p>
+                        <a href="#" class="fetch-detail-edit-btn" data-bs-toggle="modal" data-bs-target="#update-car-details-modal"><i class="fa-solid fa-pencil"></i> Edit</a>
+                      </div>  
+                      <p class="wrap-prgh mb-0">
+                        <strong>HR26FH1234</strong> <br> 
+                        <small>KIA SELTOS </small>
+                      </p>
+                      <ul class="vehicle-fecth-list"> 
+                        <li>GTX PLUS S TURBO DCT</li>
+                        <li>Diesel</li>
+                        <li>March 2024</li>
+                      </ul>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Registration Details</label>
+                          <input type="text" name="" placeholder="" class="form-field" value="HR26 - Gurgaon" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Car is registered on</label>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="car-register"  id="individual" value="Individual">
+                              <label for="individual">Individual</label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="car-register" id="company"  value="Company">
+                              <label for="company">Company</label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="form-lbl">Select your preferred policy</label>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="preferred-policy"  id="tp-Only" value="TP Only">
+                              <label for="tp-Only">TP Only</label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="preferred-policy" id="od-only"  value="OD only">
+                              <label for="od-only">Od Only</label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="preferred-policy" id="comprehensive"  value="Comprehensive">
+                              <label for="comprehensive">Comprehensive</label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Car Registration Date</label>
+                          <input type="text" name="" placeholder="" class="form-field" value="18-Mar-2024" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Car Manufacturing  Date</label>
+                          <input type="text" name="" placeholder="" class="form-field" value="Mar-2023" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Do You Have Existing Comprehensive Policy?</label>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="comprehensive-policy"  id="comprehensive-yes" value="Yes">
+                              <label for="comprehensive-yes">Yes</label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="comprehensive-policy" id="comprehensive-no"  value="No">
+                              <label for="comprehensive-no">No</label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-6 comprehensive-show-hide" style="display: none;">
+                        <div class="form-group">
+                          <label class="form-lbl">Expiry Date</label>
+                          <input type="text" name="" placeholder="" class="form-field" value="07-Mar-2023">
+                        </div>
+                      </div>
+                      <div class="col-md-6 comprehensive-show-hide" style="display: none;">
+                        <div class="form-group">
+                          <label class="form-lbl">Previous Insurer</label>
+                          <input type="text" name="" placeholder="" class="form-field" value="TATA AIG General Insurance">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Policy TP Insurer</label>
+                          <select class="form-field">
+                            <option>Select Insurer</option>
+                            <option>{{ COMPANY_FIRST_NAME }} Insurer</option>
+                            <option>Bajaj Alianz</option>
+                            <option>GoDigit</option>
+                            <option>Future General</option>
+                            <option>TATA AIG General Insurance</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6 comprehensive-show-hide" style="display: none;">
+                        <div class="form-group">
+                          <label class="form-lbl">Made any claim in previous policy?</label>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="previous-policy"  id="previous-yes" value="Yes">
+                              <label for="previous-yes">Yes</label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="previous-policy" id="previous-no"  value="No">
+                              <label for="previous-no">No</label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Select NCB</label>
+                          <select class="form-field">
+                            <option>0%</option>
+                            <option>20%</option>
+                            <option>25%</option>
+                            <option>35%</option>
+                            <option>45%</option>
+                            <option>50%</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <button type="submit" class="form-btn w-auto ms-auto d-table mt-4">View Quote</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>  
+            
+          </div>
+          <div class="col-lg-5 order-first order-lg-last">
+            <img src="{% static 'home/assets/image/svg/car-finance.svg' %}"   class="align-items-center img-fluid" >
+          </div>
+      </div>
+    </div>
+  </section>
+  
+  <div class="modal fade" id="update-car-details-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button class="modal-close" data-bs-dismiss="modal">&times;</button>
+          <h2 class="wrap-subhding mb-0">Car details</h2>
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-lbl">Select Modal</label>
+                <select class="form-field">
+                  <option>KIA Seltos</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-lbl">Fuel Type</label>
+                <select class="form-field">
+                  <option>Diesel</option>
+                  <option>Petrol</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-lbl">Variant</label>
+                <select class="form-field">
+                  <option>GTX Plus AT D</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-lbl">Registration Year</label>
+                <input type="text" name="" placeholder="" class="form-field month-year-calendar" value="Mar 2025">
+              </div>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <button type="submit" class="form-btn">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% include 'home/layouts/footer.html' %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+     $("input[name='comprehensive-policy']").change(function() {
+         if ($("#comprehensive-yes").is(":checked")) {
+             $(".comprehensive-show-hide").show();
+         } else {
+             $(".comprehensive-show-hide").hide();
+         }
+     });
+  })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Single Policy Logs
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-12 col-md-6">
+            <h2 class="admin-title m-0 pt-2 text-dark">Single Uploaded Policy Logs </h2>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li> <a href="#">Post Policies Mgt</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Single Uploaded Policy Log</li>
+            </ul>
+          </div>
+          <div class="col-md-6">  
+            <div class="d-flex align-items-center justify-content-end">
+              <div>
+                <a href="{% url 'policy-mgt' %}" class="breadcrump-addbtn mx-1">Add Policy</a>
+                <a href="{% url 'policy-data' %}" class="breadcrump-addbtn mx-1">View Policy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 col-sm-4 col-md-3">
+              <div class="card counter-img-card active">
+                  <div class="card-body">
+                      <p class="card-text">Total Files</p>
+                      <h5 class="card-title card-number">{{ total_files|default:0 }}</h5>
+                  </div>
+              </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-info">File Uploading</p>
+                <h5 class="card-title card-number text-info">{{ status_counts.1|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text success-color">File Uploaded</p>
+                <h5 class="card-title card-number success-color">{{ status_counts.2|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text warning-color">File Analysing</p>
+                <h5 class="card-title card-number warning-color">{{ status_counts.3|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-primary">File Analysed</p>
+                <h5 class="card-title card-number text-primary">{{ status_counts.4|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-dark">Policy Creating</p>
+                <h5 class="card-title card-number text-dark">{{ status_counts.5|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text success-color">Complete</p>
+                <h5 class="card-title card-number success-color">{{ status_counts.6|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text danger-color">Duplicate File</p>
+                <h5 class="card-title card-number danger-color">{{ status_counts.7|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text danger-color">Failed File</p>
+                <h5 class="card-title card-number danger-color">{{ failed_files|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="table-responsive table-ht">
+                      
+                       <!-- Logs Table -->
+                    <table class="table table-design">
+                      <thead class="table-thead-bg-light table-header-fix">
+                        <tr>
+                          <th>File Name</th>
+                          <th>Date of Upload</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for log_file in log_files %}
+                          <tr>
+                            <td>{{ log_file.filename }} </td>
+                            <td>{{ log_file.upload_at }}</td>
+                            <td>
+                                {% if log_file.is_failed == 0 %}
+                                    {% if log_file.status == 1 %}
+                                        <span class="badge badge-info">File Uploading</span> <!-- Blue for uploading -->
+                                    {% elif log_file.status == 2 %}
+                                        <span class="badge badge-success">File Uploaded</span> <!-- Green for uploaded -->
+                                    {% elif log_file.status == 3 %}
+                                        <span class="badge badge-primary">File Analysing</span> <!-- Blue for analysing -->
+                                    {% elif log_file.status == 4 %}
+                                        <span class="badge badge-warning">File Analyzed</span> <!-- Yellow for analyzed -->
+                                    {% elif log_file.status == 5 %}
+                                        <span class="badge badge-secondary">Policy Creating</span> <!-- Grey for creating -->
+                                    {% elif log_file.status == 6 %}
+                                        <span class="badge badge-success">Complete</span> <!-- Green for complete -->
+                                    {% elif log_file.status == 7 %}
+                                        <span class="badge badge-info">Duplicate</span> <!-- Light blue for duplicate -->
+                                    {% else %}
+                                        <span class="badge badge-warning">Pending</span> <!-- Yellow for pending -->
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge badge-danger">Failed</span> <!-- Red for failed -->
+                                {% endif %}
+                              
+                            </td>
+                            <td>
+                              <div class="action-btns">
+                                <a href="{{ log_file.file_url }}" target="_blank" class="btn btn-success btn-xs"><i class="fa-solid fa-download"></i> </a>
+                              </div> 
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+</body>
+
+{% endblock %}

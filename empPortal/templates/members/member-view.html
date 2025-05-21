@@ -1,0 +1,1616 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Members
+{% endblock %}
+  
+{% block content %}
+{% load static %}
+
+{% include "css-code.html" %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+        {% include 'sidebar.html' %}
+    
+        <div class="content-wrapper white-bg">
+            <div class="content-header header-content-bg mb-0">
+              <div class="container-fluid">
+             
+                <div class="row justify-content-between justify-content-sm-start pb-4">
+                  <div class="col col-sm-4">
+                    <!-- <h1 class="admin-title m-0 py-2">View Member </h1> -->
+                    <!-- <a href="#"><img src="{% static 'dist/img/svg/back_ic.svg' %}" alt="" class="mt-2 pl-3"></a> -->
+                  </div>
+                  <!-- <form id="activate-form" name="activate-form" method="post" action="{% url 'activate-user' user_id=user_details.id %}" style="display: none;">
+                    {% csrf_token %}
+                  </form>
+
+                  
+                  <form id="deactivate-form" name="deactivate-form" method="post" action="{% url 'deactivate-user' user_id=user_details.id %}" style="display: none;">
+                    {% csrf_token %}
+                  </form>
+                  
+                  <form id="login-activate-form" name="login-activate-form" method="post" action="{% url 'login-activate-user' user_id=user_details.id %}" style="display: none;">
+                    {% csrf_token %}
+                  </form>
+                  
+                  {% if user_details.activation_status != '1' %}
+                    <div class="col">
+                      <div class="d-flex justify-content-end mt-2">
+                        <button class="dashboard-btn-outline mb-0 bg-success border-success" type="button" id="activate-btn" data-user-id="{{ user_details.id }}">Activate Account</button>
+                      </div>  
+                    </div>
+                  {% endif %}
+
+                  
+                  {% if user_details.activation_status == '1' and user_details.user_active == 1 %}
+                    <div class="col">
+                      <div class="d-flex justify-content-end mt-2">
+                        <button class="dashboard-btn-outline mb-0 bg-danger border-danger" type="button" id="deactivate-btn" data-user-id="{{ user_details.id }}">Deactivate Account</button>
+                      </div>  
+                    </div>
+                  {% endif %}
+
+                  
+                  {% if user_details.activation_status == '1' and user_details.user_active == 0 %}
+                    <div class="col">
+                      <div class="d-flex justify-content-end mt-2">
+                        <button class="dashboard-btn-outline mb-0 bg-info border-info" type="button" id="login-activate-btn" data-user-id="{{ user_details.id }}">Activate Account</button>
+                      </div>  
+                    </div>
+                  {% endif %}
+                   -->
+                   <div class="col-md-6 d-flex justify-content-end align-items-center">
+                    <button type="button" class="breadcrump-addbtn mx-1" onclick="window.history.back();">
+                      Go Back
+                    </button>
+                  </div>
+
+                    
+      <!-- STATUS DROPDOWN -->
+{% if request.user.department_id|stringformat:"s" != "1" %}
+
+      <div class="col">
+        <div class="d-flex justify-content-end mt-2">
+          <form id="change-partner-status-form" method="post" action="{% url 'update-partner-status' user_id=user_details.id %}">
+            {% csrf_token %}
+            <div class="input-group">
+              <select class="form-control" name="partner_status" required>
+                <option value="">-- Change Status --</option>
+                <option value="0" {% if partner_status == '0' %}selected{% endif %}>Requested</option>
+                <option value="1" {% if partner_status == '1' %}selected{% endif %}>Document Verification</option>
+                <option value="2" {% if partner_status == '2' %}selected{% endif %}>In Training</option>
+                <option value="3" {% if partner_status == '3' %}selected{% endif %}>In Exam</option>
+                <option value="4" {% if partner_status == '4' %}selected{% endif %}>Activated</option>
+                <option value="5" {% if partner_status == '5' %}selected{% endif %}>Inactive</option>
+                <option value="6" {% if partner_status == '6' %}selected{% endif %}>Rejected</option>
+
+              </select>
+              <div class="input-group-append">
+                <button class="dashboard-btn-outline bg-primary border-primary ml-2" id="change-partner-status" type="button">Update</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+  {% endif %}     
+
+                </div>
+              </div>
+            </div>
+            <!-- Main content -->
+            <div class="content px-0">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-4 px-0">
+                        <div class="card member-detail-left-card">
+                            <div class="card-body box-profile">
+                                {% if user_details.profile_image %}
+                                    <img src="{{ user_details.profile_image.url }}" alt="Profile Image" class="card-profile-img">
+                                {% else %}
+                                    <img src="{% static 'dist/img/svg/profile-avatar-male.svg' %}" alt="Default Profile" class="card-profile-img">
+                                {% endif %}
+                                
+                                <h3 class="profile-username text-center">{{ user_details.first_name }} {{ user_details.last_name }}</h3>
+                                <div class="d-flex justify-content-center mt-2">
+                                    {% if user_details.partner.partner_status == '0' %}
+                                    <span class="text-warning">Requested</span>
+                                {% elif user_details.partner.partner_status == '1' %}
+                                    <span class="text-info">Document Verification</span>
+                                {% elif user_details.partner.partner_status == '2' %}
+                                    <span class="text-primary">In Training</span>
+                                {% elif user_details.partner.partner_status == '3' %}
+                                    <span class="text-secondary">In Exam</span>
+                                {% elif user_details.partner.partner_status == '4' %}
+                                    <span class="text-success">Activated</span>
+                                {% elif user_details.partner.partner_status == '5' %}
+                                    <span class="text-danger">Inactive</span>
+                                {% elif user_details.partner.partner_status == '6' %}
+                                    <span class="text-danger">Rejected</span>
+                                {% else %}
+                                    <span class="text-muted">Unknown Status</span>
+                                {% endif %}
+                                </div>  
+                                <div class="profile-info-divider"></div>
+                                <ul class="member-detail-list">
+                                    
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/birthday_ic.svg' %}" alt="">
+                                        <span class="list">PAN No</span>
+                                        <span class="list-output">{{ user_details.pan_no|default:"N/A" }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/birthday_ic.svg' %}" alt="">
+                                        <span class="list">Agent ID</span>
+                                        <span class="list-output">{{ user_details.user_gen_id|default:"N/A" }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/gender_ic.svg' %}" alt="">
+                                        <span class="list">Gender</span>
+                                        <span class="list-output">
+                                            {% if user_details.gender == 1 %} Male {% elif user_details.gender == 2 %} Female {% else %} N/A {% endif %}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/birthday_ic.svg' %}" alt="">
+                                        <span class="list">Date of birth</span>
+                                        <span class="list-output">{{ user_details.dob }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/phone_ic.svg' %}" alt="">
+                                        <span class="list">Phone</span>
+                                        <span class="list-output">{{ user_details.phone }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/email_ic.svg' %}" alt="">
+                                        <span class="list">E-mail</span>
+                                        <span class="list-output">{{ user_details.email }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/state.svg' %}" alt="">
+                                        <span class="list">State</span>
+                                        <span class="list-output">{{ user_details.state }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/city.svg' %}" alt="">
+                                        <span class="list">City</span>
+                                        <span class="list-output">{{ user_details.city }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/map.svg' %}" alt="">
+                                        <span class="list">Pincode</span>
+                                        <span class="list-output">{{ user_details.pincode }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/address.svg' %}" alt="">
+                                        <span class="list">Communication Address</span>
+                                        <span class="list-output">{{ user_details.address }}</span>
+                                    </li>
+                                    <!-- <li>
+                                        <img src="{% static 'dist/img/svg/certificate2.svg' %}" alt="">
+                                        <span class="list">Download Certificate</span>
+                                        <span class="list-output">
+                                            N/A
+                                        </span>
+                                    </li> -->
+
+                                    <!-- <li>
+                                        <img src="{% static 'dist/img/svg/certificate2.svg' %}" alt="">
+                                        <span class="list">Download Certificate</span>
+                                        <span class="list-output">
+                                          {% if user_details.exam_attempt > 0 %}
+                                            {% if user_details.examRes and user_details.examRes.status %}
+                                              <a href="{% url 'download-certificate' user_id=user_details.id %}">Exam Certificate</a> |
+                                              <a href="{% url 'download-training-certificate' user_id=user_details.id %}">Training Certificate</a>
+                                            {% else %}
+                                              N/A
+                                            {% endif %}
+                                          {% else %}
+                                            N/A
+                                          {% endif %}
+                                        </span>
+                                      </li> -->
+                                      <!-- <li>
+                                        <img src="{% static 'dist/img/svg/certificate2.svg' %}" alt="">
+                                        <span class="list">Download Certificate</span>
+                                        <span class="list-output">
+                                            {% if user_details.exam_attempt > 0 and user_details.examRes %}
+                                                {% if user_details.examRes.status == 'passed' %}
+                                                    {% if user_details.partner.partner_status == '2' %}
+                                                        <a href="{% url 'download-training-certificate' user_id=user_details.id %}"><i class="fa fa-download"></i>Training Certificate</a>
+                                                    {% elif user_details.partner.partner_status == '3' %}
+                                                        <a href="{% url 'download-certificate' user_id=user_details.id %}"><i class="fa fa-download"></i>Exam Certificate</a> |
+                                                        <a href="{% url 'download-training-certificate' user_id=user_details.id %}"><i class="fa fa-download"></i>Training Certificate</a>
+                                                    {% else %}
+                                                        N/A
+                                                    {% endif %}
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </span>
+                                    </li> -->
+
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/certificate2.svg' %}" alt="">
+                                        <span class="list">Download Certificate</span>
+                                        <span class="list-output">
+                                            {% if user_details.exam_attempt > 0 and user_details.examRes %}
+                                                {% if user_details.examRes.status == 'passed' %}
+                                                        {% if user_details.partner.partner_status == '2' %}
+                                                            <a href="{% url 'download-training-certificate' user_id=user_details.id %}">
+                                                                <i class="fa fa-download"></i>Training Certificate
+                                                            </a>
+                                                        {% elif user_details.partner.partner_status == '3' or user_details.partner.partner_status == '4' %}
+                                                            <a href="{% url 'download-certificate' user_id=user_details.id %}">
+                                                                <i class="fa fa-download"></i>Exam Certificate
+                                                            </a> |
+                                                            <a href="{% url 'download-training-certificate' user_id=user_details.id %}">
+                                                                <i class="fa fa-download"></i>Training Certificate
+                                                            </a>
+                                                        {% else %}
+                                                            N/A
+                                                        {% endif %}
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+
+                                      
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/user-status.svg' %}" alt="">
+                                        <span class="list">User Status</span>
+                                        <div class="list-output">
+                                            {% if user_details.partner.partner_status == '0' %}
+                                                <span class="text-warning">Requested</span>
+                                            {% elif user_details.partner.partner_status == '1' %}
+                                                <span class="text-info">Document Verification</span>
+                                            {% elif user_details.partner.partner_status == '2' %}
+                                                <span class="text-primary">In Training</span>
+                                            {% elif user_details.partner.partner_status == '3' %}
+                                                <span class="text-secondary">In Exam</span>
+                                            {% elif user_details.partner.partner_status == '4' %}
+                                                <span class="text-success">Activated</span>
+                                            {% elif user_details.partner.partner_status == '5' %}
+                                                <span class="text-danger">Inactive</span>
+                                            {% elif user_details.partner.partner_status == '6' %}
+                                                <span class="text-danger">Rejected</span>
+                                            {% else %}
+                                                <span class="text-muted">Unknown Status</span>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+
+                                    {% if user_details.partner.partner_status == '1' %}
+    <li>
+        <img src="{% static 'dist/img/svg/user-status.svg' %}" alt="">
+        <span class="list">Doc Status</span>
+        <div class="list-output">
+            {% if user_details.partner.doc_status|stringformat:"s" == '1' %}
+                <span class="badge bg-secondary">Doc Uploaded</span>
+            {% elif user_details.partner.doc_status|stringformat:"s" == '2' %}
+                <span class="badge bg-info text-dark">In-Pending</span>
+            {% elif user_details.partner.doc_status|stringformat:"s" == '3' %}
+                <span class="badge bg-success">Verified</span>
+            {% else %}
+                <span class="badge bg-warning text-dark">Unknown Status</span>
+            {% endif %}
+        </div>
+    </li>
+{% endif %}
+
+
+
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/exam.svg' %}" alt="Exam Icon">
+                                        <span class="list">Exam Score & Status</span>
+                                        <span class="list-output">
+                                            {% if user_details.partner and user_details.partner.partner_status == '4' %}
+                                                {% if user_details.exam_attempt|default:0 > 0 and user_details.examRes %}
+                                                    Score: {{ user_details.examRes.percentage|default:"0" }} % |
+                                                    Passed: 
+                                                    {% if user_details.examRes.status == "passed" %}
+                                                        <span style="color: green; font-weight: bold;">Yes</span>
+                                                    {% elif user_details.examRes.status == "failed" %}
+                                                        <span style="color: red; font-weight: bold;">No</span>
+                                                    {% else %}
+                                                        <span style="color: gray;">N/A</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span style="color: gray;">Not Attempted</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span style="color: gray;">N/A</span>
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                     
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit User Details</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form name="user-form" id="user-form" method="POST" action="{% url 'update-user-details' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="editFirstName" class="form-lbl">First Name</label>
+                                                    <input type="text" class="form-field" id="editFirstName" name="first_name" value="{{ user_details.first_name }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="editLastName" class="form-lbl">Last Name</label>
+                                                    <input type="text" class="form-field" id="editLastName" name="last_name" value="{{ user_details.last_name }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editEmail" class="form-lbl">E-mail</label>
+                                                    <input type="email" class="form-field" id="editEmail" name="email" value="{{ user_details.email }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editPhone" class="form-lbl">Phone</label>
+                                                    <input type="text" class="form-field" id="editPhone" name="phone" value="{{ user_details.phone }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editGender" class="form-lbl">Gender</label>
+                                                    <select class="form-field" id="editGender" name="gender">
+                                                        <option value="1" {% if user_details.gender == 1 %} selected {% endif %}>Male</option>
+                                                        <option value="2" {% if user_details.gender == 2 %} selected {% endif %}>Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editDob" class="form-lbl">Date of Birth</label>
+                                                    <input type="date" class="form-field" id="editDob" name="dob" value="{{ user_details.dob }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editState" class="form-lbl">State</label>
+                                                    <input type="text" class="form-field" id="editState" name="state" value="{{ user_details.state }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editCity" class="form-lbl">City</label>
+                                                    <input type="text" class="form-field" id="editCity" name="city" value="{{ user_details.city }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editPincode" class="form-lbl">Pincode</label>
+                                                    <input type="text" class="form-field" id="editPincode" name="pincode" value="{{ user_details.pincode }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editAddress" class="form-lbl">Communication Address</label>
+                                                    <input type="text" class="form-field" id="editAddress" name="address" value="{{ user_details.address }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12"> 
+                                                <div class="d-flex justify-content-end">
+                                                    <button id="user-btn-sub" type="button" class="form-submit-btn">Save Changes</button>
+                                                </div>       
+                                            </div>
+                                        </div>        
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="col-md-8 px-0">
+                      <div class="card member-detail-right-card">
+                        
+                        <ul class="nav nav-pills profile-tab">
+                            <li class="nav-item text-bold"><a class="nav-link active" href="#personal-detail-tab" data-toggle="tab">Documents</a></li>
+                            <li class="nav-item text-bold"><a class="nav-link" href="#membership-tab" data-toggle="tab">Payout Details</a></li>
+                            <li class="nav-item text-bold"><a class="nav-link" href="#allocation-tab" data-toggle="tab">Allocation </a></li>
+                            <li class="nav-item text-bold"><a class="nav-link" href="#organisation-tab" data-toggle="tab">Bank Details </a></li>
+                            <!-- <li class="nav-item text-bold"><a class="nav-link" href="#personal-detail-tab" data-toggle="tab">Documents</a></li> -->
+                        </ul>
+
+
+                        
+                        
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <div class="tab-content tab-scrollbar">
+                            <div class="tab-pane" id="membership-tab">
+                              {% if request.user.role_id == 1 %}
+                              <div class="row mb-3">
+                                  <div class="col-md-12">
+                                    <div class="d-flex justify-content-end">
+                                      <button 
+                                          class="dashboard-addbtn" 
+                                          data-member="{{ user_details.id }}"
+                                          data-toggle="modal" 
+                                          data-target="#editCommissionModal" id="addCommissionBtn">
+                                          <i class="fas fa-plus"></i> Add Payout
+                                      </button>
+                                    </div>  
+                                  </div>
+                              </div>
+                              {% endif %}
+                              
+                              <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="table-responsive">
+                                      <table class="table table-design table-trlink">
+                                          <thead class="table-thead-bg-light table-header-fix">
+                                              <tr>
+                                                  <th>Product</th>
+                                                  <th>TP Prem. (%)</th>
+                                                  <th>OD Prem. (%)</th>
+                                                  <th>Net Prem. (%)</th>
+                                                  {% if request.user.role_id == 1 %}
+                                                  <th>Action</th>
+                                                  {% endif %}
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              {% for commission in commissions %}
+                                              <tr>
+                                                  <td>{{ commission.product_name }}</td>
+                                                  <td>{{ commission.tp_percentage }}%</td>
+                                                  <td>{{ commission.od_percentage }}%</td>
+                                                  <td>{{ commission.net_percentage }}%</td>
+                                                  {% if request.user.role_id == 1 %}
+                                                  <td>
+                                                      <button class="btn btn-xs btn-primary edit-btn" 
+                                                              data-id="{{ commission.id }}" 
+                                                              data-member="{{ commission.member_id }}"
+                                                              data-product="{{ commission.product_id }}"
+                                                              data-tp="{{ commission.tp_percentage }}"
+                                                              data-od="{{ commission.od_percentage }}"
+                                                              data-net="{{ commission.net_percentage }}"
+                                                              data-toggle="modal" 
+                                                              data-target="#editCommissionModal">
+                                                              <i class="fas fa-edit"></i>
+                                                      </button>
+                                                  </td>
+                                                  {% endif %}
+                                              </tr>
+                                              {% empty %}
+                                              <tr>
+                                                  <td colspan="5" class="text-center">No commission found</td>
+                                              </tr>
+                                              {% endfor %}
+                                          </tbody>
+                                      </table>
+                                    </div>  
+                                  </div>
+                              </div>
+                          </div>
+                            <!-- Edit Commission Modal -->
+                            <div class="modal fade" id="editCommissionModal" tabindex="-1" aria-labelledby="editCommissionLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="editCommissionLabel">Manage Commission</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form id="editCommissionForm" method="POST" action="{% url 'update-commission' %}">
+                                              {% csrf_token %}
+                                              <input type="hidden" name="commission_id" id="editCommissionId">
+                                              <input type="hidden" name="member_id" id="editMemberId"> <!-- Hidden member ID -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">Product Name</label>
+                                                        <select class="form-field" name="product" id="editProduct">
+                                                            <option value="">Select Product</option>
+                                                            {% for product in products %}
+                                                                <option value="{{ product.id }}">{{ product.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">TP %</label>
+                                                        <input type="text" class="form-field percentage" id="editTp" placeholder="TP%" name="tp_percentage">
+                                                        <span class="error tp_percentage_err"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">    
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">OD %</label>
+                                                        <input type="text" class="form-field percentage" id="editOd"  placeholder="OD%" name="od_percentage">
+                                                        <span class="error od_percentage_err"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">    
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">Net %</label>
+                                                        <input type="text" class="form-field percentage" id="editNet" placeholder="Net%" name="net_percentage">
+                                                        <span class="error net_percentage_err"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">    
+                                                    <div class="d-flex justify-content-end">
+                                                        <button type="submit" class="form-submit-btn">Save</button>
+                                                    </div>    
+                                                </div>
+                                            </div>        
+                                          </form>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div class="tab-pane" id="allocation-tab">
+                                {% if request.user.department_id|stringformat:"s" != "1" %}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="d-flex justify-content-end mb-3">
+                                            <button type="button" class="dashboard-addbtn" data-toggle="modal" data-target="#editAllocation">Edit</button>
+                                        </div>    
+                                    </div>
+                                </div>
+                                {% endif %}     
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Contact No</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>BQP</td>
+                                                <td>
+                                                    {% if user_details.bqpData and user_details.bqpData.bqp_name %}
+                                                        {{ user_details.bqpData.bqp_name }}
+                                                    {% else %}
+                                                         N/A
+                                                    {% endif %}
+                                            </td>
+                                            <td>{{ user_details.bqpData.email_address|default:"N/A" }}</td>
+                                            <td>{{ user_details.bqpData.mobile_number|default:"N/A" }}</td>
+                                            
+                                            </tr>
+                                            <tr>
+                                                <td>Branch</td>
+                                                <td>{{ branch.branch_name|default:"N/A" }}</td>
+                                                <td>{{ branch.email|default:"N/A" }}</td>
+                                                <td>{{ branch.mobile|default:"N/A" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Manager</td>
+                                                <td>{{ manager_details.full_name|default:"N/A" }}</td>
+                                                <td>{{ manager_details.email|default:"N/A" }}</td>
+                                                <td>{{ manager_details.phone|default:"N/A" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Team leader</td>
+                                                <td>{{ tl_details.full_name|default:"N/A" }}</td>
+                                                <td>{{ tl_details.email|default:"N/A" }}</td>
+                                                <td>{{ tl_details.phone|default:"N/A" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Relationship Member</td>
+                                                <td>{{ rm_details.full_name|default:"N/A" }}</td>
+                                                <td>{{ rm_details.email|default:"N/A" }}</td>
+                                                <td>{{ rm_details.phone|default:"N/A" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                
+                            </div>
+                            <div class="modal fade" id="editAllocation" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">Edit Allocation</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="bank-form" method="POST" action="{% url 'store-allocation' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="agent_member_id" value="{{ user_details.id }}">
+                                                <!-- ← NEW BQP Dropdown -->
+                                                <div class="form-group">
+                                                    <label for="bqp">BQP</label>
+                                                <select id="bqp" name="bqp" class="form-control">
+                                                    <option value="">Select BQP</option>
+                                                    {% if bqp_details %}
+                                                        {% for bqp_s in bqp_details %}
+                                                            <option value="{{ bqp_s.id }}" {% if bqp_s.id == selected_bqp_id %}selected{% endif %}>
+                                                                {{ bqp_s.bqp_fname }} {{ bqp_s.bqp_lname }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <option disabled>No BQPs available</option>
+                                                    {% endif %}
+                                                </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="branch">Branch</label>
+                                                    <select id="branch" name="branch" class="form-control">
+                                                        <option value="">Select Branch</option>
+                                                        {% for branch in branches %}
+                                                        <option value="{{ branch.id }}" {% if branch.id == selected_branch_id %}selected{% endif %}>
+                                                            {{ branch.branch_name }}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="branch_manager">Manager</label>
+                                                    <select id="branch_manager" name="branch_manager" class="form-control">
+                                                        <option value="">Select Manager</option>
+                                                        {% for manager_s in manager_list %}
+                                                        <option value="{{ manager_s.id }}" {% if manager_s.id == selected_manager_id %}selected{% endif %}>
+                                                            {{ manager_s.full_name }}
+                                                        </option>
+                                                        
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="sales_manager">Team Leader</label>
+                                                    <select id="sales_manager" name="sales_manager" class="form-control">
+                                                        <option value="">Select Team Leader</option>
+                                                        {% for tl_s in tl_list %}
+                                                        <option value="{{ tl_s.id }}" {% if tl_s.id == selected_tl_id %}selected{% endif %}>
+                                                            {{ tl_s.full_name }}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="role_rm">Relationship Member</label>
+                                                    <select id="role_rm" name="role_rm" class="form-control">
+                                                        <option value="">Select Relationship Member</option>
+                                                        {% for rm_s in rm_list %}
+                                                        <option value="{{ rm_s.id }}" {% if rm_s.id == selected_rm_id %}selected{% endif %}>
+                                                            {{ rm_s.full_name }}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="organisation-tab">
+                                <!-- Personal Details -->
+                                <div class="row mt-3">
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">Account Holder Name</p>
+                                            <p class="userdetail-highligt" id="accountHolderName">
+                                                {% if bank_details %}
+                                                    {{ bank_details.account_holder_name }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">Account Number</p>
+                                            <p class="userdetail-highligt" id="accountNumber">
+                                                {% if bank_details %}
+                                                    {{ bank_details.account_number }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">IFSC Code</p>
+                                            <p class="userdetail-highligt" id="ifscCode">
+                                                {% if bank_details %}
+                                                    {{ bank_details.ifsc_code }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">City</p>
+                                            <p class="userdetail-highligt" id="city">
+                                                {% if bank_details %}
+                                                    {{ bank_details.city }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">State</p>
+                                            <p class="userdetail-highligt" id="state">
+                                                {% if bank_details %}
+                                                    {{ bank_details.state }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <style>
+                                        .nametag {
+                                            padding: 10px; /* Adjust padding as needed */
+                                            margin: 35px; /* Adjust padding as needed */
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                        }
+                                    
+                                        .preview-img {
+                                            max-width: 100px;
+                                            height: auto;
+                                            display: block;
+                                        }
+                                    </style>
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="family-info-card">
+                                            <div class="row align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="nametag">
+                                                        {% if docs.upload_cheque %}
+                                                            <a href="{{ docs.upload_cheque.url }}" data-lightbox="cheque-set" data-title="Cancelled Cheque">
+                                                                <img class="preview-img img-fluid" id="upload_cheque_preview" 
+                                                                    src="{{ docs.upload_cheque.url }}" 
+                                                                    alt="Cancelled Cheque" 
+                                                                    onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';">
+                                                            </a>
+                                                        {% else %}
+                                                            <img class="preview-img img-fluid" src="/static/dist/img/aadhar-front.jpg" alt="Cancelled Cheque">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <h4 class="card-hding mb-0 pb-0">Cancelled Cheque</h4>
+                                                    {% if docs.upload_cheque %}
+                                                        <a href="{{ docs.upload_cheque.url }}" class="wrap-small text-gray" target="_blank">
+                                                            <i class="fas fa-eye"></i> View Document
+                                                        </a>
+                                                    {% else %}
+                                                        <p class="text-muted">No cheque uploaded</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <hr>
+                                                    <div class="ml-3 pl-1">
+                                                        <p class="wrap-prgh font-weight-bold mb-0 pb-0">Account Number</p>
+                                                        <p class="wrap-small text-uppercase">{{ docs.cheque_number|default:"-" }}</p>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                </div>
+                                <!-- Edit Button -->
+                            </div>
+                            
+                            
+                                                            
+                                                        <!-- Edit Modal -->
+                            <div class="modal fade" id="editBankModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">Bank Details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form name="bank-form" id="bank-form" method="POST" action="{% url 'store-bank-data' %}">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="editAccountHolderName" class="form-lbl">Account Holder Name</label>
+                                                            <input type="text" class="form-field" id="editAccountHolderName" name="account_holder_name"
+                                                                value="{% if bank_details %}{{ bank_details.account_holder_name }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="editReEnterAccountNumber" class="form-lbl">Re Enter Account Number</label>
+                                                            <input type="text" class="form-field" id="editReEnterAccountNumber" name="re_enter_account_number"
+                                                                value="{% if bank_details %}{{ bank_details.re_enter_account_number }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editAccountNumber" class="form-lbl">Account Number</label>
+                                                            <input type="text" class="form-field" id="editAccountNumber" name="account_number"
+                                                                value="{% if bank_details %}{{ bank_details.account_number }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editIfscCode" class="form-lbl">IFSC Code</label>
+                                                            <input type="text" class="form-field" id="editIfscCode" name="ifsc_code"
+                                                                value="{% if bank_details %}{{ bank_details.ifsc_code }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editCity" class="form-lbl">City</label>
+                                                            <input type="text" class="form-field" id="editCity" name="city"
+                                                                value="{% if bank_details %}{{ bank_details.city }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editState" class="form-lbl">State</label>
+                                                            <input type="text" class="form-field" id="editState" name="state"
+                                                                value="{% if bank_details %}{{ bank_details.state }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">    
+                                                        <div class="d-flex justify-content-end">
+                                                            <button id="bank-btn-sub" type="button" class="form-submit-btn">Save Changes</button>
+                                                        </div>    
+                                                    </div>
+                                                </div> 
+                                                      
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- /.tab-pane -->
+                            <div class="active tab-pane" id="personal-detail-tab">
+                                <div class="row mt-3">
+                                    
+                            
+                                    {% if docs %}
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>File</th>
+                                                    <th>File Type</th>
+                                                    <th>Doc ID</th>
+                                                    <th>Updated At</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Aadhaar Card Front -->
+                                                <tr>
+                                                    
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.aadhaar_card_front.url }}" 
+                                                           data-title="Aadhaar Card Front">
+                                                          <img class="preview-img" id="aadhaar_card_front_preview" src="{{ docs.aadhaar_card_front.url }}" 
+                                                               alt="Aadhaar Front" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                        <a href="{{ docs.aadhaar_card_front.url }}" download><i class="fa-solid fa-download"></i></a>
+                                                      </td>
+                                                    <td>Aadhaar Card front</td>
+                                                    <td>{{ docs.aadhaar_number|default:"-" }}</td>
+                                                    <td>{{ docs.aadhaar_card_front_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.aadhaar_card_front_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.aadhaar_card_front_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    
+                                                                                                        
+                                                    <td>
+                                                        {% if docs.aadhaar_card_front_status != "Approved" and docs.aadhaar_card_front_status != "Rejected" %}
+                                                            <select class="form-control form-control-sm" onchange="updateStatus('aadhaar_card_front', this.value, '{{ docs.id }}')">
+                                                                <option value="Pending" {% if docs.aadhaar_card_front_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                                <option value="Approved" {% if docs.aadhaar_card_front_status == 'Approved' %}selected{% endif %}>Approved</option>
+                                                                <option value="Rejected" {% if docs.aadhaar_card_front_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                                            </select>
+                                                        {% elif docs.aadhaar_card_front_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.aadhaar_card_front_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                            
+                                                <!-- Aadhaar Card Back -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.aadhaar_card_back.url }}" 
+                                                           data-title="Aadhaar Card Back">
+                                                          <img class="preview-img" id="aadhaar_card_back_preview" src="{{ docs.aadhaar_card_back.url }}" 
+                                                               alt="Aadhaar Back" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                        <a href="{{ docs.aadhaar_card_back.url }}" download><i class="fa-solid fa-download"></i></a>
+
+                                                      </td>
+                                                    <td>Aadhaar Card Back</td>
+                                                    <td>{{ docs.aadhaar_number|default:"-" }}</td>
+                                                    <td>{{ docs.aadhaar_card_back_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.aadhaar_card_back_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.aadhaar_card_back_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.aadhaar_card_back_status != "Approved" and docs.aadhaar_card_back_status != "Rejected" %}
+                                                            <select class="form-control form-control-sm" onchange="updateStatus('aadhaar_card_back', this.value, '{{ docs.id }}')">
+                                                                <option value="Pending" {% if docs.aadhaar_card_back_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                                <option value="Approved" {% if docs.aadhaar_card_back_status == 'Approved' %}selected{% endif %}>Approved</option>
+                                                                <option value="Rejected" {% if docs.aadhaar_card_back_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                                            </select>
+                                                        {% elif docs.aadhaar_card_back_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.aadhaar_card_back_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                            
+                                                <!-- Pan Card -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.upload_pan.url }}" 
+                                                           data-title="PAN Card">
+                                                          <img class="preview-img" id="upload_pan_preview" src="{{ docs.upload_pan.url }}" 
+                                                               alt="PAN Card" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                        <a href="{{ docs.upload_pan.url }}" download><i class="fa-solid fa-download"></i></a>
+
+                                                      </td>
+                                                    <td>PAN Card</td>
+                                                    <td>{{ docs.pan_number|default:"-" }}</td>
+                                                    <td>{{ docs.upload_pan_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.upload_pan_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.upload_pan_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.upload_pan_status != "Approved" and docs.upload_pan_status != "Rejected" %}
+                                                            <select class="form-control form-control-sm" onchange="updateStatus('upload_pan', this.value, '{{ docs.id }}')">
+                                                                <option value="Pending" {% if docs.upload_pan_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                                <option value="Approved" {% if docs.upload_pan_status == 'Approved' %}selected{% endif %}>Approved</option>
+                                                                <option value="Rejected" {% if docs.upload_pan_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                                            </select>
+                                                        {% elif docs.upload_pan_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.upload_pan_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                            
+                                                <!-- Cancelled Cheque -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.upload_cheque.url }}" 
+                                                           data-title="Cancelled Cheque">
+                                                          <img class="preview-img" id="upload_cheque_preview" src="{{ docs.upload_cheque.url }}" 
+                                                               alt="Cheque" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                        <a href="{{ docs.upload_cheque.url }}" download><i class="fa-solid fa-download"></i></a>
+
+                                                      </td>
+                                                    <td>Cancelled Cheque</td>
+                                                    <td>{{ docs.cheque_number|default:"-" }}</td>
+                                                    <td>{{ docs.upload_cheque_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.upload_cheque_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.upload_cheque_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.upload_cheque_status != "Approved" and docs.upload_cheque_status != "Rejected" %}
+                                                            <select class="form-control form-control-sm" onchange="updateStatus('upload_cheque', this.value, '{{ docs.id }}')">
+                                                                <option value="Pending" {% if docs.upload_cheque_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                                <option value="Approved" {% if docs.upload_cheque_status == 'Approved' %}selected{% endif %}>Approved</option>
+                                                                <option value="Rejected" {% if docs.upload_cheque_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                                            </select>
+                                                        {% elif docs.upload_cheque_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.upload_cheque_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                            
+                                                <!-- 10th Marksheet -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.tenth_marksheet.url }}" 
+                                                           data-title="10th Marksheet">
+                                                          <img class="preview-img" id="tenth_marksheet_preview" src="{{ docs.tenth_marksheet.url }}" 
+                                                               alt="10th Marksheet" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                        <a href="{{ docs.tenth_marksheet.url }}" download><i class="fa-solid fa-download"></i></a>
+
+                                                      </td>
+                                                    <td>10th Marksheet</td>
+                                                    <td>{{ docs.role_no|default:"-" }}</td>
+                                                    <td>{{ docs.tenth_marksheet_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.tenth_marksheet_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.tenth_marksheet_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.tenth_marksheet_status != "Approved" and docs.tenth_marksheet_status != "Rejected" %}
+                                                            <select class="form-control form-control-sm" onchange="updateStatus('tenth_marksheet', this.value, '{{ docs.id }}')">
+                                                                <option value="Pending" {% if docs.tenth_marksheet_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                                <option value="Approved" {% if docs.tenth_marksheet_status == 'Approved' %}selected{% endif %}>Approved</option>
+                                                                <option value="Rejected" {% if docs.tenth_marksheet_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                                            </select>
+                                                        {% elif docs.tenth_marksheet_status == "Rejected" %}
+                                                            <!-- Show Eye Icon if Rejected -->
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.tenth_marksheet_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            
+                                    {% else %}
+                                    <div class="col-12">
+                                        <p class="text-muted text-center">No documents uploaded yet.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+
+
+
+
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="claims-tab">
+                                <div class="row align-items-center mt-3 mb-3">
+                                  <div class="col-md-auto">
+                                    <h3 class="card-hding mb-0 pb-0">Claim History</h3>
+                                  </div>
+                                  <div class="col">
+                                    <div class="d-flex justify-content-end">
+                                      <a href="#" class="dashboard-btn-outline mx-2">Search Cashless Hospitals</a>
+                                      <a href="#" class="dashboard-addbtn">Raise a Claim</a>
+                                    </div>
+                                  </div>
+                                </div>  
+                              <!-- Documents -->
+                              <div class="table-responsive">
+                                <table class="table table-design admin-table-design">
+                                  <thead class="align-middle thead-light">
+                                      <tr>
+                                          <th>Claim ID/Type</th>
+                                          <th>Patient Name/Relation</th>
+                                          <th>Claim Status/Last Update On</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td colspan="3">
+                                        <div class="d-flex justify-content-center py-5">
+                                          <div>
+                                            <img src="dist/img/svg/drive.svg" alt="" class="mx-auto d-table">
+                                            <p class="wrap-small text-gray text-center pt-2">No Data</p>
+                                          </div>  
+                                        </div>   
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>                               
+                               </div>    
+                              <!-- /.Documents -->
+                            </div>
+                          </div>
+                            <!-- /.tab-content -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        <!-- /.content-wrapper -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+        <script>
+            function showRejectNote(note) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Rejected Reason',
+                    text: note || 'No reason provided',  // Show message if note is empty
+                    confirmButtonColor: '#d33'
+                });
+            }
+            </script>
+        <!-- <script>
+            function showRejectNote(note) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Rejected Reason',
+                    text: note || 'No reason provided',  // Show message if note is empty
+                    confirmButtonColor: '#d33'
+                });
+            }
+            </script>
+        <script>
+            // Add event listener to the button
+            document.getElementById('activate-btn').addEventListener('click', function() {
+              var userId = this.getAttribute('data-user-id');
+              
+              // Show SweetAlert confirmation
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You are about to activate this account.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, activate it!',
+                cancelButtonText: 'Cancel',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Submit the hidden form
+                  document.getElementById('activate-form').submit();
+                }
+              });
+            });
+          </script>
+
+          
+        <script>
+            // Add event listener to the button
+            document.getElementById('deactivate-btn').addEventListener('click', function() {
+              var userId = this.getAttribute('data-user-id');
+              
+              // Show SweetAlert confirmation
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You are about to deactivate this account.",
+                icon: 'danger',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, deactivate it!',
+                cancelButtonText: 'Cancel',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Submit the hidden form
+                  document.getElementById('deactivate-form').submit();
+                }
+              });
+            });
+          </script>
+
+          
+        <script>
+            // Add event listener to the button
+            document.getElementById('login-activate-btn').addEventListener('click', function() {
+              var userId = this.getAttribute('data-user-id');
+              
+              // Show SweetAlert confirmation
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You are about to activate this account.",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, activate it!',
+                cancelButtonText: 'Cancel',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Submit the hidden form
+                  document.getElementById('login-activate-form').submit();
+                }
+              });
+            });
+          </script> -->
+
+<script>
+    document.getElementById('change-partner-status').addEventListener('click', function () {
+      const selectedStatus = document.querySelector('select[name="partner_status"]').value;
+  
+      if (!selectedStatus) {
+        Swal.fire('Please select a status before updating.');
+        return;
+      }
+  
+      // Handle "Activated"
+      if (selectedStatus === '4') {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You are about to activate this partner.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, activate',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            {% if user_details.activation_status != '1' %}
+              document.getElementById('activate-form').submit();
+            {% elif user_details.activation_status == '1' and user_details.user_active == 0 %}
+              document.getElementById('login-activate-form').submit();
+            {% endif %}
+          }
+        });
+  
+      // Handle "Inactive"
+      } else if (selectedStatus === '5') {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You are about to inactivate this partner.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, deactivate',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            {% if user_details.activation_status == '1' and user_details.user_active == 1 %}
+              document.getElementById('deactivate-form').submit();
+            {% endif %}
+          }
+        });
+  
+      } else {
+        Swal.fire('Only "Activated" or "Inactive" can be changed from here.');
+      }
+    });
+  </script>
+  
+          
+            <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                  // Handle edit button click
+                  document.querySelectorAll(".edit-btn").forEach(button => {
+                      button.addEventListener("click", function() {
+                          let commissionId = this.getAttribute("data-id");
+                          let product = this.getAttribute("data-product");
+                          let tp = this.getAttribute("data-tp");
+                          let od = this.getAttribute("data-od");
+                          let net = this.getAttribute("data-net");
+              
+                          document.getElementById("editCommissionId").value = commissionId;
+                          document.getElementById("editMemberId").value = "";
+                          document.getElementById("editProduct").value = product;
+                          document.getElementById("editTp").value = tp;
+                          document.getElementById("editOd").value = od;
+                          document.getElementById("editNet").value = net;
+              
+                          document.getElementById("editCommissionLabel").innerText = "Edit Payout";
+                      });
+                  });
+              
+                  // Handle add commission button click
+                  document.getElementById("addCommissionBtn").addEventListener("click", function() {
+                      let memberId = this.getAttribute("data-member");
+
+                      document.getElementById("editCommissionForm").reset();
+                      document.getElementById("editCommissionId").value = "";
+                      document.getElementById("editMemberId").value = memberId;
+                      document.getElementById("editCommissionLabel").innerText = "Add Payout";
+                  });
+              });
+              </script>
+            
+    <script>
+        document.getElementById('user-btn-sub').addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent default submit action
+            document.getElementById('user-form').submit();  // Submit the user form
+        });
+        
+        document.getElementById('bank-btn-sub').addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent default submit action
+            document.getElementById('bank-form').submit();  // Submit the bank form
+        });
+    </script>
+<script>
+    function saveChanges() {
+        document.getElementById('accountHolderName').innerText = document.getElementById('editAccountHolderName').value;
+        document.getElementById('reEnterAccountNumber').innerText = document.getElementById('editReEnterAccountNumber').value;
+        document.getElementById('accountNumber').innerText = document.getElementById('editAccountNumber').value;
+        document.getElementById('ifscCode').innerText = document.getElementById('editIfscCode').value;
+        document.getElementById('city').innerText = document.getElementById('editCity').value;
+        document.getElementById('state').innerText = document.getElementById('editState').value;
+    
+        // Close Modal
+        var modal = new bootstrap.Modal(document.getElementById('editModal'));
+        modal.hide();
+    }
+    </script>
+        {% include "footer.html" %}
+    </div>
+    <!-- ./wrapper -->
+    
+    {% include 'footer-script.html' %}
+    <script>
+        
+        function updateStatus(docType, status, docId) {
+            if (status === "Rejected") {
+                // Show a prompt for rejection note
+                Swal.fire({
+                    title: 'Reject Document',
+                    input: 'textarea',
+                    inputLabel: 'Reason for rejection',
+                    inputPlaceholder: 'Enter rejection reason here...',
+                    inputAttributes: {
+                        'aria-label': 'Rejection note'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Reject',
+                    cancelButtonText: 'Cancel',
+                    preConfirm: (rejectNote) => {
+                        if (!rejectNote) {
+                            Swal.showValidationMessage('Rejection note is required');
+                        }
+                        return rejectNote;
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        sendStatusUpdate(docType, status, docId, result.value);
+                    }
+                });
+            } else {
+                // Proceed with normal status update
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You are about to update the document status.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, update it!',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        sendStatusUpdate(docType, status, docId, null);
+                    }
+                });
+            }
+        }
+        
+        function sendStatusUpdate(docType, status, docId, rejectNote) {
+            fetch('/update-doc-status/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    docType: docType,
+                    status: status,
+                    docId: docId,
+                    rejectNote: rejectNote  // Send rejection note if available
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Status Updated!',
+                        text: data.message,
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+        
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.error || 'Failed to update the document status.',
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Something went wrong. Please try again.',
+                    icon: 'error'
+                });
+            });
+        }
+        
+    </script>
+    <script>
+        document.getElementById('branch').addEventListener('change', function() {
+            var branchId = this.value;
+            var branchManagerSelect = document.getElementById('branch_manager');
+            var salesManagerSelect = document.getElementById('sales_manager');
+            var roleRmSelect = document.getElementById('role_rm');
+
+            // Reset Branch Manager and Sales Manager dropdowns
+            branchManagerSelect.innerHTML = '<option value="">Select Manager</option>';
+            salesManagerSelect.innerHTML = '<option value="">Select Team Leader</option>';
+            roleRmSelect.innerHTML = '<option value="">Select RM</option>';
+
+            if (branchId) {
+                fetch(`/get-branch-managers/?branch_id=${branchId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.branch_managers.forEach(function(manager) {
+                            var option = new Option(manager.full_name, manager.id);
+                            branchManagerSelect.add(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching managers:', error));
+            }
+        });
+
+        document.getElementById('branch_manager').addEventListener('change', function() {
+            var branchManagerId = this.value;
+            var salesManagerSelect = document.getElementById('sales_manager');
+            var roleRmSelect = document.getElementById('role_rm');
+
+            // Reset Sales Manager dropdown
+            salesManagerSelect.innerHTML = '<option value="">Select Team Leader</option>';
+            roleRmSelect.innerHTML = '<option value="">Select RM</option>';
+
+            if (branchManagerId) {
+                fetch(`/get-sales-managers/?branch_manager_id=${branchManagerId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.sales_managers.forEach(function(manager) {
+                            var option = new Option(manager.full_name, manager.id);
+                            salesManagerSelect.add(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching Team Leaders:', error));
+            }
+        });
+
+        
+        document.getElementById('sales_manager').addEventListener('change', function() {
+            var tlId = this.value;
+            var roleRmSelect = document.getElementById('role_rm');
+
+            roleRmSelect.innerHTML = '<option value="">Select RM</option>';
+
+            if (tlId) {
+                fetch(`/get-rm-list/?tlId=${tlId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.rm_list.forEach(function(rm) {
+                            var option = new Option(rm.full_name, rm.id);
+                            roleRmSelect.add(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching RM:', error));
+            }
+        });
+
+        
+
+    </script>
+    <script>
+        document.getElementById('change-partner-status').addEventListener('click', function () {
+          const statusSelect = document.querySelector('select[name="partner_status"]');
+          const selectedStatus = statusSelect.value;
+      
+          if (!selectedStatus) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Please select a status before updating.',
+            });
+            return;
+          }
+      
+          const statusText = statusSelect.options[statusSelect.selectedIndex].text;
+      
+          Swal.fire({
+            title: 'Are you sure?',
+            text: `You are about to change the partner's status to "${statusText}".`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, update it!',
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              document.getElementById('change-partner-status-form').submit();
+            }
+          });
+        });
+      </script>
+      
+        
+    {% include "js-code.html" %}
+    
+    
+    </body>
+
+{% endblock %}

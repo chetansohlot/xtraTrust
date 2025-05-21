@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Customer{% endblock %}
+
+{% block content %}
+<div class="content-header header-content-bg">
+  <div class="container-fluid ">
+    <div class="row pt-2 pb-3">
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center">
+        <h1 class="admin-title m-0 pt-2">Create Quote</h1>
+        </div>
+        <ul class="breadcrump">
+          <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+          <li> <a href="#">Quote Mangement</a> <i class="fas fa-chevron-right"></i></li>
+          <li>Create Quote</li>
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- /.content-header -->
+
+<style>
+    .input-group .fetch-btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border: 1px solid #f15e33;
+        background-color: #f15e33;;
+        color: white;
+        padding: 6px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .input-group .fetch-btn:hover {
+        background-color: #f16e63;
+        border-color: #f16e63;
+    }
+
+    .input-group .form-control {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+</style>
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">  
+          <ul class="stepflow-text">
+            <li><a href="#link1"><span>Client Information</span></a></li>
+            <li><a href="#link2"><span>Vehicle & Policy Information</span></a></li>
+          </ul>
+          <ul class="new-stepflow">
+            <li><a href="#link1"></a></li>
+            <li><a href="#link2"></a></li>
+          </ul>
+          <div class="card box-shadow-none">
+            <div class="card-body px-0 pb-0">
+                <form id="create-customer" action="{% if quotation %}{% url 'quote-management-edit' customer_id=quotation.customer_id %}{% else %}{% url 'quote-management-create' %}{% endif %}" method="post">
+                    {% csrf_token %}
+                
+                    <div class="card">
+                        <div class="card-body pb-0 position-relative">
+                            <p class="form-top-title">Client Information</p>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Mobile Number</label>
+                                        <div class="input-group">
+                                            <input class="form-field form-control" type="text" name="mobile_number" id="mobile_number" placeholder="Mobile Number" 
+                                                   value="{{ quotation.mobile_number|default_if_none:'' }}">
+                                            
+                                            {% if not quotation %}
+                                                <button type="button" id="fetch-customer-btn" class="btn btn-primary fetch-btn">Fetch</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Email Address</label>
+                                        <input class="form-field" type="email" name="email_address" placeholder="Email Address" 
+                                               value="{{ quotation.email_address|default_if_none:'' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Quote Date</label>
+                                        <input class="form-field" type="date" name="quote_date" placeholder="Quote Date"
+                                            value="{{ quotation.quote_date|default:today|date:'Y-m-d' }}"
+                                            id="quote_date">
+                                            
+                                        <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            var dateInput = document.getElementById("quote_date");
+                                            if (!dateInput.value) {
+                                                let today = new Date().toISOString().split('T')[0];
+                                                dateInput.value = today;
+                                            }
+                                        });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Name (as per PAN Card)</label>
+                                        <input class="form-field" type="text" name="name_as_per_pan" placeholder="Name (as per PAN Card)" 
+                                               value="{{ quotation.name_as_per_pan|default_if_none:'' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">PAN Card Number <small>(Optional)</small></label>
+                                        <input class="form-field" type="text" name="pan_card_number" placeholder="PAN Card Number" 
+                                               value="{{ quotation.pan_card_number|default_if_none:'' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Date of Birth</label>
+                                        <input class="form-field common_datepicker" type="date" name="date_of_birth" placeholder="Date of Birth" 
+                                               value="{{ quotation.date_of_birth|date:'Y-m-d' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">State</label>
+                                        <input class="form-field" type="text" name="state" placeholder="Enter State" 
+                                               value="{{ quotation.state|default_if_none:'' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">City</label>
+                                        <input class="form-field" type="text" name="city" placeholder="Enter City" 
+                                               value="{{ quotation.city|default_if_none:'' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">PinCode</label>
+                                        <input class="form-field" type="text" name="pincode" placeholder="PinCode" 
+                                               value="{{ quotation.pincode|default_if_none:'' }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Address</label>
+                                        <textarea rows="3" class="form-field" name="address" placeholder="Address">{{ quotation.address|default_if_none:'' }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Status</label>
+                                        <select class="form-field" name="active">
+                                            <option value="1" {% if quotation.active %}selected{% endif %}>Active</option>
+                                            <option value="0" {% if quotation and not quotation.active %}selected{% endif %}>Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="form-group d-flex justify-content-end">
+                        <button type="button" id="quote-customer-btn" class="wrap-btn">
+                            {% if quotation %} Update & Continue {% else %} Save & Continue {% endif %}
+                        </button>
+                    </div>
+                </form>
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  
+</div>   
+
+<script>
+    document.getElementById("quote-customer-btn").addEventListener("click", function () {
+        document.getElementById("create-customer").submit();
+    });
+
+    document.getElementById("fetch-customer-btn").addEventListener("click", function () {
+        let mobileNumber = document.getElementById("mobile_number").value;
+        let csrfToken = document.querySelector("input[name='csrfmiddlewaretoken']").value;
+
+        // Create a form programmatically
+        let form = document.createElement("form");
+        form.method = "post";
+        form.action = "{% url 'fetch-customer' %}";
+
+        // Add CSRF token
+        let csrfInput = document.createElement("input");
+        csrfInput.type = "hidden";
+        csrfInput.name = "csrfmiddlewaretoken";
+        csrfInput.value = csrfToken;
+        form.appendChild(csrfInput);
+
+        // Add Mobile Number field
+        let mobileInput = document.createElement("input");
+        mobileInput.type = "hidden";
+        mobileInput.name = "mobile_number";
+        mobileInput.value = mobileNumber;
+        form.appendChild(mobileInput);
+
+        // Append form to body and submit
+        document.body.appendChild(form);
+        form.submit();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}
+    View Lead
+{% endblock %}
+
+{% block content %}
+   <!-- Content Header -->
+   <div class="content-header breadcrump-bg">
+    <div class="container-fluid">
+      <div class="row py-2">
+        <div class="col-sm-6">
+          <div class="d-flex align-items-center">
+            <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">View Lead</a>
+          </div>
+          <ul class="breadcrump">
+            <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+            <li><a href="#">Leads</a> <i class="fas fa-chevron-right"></i></li>
+            <li><strong>View Lead</strong> (ID: {{ lead.lead_id }})</li>
+          </ul>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <div>
+                <a href="{% url 'leads-mgt' %}" class="breadcrump-addbtn mx-1">Back</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Left Panel -->
+    <div class="col-md-4">
+      <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+          {{ lead.name_as_per_pan|default:"-" }} &nbsp;&nbsp;|&nbsp;&nbsp; {{ lead.mobile_number|default:"-" }}
+        </div>
+      
+        <div class="card-body">
+          <div class="row">
+            <!-- Column 1 -->
+            <div class="col-md-6">
+              <p><strong>Lead Type:</strong> {{ lead.lead_type|default:"-" }}</p>
+              <p><strong>Email:</strong> {{ lead.email_address|default:"-" }}</p>
+              <p><strong>City:</strong> {{ lead.city|default:"-" }}</p>
+              <p><strong>State:</strong> {{ lead.state|default:"-" }}</p>
+              <p><strong>Address:</strong> {{ lead.address|default:"-" }}</p>
+              <p><strong>Status:</strong> {{ lead.status|default:"-" }}</p>
+              <p><strong>Quote Date:</strong> {{ lead.quote_date|default:"-" }}</p>
+              <p><strong>Policy Number:</strong> {{ lead.policy_number|default:"-" }}</p>
+              <p><strong>Policy Type:</strong> {{ lead.policy_type|default:"-" }}</p>
+              <p><strong>Insurance Company:</strong> {{ lead.insurance_company|default:"-" }}</p>
+            </div>
+      
+            <!-- Column 2 -->
+            <div class="col-md-6">
+              <p><strong>Vehicle Type:</strong> {{ lead.vehicle_type|default:"-" }}</p>
+              <p><strong>Registration Number:</strong> {{ lead.registration_number|default:"-" }}</p>
+              <p><strong>Make & Model:</strong> {{ lead.make_and_model|default:"-" }}</p>
+              <p><strong>Fuel Type:</strong> {{ lead.fuel_type|default:"-" }}</p>
+              <p><strong>Manufacturing Year:</strong> {{ lead.manufacturing_year|default:"-" }}</p>
+              <p><strong>Risk Start Date:</strong> {{ lead.risk_start_date|default:"-" }}</p>
+              <p><strong>Net Premium:</strong> ₹{{ lead.net_premium|default:"-" }}</p>
+              <p><strong>Gross Premium:</strong> ₹{{ lead.gross_premium|default:"-" }}</p>
+              <p><strong>Sales Manager:</strong> {{ lead.sales_manager|default:"-" }}</p>
+              <p><strong>Agent Name:</strong> {{ lead.agent_name|default:"-" }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Right Panel -->
+    <!--<div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light border-bottom">
+         <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Lead Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disposition Log</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Call Log</a>
+            </li>-->
+            <!-- Add more tabs as needed -->
+          <!--</ul>
+        </div>-->
+        <!--<div class="card-body">
+          <h5 class="card-title">Lead Summary</h5>
+          <p>This section can include more data like history, notes, attachments, etc.</p>
+          <p><strong>Lead ID:</strong> {{ lead.lead_id }}</p>-->
+          <!-- Add accordion sections like in your image if needed -->
+        <!--</div>
+      </div>
+    </div>-->
+
+  </div>
+</div>
+
+
+{% endblock %}

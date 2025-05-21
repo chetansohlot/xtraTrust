@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Customer{% endblock %}
+{% block content %}
+{% load static %}
+
+
+{% load custom_filters %}
+
+<div class="content-header header-content-bg">
+    <div class="container-fluid ">
+      <div class="row pt-2 pb-3">
+        <div class="col-sm-6">
+          <div class="d-flex align-items-center">
+            <h1 class="admin-title m-0 pt-2">Estimate Quote</h1>
+          </div>
+          <ul class="breadcrump">
+            <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+            <li> <a href="#">Quote Mangement</a> <i class="fas fa-chevron-right"></i></li>
+            <li>Estimate Quote</li>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      
+      <div class="row">
+        <div class="col-sm-12 col-md-12">  
+         
+      
+            <div class="card box-shadow-none">
+              <div class="card-body pb-0">
+                <div class="row justify-content-between">
+                  <div class="col-3">
+                    <div class="d-flex align-items-center h-100">
+                      <img src="{% static 'dist/img/logo2.png' %}" alt="" class="bill-header-logo">
+                    </div>  
+                  </div>
+                  <div class="col-3">
+                    <p class="invoice-to">Customer Details</p>
+                    <p class="invoice-detail">
+                        <strong>{{ customer.name_as_per_pan }}</strong> <br>
+                        {{ customer.mobile_number }} <br>
+                        {{ customer.email_address }} <br>
+                        {% if customer.pan_card_number %}
+                            <strong>PAN:</strong> {{ customer.pan_card_number }}<br>
+                        {% endif %}
+                        {% if customer.quote_date %}
+                            <strong>Quote Date:</strong> {{ customer.quote_date }}<br>
+                        {% endif %}
+                        {% if customer.date_of_birth %}
+                            <strong>DOB:</strong> {{ customer.date_of_birth|date:"d-m-Y" }} <br>
+                        {% endif %}
+                        {{ customer.address }}, {{ customer.city }}, {{ customer.state }} ({{ customer.pincode }}) <br>
+                    </p>
+                </div>
+                
+                  <div class="col-6">
+                      <p class="invoice-to">Vehicle Information </p>
+                    
+                      <table border="0" class="w-100 mb-3">
+                        <tr>
+                            <td>
+                                <p class="invoice-detail">
+                                    <strong>Vehicle:</strong> {{ vehicle_info.vehicle_type|default:"N/A" }} <br>
+                                    <strong>Model:</strong> {{ vehicle_info.model|default:"N/A" }} <br>
+                                    <strong>Registration No.:</strong> {{ vehicle_info.registration_number|default:"N/A" }} <br>
+                                    <strong>Registration Date:</strong> {{ vehicle_info.registration_date|date:"d-m-Y"|default:"N/A" }} <br>
+                                    <strong>Variant:</strong> {{ vehicle_info.variant|default:"N/A" }} <br>
+                                    <strong>Year of Manufacture:</strong> {{ vehicle_info.year_of_manufacture|default:"N/A" }} <br>
+                                    <strong>Chassis No.:</strong> {{ vehicle_info.chassis_number|default:"N/A" }} <br>
+                                    <strong>Engine No.:</strong> {{ vehicle_info.engine_number|default:"N/A" }}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="invoice-detail">
+                                    <strong>Registration State:</strong> {{ vehicle_info.registration_state|default:"N/A" }} <br>
+                                    <strong>Registration City: </strong>{{ vehicle_info.registration_city|default:"N/A" }} <br>
+                                    <strong>Claim (Last Year):</strong> {{ vehicle_info.claim_history|default:"N/A" }} <br>
+                                    <strong>NCB Percentage:</strong> {{ vehicle_info.ncb_percentage|default:"0.00" }}% <br>
+                                    <strong>IDV:</strong> {{ vehicle_info.idv_value|default:"0.00" }} <br>
+                                    <strong>Policy Type:</strong> {{ vehicle_info.policy_type|default:"N/A" }} <br>
+                                    <strong>Policy Duration:</strong> {{ vehicle_info.policy_duration|default:"N/A" }} <br>
+                                    <strong>Add-ons:</strong>
+                                    {% if addon_names %}
+                                        {{ addon_names|join:", " }}
+                                    {% else %}
+                                        None
+                                    {% endif %}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                  </div>
+                </div>
+                
+                <form method="POST" id="store-quotation-form" action="#">
+                    {% csrf_token %}
+                    <input type="hidden" name="customer_id" value="{{ customer.customer_id }}">
+
+                    <table class="table table-design table-bordered" id="comparison-table">
+                        <tbody>
+                            <!-- Insurer Names -->
+                            <tr>
+                                <td class="table-thead-bg-light"><strong>Insurer Name</strong></td>
+                                {% for company in selected_policy_companies %}
+                                    <td>{{ company }}</td>
+                                {% endfor %}
+                            </tr>
+
+                            {% with policy_string="plan_name,premium,policy_type,idv,ncb,own_damage,third_party,addons,claim_ratio,garage_network,tenure,deductibles" %}
+                                {% for field in policy_string|split:"," %}
+                                    <tr>
+                                        <td class="table-thead-bg-light">
+                                            <strong>
+                                                {% if field == "plan_name" %}Plan Name
+                                                {% elif field == "premium" %}Premium Amount (INR)
+                                                {% elif field == "policy_type" %}Policy Type
+                                                {% elif field == "idv" %}IDV (INR)
+                                                {% elif field == "ncb" %}NCB Discount (%)
+                                                {% elif field == "own_damage" %}Own Damage Premium (INR)
+                                                {% elif field == "third_party" %}Third-Party Premium (INR)
+                                                {% elif field == "addons" %}Add-Ons Included
+                                                {% elif field == "claim_ratio" %}Claim Settlement Ratio (%)
+                                                {% elif field == "garage_network" %}Cashless Garage Network
+                                                {% elif field == "tenure" %}Policy Tenure
+                                                {% elif field == "deductibles" %}Deductibles (INR)
+                                                {% else %}{{ field|capfirst }}
+                                                {% endif %}
+                                            </strong>
+                                        </td>
+                                        {% for i in selected_policy_companies %}
+                                            {% with idx=forloop.counter0|stringformat:"s" %}
+                                                {% with key=field|stringformat:"s"|add:"_"|add:idx %}
+                                                    <td>
+                                                        <input type="text"
+                                                                name="{{ key }}"
+                                                                class="form-control form-control-sm policy-input"
+                                                                placeholder="Enter {{ field|str_replace:'_, ' }}"
+                                                                value="{{ data_dict|dict_key:key }}">
+                                                    </td>
+                                                {% endwith %}
+                                            {% endwith %}
+                                        {% endfor %}
+
+                                    </tr>
+                                {% endfor %}
+                            {% endwith %}
+                        </tbody>
+                    </table>
+
+
+
+                    <div class="text-end mt-3">
+                        <button type="submit" class="wrap-btn ms-2">Save Changes</button>
+                    </div>
+                </form>
+
+              
+                <form method="post" id="shareForm">
+                    {% csrf_token %}
+                    <div class="row mt-4 justify-content-end text-end">
+                        <div class="col-auto">
+                            <a href="{% url 'download-quotation-pdf' cus_id %}" class="wrap-btn m-3">
+                                <i class="fas fa-download"></i>
+                            </a>
+                
+                            <div class="d-inline-block">
+                                <input type="checkbox" name="share_option" class="chkbox-btn" id="email" value="email">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="d-inline-block">
+                                <input type="checkbox" name="share_option" class="chkbox-btn" id="Whatsapp" value="whatsapp">
+                                <label for="Whatsapp">WhatsApp</label>
+                            </div>
+                            <div class="d-inline-block">
+                                <input type="checkbox" name="share_option" class="chkbox-btn" id="sms" value="sms">
+                                <label for="sms">SMS</label>
+                            </div>
+                
+                            <button type="submit" class="wrap-btn ms-2">Send & Share</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <script>
+                    document.getElementById('shareForm').addEventListener('submit', function(event) {
+                        const emailCheckbox = document.getElementById('email');
+                        const customerId = "{{ customer.customer_id }}"; // Get customer ID
+                    
+                        // Show the loader
+                        document.getElementById('loader').style.display = 'block';
+                
+                        if (emailCheckbox.checked) {
+                            event.preventDefault();  // Prevent form submission
+                            window.location.href = "{% url 'send-quotation-email' cus_id=customer.customer_id %}";
+                        }
+                    });
+                </script>
+                
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    
+  </div>
+
+<script>
+  const saveQuotationUrl = "{% url 'save-quotation-form' %}";
+
+  $('#store-quotation-form').on('submit', function(e) {
+      e.preventDefault();
+
+      let formData = $(this).serialize();
+
+      $.post(saveQuotationUrl, formData, function(response) {
+          Swal.fire('Success', response.message, 'success').then(() => {
+              location.reload();  // Reload the page after user closes the alert
+          });
+      }).fail(function(xhr) {
+          Swal.fire('Error', xhr.responseJSON?.message || 'Something went wrong.', 'error');
+      });
+  });
+</script>
+
+
+{% endblock %}

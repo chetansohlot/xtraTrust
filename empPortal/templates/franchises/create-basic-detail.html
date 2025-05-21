@@ -1,0 +1,146 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    Add Franchise
+{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header -->
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Franchise</a>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Franchise</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Basic Info</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+
+              <!-- Step flow navigation -->
+              <ul class="stepflow-text stepflow-five-col mt-0">
+                <li><a href="#">Basic Info</a></li>
+                <li><a href="#">Contact Info</a></li>
+                <li><a href="#">Address Details</a></li>
+                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="#">Banking & Payout Details</a></li>
+              </ul>
+              <ul class="new-stepflow mb-3">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+
+              <!-- Card with form -->
+              <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <form action="" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h2 class="admin-title border-bottom pb-2 mb-4">Basic Franchise Details</h2>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="franchise_name">Franchise Name</label>
+                        <input type="text" name="franchise_name" id="franchise_name" class="form-field" placeholder="Franchise Name"
+                          value="{{franchise.franchise_name|default_if_none:''}}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="franchise_type">Franchise Type</label>
+                        <select name="franchise_type" id="franchise_type" class="form-field custom-dropdown" >
+                          <option value="">Select Type</option>
+                           <option value="Corporate" {% if franchise and franchise.franchise_type == "Corporate" %}selected{% endif %}>Corporate</option>
+                           <option value="Individual" {% if franchise and franchise.franchise_type == "Individual" %}selected{% endif %}>Individual</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="channel_type">Channel Type</label>
+                        <select name="channel_type" id="channel_type" class="form-field custom-dropdown" >
+                          <option value="">Select Channel</option>
+                          <option value="POSP" {% if franchise and franchise.channel_type == "POSP" %}selected{% endif %}>POSP</option>
+                          <option value="Agency" {% if franchise and franchise.channel_type == "Agency" %}selected{% endif %}>Agency</option>
+                          <option value="Broker" {% if franchise and franchise.channel_type == "Broker" %}selected{% endif %}>Broker</option>
+                          <option value="Sub-broker" {% if franchise and franchise.channel_type == "Sub-broker" %}selected{% endif %}>Sub-broker</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="status">Status</label>
+                        <select name="franchise_status" id="franchise_status" class="form-field custom-dropdown" >
+                          <option value="">Select Status</option>
+                          <option value="Active" {% if franchise and franchise.franchise_status == "Active" %}selected{% endif %}>Active</option>
+                          <option value="Inactive" {% if franchise and franchise.franchise_status == "Inactive" %}selected{% endif %}>Inactive</option>
+                          <option value="Suspended" {% if franchise and franchise.franchise_status == "Suspended" %}selected{% endif %}>Suspended</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="parent_broker_code">Parent Broker Code</label>
+                        <input type="text" name="parent_broker_code" id="parent_broker_code" class="form-field" placeholder="Parent Broker Code"
+                         value="{{ franchise.parent_broker_code|default_if_none:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="onboarding_date">Onboarding Date</label>
+                        <input type="date" name="onboarding_date" id="onboarding_date" class="form-field"
+                         value="{{ franchise.onboarding_date|date:'Y-m-d' }}" >
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                      <button type="submit" class="form-submit-btn mt-3">Next</button>
+                    </div>
+                  </form>
+
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End card -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+  </div>
+  <!-- ./wrapper -->
+</body>
+{% endblock %}

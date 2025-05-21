@@ -1,0 +1,162 @@
+{% load static %}
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapse-bar-icon" data-widget="pushmenu" href="#" role="button"><i class="fas fa-long-arrow-alt-left"></i></a>
+      </li>
+    </ul>
+    <div class="header-search-area">
+      <form class="" action="{% url 'global_search' %}" method="GET">
+          <select class="header-search-field" name="category">
+              <option value="agents" {% if "lead-mgt" not in request.path %}selected{% endif %}>Partners</option>
+              <option value="lead" {% if "lead-mgt" in request.path %}selected{% endif %}>Lead</option>
+          </select>
+          <input type="text" class="header-search-field" 
+              name="global_search" 
+              placeholder="Search here" 
+              autocomplete="off"
+              value="{{ request.GET.global_search|default:'' }}">
+          <button class="header-search-btn" type="submit"> 
+              <i class="fas fa-search"></i> 
+          </button>
+      </form>
+  </div>
+  
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <svg class="headermenu-svg">
+            <use xlink:href="#bell-icon" />
+          </svg>
+          <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" role="button">
+          <svg class="headermenu-svg">
+            <use xlink:href="#setting-icon" />
+          </svg>
+        </a>
+      </li>
+      
+      <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle text-dark" data-toggle="dropdown" aria-expanded="false">
+              <span class="hidden-xs ">{{request.user.full_name}}</span>
+              <img src="{% static SIDEBAR_MINI_LOGO %}" class="user-image mt-1" alt="User Image">
+            </a>
+            <ul class="dropdown-menu border-0">
+              <li>
+                <div class="card card-widget widget-user shadow mb-0">
+                  <div class="widget-user-header bg-info">
+                    <h3 class="widget-user-username">{{request.user.full_name}}</h3>
+                    
+                  </div>
+                  <div class="card-footer">
+                    <div class="row">
+                      <div class="col-auto">
+                        <div class="widget-user-image">
+                          <a href="{% url 'my-account' %}">
+                            <img class="img-circle elevation-2 " src="{% static SIDEBAR_MINI_LOGO %}" alt="User Avatar">
+                          </a>
+                        </div>
+                      </div>
+                      
+                      <div class="col">
+                        <div class="row">
+                          <div class="col-12 small"> <!-- Apply smaller font overall -->
+                            {% if request.user.phone %}
+                              <p class="mb-1 text-muted">
+                                <i class="fas fa-phone-alt me-1"></i> +91 {{ request.user.phone }}
+                              </p>
+                            {% endif %}
+                            <p class="mb-1 text-muted">
+                              <i class="fas fa-envelope me-1"></i> {{ request.user.email }}
+                            </p>
+                            {% if request.user.role_id|stringformat:"s" in '1,2,3,4' %}
+                              <p class="mb-2 text-muted">
+                                <i class="fas fa-user-tag me-1"></i> {{ request.user.roleName.roleName }}
+                              </p>
+                            {% else %}
+                              <p class="mb-2 text-muted">
+                                <i class="fas fa-user-tag me-1"></i> {{ request.user.roleName.roleName }} - {{ request.user.department.name }}
+                              </p>
+                            {% endif %}
+
+
+                            <a href="{% url 'change-password' %}" class="d-block text-success mb-2">Change Password</a>
+
+                            <ul class="list-unstyled mb-0">
+                              <li>
+                                <a href="{% url 'my-account' %}" class="text-primary d-block mb-1">My Account</a>
+                              </li>
+                              <li>
+                                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn btn-sm btn-outline-danger">Sign out</button>
+                                </form>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+  
+                    </div>
+                    <!-- <div class="row">
+                      <div class="col-sm-6 border-right">
+                        <div class="description-block">
+                          <a href="{% url 'change-password' %}" class="description-text">Change Password</a>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="description-block">
+                          <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="header-logout-btn">Sign out</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+    </ul>
+  </nav>
+
+  <symbol style="display:none;">
+    <svg id="add-user" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M6.41673 11.8519L1.78891 14.5013C1.2998 14.7811 1 15.2857 1 15.8307V17.0529C1 17.6052 1.44772 18.0529 2 18.0529H16.2494C16.8017 18.0529 17.2494 17.6052 17.2494 17.0529V15.8307C17.2494 15.2857 16.9496 14.7811 16.4605 14.5013L11.8286 11.8496" fill="white"/> <path d="M6.41673 11.8519L1.78891 14.5013C1.2998 14.7811 1 15.2857 1 15.8307V17.0529C1 17.6052 1.44772 18.0529 2 18.0529H16.2494C16.8017 18.0529 17.2494 17.6052 17.2494 17.0529V15.8307C17.2494 15.2857 16.9496 14.7811 16.4605 14.5013L11.8286 11.8496" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.12481 12.6269C6.43229 12.6269 4.25 10.5449 4.25 7.97613V5.65075C4.25 3.08199 6.43229 1 9.12481 1C11.8173 1 13.9996 3.08199 13.9996 5.65075V7.97613C13.9996 10.5449 11.8173 12.6269 9.12481 12.6269Z" fill="white" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <circle cx="15" cy="15" r="4" fill="white" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M15.0312 13.543V16.9012" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M13.3516 15.2217H16.7097" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> </svg>
+
+    <svg id="bell-icon" width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M6.72705 16.4629V16.5447C6.72705 17.9356 7.79069 18.9993 9.18159 18.9993C10.5725 18.9993 11.6361 17.9356 11.6361 16.5447V16.4629" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M14.9091 9.18181V6.72727C14.9091 3.53636 12.3727 1 9.18181 1C5.9909 1 3.45454 3.53636 3.45454 6.72727V9.18181C3.45454 11.8818 1 12.5364 1 14.0909C1 15.4818 4.19091 16.5454 9.18181 16.5454C14.1727 16.5454 17.3636 15.4818 17.3636 14.0909C17.3636 12.5364 14.9091 11.8818 14.9091 9.18181Z" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> </svg>
+
+    <svg id="setting-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M19 10C19 9.09591 18.2677 8.36364 17.3636 8.36364H16.3311C16.1765 7.76473 15.9408 7.20018 15.634 6.67982L16.3638 5.95C17.0028 5.311 17.0028 4.27518 16.3638 3.63618C15.7248 2.99718 14.689 2.99718 14.05 3.63618L13.3202 4.366C12.7998 4.05918 12.2353 3.82355 11.6364 3.66891V2.63636C11.6364 1.73309 10.9041 1 10 1C9.09591 1 8.36364 1.73227 8.36364 2.63636V3.66891C7.76473 3.82355 7.20018 4.05918 6.67982 4.366L5.95 3.63618C5.311 2.99718 4.27518 2.99718 3.63618 3.63618C2.99718 4.27518 2.99718 5.311 3.63618 5.95L4.366 6.67982C4.05918 7.20018 3.82355 7.76473 3.66891 8.36364H2.63636C1.73309 8.36364 1 9.09591 1 10C1 10.9041 1.73227 11.6364 2.63636 11.6364H3.66891C3.82355 12.2353 4.05918 12.7998 4.366 13.3202L3.63618 14.05C2.99718 14.689 2.99718 15.7248 3.63618 16.3638C4.27518 17.0028 5.311 17.0028 5.95 16.3638L6.67982 15.634C7.19936 15.9408 7.76473 16.1765 8.36364 16.3311V17.3636C8.36364 18.2669 9.09591 19 10 19C10.9041 19 11.6364 18.2677 11.6364 17.3636V16.3311C12.2353 16.1765 12.7998 15.9408 13.3202 15.634L14.05 16.3638C14.689 17.0028 15.7248 17.0028 16.3638 16.3638C17.0028 15.7248 17.0028 14.689 16.3638 14.05L15.634 13.3202C15.9408 12.8006 16.1765 12.2353 16.3311 11.6364H17.3636C18.2669 11.6364 19 10.9041 19 10Z" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.99751 7.54492C11.3532 7.54492 12.4521 8.64374 12.4521 9.99947C12.4521 11.3552 11.3532 12.454 9.99751 12.454C8.64179 12.454 7.54297 11.3552 7.54297 9.99947C7.54297 8.64374 8.64179 7.54492 9.99751 7.54492Z" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> </svg>
+
+    <svg id="help-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle cx="10" cy="10" r="9" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M9.99922 12V11C11.5992 11 12.9992 9.6 12.9992 8C12.9992 6.4 11.5992 5 9.99922 5C8.79922 5 7.69922 5.9 7.19922 6.9" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M10 14V15" stroke="#091C3F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/> </svg>
+  </symbol>

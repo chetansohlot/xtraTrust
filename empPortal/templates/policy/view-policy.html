@@ -1,0 +1,808 @@
+{% extends 'master.html' %}
+
+{% block title %}
+View Policy
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header header-content-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <h1 class="admin-title m-0 pt-2">View Policy</h1>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li>View Policy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content px-0">
+      <div class="container-fluid">
+        <div class="row">
+            
+          <div class="col-md-4 px-0">
+            <div class="card member-detail-left-card">
+              <div class="card-body box-profile">
+                <div class="d-flex justify-content-center align-items-center">
+                    <h3 class="profile-username m-0">
+                        <span class="text-capitalize">{{policy_info.insured_name}}</span>
+                        <!-- <span class="text-muted ms-1">(Male)</span> -->
+                    </h3>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <span class="text-muted m-0">
+                        Insured Mobile: {{policy_info.insured_mobile}}
+                    </span>
+                </div>
+                <hr>
+                
+                
+                <ul class="member-detail-list">
+                    <li><span class="list">Policy Number</span><span class="list-output"> {{policy_info.policy_number}}</span></li>
+                    <li><span class="list">Policy Issue Date</span><span class="list-output">{{policy_info.policy_issue_date}}</span></li>
+                    <li><span class="list">Policy Start Date</span><span class="list-output">{{policy_info.policy_start_date}}</span></li>
+                    <li><span class="list">Policy Expiry Date</span><span class="list-output">{{policy_info.policy_expiry_date}}</span></li>
+                    <li><span class="list">Insured Email</span><span class="list-output">{{policy_info.insured_email}}</span></li>
+                    <li><span class="list">Insured Address</span><span class="list-output">{{policy_info.insured_address}}</span></li>
+                    <li><span class="list">Insured PAN</span><span class="list-output text-uppercase">{{policy_info.insured_pan}}</span></li>
+                    <li><span class="list">Insured Aadhaar</span><span class="list-output">{{policy_info.insured_aadhaar}}</span></li> 
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 px-0">
+        <div class="card member-detail-right-card">
+          <div class="tabarea-scrollbar">
+            <ul class="nav nav-pills profile-tab">
+                <li class="nav-item text-bold"><a class="nav-link active" href="#policy-details-tab" data-toggle="tab">Policy Details</a></li>
+                <li class="nav-item text-bold"><a class="nav-link" href="#vehicle-details-tab" data-toggle="tab">Vehicle Details</a></li>
+                <li class="nav-item text-bold"><a class="nav-link" href="#document-details-tab" data-toggle="tab">Document Details </a></li>
+                <li class="nav-item text-bold"><a class="nav-link" href="#agent-details-tab" data-toggle="tab">Agent Details </a></li>
+                <li class="nav-item text-bold"><a class="nav-link" href="#insurer-payment-details-tab" data-toggle="tab">Insurer Payment Details</a></li>
+                <li class="nav-item text-bold"><a class="nav-link" href="#franchise-payment-details-tab" data-toggle="tab">Franchise Payment Details </a></li>
+                
+            </ul>
+          </div>  
+          <div class="card-body">
+              <div class="tab-content tab-scrollbar">
+                  <div class="tab-pane active" id="policy-details-tab">
+                      <div class="row mt-3">
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 border-bottom">Policy Details</h2>
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurance Company</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_info.insurance_company|default:'None'}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Branch Name</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_info.branch.branch_name|default:'None'}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Policy Type</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_info.policy_type}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Fuel Type</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_info.fuel_type}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Be-Fuel Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.be_fuel_amount }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Sum Insured</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.sum_insured }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">OD Premium</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.od_premium }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">TP Premium</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.tp_premium }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">PA Count</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.pa_count }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">PA Amount</p>
+                                  <p class="userdetail-highligt">
+                                     {{ policy_info.pa_amount }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Driver Count</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.driver_count }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Driver Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.driver_amount }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Gross Premium</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.gross_premium }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Net Premium</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.net_premium }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-4 col-lg-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">GST</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_info.gst_premium }}
+                                  </p>
+                              </div>  
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="tab-pane" id="vehicle-details-tab">
+                      <div class="row mt-3">
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 border-bottom">Vehicle Details</h2>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Vehicle Type</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_vehicle.vehicle_type }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Make</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_vehicle.vehicle_make }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Model</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_vehicle.vehicle_model }}
+                                  </p>
+                              </div>  
+                          </div>
+                          
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Variant</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_vehicle.vehicle_variant }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Fuel Type</p>
+                                  <p class="userdetail-highligt">
+                                     {{ policy_vehicle.fuel_type }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">GVW</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_vehicle.gvw }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">NCB</p>
+                                  <p class="userdetail-highligt">
+                                     {{ policy_vehicle.ncb }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Cubic Capacity</p>
+                                  <p class="userdetail-highligt">
+                                     {{ policy_vehicle.cubic_capacity }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Seating Capacity</p>
+                                  <p class="userdetail-highligt">
+                                     {{ policy_vehicle.seating_capacity }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Reg Number</p>
+                                  <p class="userdetail-highligt">
+                                     {{ policy_vehicle.registration_number }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Engine Number</p>
+                                  <p class="userdetail-highligt">
+                                    {{ policy_vehicle.engine_number }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Chassis Number</p>
+                                  <p class="userdetail-highligt">
+                                      {{ policy_vehicle.chassis_number }}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Manufacture Date</p>
+                                  <p class="userdetail-highligt">
+                                     {{ policy_vehicle.manufacture_year }}                                      
+                                  </p>
+                              </div>  
+                          </div>
+                          
+                      </div>
+                  </div>
+
+                  <div class="tab-pane" id="document-details-tab">
+                      <div class="row">
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 border-bottom">Document Details</h2>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Re Other Endorsement</p>
+                                  <a href="#" class="userdetail-highligt">
+                                      {{ policy_upload_docs.re_other_endorsement|default:'None' }}
+                                  </a>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Previous Policy</p>
+                                  <a href="#" class="userdetail-highligt">
+                                      {{ policy_upload_docs.previous_policy|default:'None' }}
+                                  </a>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">KYC Document</p>
+                                  <a href="#" class="userdetail-highligt">
+                                      {{ policy_upload_docs.kyc_document|default:'None' }}
+                                  </a>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Proposal Document</p>
+                                  <a href="#" class="userdetail-highligt">
+                                     {{ policy_upload_docs.proposal_document|default:'None' }}
+                                  </a>
+                              </div>  
+                          </div>
+                      </div>
+                      
+                  </div>
+
+                  <div class="tab-pane" id="agent-details-tab">
+                      <div class="row mt-3">
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 border-bottom">Agent Payment Details </h2>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Referral Name</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_agent_details.referral.name}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">BQP</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_info.bqp.bqp_name}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">POS Name</p>
+                                  <p class="userdetail-highligt">
+                                      {{pos_user.user_name|default:'None'}}   <!--user name is pos name-->
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Payment Mode</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_payment_mod}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Transaction ID / Check Number</p>
+                                  <p class="userdetail-highligt">
+                                        {{policy_agent_details.transaction_id}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Payment Date</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_agent_details.agent_payment_date}}  
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_agent_details.agent_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Remarks</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_agent_details.agent_remarks|default:'None'}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 mt-3 border-bottom">Agent Commission Details</h2>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent OD Comm (in %)</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_agent_details.agent_od_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent OD Comm Amount</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_od_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent TP Comm (in %)</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_tp_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent TP Comm Amount</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_tp_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Net Comm (in %)</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_net_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Net Comm Amount</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_net_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Incentive Amount</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_incentive_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Total Comm Amount</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_total_comm_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent TDS (in %)</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_tds}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent TDS Amount</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_tds_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Agent Net Payable Amount</p>
+                                  <p class="userdetail-highligt">
+                                       {{policy_agent_details.agent_net_payable_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="tab-pane" id="insurer-payment-details-tab">
+                      <div class="row mt-3">
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 border-bottom">Insurer Payment Details</h2>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer Payment Mode</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_payment_mode}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer Payment Date</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_payment_date}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer Remarks</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_remarks}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer OD Comm (in %)</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_od_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer OD Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_od_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer TP Comm (in %)</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_tp_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer TP Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_tp_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer Net Comm (in %)</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_net_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer Net Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_net_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer Incentive Amount</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_insurer_details.insurer_incentive_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Total Commission Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_total_commission}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Insurer TDS (in %)</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_tds}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">TDS Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_tds_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Net Payable Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_net_payable_amount}} 
+                                  </p>
+                              </div>  
+                          </div>
+
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 mt-3 border-bottom">Payment Receivables</h2>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Total Commission</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_insurer_details.insurer_total_commission}} 
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Received Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_receive_amount}} 
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Balance Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_insurer_details.insurer_balance_amount}} 
+                                  </p>
+                              </div>  
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="tab-pane" id="franchise-payment-details-tab">
+                      <div class="row mt-3">
+                          <div class="col-sm-12">
+                              <h2 class="admin-title pb-2 mb-3 border-bottom">Franchise Payment Details</h2>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise OD Comm</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_franchise_details.franchise_od_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise OD Amount</p>
+                                  <p class="userdetail-highligt">
+                                    {{policy_franchise_details.franchise_od_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise TP Comm</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_franchise_details.franchise_tp_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise TP Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_franchise_details.franchise_tp_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise Net Comm</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_franchise_details.franchise_net_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise Net Amount</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_franchise_details.franchise_net_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise Incentive Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_franchise_details.franchise_incentive_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Total Comm Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_franchise_details.franchise_total_comm_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Franchise TDS</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_franchise_details.franchise_tp_comm}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">TDS Amount</p>
+                                  <p class="userdetail-highligt">
+                                      {{policy_franchise_details.franchise_tds_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                          <div class="col-md-3">
+                              <div class="userdetail-group">
+                                  <p class="userdetail-lbl">Net Payable Amount</p>
+                                  <p class="userdetail-highligt">
+                                     {{policy_franchise_details.franchise_net_payable_amount}}
+                                  </p>
+                              </div>  
+                          </div>
+                      </div>
+                  </div>
+
+                  
+
+              </div>
+          </div>
+        </div>
+    </div>
+</div>  
+      </div>
+    </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+{% endblock %}

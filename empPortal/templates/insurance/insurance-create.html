@@ -1,0 +1,310 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+Insurance Company- {% if insurance %}Edit Insurance Company{% else %}Create Insurance Company{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Breadcrumb -->
+        <div class="content-header breadcrump-bg">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">
+                                {% if insurance %}Edit Insurance Company{% else %}Create Insurance Company{% endif %}
+                            </a>
+                        </div>
+                        <ul class="breadcrump">
+                            <li><a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                            <li><a href="{% url 'insurance_index' %}">Insurance</a> <i class="fas fa-chevron-right"></i></li>
+                            <li>{% if insurance %}Edit Insurance Company{% else %}Create Insurance Company{% endif %}</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'insurance_index' %}" class="breadcrump-addbtn">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="stepflow-text stepflow-five-col mt-0">
+                            <li><a href="#">Basic Company Details</a></li>
+                            <li><a href="#">Contact Details</a></li>
+                            
+                          </ul>
+                          <ul class="new-stepflow mb-3">
+                            <li></li>
+                            <li></li>
+                           
+                          </ul>
+                        <!-- Form Card -->
+                        <div class="card box-shadow-none p-md-5 p-3">
+                            <div class="card-body px-0 pb-0 pt-0">
+                                <form autocomplete="off" id="insuranceForm" name="insuranceForm"
+                                      action="{% if insurance %}{% url 'insurance_edit' insurance.id %}{% else %}{% url 'create-insurance' %}{% endif %}"
+                                      method="post">
+                                    {% csrf_token %}
+                                        
+                                    <div class="row">
+                                        <!-- Insurance Company -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="insurance_company">Insurance Company</label>
+                                            <input type="text" class="form-field" name="insurance_company" id="insurance_company"
+                                                   placeholder="Enter Insurance Company Name"
+                                                   value="{{ insurance.insurance_company|default:'' }}" >     
+                                        </div>
+                                        <!-- Insurance Company -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="ins_short_name">Insurance Company Short Name</label>
+                                            <input type="text" class="form-field" name="ins_short_name" id="ins_short_name"
+                                                   placeholder="Enter Insurance Company Short Name"
+                                                   value="{{ insurance.ins_short_name|default:'' }}">      
+                                        </div>
+                                    </div>
+
+                                    <h5>Registered Address</h5>
+                                    <div class="form-row">
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="registered_state">State</label>
+                                            <select class="form-field" name="registered_state" id="registered_state" >
+                                                <option value="">Select State</option>
+                                                {% for state in states %}
+                                                    <option value="{{ state.id }}"
+                                                        {% if insurance and insurance.state.id == state.id %}selected{% endif %}>
+                                                        {{ state.name }}
+                                                    </option>
+                                                    
+                                                {% endfor %}
+                                            </select>
+                                           
+                                        </div>
+                                        
+                                        <!-- Optional: hidden field to pre-load selected city -->
+                                        <input type="hidden" id="registered_city_id" value="{{ insurance.city.id }}">
+                                        
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="registered_city">City</label>
+                                            <select class="form-field" name="registered_city" id="registered_city" >
+                                                <option value="">Select City</option>
+                                            </select>
+                                            
+                                        </div>
+                                        
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="registered_pincode">Pincode</label>
+                                            <input type="number" class="form-field" name="registered_pincode" 
+                                            id="registered_pincode" placeholder="Enter Pincode" 
+                                            value="{{ insurance.pincode|default:'' }}" maxlength="6" >
+                                            
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl" for="registered_address">Address</label>
+                                        <textarea class="form-field" name="registered_address" 
+                                        id="registered_address" placeholder="Enter Address">{{ insurance.address|default:'' }}</textarea>
+                                    </div>
+                                    
+                                    <!-- Checkbox for Same Address -->
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" id="sameAddress" name="billing_same_as_registered">
+                                        <label class="form-check-label" for="sameAddress">Same as Registered Address</label>
+                                    </div>
+                            
+                                    <!-- Billing Address Section -->
+                                    <h5>Billing Address</h5>
+                                    <div class="form-row">
+                                        <!-- Billing State Dropdown -->
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl" for="billing_state">State</label>
+                                        <select class="form-field" name="billing_state" id="billing_state" >
+                                        <option value="">Select State</option>
+                                            {% for state in states %}
+                                            <option value="{{ state.id }}"
+                                                    {% if insurance.billing_state and insurance.billing_state == state.id %}selected{% endif %}>
+                                            {{ state.name }}
+                                        </option>
+                                        {% endfor %}
+                                        </select>
+                                      
+                                    </div>
+
+                                    <!-- Hidden field to store selected billing city id -->
+                                    <input type="hidden" id="billing_city_id" value="{{ insurance.billing_city }}">
+
+                                    <!-- Billing City Dropdown -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                             <label class="form-lbl" for="billing_city">City</label>
+                                            <select class="form-field" name="billing_city" id="billing_city" >
+                                                <option value="">Select City</option>
+                                             </select>
+                                            
+                                        </div>
+
+                                        
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="pincode">Pincode</label>
+                                            <input type="number" class="form-field" name="billing_pincode" 
+                                            id="billing_pincode" placeholder="Enter Pincode" 
+                                            value="{{ insurance.billing_pincode|default:'' }}"  maxlength="6">
+                                            
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl" for="address">Address</label>
+                                        <textarea class="form-field" name="billing_address" id="billing_address" 
+                                        placeholder="Enter Address">{{ insurance.billing_address|default:'' }}</textarea>
+                                        
+                                    </div>
+                            
+                                    <!-- Date of Commencement -->
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl" for="commencement_date">Date of Commencement</label>
+                                        <input type="date" class="form-field" name="commencement_date" id="commencement_date"
+                                               value="{{ insurance.commencement_date|date:'Y-m-d' }}">
+                                        
+                                    </div>
+                                    <!-- Submit Button -->
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="form-submit-btn">
+                                            {% if insurance %}Update Insurance Company{% else %}Save Insurance Company{% endif %}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+</div>
+<script>
+
+    document.getElementById("sameAddress").addEventListener("change", function () {
+        if (this.checked) {
+            const regState = document.getElementById("registered_state").value;
+            const regCity = document.getElementById("registered_city").value;
+    
+            document.getElementById("billing_state").value = regState;
+            loadBillingCities(regState, regCity);  // Ensure city is loaded via AJAX
+    
+            document.getElementById("billing_pincode").value = document.getElementById("registered_pincode").value;
+            document.getElementById("billing_address").value = document.getElementById("registered_address").value;
+        } else {
+            document.getElementById("billing_state").value = "";
+            $('#billing_city').html('<option value="">Select City</option>');
+            document.getElementById("billing_pincode").value = "";
+            document.getElementById("billing_address").value = "";
+        }
+    });
+    
+
+    function loadRegisteredCities(stateId, selectedCity = null) {
+        $('#registered_city').html('<option value="">Loading cities...</option>');
+        if (stateId) {
+            $.ajax({
+                url: "{% url 'get_cities' %}",
+                data: {
+                    'state_id': stateId
+                },
+                success: function (data) {
+                    let options = '';
+                    $.each(data.cities, function (index, city) {
+                        if (selectedCity == city.id) {
+                            options += `<option value="${city.id}" selected>${city.city}</option>`;
+                        } else {
+                            options += `<option value="${city.id}">${city.city}</option>`;
+                        }
+                    });
+                    $('#registered_city').html(options);
+                }
+            });
+        } else {
+            $('#registered_city').html('<option value="">Select City</option>');
+        }
+    }
+    
+    $(document).ready(function () {
+        const selectedRegState = $('#registered_state').val();
+        const selectedRegCity = $('#registered_city_id').val();  // from hidden field
+    
+        if (selectedRegState) {
+            loadRegisteredCities(selectedRegState, selectedRegCity);
+        }
+    
+        $('#registered_state').change(function () {
+            const stateId = $(this).val();
+            loadRegisteredCities(stateId);
+        });
+    });
+
+    function loadBillingCities(stateId, selectedCity = null) {
+        $('#billing_city').html('<option value="">Loading cities...</option>');
+        if (stateId) {
+            $.ajax({
+                url: "{% url 'get_cities' %}",
+                data: {
+                    'state_id': stateId
+                },
+                success: function (data) {
+                    let options = '';
+                    $.each(data.cities, function (index, city) {
+                        if (selectedCity == city.id) {
+                            options += `<option value="${city.id}" selected>${city.city}</option>`;
+                        } else {
+                            options += `<option value="${city.id}">${city.city}</option>`;
+                        }
+                    });
+                    $('#billing_city').html(options);
+                }
+            });
+        } else {
+            $('#billing_city').html('<option value="">Select City</option>');
+        }
+    }
+    
+    $(document).ready(function () {
+        const selectedBillState = $('#billing_state').val();
+        const selectedBillCity = $('#billing_city_id').val();
+    
+        if (selectedBillState) {
+            loadBillingCities(selectedBillState, selectedBillCity);
+        }
+    
+        $('#billing_state').change(function () {
+            const stateId = $(this).val();
+            loadBillingCities(stateId);
+        });
+    }); 
+    
+    
+
+</script>
+</body>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Role
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Role</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="{% url 'user-and-roles' %}">Roles</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add Role</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                   
+
+                    <form autocomplete="off" name="saveRole" action="/insert-role/" method="post">
+                      {% csrf_token %}
+                      
+                      {% comment %} <div class="form-group col-sm-6">
+                        <label for="department_id">Department</label>
+                        <select class="form-control" name="department_id" id="department_id">
+                            <option value="">Select Department</option>
+                            {% for department in departments %}
+                                <option value="{{ department.id }}">
+                                {{ department.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                      </div> {% endcomment %}
+
+                      <div class="form-group col-sm-6">
+                          <label for="role_name">Role Name</label>
+                          <input type="text" class="form-control" name="role_name" id="role_name" placeholder="User Role">
+                      </div>
+                      
+
+                      <div class="form-group col-sm-6">
+                        <label for="role">
+                            Senior Role <small class="text-muted">(Select senior role if any )</small>
+                        </label>
+                        <select class="form-control" name="role_id" id="role_id">
+                            <option value="">Select Senior Role</option>
+                            {% for role in roles %}
+                                <option value="{{ role.id }}" {% if role.id|stringformat:"s" == employee.role_id|stringformat:"s" %}selected{% endif %}>
+                                    {{ role.roleName }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                    
+
+                      <button type="submit" class="btn btn-primary">Save Role</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    
+</body>
+{% endblock %}

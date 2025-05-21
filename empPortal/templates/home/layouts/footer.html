@@ -1,0 +1,132 @@
+{% load static %}
+<footer>
+    <div class="container">
+      <div class="row">
+        {% load static %}
+        <div class="col-md-12">
+          <div class="row justify-content-between">
+            <div class="col-sm-6 col-md-6 col-lg-3 order-sm-1">
+              <a href="{% url 'home-index' %}">
+                <img src="{% static GLOBAL_BIG_LOGO %}" alt="" class="footer-logo mb-0">
+              </a>
+              <p class="footer-content ">
+                <small>
+                  {{ COMPANY_NAME }} <br>
+                  IRDAI License Number: {{ IRDAI_LICENSE_NO }}<br>
+                  CIN: {{ CIN_NO }}<br>
+                  {{ LICENSE_CATEGORY }}<br>
+                  Valid Till: {{ VALID_TILL }}<br>
+                  Principal Officer- {{ PRINCIPAL_OFFICER }}
+                </small>
+              </p>
+              <ul class="footer-social-icon mb-4">
+                <li><a href="#" target="_blank"><i class="fa-brands fa-facebook-f"></i><span>Facebook</span></a></li>
+                <li><a href="#" target="_blank"><i class="fa-brands fa-x-twitter"></i><span>Twitter</span></a></li>
+                <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i> <span>Linkedin</span></a></li>
+                <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a></li>
+              </ul>
+              
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 order-sm-3 order-lg-2">
+              <div class="row">
+                <div class="col-sm-12 col-md-12">
+                  <div class="row">
+                    <div class="col-6 col-sm-4 col-md-4">
+                      <h5 class="footer-hding">Insurance Products</h5>
+                      <ul class="footer-list">
+                        <li><a href="#">Motor Insurance</a></li>
+                        <li><a href="#">Health Insurance</a></li>
+                        <li><a href="#">Term Insurance</a></li>
+                        <li><a href="#">Other Insurances</a></li>
+                      </ul>    
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-4">
+                      <h5 class="footer-hding">Resources</h5>
+                      <ul class="footer-list">
+                        <li><a href="#">EMI Calculator</a></li>
+                        <li><a href="#">Eligibility Calculator</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="{% static IRDA_LICENSE_PATH %}" target="_blank">IRDA License</a></li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                      <h5 class="footer-hding">About us</h5>
+                      <ul class="footer-list">
+                        <li><a href="#">About Us</a></li> 
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="{{ EMP_PORTAL_PATH }}media/terms/Terms_And_Conditions.pdf" target="_blank">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Become a Partner</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-3 order-sm-2 order-lg-3">
+              <h5 class="footer-hding">Contact us</h5>
+              <p class="footer-content d-flex mb-2">
+               <span class="footer-cnt-icon"><i class="fa-solid fa-house"></i></span> {{ COMPANY_ADDRESS }}
+              </p>
+              <p class="footer-content d-flex"> 
+                <a href="tel:+919990724365">
+                  <span class="footer-cnt-icon"><i class="fa-solid fa-phone-volume"></i></span>   {{ COMPANY_TEL }}
+                </a>  
+              </p>
+              <p class="footer-content d-flex"> 
+                <a href="mailto:{{ COMPANY_EMAIL }}">
+                 <span class="footer-cnt-icon"><i class="fa-solid fa-envelope"></i></span>   {{ COMPANY_EMAIL }}
+               </a>
+              </p>
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="footer-hr mt-0"></div>
+          <ul class="footer-disclaimer">
+            <li><i class="far fa-check-circle"></i> {{ COMPANY_NAME }} CIN: {{ CIN_NO }} Registered Office - {{ COMPANY_ADDRESS }}.</li>
+            <li><i class="far fa-check-circle"></i> {{ COMPANY_SHORT_NAME }} Registration No {{ IRDAI_LICENSE_NO }} Registration Code No {{ COMPANY_REGISTRATION_CODE_NO }} Valid till {{ VALID_TILL }} License category {{ LICENSE_CATEGORY }}</li>
+            <li><i class="far fa-check-circle"></i> Visitors are hereby informed that their information submitted on the website may be shared with insurers. Product information is authentic and solely based on the information received from the insurers.</li>
+            <li><i class="far fa-check-circle"></i> <div><span><strong>BEWARE OF SPURIOUS PHONE CALLS AND FICTITIOUS / FRAUDULENT OFFERS</strong></span> <br>
+              IRDAI or its officials do not involve in activities like selling insurance policies, announcing bonus or investment of premiums. Public receiving such phone calls are requested to lodge a police complaint.</div>
+            </li>
+            <li><i class="far fa-check-circle"></i> Tax benefits are subject to changes in the applicable tax laws. Visitors are hereby informed that their information submitted on the website may be shared with Insurers. </li>
+            <li><i class="far fa-check-circle"></i> You authorise {{ COMPANY_NAME }} to contact you through Call, SMS, Email, WhatsApp or any other mode in the future. You hereby override your NDNC registration.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-hr"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+  
+          <p class="copyright-text mb-2 mb-md-0">Copyright © <script>document.write(new Date().getFullYear());</script> {{ COMPANY_FIRST_NAME }} All Right Reserved</p>
+        </div>
+        <div class="col-md-6">
+          <p class="copyright-text text-md-end mb-2 mb-md-0">Powered by <a href="https://www.netleafinfosoft.com" target="_blank">Netleaf Software</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  
+  <script src="{% static 'home/assets/js/jquery-3.7.1.min.js' %}"></script>
+  <script src="{% static 'home/assets/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'home/assets/js/custom.js' %}?v={{ cache_buster }}"></script>
+ 
+  <script type="text/javascript">
+    $(document).ready(function () {
+          $("input[name='loginvia']").change(function () {
+              if ($("#email").is(":checked")) {
+                  $("#email-login").show();
+                  $("#Mobile-login").hide();
+              } else if ($("#mobile").is(":checked")) {
+                  $("#email-login").hide();
+                  $("#Mobile-login").show();
+              }
+          });
+      });
+  </script>	

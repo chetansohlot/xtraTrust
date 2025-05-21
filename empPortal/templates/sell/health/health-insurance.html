@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+    <section class="">
+      <div class="container ">
+        <div class="row justify-content-between align-items-center pt-2">
+          <div class="col-lg-6">
+            <h1 class="banner-hding">Health Insurance</h1>
+            <h2 class="banner-subhding">Compare & Buy Best Fit Health Insurance</h2>
+            <div class="row">
+              <div class="col-md-12">
+                <form action="{% url 'create-health-quotes' %}">
+                  <div class="form-box mt-4">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="policy-insurance" id="new-policy-btn" checked>
+                              <label for="new-policy-btn">New Policy</label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="policy-insurance" id="renew-policy-btn">
+                              <label for="renew-policy-btn">Renew Policy</label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" id="new-policy">  
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="form-lbl">Who would you like to insure?</label>
+                          <ul class="health-insurer-list">
+                            <li>
+                              <label for="health-insurance-self">
+                                <input type="checkbox" name="insurer-choose" id="health-insurance-self" class="d-none" checked>
+                                <div class="insurer-icon">
+                                  <img src="{% static 'home/assets/image/icons/user.png' %}">
+                                </div>
+                                <div class="insurer-name">Self</div>
+                              </label>  
+                            </li>
+                            <li>
+                              <label for="health-insurance-spouse">
+                                <input type="checkbox" name="insurer-choose" id="health-insurance-spouse" class="d-none">
+                                <div class="insurer-icon">
+                                  <img src="{% static 'home/assets/image/icons/married.png' %}">
+                                </div>
+                                <div class="insurer-name">Spouse</div>
+                              </label>  
+                            </li>
+                            <li>
+                              <label for="health-insurance-child">
+                                <input type="checkbox" name="insurer-choose" id="health-insurance-child" class="d-none">
+                                <div class="insurer-icon">
+                                  <img src="{% static 'home/assets/image/icons/child.png' %}">
+                                </div>
+                                <div class="insurer-name">Child</div>
+                              </label>  
+                              <div class="increment-decreament">
+                                <div class="quantity" data-max="5">
+                                  <button class="quantity_minus">-</button>
+                                  <input type="text" class="quantity_input" maxlength="4" value="1" readonly>
+                                  <button class="quantity_plus">+</button>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <label for="health-insurance-parent">
+                                <input type="checkbox" name="insurer-choose" id="health-insurance-parent" class="d-none">
+                                <div class="insurer-icon">
+                                  <img src="{% static 'home/assets/image/icons/family.png' %}">
+                                </div>
+                                <div class="insurer-name">Parent</div>
+                              </label>  
+                              <div class="increment-decreament">
+                                <div class="quantity" data-max="2">
+                                  <button class="quantity_minus">-</button>
+                                  <input type="text" class="quantity_input" value="1" readonly>
+                                  <button class="quantity_plus">+</button>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <label for="health-insurance-parent-in-law">
+                                <input type="checkbox" name="insurer-choose" id="health-insurance-parent-in-law" class="d-none">
+                                <div class="insurer-icon">
+                                  <img src="{% static 'home/assets/image/icons/parents.png' %}">
+                                </div>
+                                <div class="insurer-name">Parent In-Law</div>
+                              </label>  
+                              <div class="increment-decreament">
+                                <div class="quantity" data-max="2">
+                                  <button class="quantity_minus">-</button>
+                                  <input type="text" class="quantity_input" value="1" readonly>
+                                  <button class="quantity_plus">+</button>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col">
+                              <label class="form-lbl pb-0">Self Age</label>    
+                            </div>
+                            <div class="col-5 col-md-4">
+                              <select class="form-field">
+                                <option>Select Age</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                              </select>    
+                            </div>
+                          </div>
+                          
+                          
+                        </div>
+                      </div>
+                      <!-- <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col">
+                              <label class="form-lbl pb-0">Spouse</label>
+                            </div>
+                            <div class="col-5 col-md-4">   
+                              <select class="form-field">
+                                <option>Select Age</option>
+                                <?php 
+                                  for ($i = 18; $i <= 100; $i++) {
+                                ?> 
+                                <option><?php  echo $i . ' '; ?></option>
+                                 <?php
+                                  }
+                                  ?>
+                              </select>
+                            </div>
+                          </div>    
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col">
+                              <label class="form-lbl pb-0">Child</label>
+                            </div>  
+                            <div class="col-5 col-md-4">   
+                              <select class="form-field">
+                                <option>Select Age</option>
+                                <?php 
+                                  for ($i = 1; $i <= 18; $i++) {
+                                ?> 
+                                <option><?php  echo $i . ' '; ?></option>
+                                 <?php
+                                  }
+                                  ?>
+                              </select>
+                            </div>
+                          </div>    
+                        </div>
+                      </div> 
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col">
+                              <label class="form-lbl pb-0">Age of the eldest parent</label>
+                            </div>
+                            <div class="col-5 col-md-4">     
+                              <select class="form-field">
+                                <option>Select Age</option>
+                                <?php 
+                                  for ($i = 18; $i <= 100; $i++) {
+                                ?> 
+                                <option><?php  echo $i . ' '; ?></option>
+                                 <?php
+                                  }
+                                  ?>
+                              </select>
+                            </div>
+                          </div>    
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col">
+                              <label class="form-lbl pb-0">Parents In-law</label>
+                            </div> 
+                            <div class="col-5 col-md-4"> 
+                              <select class="form-field">
+                                <option>Select Age</option>
+                                <?php 
+                                  for ($i = 18; $i <= 100; $i++) {
+                                ?> 
+                                <option><?php  echo $i . ' '; ?></option>
+                                 <?php
+                                  }
+                                  ?>
+                              </select>
+                            </div>
+                          </div>    
+                        </div>
+                      </div> -->
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col">
+                              <label class="form-lbl pb-0">Mobile Number</label>
+                            </div>  
+                            <div class="col-5 col-md-4"> 
+                              <input type="text" class="form-field" placeholder="Enter Mobile Number">
+                            </div>
+                          </div>    
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col">
+                              <label class="form-lbl pb-0">Pincode</label>
+                            </div>  
+                            <div class="col-5 col-md-4"> 
+                              <input type="text" class="form-field" placeholder="Enter Pincode">
+                            </div>
+                          </div>    
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <button type="submit" class="form-btn w-auto ms-auto d-table mt-4">View Quote</button>
+                      </div>
+                    </div>
+                    <div class="row" id="renew-policy" style="display: none;">  
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="form-lbl">Policy Number</label>
+                          <input type="text" name="" class="form-field" placeholder="Type your policy number">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="form-lbl">Date of Birth</label>
+                          <input type="text" name="" class="form-field datepicker_dob" placeholder="DD/MM/YYYY">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="form-lbl">Select Insurer</label>
+                          <select class="form-field">
+                            <option>Select Insurer</option>
+                            <option>Niva</option>
+                            <option>SBI</option>
+                            <option>Care</option>
+                            <option>Manipal Cigna</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <button type="submit" class="form-btn w-auto ms-auto d-table mt-4">Renew Your Policy</button>
+                      </div>
+                    </div>
+                  </div>  
+                </form>
+              </div>
+            </div>  
+            
+          </div>
+          <div class="col-lg-6 order-first order-lg-last">
+            <img src="{% static 'home/assets/image/svg/health-insurance.svg' %}"   class="align-items-center img-fluid" >
+          </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <section class="container py-5">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-sm-12 col-md-5">
+        <img src="{% static 'home/assets/image/svg/health-insurance2.svg' %}"   class="align-items-center img-fluid" >
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <h2 class="wrap-hding pb-3">What is Health Insurance?</h2>
+        <p class="wrap-prgh">
+          Health insurance, also known as a medical insurance plan or policy, is a crucial financial tool that covers medical expenses for injuries, illnesses, and more. From basic hospitalization coverage to comprehensive policies with added benefits like preventive healthcare and death benefits, there’s a wide range of options available.<br><br>
+  
+          Choosing the right health plan ensures you and your family remain financially secure during unexpected medical emergencies. But why settle for the ordinary? {{ COMPANY_FIRST_NAME }} Health Insurance Plans go beyond! With zero deductions on claims and valuable built-in add-ons, we offer an extra layer of protection when you need it most.
+        </p>
+      </div>
+      
+    </div>
+  </section>      
+  
+  <section class="container pb-5">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <h2 class="wrap-hding text-center pb-4">Types of Health Insurance Plans</h2>
+      </div>
+      <div class="col-sm-12 col-md-4 mb-3">
+        <div class="form-box h-100">
+          <div class="insurance-plan-img">
+            <img src="{% static 'home/assets/image/icons/single.png' %}" alt="">
+          </div>  
+          <p class="wrap-title">Individual Health Insurance</p>
+          <p class="wrap-prgh mb-0 pb-0">It provides coverage for a single individual under the health insurance policy, covering medical expenses such as hospitalization, injuries, room rent, and more.</p>
+        </div>  
+      </div>
+      <div class="col-sm-12 col-md-4 mb-3">
+        <div class="form-box h-100">
+          <div class="insurance-plan-img">
+            <img src="{% static 'home/assets/image/icons/family.png' %}" alt="">
+          </div> 
+          <p class="wrap-title">Family Floater Health Insurance</p>
+          <p class="wrap-prgh mb-0 pb-0">This policy covers an entire family of two or more members under a single health insurance plan. The coverage can be utilized by one or all insured members, offering a cost-effective alternative to individual health insurance policies, as the premium is comparatively lower.</p>
+        </div>  
+      </div>
+      <div class="col-sm-12 col-md-4 mb-3">
+        <div class="form-box h-100">
+          <div class="insurance-plan-img">
+            <img src="{% static 'home/assets/image/icons/group.png' %}" alt="">
+          </div> 
+          <p class="wrap-title">Group Health Insurance</p>
+          <p class="wrap-prgh mb-0 pb-0">A group policy is specifically designed for corporates, covering employees working together. It is offered to employees at a significantly lower premium cost.</p>
+        </div>  
+      </div>
+    </div>
+  </section>
+  
+  <section class="hiw-bg mb-0 pb-0">
+    <div class="container">
+      <div class="row pb-5 align-items-center justify-content-between">
+        <div class="col-lg-12 col-md-12">
+          <h2 class="wrap-hding text-center pb-5">Benefits of Health Insurance</h2>
+        </div>
+        
+  
+        <div class="col-md-12">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-3">
+              <div class="hiw-box-area bg-white h-100">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="hiw-circle">
+                      <img src="{% static 'home/assets/image/icons/investment-insurance.png' %}">
+                    </div>
+                    <h3 class="hiw-box-hding text-center pb-2">Financial Security</h3>  
+                    <p class="hiw-box-prgh text-center">Facing a critical illness or major accident could potentially erase your lifetime of hard-earned savings. Health insurance serves as a crucial shield, safeguarding your finances by offering vital financial support during emergencies. </p>  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+              <div class="hiw-box-area bg-white h-100">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="hiw-circle">
+                      <img src="{% static 'home/assets/image/icons/mental-disorder.png' %}">
+                    </div>
+                    <h3 class="hiw-box-hding text-center pb-2">Mental Peace</h3>  
+                    <p class="hiw-box-prgh text-center">Health insurance ensures you won’t have to stress about covering hospital bills during emergencies like accidents or illnesses. It provides financial security, giving you peace of mind for the future</p>  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+              <div class="hiw-box-area bg-white h-100">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="hiw-circle">
+                      <img src="{% static 'home/assets/image/icons/accident.png' %}">
+                    </div>
+                    <h3 class="hiw-box-hding text-center pb-2">Covers Both Illness & Accident</h3>  
+                    <p class="hiw-box-prgh text-center">Health insurance covers not only accident-related treatments but also critical illnesses like cancer, heart attack, paralysis, and more.</p>  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+              <div class="hiw-box-area bg-white h-100">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="hiw-circle">
+                      <img src="{% static 'home/assets/image/icons/diseases.png' %}">
+                    </div>
+                    <h3 class="hiw-box-hding text-center pb-2">Covers Existing Diseases</h3>  
+                    <p class="hiw-box-prgh text-center">Pre-existing diseases at the time of purchasing the policy come with a waiting period of 1-4 years. However, you can rest assured that they will be covered once the waiting period ends.</p> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+              <div class="hiw-box-area bg-white h-100">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="hiw-circle">
+                      <img src="{% static 'home/assets/image/icons/sell.png' %}">
+                    </div>
+                    <h3 class="hiw-box-hding text-center pb-2">Cashless Treatment</h3>  
+                    <p class="hiw-box-prgh text-center">Health insurance offers cashless treatment at network hospitals, allowing you to receive care without paying upfront. The insurance company directly settles the hospital bills on your behalf.</p> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+              <div class="hiw-box-area bg-white h-100">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="hiw-circle">
+                      <img src="{% static 'home/assets/image/icons/taxes.png' %}">
+                    </div>
+                    <h3 class="hiw-box-hding text-center pb-2">Tax Benefit</h3>  
+                    <p class="hiw-box-prgh text-center">The premium paid for health insurance is eligible for tax deduction under Section 80D, allowing you to save on taxes. You can claim a deduction of up to ₹75,000 in a financial year.</p> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="mb-0 py-5">
+    <div class="container">
+      <div class="row pb-5 align-items-center justify-content-between">
+        <div class="col-lg-12 col-md-12">
+          <h2 class="wrap-hding text-center pb-3">What does Health Insurance Policy Cover?</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-3">
+          <div class="hiw-box-area">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/expense.png' %}">
+            </div>
+            <p class="wrap-title text-center">Expenses Before Hospitalisation</p>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="hiw-box-area px-5">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/ambulance.png' %}">
+            </div>
+            <p class="wrap-title text-center">Ambulance Charges</p>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="hiw-box-area">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/hospital.png' %}">
+            </div>
+            <p class="wrap-title text-center">Hospitalisation Expenses</p>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="hiw-box-area">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/payment-method.png' %}">
+            </div>
+            <p class="wrap-title text-center">Expenses after Hospitalisation</p>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="hiw-box-area">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/hospitalisation.png' %}">
+            </div>
+            <p class="wrap-title text-center">Accidental Hospitalisation</p>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="hiw-box-area px-5">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/surgery-room.png' %}">
+            </div>
+            <p class="wrap-title text-center">Critical Illness</p>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="hiw-box-area">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/surgery.png' %}">
+            </div>
+            <p class="wrap-title text-center">Surgeries</p>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="hiw-box-area">
+            <div class="hiw-circle">
+              <img src="{% static 'home/assets/image/icons/checkup.png' %}">
+            </div>
+            <p class="wrap-title text-center">Health CheckUps</p>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% include 'home/layouts/footer.html' %}
+</body>
+</html>

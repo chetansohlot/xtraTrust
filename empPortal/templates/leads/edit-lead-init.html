@@ -1,0 +1,280 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    Edit Lead
+{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header -->
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Lead Mgt</a>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="{% url 'leads-mgt' %}">Leads</a><i class="fas fa-chevron-right"></i></li>
+                <li>Edit Lead : <strong>#{{lead_data.lead_id|default:"-"}}</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+              <ul class="stepflow-text stepflow-five-col mt-0">
+                <li><a href="#">Insurance Info</a></li>
+                <li><a href="#">Basic Info</a></li>
+                <li><a href="#">Lead Source Info</a></li>
+                <li><a href="#">Location Info</a></li>
+                <li><a href="#">Assignment</a></li>
+                <li><a href="#">Previous Policy Information</a></li>
+              </ul>
+              <ul class="new-stepflow mb-3">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+
+         
+              <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <form action="{% url 'udpate-lead-insurance-info' %}" id="leadInitForm" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="hidden" name="lead_ref_id" id="lead_ref_id" value="{{lead_data.lead_id}}">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h2 class="admin-title border-bottom pb-2 mb-4">Insurance Info</h2>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="insurance_type" class="form-lbl">Insurance Type</label>
+                        <select id="insurance_type" name="insurance_type" class="form-field custom-dropdown">
+                            <option value="">Select Insurance Type</option>
+                            {% for type in types %}
+                                <option value="{{ type.id }}" {% if lead_data.lead_insurance_type_id|stringformat:"s" == type.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ type.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" name="insurance_category_id" id="insurance_category_id" value="{{lead_data.lead_insurance_category_id}}">
+                    <div class="form-group col-md-4">
+                        <label for="insurance_category" class="form-lbl">Insurance Category</label>
+                        <select id="insurance_category" name="insurance_category" class="form-field custom-dropdown" disabled>
+                            <option value="">Select Insurance Category</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" name="insurance_product_id" id="insurance_product_id" value="{{lead_data.lead_insurance_product_id}}">
+                    <div class="form-group col-md-4">
+                        <label for="insurance_product" class="form-lbl">Insurance Product</label>
+                        <select id="insurance_product" name="insurance_product" class="form-field custom-dropdown" disabled>
+                            <option value="">Select Insurance Product</option>
+                        </select>
+                    </div>
+                    
+                      <div class="form-group col-md-4">
+                        <label>First Name:</label>
+                        <input type="text" name="first_name" class="form-field name" id="first_name" placeholder="First Name" maxlength="50" value="{{lead_data.lead_first_name}}">
+                        <small class="text-danger error-msg" id="error-first_name"></small>
+                      </div>
+                      
+                      <div class="form-group col-md-4">
+                        <label>Last Name:</label>
+                        <input type="text" name="last_name" class="form-field name" id="last_name" placeholder="Last Name" maxlength="50" value="{{lead_data.lead_last_name}}">
+                        <small class="text-danger error-msg" id="error-last_name"></small>
+                      </div>
+                      
+                      <div class="form-group col-md-4">
+                        <label>Mobile Number:</label>
+                        <input type="text" name="mobile" class="form-field mobile" id="mobile" pattern="[0-9]{10}" placeholder="Mobile Number" maxlength="10" value="{{lead_data.mobile_number}}">
+                        <small class="text-danger error-msg" id="error-mobile"></small>
+                      </div>
+                      
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button type="submit" class="form-submit-btn mt-3">Next</button>
+                    </div>  
+                    
+                  </form>
+                  
+                  
+
+                </div>
+
+                <div id="loader" class="form-loader" style="display: none;">
+                  <div>
+                    <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                    <span class="visually-hidden d-block pt-2">Loading...</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+    
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+        $(document).ready(function(){
+            insuranceTypeId = $('#insurance_type').val();
+            getInsuranceCategoryList(insuranceTypeId)
+            categoryId = $('#insurance_category_id').val();
+            getInsuranceProductList(categoryId)
+        });
+
+        function getInsuranceCategoryList(insuranceTypeId=null){
+            insurance_category_id = $('#insurance_category_id').val();
+            if (insuranceTypeId) {
+                $.ajax({
+                    url: "{% url 'load-categories' %}",
+                    data: {
+                        'insurance_type': insuranceTypeId
+                    },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#insurance_category').prop('disabled', false);
+                            $.each(data, function (index, category) {
+                                let selected = (String(insurance_category_id) === String(category.id)) ? ' selected' : '';
+                                $('#insurance_category').append('<option value="' + category.id + '"' + selected + '>' + category.name + '</option>');
+                            });
+                        } else {
+                            $('#insurance_category').prop('disabled', true);
+                        }
+                    }
+                });
+            } else {
+                $('#insurance_category').prop('disabled', true);
+            }
+        }
+
+        function getInsuranceProductList(categoryId=null){
+            insurance_product_id = $('#insurance_product_id').val();
+
+            if (categoryId) {
+                $.ajax({
+                    url: "{% url 'load-products' %}",
+                    data: {
+                        'insurance_category': categoryId
+                    },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#insurance_product').prop('disabled', false);
+                            $.each(data, function (index, product) {
+                                let selected = (String(insurance_product_id) === String(product.id)) ? ' selected' : '';
+                                $('#insurance_product').append('<option value="' + product.id + '"' + selected + '>' +  product.name + '</option>');
+                            });
+                        } else {
+                            $('#insurance_product').prop('disabled', true);
+                        }
+                    }
+                });
+            } else {
+                $('#insurance_product').prop('disabled', true);
+            }
+        }
+
+        // Dynamic category/Product loading
+        $('#insurance_type').on('change', function () {
+            var insuranceTypeId = $(this).val();
+            $('#insurance_category').empty().append('<option value="">Select Insurance Category</option>');
+            $('#insurance_product').empty().append('<option value="">Select Insurance Product</option>').prop('disabled', true);
+            getInsuranceCategoryList(insuranceTypeId);
+        });
+
+        // Load products on insurance category change
+        $('#insurance_category').on('change', function () {
+            var categoryId = $(this).val();
+            $('#insurance_product').empty().append('<option value="">Select Insurance Product</option>');
+            getInsuranceProductList(categoryId);
+        });
+
+        $(document).ready(function () {
+          $("#leadInitForm").validate({
+            rules: {
+                insurance_type:{
+                 required: true,
+                },
+                insurance_category:{
+                  required: true,
+                },
+                insurance_product:{
+                  required: true,
+                },
+                first_name:{
+                  required: true,
+                  minlength:3
+                },
+                last_name:{
+                  required: true,
+                  minlength:3
+                },
+                mobile:{
+                  required: true,
+                  digits: true,
+                  minlength: 10,
+                  maxlength: 10
+                },
+            },
+            messages: {
+                insurance_type: {
+                    required: "Insurance Type is required"
+                },
+                insurance_category: {
+                    required: "Insurance Category is required"
+                },
+                insurance_product: {
+                    required: "Insurance Product is required"
+                },
+                first_name: {
+                    required: "First Name is required",
+                    minlength: "Name must be at least 3 characters long"
+                },
+                last_name: {
+                    required: "Last Name is required",
+                    minlength: "Name must be at least 3 characters long"
+                },
+                mobile: {
+                    required: "Please enter Mobile Number",
+                    minlength: "Mobile Number must be 10 characters long",
+                    maxlength: "Mobile Number must be 10 characters long",
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $("#loader").show();
+                form.submit();
+            }
+        });
+    });
+      </script>
+  </div>
+</body>
+{% endblock %}

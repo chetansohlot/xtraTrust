@@ -1,0 +1,155 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}Add Partner{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  {% include "navbar.html" %}
+  {% include "sidebar.html" %}
+
+  <div class="content-wrapper">
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid">
+        <div class="row py-2">
+          <div class="col-sm-12 col-md-6">
+            <h2 class="admin-title m-0 pt-2 text-dark">Add Partner</h2>
+            <ul class="breadcrump">
+              <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li><a href="#">Partner Mgt</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Add Partner</li>
+            </ul>
+          </div>
+          <div class="col-sm-12 col-md-6 text-end">
+            <a href="{% url 'members' %}" class="breadcrump-addbtn mx-1">View Partners</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="card p-4">
+             
+             
+
+              <form action="{% url 'add-partner' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="row g-3">
+
+                    <!-- Full Name -->
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-group">
+                        <label for="full_name" class="form-lbl name">Full Name <span class="text-danger">*</span></label>
+                        <input type="text" 
+                              name="full_name" 
+                              id="full_name" 
+                              class="form-field shadow-sm rounded-2" 
+                              placeholder="As per Aadhaar Card" 
+                              pattern="[A-Za-z ]+" 
+                              title="Only alphabets and spaces are allowed" 
+                              oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')"
+                              maxlength="100"
+                              value="{{ full_name|default:'' }}">
+                        {% if errors.full_name %}
+                          <small class="text-danger">{{ errors.full_name }}</small>
+                        {% endif %}
+                      </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-group">
+                        <label for="email" class="form-lbl">Email <span class="text-danger">*</span></label>
+                        <input type="text" name="email" id="email" class="form-field shadow-sm rounded-2" placeholder="Email ID" value="{{ email|default:'' }}">
+                          {% if errors.email %}
+                        <small class="text-danger">{{ errors.email }}</small>
+                        {% endif %}
+                      </div>  
+                    </div>
+                    
+                      <!-- Gender -->
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-group">
+                          <label class="form-lbl d-block">Gender <span class="text-danger">*</span></label>
+                          <div class="d-inline-flex">
+                            <input class="radio-btn" type="radio" name="gender" id="male" value="1" {% if gender == "1" or not gender %}checked{% endif %}>
+                            <label for="male">Male</label>
+                          </div>
+                          <div class="d-inline-flex">
+                            <input class="radio-btn" type="radio" name="gender" id="female" value="2" {% if gender == "2" %}checked{% endif %}>
+                            <label for="female">Female</label>
+                          </div>
+                        {% if errors.gender %}
+                        <br><small class="text-danger">{{ errors.gender }}</small>
+                        {% endif %}
+                      </div>
+                    </div>
+
+                    
+
+                      <!-- Mobile -->
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-group">
+                        <label for="mobile" class="form-lbl ">Mobile Number <span class="text-danger">*</span></label>
+                        <input type="text" name="mobile" id="mobile" class="form-field shadow-sm rounded-2 mobile" placeholder="10-digit Mobile Number" maxlength="10" value="{{ mobile|default:'' }}">
+                        {% if errors.mobile %}
+                          <small class="text-danger">{{ errors.mobile }}</small>
+                        {% endif %}
+                      </div>  
+                    </div>
+
+                    <!-- DOB -->
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-group">
+                        <label for="dob" class="form-lbl">Date of Birth <span class="text-danger">*</span></label>
+                          <input type="date" name="dob" id="dob" class="form-field shadow-sm rounded-2" value="{{ dob|default:'' }}">
+                            {% if errors.dob %}
+                          <small class="text-danger">{{ errors.dob }}</small>
+                          {% endif %}
+                      </div>    
+                    </div>
+
+                    <!-- PAN -->
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-group">
+                        <label for="pan_no" class="form-lbl ">PAN Number <span class="text-danger">*</span></label>
+                        <input type="text" name="pan_no" id="pan_no" class="form-field shadow-sm rounded-2 pan" maxlength="10" placeholder="ABCDE1234F" value="{{ pan_no|default:'' }}">
+                          {% if errors.pan_no %}
+                              <small class="text-danger">{{ errors.pan_no }}</small>
+                          {% endif %}
+                      </div>
+                    </div>  
+
+                    <!-- Password -->
+                        <div class="col-md-6 col-lg-4">
+                          <div class="form-group">
+                            <label for="password" class="form-lbl">Password <span class="text-danger">*</span></label>
+                            <input type="password" name="password" id="password" class="form-field shadow-sm rounded-2" placeholder="Enter Password">
+                              {% if errors.password %}
+                               <small class="text-danger">{{ errors.password }}</small>
+                              {% endif %}
+                          </div>
+                        </div>  
+
+                  
+                      <!-- Submit Button -->
+                      <div class="col-12 d-flex justify-content-end mt-4">
+                            <button type="submit" class="breadcrump-addbtn px-4 py-2">Add Partner</button>
+                      </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {% include "footer.html" %}
+  {% include "footer-script.html" %}
+</div>
+{% endblock %}

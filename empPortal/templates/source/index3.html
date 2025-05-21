@@ -1,0 +1,179 @@
+{% extends 'master.html' %}
+
+{% block title %}Source Management{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    {% include 'navbar.html' %}
+
+    {% include 'sidebar.html' %}
+
+
+
+    <div class="content-wrapper white-bg">
+      <!-- Header -->
+      <div class="content-header header-content-bg">
+        <div class="container-fluid">
+          <div class="row pt-2 pb-2">
+            <div class="col-sm-6">
+              <h1 class="admin-title m-0 pt-2">Source</h1>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li> Source </li>
+              </ul>
+            </div>
+            <div class="col-sm-6">
+              <div class="d-flex justify-content-end">
+                <a href="{% url 'source_create' %}" class="breadcrump-addbtn">
+                  <i class="fas fa-plus"></i> Add Source
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.content-header -->
+
+      <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card active">
+                      <div class="card-body">
+                        <p class="card-text">Total Source</p>
+                        <h5 class="card-title card-number">{{ total_count }}</h5>
+                      </div>
+                    </div>
+                  </a>   
+                </div>  
+              
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card counter-active-card">
+                      <div class="card-body">
+                        <p class="card-text">Active Source</p>
+                        <h5 class="card-title card-number">{{ active_count }}</h5>
+                      </div>
+                    </div>
+                  </a>  
+                </div>  
+              
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card counter-deactive-card">
+                      <div class="card-body">
+                        <p class="card-text">Inactive Source</p>
+                        <h5 class="card-title card-number">{{ inactive_count }}</h5>
+                      </div>
+                    </div>
+                  </a>  
+                </div>  
+              </div>
+              
+          <div class="card box-shadow-none">
+            <div class="card-body px-0 pb-0">
+
+              <!-- table -->
+              <div class="table-responsive table-ht">
+                <table class="table table-design table-trlink">
+                  <thead class="table-thead-bg-light table-header-fix">
+                    <tr>
+                      <th>ID</th>
+                      <th>Source Name</th>
+                      <th>Sort Name</th>
+                      <th>Status</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for src in sources %}
+                    <tr>
+                      <td>{{ src.pk }}</td>
+                      <td>
+                        <a href="{% url 'source_edit' src.pk %}" class="trlink">
+                          {{ src.source_name }}
+                        </a>
+                      </td>
+                      <td>{{ src.sort_source_name }}</td>
+                      <td>
+                        <span class="badge {% if src.status %}bg-success{% else %}bg-danger{% endif %}">
+                          {% if src.status %}Active{% else %}Inactive{% endif %}
+                        </span>
+                      </td>
+                      <td>{{ src.created_at|date:"d M Y, H:i" }}</td>
+                      <td>{{ src.updated_at|date:"d M Y, H:i" }}</td>
+                      <td>
+                        <a href="{% url 'source_edit' src.pk %}" class="btn btn-xs btn-warning" title="Edit">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'source_delete' src.pk %}" class="btn btn-xs btn-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this source?');">
+                          <i class="fas fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="7" class="text-center">No sources found.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- pagination -->
+              <div class="bottom-fix-pagination">
+                <div class="d-flex justify-content-between align-items-center px-3">
+                  <ul class="pagination mb-0">
+                    {% if page_obj.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">&laquo;&laquo;</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Prev">&laquo;</a>
+                      </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+                        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">&raquo;</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">&raquo;&raquo;</a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                  <div>
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                  </div>
+                </div>
+              </div>
+              <!-- /.pagination -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% include 'footer.html' %}
+  </div>
+  <!-- ./wrapper -->
+  {% include 'footer-script.html' %}
+</body>
+{% endblock %}

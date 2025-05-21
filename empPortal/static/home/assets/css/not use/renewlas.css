@@ -1,0 +1,181 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.navbar-bg{
+  box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+  0 6px 20px 0 rgba(216, 211, 211, 0.19);
+padding: 2px 30px 0px 30px;
+}
+.Insuramcepro-dash{
+  font-size:28px;
+   font-weight: 600; 
+  font-family: sans-serif;
+}
+.Insuramcepro-dash-p{
+color: blue;
+}
+/*----------------------sidebar------------------css-------------start------------------*/
+ul > li {
+font-size: 14px;
+font-weight: 500;
+list-style-type: none;
+padding-top: 13px;
+
+} 
+ul > li > .sidebar-arrow{
+    float: right;
+}
+ul > li a{
+    color: rgb(70, 58, 58);
+    text-decoration: none;
+    padding: 7px 10px 7px 10px;
+    border-radius: 0px 20px 20px 0px;
+
+}
+ul > li:hover > a {
+    color: blue;
+    background-color: rgb(223, 218, 218);
+    
+}
+.sidebar-menu{margin: 0px;padding: 0px;}
+.sidebar-menu li a{display: flex;justify-content: space-between;}
+.sidebar-menu li a div i{margin-right: 5px;}
+.right-arrow{
+    font-size: 11px;
+}
+/*----------------------sidebar------------------css-------------end------------------*/
+.bg-sidebar{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+  0 6px 20px 0 rgba(216, 211, 211, 0.19); 
+  height: 100dvh;  
+}
+/*-------------------------------------card-----------------------start-------------------------*/
+
+#moter-renewals{
+    float: left;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+#breadcrumb{
+    float: right;
+}
+.main-div-card{
+    box-shadow: 0px 10px 15px rgb( 0,0,0,.10);
+    background-color:#fff;
+    margin-top: 10px;
+    border-radius: 0px 0px 20px 20px;
+}
+.card-span-p{
+    float: left;
+     font-size: 15px; color:
+      rgb(95, 89, 89);
+    font-weight: 600;
+    padding-left:20px;
+    color: #212529;;
+    
+}
+ .card-span{
+display: inline-block;
+} 
+/* .card-span-img{
+    width: 12%; 
+    float:right;
+    margin-right: 20px;
+    margin-top: 5px;
+} */
+#card-per-font{
+    font-size: 25px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 15px;
+    
+    color: blue;
+}
+#more-info-1{
+    background-color: rgb(196, 233, 250);
+    color: black;
+    font-size: 13px;
+     font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  height: 27px;
+  line-height: 25px;
+border-radius: 0px 0px 20px 20px;
+margin-top:15px;
+}
+/*----------card----------one------------end--------------*/
+/*--------------------buttons---------------------start----------------------*/
+.ren-buttons-left{
+    float:left;
+}
+.ren-search-right{
+    float: right;
+}
+.ren-search-right input{
+border-radius: 5px;
+border:  1px solid black;
+}
+.ren-search-right ::placeholder{
+color: black;
+padding: 5px 10px 5px 10px;
+font-size: 13px;
+
+}
+.dash-btn{
+    display: inline-block;
+    border-radius:30px;
+    border: 1px solid gray;
+    background-color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 2px 12px 2px 12px;
+}
+
+/*---------------------------button-----------------------------end-----------------------*/
+.main-div-renewals{
+border: 1px solid black;
+  }
+  #ren-car-font{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  color: blue;
+ font-size: 30px;
+  }
+  .vl{
+    height: 90%;
+    margin-top: 10%;
+    border-right: 2px solid black;
+  }
+   .renewlas-date{
+    display: inline-block;
+    font-size: 13px;
+    margin-top: -7px;
+    font-weight: 600;
+
+  } 
+ 
+  .next-month{
+    margin-top: 10px;
+    display: inline-block;
+  color: rgb(45, 212, 134);
+  box-shadow: 0 4px 8px 0 rgba(75, 68, 68, 0.2),
+    0 6px 20px 0 rgba(121, 116, 116, 0.19);
+box-shadow: #010b16;
+  border-radius: 7px;
+  padding: 3px 5px 3px 5px;
+  font-size: 14px;
+  }
+  .Mohan-chandra{
+    font-size: 15px;
+    font-weight: 700;
+    margin-top:-15px;
+  }
+  .bajaj{
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: -5px;
+  }

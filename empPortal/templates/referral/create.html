@@ -1,0 +1,247 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Create Referral
+
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Create Referral</a>
+              </div>
+              <ul class="breadcrump">
+                <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li> <a href="{% url 'referral-management' %}">Referral Mgmt.</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Add Referral</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+            <div class="col-sm-12">
+              <div class="card box-shadow-none p-md-4 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+
+
+
+                  <form autocomplete="off" id="referralForm" name="referralForm"
+                    action="{% if referral and referral.id %}{% url 'referral-management-edit' referral.id %}{% else %}{% url 'referral-management-create' %}{% endif %}"
+                    method="post">
+                    {% csrf_token %}
+
+                    <div class="row">
+                      <!-- Name -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="name">Name</label>
+                        <input type="text" class="form-field" name="name" id="name" placeholder="Enter Name"
+                          maxlength="255" value="{{ referral.name|default_if_none:'' }}">
+                      </div>
+
+                      <!-- Mobile Number -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="mobile">Mobile</label>
+                        <input type="tel" class="form-field mobile" name="mobile" id="mobile"
+                          placeholder="Enter Mobile Number" value="{{ referral.mobile|default_if_none:'' }}">
+                      </div>
+
+                      <!-- Email -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="email">Email</label>
+                        <input type="email" class="form-field" name="email" id="email" placeholder="Enter Email"
+                          maxlength="255" value="{{ referral.email|default_if_none:'' }}">
+                      </div>
+
+                      <!-- Date of Birth -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="dob">Date of Birth</label>
+                        <input type="date" class="form-field dob_datepicker" name="dob" id="dob" 
+                          value="{{ referral.dob|default_if_none:'' }}" >
+                        <span class="text-danger" id="dob-error"></span>  <!-- Error message will be dynamically placed here -->
+                      </div>
+
+                      <!-- Date of Anniversary -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="anniversary">Date of Anniversary</label>
+                        <input type="date" class="form-field common_datepicker" name="date_of_anniversary" id="anniversary"
+                          value="{{ referral.date_of_anniversary|default_if_none:''  }}">
+                      </div>
+
+                      <!-- PAN Card Number -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="pan">PAN Card Number</label>
+                        <input type="text" class="form-field pan" name="pan_card_number" id="pan_card_number"
+                          placeholder="Enter PAN Card Number" value="{{ referral.pan_card_number|default_if_none:'' }}"
+                          maxlength="10" minlength="10">
+                      </div>
+                      
+                      <!-- Aadhar Number -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="aadhar">Aadhar Number</label>
+                        <input type="text" class="form-field aadhar" name="aadhar" id="aadhar"
+                          placeholder="Enter Aadhar Number" pattern="[0-9]{12}" minlength="12" maxlength="12"
+                          value="{{ referral.aadhar_no|default_if_none:'' }}">
+                      </div>
+
+                       <!-- Pincode -->
+                       <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="pincode">Pincode</label>
+                        <input type="text" class="form-field" name="pincode" id="pincode" placeholder="Enter Pincode"
+                          value="{{ referral.pincode|default_if_none:'' }}" minlength="6" maxlength="6">
+                      </div>
+
+                      
+                      <!-- State -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="state">State</label>
+                        <input type="text" class="form-field" name="state" id="state" placeholder="Enter State"
+                          value="{{ referral.state|default_if_none:'' }}">
+                      </div>
+
+                      <!-- City -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="city">City</label>
+                        <input type="text" class="form-field" name="city" id="city" placeholder="Enter City"
+                          value="{{ referral.city|default_if_none:'' }}">
+                      </div>
+
+                      <!-- User Role -->
+                      <!-- <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="user_role">User Role</label>
+                        <input type="text" class="form-field" name="user_role" id="user_role"
+                          placeholder="Enter User Role" value="{{ referral.user_role|default_if_none:'' }}">
+                      </div> -->
+
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="bqp_id">BQP</label>
+                        <select class="form-field" name="bqp_id" id="bqp_id">
+                          <option value="">Select BQP</option>
+                          {% for bqp in bqps %}
+                            <option value="{{bqp.id}}" {% if bqp.id|stringformat:"s" == referral.bqp_id|stringformat:"s" %} selected {% endif %}>{{bqp.bqp_name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="branch">Branch</label>
+                        <select class="form-field" name="branch" id="branch">
+                          <option value="">Select Branch</option>
+                          {% for branch in branchs %}
+                            <option value="{{branch.id}}" {% if branch.id|stringformat:"s" == referral.branch|stringformat:"s" %} selected {% endif %}>{{branch.branch_name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <!-- Franchise -->
+                      <!-- <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="franchise">Franchise</label>
+                        <select name="franchise" id="franchise" class="form-field">
+                          <option value="">Select Franchise</option>
+                          {% for franchise in franchises %}
+                            <option value="{{franchise.id}}" {% if franchise.id|stringformat:"s" == referral.franchise|stringformat:"s" %}selected{% endif %}>{{franchise.name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div> -->
+
+                      {% if request.user.department_id != "1" %}
+                        <div class="form-group col-md-6 col-lg-4">
+                          <label class="form-lbl" for="sales">Sales Manager</label>
+                          <select name="sales" id="sales" class="form-field">
+                            <option value="">Select Sales Manager</option>
+                            {% for sales_manager in sales_managers %}
+                            <option value="{{ sales_manager.id }}" {% if sales_manager.id|stringformat:"s" == referral.sales|stringformat:"s" %}selected{% endif %}>
+                              {{ sales_manager.full_name }}
+                            </option>
+                            {% endfor %}
+                          </select>
+                          <!-- <input type="text" class="form-field" name="sales" id="sales" placeholder="Enter Sales Manager Name"
+                            maxlength="50" value="{{ referral.sales|default_if_none:'' }}"> -->
+                        </div>
+                      {% else %}
+                        <input type="hidden" name="sales" id="sales" value="{{ referral.sales|default_if_none:'' }}">
+                      {% endif %}
+                      <!-- Sales -->
+                     
+
+                      <!-- Supervisor -->
+                      <div class="form-group col-md-6 col-lg-4">
+                        <label class="form-lbl" for="supervisor">Relationship Manager</label>
+                        <select name="supervisor" id="supervisor" class="form-field">
+                          <option value="">Select Relationship Manager</option>
+                          {% for relationship_manager in relationship_managers %}
+                            <option value="{{ relationship_manager.id }}" {% if relationship_manager.id|stringformat:"s" == referral.supervisor|stringformat:"s" %}selected{% endif %}>{{ relationship_manager.full_name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <!-- Address -->
+                      <div class="form-group col-md-12">
+                        <label class="form-lbl" for="address">Address</label>
+                        <textarea class="form-field" name="address" id="address"
+                          placeholder="Enter Address">{{ referral.address|default_if_none:'' }}</textarea>
+                      </div>
+
+
+
+                    </div>
+
+                    <!-- Submit Button -->
+                     <div class="d-flex justify-content-end">
+                      <button type="submit" class="form-submit-btn mt-3">
+                        {% if referral %}Update Referral{% else %}Add Referral{% endif %}
+                      </button>
+                    </div>  
+                  </form>
+
+                    
+
+
+
+
+
+                </div>
+                <div id="loader" class="form-loader" style="display: none;">
+                  <div>
+                    <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                    <span class="visually-hidden d-block pt-2">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  {% include "footer.html" %}
+  {% include "footer-script.html" %}
+  <script>
+    document.getElementById("myForm").addEventListener("submit", function () {
+      document.getElementById("loader").style.display = "flex";
+    });
+  </script>
+</body>
+{% endblock %}

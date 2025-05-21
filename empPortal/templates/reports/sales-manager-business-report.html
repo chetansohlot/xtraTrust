@@ -1,0 +1,315 @@
+{% extends 'master.html' %}
+
+{% block title %}
+  Sales Manager Business Report
+{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load custom_filters %}
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Sales Manager Commission Report</a>
+            </div>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li> <a href="#">Reports</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Sales Manager Commission Report</li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-end">
+              <a href="javascript:void()" class="breadcrump-addbtn bg-warning mx-1" data-toggle="modal" data-target="#export-report-modal">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid mobile-filter">
+            <div class="row">
+                <button type="button" class="mobile-filter-close">×</button>
+                <div class="col-sm-12">
+                  {% include "components/common/report-filter.html" %}
+                </div>
+            </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <!-- <a class="nav-item nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab"
+                     aria-controls="tab1" aria-selected="true">Report</a> -->
+                  <!-- <a class="nav-item nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab"
+                    aria-controls="tab2" aria-selected="false">Roles</a> -->
+                </div>
+                <div>
+                
+                    
+                  </div>
+                <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    
+                    <div class="table-responsive table-ht">
+                      
+                      <table class="table table-design commission-report-table-width">
+                        <thead class="table-thead-bg-light table-header-fix">
+                            <tr>
+                                <th class="nowrap">Month</th>
+                                <th class="nowrap">Policy Month</th>
+                                <th class="nowrap">Branch Name</th>
+                                <th class="nowrap">Sales Manager</th>
+                                <th class="nowrap">Agent Name</th>
+                                <th class="nowrap">Insurance Company</th>
+                                <th class="nowrap">Insured Name</th>
+                                <th class="nowrap">Reg Number</th>
+                                <th class="nowrap">Policy No</th>
+                                <th class="nowrap">Vehicle Type</th>
+                                <th class="nowrap">Manufacturing Year</th>
+                                <th class="nowrap">Vehicle Make/Model</th>
+                                <th class="nowrap">Fuel Type</th>
+                                <th class="nowrap">Policy Type</th>
+                                <th class="nowrap">GVW</th>
+                                <th class="nowrap">Cubic Capacity</th>
+                                <th class="nowrap">Seating Capacity</th>
+                                <th class="nowrap">Sum Insured</th>
+                                <th class="nowrap">NCB</th>
+                                <th class="nowrap">OD Premium</th>
+                                <th class="nowrap">TP Premium</th>
+                                <th class="nowrap">Net Premium</th>
+                                <th class="nowrap">Gross Premium</th>
+                                <th class="nowrap">Final Value</th>
+                                <th class="nowrap">Policy Year</th>
+                                <th class="nowrap">Agent Payment Mode</th>
+                                <th class="nowrap">Agent Payment Date</th>
+                                <th class="nowrap">Policy Issue Date</th>
+                                <th class="nowrap">Risk Start Date</th>
+                                <th class="nowrap">Risk End Date</th>
+                                <th class="nowrap">Agent Amount</th>
+                                <th class="nowrap">Agent OD Comm</th>
+                                <th class="nowrap">Agent OD Amount</th>
+                                <th class="nowrap">Agent Net Comm</th>
+                                <th class="nowrap">Agent Net Amount</th>
+                                <th class="nowrap">Agent TP Comm</th>
+                                <th class="nowrap">Agent TP Amount</th>
+                                <th class="nowrap">Agent Incentive Amount</th>
+                                <th class="nowrap">Agent Total Comm Amount</th>
+                                <th class="nowrap">Agent Remarks</th>
+                                <th class="nowrap">Insurer Amount</th>
+                                <th class="nowrap">Insurer OD Comm</th>
+                                <th class="nowrap">Insurer OD Amount</th>
+                                <th class="nowrap">Insurer Net Comm</th>
+                                <th class="nowrap">Insurer Net Amount</th>
+                                <th class="nowrap">Insurer TP Comm</th>
+                                <th class="nowrap">Insurer TP Amount</th>
+                                <th class="nowrap">Insurer Incentive Amount</th>
+                                <th class="nowrap">Insurer Total Comm Amount</th>
+                                <th class="nowrap">Insurer TDS</th>
+                                <th class="nowrap">Insurer TDS Amount</th>
+                                <th class="nowrap">Net Profit</th>
+                                <th class="nowrap">Insurer Remark</th>
+                                <th class="nowrap">Created By</th>
+                                <th class="nowrap">Updated By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in policy_data %}
+                            {% if data.policy_infos.policy_number %}
+                            <tr>
+                              <td>{{ data.policy_infos.policy_month_year|default:"-" }}</td>
+                              <td>{{ data.policy_infos.policy_month_year|default:"-" }}</td>
+                              <td>{{ data.policy_infos.branch.branch_name|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.referral.sales|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.referral.name|default:"-" }}</td>
+                              <td>{{ data.policy_infos.insurance_company|default:"-" }}</td>
+                              <td>{{ data.policy_infos.insured_name|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.registration_number|default:"-" }}</td>
+                              <td>{{ data.policy_infos.policy_number|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.vehicle_type|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.manufacture_year|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.vehicle_make|default:"-" }}/{{ data.policy_vehicle_info.vehicle_model|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.fuel_type|default:"-" }}</td>
+                              <td>{{ data.policy_infos.policy_type|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.gvw|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.cubic_capacity|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.seating_capacity|default:"-" }}</td>
+                              <td>{{ data.policy_infos.sum_insured|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_vehicle_info.ncb|default:"-" }}</td>
+                              <td>{{ data.policy_infos.od_premium|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_infos.tp_premium|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_infos.net_premium|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_infos.gross_premium|floatformat:2|default:"-" }}</td>
+                              <td>-</td>
+                              <td>{{ data.policy_infos.policy_tenure|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_payment_mod|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.payment_date|default:"-" }}</td>
+                              <td>{{ data.policy_infos.issue_date|default:"-" }}</td>
+                              <td>{{ data.policy_infos.start_date|default:"-" }}</td>
+                              <td>{{ data.policy_infos.end_date|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_od_comm|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_od_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_net_comm|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_net_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_tp_comm|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_tp_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_incentive_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_total_comm_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_agent_info.agent_remarks|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_od_comm|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_od_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_net_comm|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_net_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_tp_comm|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_tp_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_incentive_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_total_comm_amount|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_tds|floatformat:2|default:"-" }}</td>
+                              <td>{{ data.policy_insurer_info.insurer_tds_amount|floatformat:2|default:"-" }}</td>
+                              <td>
+                                {% with insurer_comm=data.policy_insurer_info.insurer_total_comm_amount|default_if_none:0 %}
+                                    {% with agent_comm=data.policy_agent_info.agent_total_comm_amount|default_if_none:0 %}
+                                            {% if insurer_comm %}
+                                                {{ insurer_comm|subtract:agent_comm|floatformat:2|default:"-" }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                    {% endwith %}
+                                {% endwith %}
+                              </td>
+                              <td>{{ data.policy_insurer_info.insurer_remarks|default:"-" }}</td>
+                              <td>{{ data.policy.rm_name }}</td>
+                              <td>{{ data.policy_agent_info.updated_by.full_name|default:"-" }}</td>
+                            </tr>
+                            {% endif %}
+                          {% endfor %}
+                      </tbody>
+                    </table>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <!-- <pre>{{ page_obj|pprint }}</pre>    -->
+              {% include "components/filter/paginator.html" %}
+
+            
+            
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="export-report-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" >&times;</button>
+        <h2 class="form-title font-weight-bold">Export Sales Manager Commission Report</h2>
+        <p class="pb-2">Export is limited to a single month only.</p>
+        <form action="{% url 'export-sales-manager-business-report' %}" method="post" id="export-commission-report">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6">
+                <div class="signup-form-group">
+                    <label class="signup-form-lbl">Created Date<span class="asterisk">*</span></label>
+                    <input type="date" name="date" id="date" class="form-field">
+                    <span class="error" style="color: red;" id="date_err"></span>
+                </div>    
+            </div>
+            <div class="col-sm-12 mt-5">
+                <button type="submit" class="signup-submit-btn">Export</button>
+            </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+<script>
+  $('#export-commission-report').on('submit', function(e) {
+    e.preventDefault();
+
+    const form = $(this);
+    const dateInput = $('#date');  // Assuming the input field name is "date"
+    // Check if the date input is empty
+    if (!dateInput.val()) {
+        $('#date_err').show().text('Please Enter Date');
+        setTimeout(function(){
+          $('#date_err').hide().text('');
+        },2000);
+        return;  // Stop the form submission if date is not selected
+    }
+
+    const formData = new FormData(this);
+    const queryParams = new URLSearchParams(formData).toString();
+    const url = form.attr('action') + '?' + queryParams;
+
+    form.find('button[type="submit"]').prop('disabled', true).text('Exporting...');
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Export failed");
+        return response.blob();
+    })
+    .then(blob => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = "sales_manager_business_report.xlsx";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        form.find('button[type="submit"]').prop('disabled', false).text('Export');
+        $('#export-report-modal').hide();
+    })
+    .catch(err => {
+        alert("An error occurred while exporting the report.");
+        console.error(err);
+        form.find('button[type="submit"]').prop('disabled', false).text('Export');
+    });
+  });
+</script>
+</body>
+
+{% endblock %}

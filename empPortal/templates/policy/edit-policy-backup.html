@@ -1,0 +1,687 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Edit Policy
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Edit Policy</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Policy Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Edit Policy</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    
+
+                    <form autocomplete="off" id="myForm" name="updatePolicy" action="/update-policy/" method="post">
+                        {% csrf_token %}
+                      
+                        <input type="hidden" class="form-field" name="policy_id" id="policy_id" value="{{ policy_data.id }}">
+                        <div class="form-box-shadow">
+                          <h2 class="form-bg-title">Basic Policy</h2>
+                          <div class="form-padding">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_number">Policy Number</label>
+                                  <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Policy Number" value="{{ policy_data.policy_number }}">
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_issue_date">Policy Issue Date</label>
+                                  <input type="text" class="form-field" name="policy_issue_date" id="policy_issue_date" placeholder="Policy Issue Date" value="{{ policy_data.issue_date }}">
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_start_date">Policy Start Date</label>
+                                  <input type="text" class="form-field" name="policy_start_date" id="policy_start_date" placeholder="Policy Start Date" value="{{ policy_data.start_date }}">
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_expiry_date">Policy Expiry Date</label>
+                                  <input type="text" class="form-field" name="policy_expiry_date" id="policy_expiry_date" placeholder="Policy Expiry Date" value="{{ policy_data.expiry_date }}">
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+
+                              </div>
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+
+                              </div>
+                            </div>
+                          </div>  
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-box-shadow">
+                              <iframe src="https://www.slideshare.net/slideshow/embed_code/key/78NW2yxg5UZMM3" frameborder="0" width="100%" height="400px"></iframe>
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                            <ul class="new-stepflow">
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                             </ul>
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Insured Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="insurer_name">Insured Name</label>
+                                      <input type="text" class="form-field" name="insurer_name" id="insurer_name" placeholder="Insurer Name" value="{{ policy_data.insurance_provider }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured Mobile</label>
+                                      <input type="text" class="form-field" placeholder="Insured Mobile">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured Email</label>
+                                      <input type="text" class="form-field" placeholder="Insured Email">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured Address</label>
+                                      <input type="text" class="form-field" placeholder="Insured Address">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured PAN</label>
+                                      <input type="text" class="form-field" placeholder="Insured PAN">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured Aadhaar</label>
+                                      <input type="text" class="form-field" placeholder="Insured Aadhaar">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Vehicle Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_type">Vehicle Type</label>
+                                      <input type="text" class="form-field" name="vehicle_type" id="vehicle_type" placeholder="Vehicle Type" value="{{ policy_data.vehicle_type }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_make">Make</label>
+                                      <input type="text" class="form-field" name="vehicle_make" id="vehicle_make" placeholder="Vehicle Make" value="{{ policy_data.vehicle_make }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_model">Model</label>
+                                      <input type="text" class="form-field" name="vehicle_model" id="vehicle_model" placeholder="Vehicle Model" value="{{ policy_data.vehicle_model }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_variant">Variant</label>
+                                      <input type="text" class="form-field" name="vehicle_variant" id="vehicle_variant" placeholder="Vehicle Variant" >
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Fuel Type</label>
+                                      <select class="form-field">
+                                        <option>Select</option>
+                                        <option selected>Petrol</option>
+                                        <option>Diesel</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Gvw</label>
+                                      <input type="text" class="form-field" placeholder="Gvw" value="3490">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Cubic Capacity</label>
+                                      <input type="text" class="form-field" placeholder="Cubic Capacity" value="2523">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Seating Capacity</label>
+                                      <input type="text" class="form-field" placeholder="Seating Capacity" value="2">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_reg_no">Reg Number</label>
+                                      <input type="text" class="form-field" name="vehicle_reg_no" id="vehicle_reg_no" placeholder="Vehicle Reg Number" value="{{ policy_data.vehicle_number }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Engine Number</label>
+                                      <input type="text" class="form-field" placeholder="Vehicle Engine Number">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Chassis Number</label>
+                                      <input type="text" class="form-field" placeholder="Vehicle Chassis Number">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="mgf_year">Manufacture Date</label>
+                                      <input type="text" class="form-field" name="mgf_year" id="mgf_year" placeholder="MGF Year" value="{{ policy_data.vehicle_manuf_date }}">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Policy Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insurance Company</label>
+                                      <select class="form-field">
+                                        <option>United India Insurance Pvt. Ltd.</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Service Provider</label>
+                                      <select class="form-field">
+                                        <option>Uklana Mandi</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insurer Name</label>
+                                      <input type="text" class="form-field" placeholder="Insurer Name">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Bqp</label>
+                                      <input type="text" class="form-field" placeholder="Bqp" value="Subhash Bishoni">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Pos Name</label>
+                                      <input type="text" class="form-field" placeholder="Pos Name">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Branch Name</label>
+                                      <input type="text" class="form-field" placeholder="Branch Name" value="Hisar">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Supervisor Name</label>
+                                      <input type="text" class="form-field" placeholder="Supervisor Name" value="Subhash Bishoni">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Policy Type</label>
+                                      <select class="form-field">
+                                        <option>Motor Package Policy</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Policy Plan</label>
+                                      <select class="form-field">
+                                        <option>Select</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="sum_insured">Sum Insured</label>
+                                      <input type="text" class="form-field" name="sum_insured" id="sum_insured" placeholder="Sum Insured" value="{{ policy_data.sum_insured }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="od_premium">OD Premium</label>
+                                      <input type="text" class="form-field" name="od_premium" id="od_premium" placeholder="OD Premium" value="{{ policy_data.od_premium }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="tp_premium">TP Premium</label>
+                                      <input type="text" class="form-field" name="tp_premium" id="tp_premium" placeholder="TP Premium" value="{{ policy_data.tp_premium }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" >PA Count</label>
+                                      <input type="text" class="form-field" placeholder="PA Count" value="0">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" >PA Amount</label>
+                                      <input type="text" class="form-field" placeholder="PA Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" >Driver Count</label>
+                                      <input type="text" class="form-field" placeholder="Driver Count" value="0">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" >Driver Amount</label>
+                                      <input type="text" class="form-field" placeholder="Driver Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Document Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <p class="wrap-prgh mb-0 pb-0">Current Insurance Policy</p>
+                                    <p class="wrap-prgh small text-gray">insurance_policies/sdf5445455646.pdf</p>
+                                  </div>
+                                  <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Re Other Endorsement</label>
+                                      <input type="file" class="form-field">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Previous Policy</label>
+                                      <input type="file" class="form-field">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Kyc Document</label>
+                                      <input type="file" class="form-field">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Proposal Document</label>
+                                      <input type="file" class="form-field">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Agent Payment Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Name</label>
+                                      <input type="text" class="form-field" placeholder="Agent Name" >
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Payment Mod</label>
+                                      <select class="form-field">
+                                        <option>Online</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Payment Date</label>
+                                      <input type="text" class="form-field" placeholder="Agent Payment Date">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Remarks</label>
+                                      <input type="text" class="form-field" placeholder="Agent Remarks">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent OD Comm</label>
+                                      <input type="text" class="form-field" placeholder="Agent OD Comm">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Net Comm</label>
+                                      <input type="text" class="form-field" placeholder="Agent Net Comm">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Incentive Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent Incentive Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent TDS</label>
+                                      <input type="text" class="form-field" placeholder="Agent TDS">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent OD Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent OD Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Net Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent Net Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent TP Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent TP Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Total Comm Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent Total Comm Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent Net Payable Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent Net Payable Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Agent TDS Amount</label>
+                                      <input type="text" class="form-field" placeholder="Agent OD Amount">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Insurer Payment Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="insurer_name">Insurer Payment Mod</label>
+                                      <select class="form-field">
+                                        <option>Online</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insurer Payment Date</label>
+                                      <input type="text" class="form-field" placeholder="Insurer Payment Date">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insurer Amount</label>
+                                      <input type="text" class="form-field" placeholder="Insurer Amount">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insurer Remakrs</label>
+                                      <input type="text" class="form-field" placeholder="Insurer Remakrs">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured OD Comm</label>
+                                      <input type="text" class="form-field" placeholder="Insured OD Comm" value="45.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured Net Comm</label>
+                                      <input type="text" class="form-field" placeholder="Insured Net Comm" value="5.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured TP Comm</label>
+                                      <input type="text" class="form-field" placeholder="Insured TP Comm" value="43.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured Incentive Amount</label>
+                                      <input type="text" class="form-field" placeholder="Insured Incentive Amount" value="-50.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured TDS</label>
+                                      <input type="text" class="form-field" placeholder="Insured TDS">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured OD Amount</label>
+                                      <input type="text" class="form-field" placeholder="Insured OD Amount" value="-578.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured Net Amount</label>
+                                      <input type="text" class="form-field" placeholder="Insured Net Amount" value="-885.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insured TP Amount</label>
+                                      <input type="text" class="form-field" placeholder="Insured TP Amount" value="-7550.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Total Comm Amount</label>
+                                      <input type="text" class="form-field" placeholder="Total Comm Amount" value="-8905.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Net Payable Amount</label>
+                                      <input type="text" class="form-field" placeholder="Net Payable Amount" value="8905.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">TDS Amount</label>
+                                      <input type="text" class="form-field" placeholder="TDS Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Franchise Payment Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise OD Comm</label>
+                                      <input type="text" class="form-field" placeholder="Franchise OD Comm" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise Net Comm</label>
+                                      <input type="text" class="form-field" placeholder="Franchise Net Comm" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise TP Comm</label>
+                                      <input type="text" class="form-field" placeholder="Franchise TP Comm" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise Incentive Amount</label>
+                                      <input type="text" class="form-field" placeholder="Franchise Incentive Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise TDS</label>
+                                      <input type="text" class="form-field" placeholder="Franchise TDS">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise OD Amount</label>
+                                      <input type="text" class="form-field" placeholder="Franchise OD Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise Net Amount</label>
+                                      <input type="text" class="form-field" placeholder="Franchise Net Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise TP Amount</label>
+                                      <input type="text" class="form-field" placeholder="Franchise TP Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Total Comm Amount</label>
+                                      <input type="text" class="form-field" placeholder="Total Comm Amount" value="-8905.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Net Payable Amount</label>
+                                      <input type="text" class="form-field" placeholder="Net Payable Amount" value="20898.00">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">TDS Amount</label>
+                                      <input type="text" class="form-field" placeholder="TDS Amount" value="0.00">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                              <button type="submit" class="dashboard-addbtn">Save and Continue</button>
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        
+                        
+                    </form>
+                    <div id="loader" class="form-loader" style="display: none;">
+                      <div>
+                        <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                        <span class="visually-hidden d-block pt-2">Loading...</span>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+</body>
+{% endblock %}

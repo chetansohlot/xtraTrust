@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Broker Certificate</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 30px;
+            border: 10px solid #007bff;
+            text-align: center;
+        }
+        .certificate-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: #fff;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #007bff;
+            margin: 10px 0;
+        }
+        .certificate-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-transform: uppercase;
+            text-decoration: underline;
+        }
+        .content {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .details {
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+            font-size: 16px;
+        }
+        .signature img {
+            max-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="header">
+            <img src="{{ logo_url }}" alt="Company Logo">
+            <h1>{{ COMPANY_SHORT_NAME }}</h1>
+        </div>
+
+        <div class="certificate-title">Certificate of Brokerage</div>
+        
+        <div class="content">
+            This is to certify that <span class="highlight">{{ user_details.first_name }} {{ user_details.last_name }}</span>
+            has successfully completed all required training and assessments and is now recognized as a certified broker
+            under the <strong>{{ COMPANY_SHORT_NAME }} Program</strong>.
+        </div>
+        
+        <div class="details">
+            <p><strong>Certificate ID:</strong> {{ user_details.user_gen_id }}</p>
+            <p><strong>Issued On:</strong> {{ issue_date }}</p>
+            <p><strong>Valid Until:</strong> {{ expiry_date }}</p>
+        </div>
+        
+        <div class="signature">
+            <p>Authorized Signatory</p>
+            <img src="{{ signature_url }}" alt="Signature">
+            <p><strong>Managing Director</strong></p>
+        </div>
+    </div>
+</body>
+</html>

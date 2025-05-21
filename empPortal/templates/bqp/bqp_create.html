@@ -1,0 +1,122 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+BQP - Create BQP
+{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Breadcrumb -->
+            <div class="content-header breadcrump-bg">
+                <div class="container-fluid">
+                    <div class="row py-2">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Create BQP</a>
+                            </div>
+                            <ul class="breadcrump">
+                                <li><a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                                <li><a href="{% url 'bqp_list' %}">BQP</a> <i class="fas fa-chevron-right"></i></li>
+                                <li>Create BQP</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-end">
+                              <a href="{% url 'bqp_list' %}" class="breadcrump-addbtn">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                              </a>
+                            </div>
+                          </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- Form Card -->
+                            <div class="card box-shadow-none p-md-5 p-3">
+                                <div class="card-body px-0 pb-0 pt-0">
+                                    <form autocomplete="off" id="bqpForm" name="bqpForm"
+                                        action="{% if bqp %}{% url 'bqp_edit' bqp.id %}{% else %}{% url 'bqp_create' %}{% endif %}"
+                                        method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <!-- PAN number -->
+                                            <div class="form-group col-sm-6 col-md-4">
+                                                <label class="form-lbl" for="pan_number">PAN Number</label>
+                                                <input type="text" class="form-field" name="pan_number" id="pan_number"
+                                                    placeholder="Enter PAN Number"
+                                                    value="{{ bqp.pan_number|default:'' }}">
+                                                <span class="error pan_number_err"></span>
+                                            </div>
+
+                                            <!-- First Name -->
+                                            <div class="form-group col-sm-6 col-md-4">
+                                                <label class="form-lbl" for="bqp_fname">First Name</label>
+                                                <input type="text" class="form-field" name="bqp_fname" id="bqp_fname"
+                                                    placeholder="First Name"
+                                                    value="{{ bqp.bqp_fname|default:'' }}">
+                                                <span class="error bqp_fname_err"></span>
+                                            </div>
+
+                                            <!-- Last Name -->
+                                            <div class="form-group col-sm-6 col-md-4">
+                                                <label class="form-lbl" for="bqp_lname">Last Name</label>
+                                                <input type="text" class="form-field" name="bqp_lname" id="bqp_lname"
+                                                    placeholder="Last Name"
+                                                    value="{{ bqp.bqp_lname|default:'' }}">
+                                                <span class="error bqp_lname_err"></span>
+                                            </div>
+
+                                            <!-- Email Address -->
+                                            <div class="form-group col-sm-6 col-md-4">
+                                                <label class="form-lbl" for="email_address">Email Address</label>
+                                                <input type="email" class="form-field" name="email_address" id="email_address"
+                                                    placeholder="Email Address"
+                                                    value="{{ bqp.email_address|default:'' }}">
+                                                <span class="error email_address_err"></span>
+                                            </div>
+
+                                            <!-- Mobile Number -->
+                                            <div class="form-group col-sm-6 col-md-4">
+                                                <label class="form-lbl" for="mobile_number">Mobile Number</label>
+                                                <input type="text" class="form-field" name="mobile_number" id="mobile_number"
+                                                    placeholder="Mobile Number" maxlength="15"
+                                                    value="{{ bqp.mobile_number|default:'' }}">
+                                                <span class="error mobile_number_err"></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="form-submit-btn">
+                                                {% if bqp %}Update BQP{% else %}Save BQP{% endif %}
+                                            </button>
+                                        </div>    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "footer.html" %}
+        {% include "footer-script.html" %}
+    </div>
+</body>
+{% endblock %}

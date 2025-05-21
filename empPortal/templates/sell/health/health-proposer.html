@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+  <section class="bg-light py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-12">
+          
+          <div class="row">
+            <div class="col-md-8">
+              <ul class="journey-step">
+                <li class="active">Proposer</li>
+                <li>Insured</li>
+                <li>Medical History</li>
+              </ul>
+              <h2 class="wrap-subhding">Proposer</h2>
+              <div class="form-box">
+                <form action="{% url 'create-health-insured' %}">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Name</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Gender</label>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="gender" id="male" value="male">
+                              <label for="male">Male</label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="radio" class="radio-btn" name="gender" id="female" value="female">
+                              <label for="female">Female</label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Date of Birth</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Marital Status</label>
+                          <select class="form-field">
+                            <option>Single</option>
+                            <option>Married</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Occupation</label>
+                          <select class="form-field">
+                            <option>Select Occupation</option>
+                            <option>Not Working</option>
+                            <option>Student</option>
+                            <option>Private Service</option>
+                            <option>Self Employed</option>
+                            <option>Housewife</option>
+                            <option>Retired</option>
+                            <option>Others</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Email</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      
+                      
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Annual Income</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">PAN</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Mobile</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Address</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Pincode</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">City</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">State</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Relation with Insured</label>
+                          <select class="form-field">
+                            <option>Select Relation</option>
+                            <option>Self</option>
+                            <option>Spouse</option>
+                            <option>Son</option>
+                            <option>Daughter</option>
+                            <option>Mother</option>
+                            <option>Father</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Nominee Relation</label>
+                          <select class="form-field">
+                            <option>Select Relation</option>
+                            <option>Self</option>
+                            <option>Spouse</option>
+                            <option>Son</option>
+                            <option>Daughter</option>
+                            <option>Mother</option>
+                            <option>Father</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Nominee Name</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Nominee Date of Birth</label>
+                          <input type="text" name="" placeholder="" class="form-field datepicker_dob">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Nominee Address</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Nominee Pincode</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-lbl">Nominee City</label>
+                          <input type="text" name="" placeholder="" class="form-field">
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <button type="submit" class="form-btn w-auto ms-auto d-table mt-4">Continue</button>
+                      </div>
+                    </div>
+                  </form>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box mt-4">
+                <div class="row align-items-center mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-3.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>Health Shield</strong></p>
+                  </div>
+                  <div class="col-md">
+                    <h2 class="wrap-subhding text-end"><i class="fa-solid fa-indian-rupee-sign"></i>19305</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Family Composition</p>
+                      <p class="quote-lbl">2 Adult, 1 Child</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">CRN</p>
+                      <p class="quote-lbl">9563409</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Insurance Cover</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i>5,970</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Tenure</p>
+                      <p class="quote-lbl">1 year(s)</p>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+  
+        </div>
+      </div>
+    </div>  
+  </section>  
+
+{% include 'home/layouts/footer.html' %}
+
+</body>
+</html>

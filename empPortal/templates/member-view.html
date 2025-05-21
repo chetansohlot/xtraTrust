@@ -1,0 +1,393 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Members
+{% endblock %}
+  
+{% block content %}
+{% load static %}
+
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+        {% include 'sidebar.html' %}
+    
+        <div class="content-wrapper white-bg">
+            <div class="content-header header-content-bg mb-0">
+              <div class="container-fluid">
+                <div class="row justify-content-between justify-content-sm-start pb-4">
+                  <div class="col col-sm-4">
+                    <!-- <h1 class="admin-title m-0 py-2">View Member </h1> -->
+                    <a href="#"><img src="{% static 'dist/img/svg/back_ic.svg' %}" alt="" class="mt-2 pl-3"></a>
+                  </div>
+                  <div class="col">
+                    <div class="d-flex justify-content-end mt-2">
+                      <!-- <button class="dashboard-btn-outline mb-0" type="button">Deactivate Membership</button> -->
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Main content -->
+            <div class="content px-0">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-auto px-0">
+                    <div class="card member-detail-left-card">
+                        <div class="card-body box-profile">
+                          <img src="{% static 'dist/img/svg/profile-avatar-male.svg' %}" alt="" class="card-profile-img">
+                          <h3 class="profile-username text-center">Ratnesh Kumar Sharma</h3>
+                          <div class="d-flex justify-content-center mt-2">
+                            <p class="text-success">Active</p>
+                          </div>  
+                          <div class="profile-info-divider"></div>
+                          <ul class="member-detail-list">
+                              <li> 
+                                <img src="{% static 'dist/img/svg/emp-id_ic.svg' %}" alt="">
+                                <span class="list">Emp. ID</span> 
+                                <span class="list-output"> Salaried </span>
+                              </li>
+                              <li> 
+                                <img src="{% static 'dist/img/svg/gender_ic.svg' %}" alt="">
+                                <span class="list">Gender</span> 
+                                <span class="list-output"> Male </span>
+                              </li>
+                              <li> 
+                                <img src="{% static 'dist/img/svg/birthday_ic.svg' %}" alt="">
+                                <span class="list">Date of birth</span> 
+                                <span class="list-output"> 10th Nov'86 </span>
+                              </li>
+                              <li> 
+                                <img src="{% static 'dist/img/svg/phone_ic.svg' %}" alt="">
+                                <span class="list">Phone</span> 
+                                <span class="list-output"> 9953786487 </span>
+                              </li>
+                              <li> 
+                                <img src="{% static 'dist/img/svg/email_ic.svg' %}" alt="">
+                                <span class="list">E-mail</span> 
+                                <span class="list-output"> ratnesh@netleafinfosoft.com </span>
+                              </li>
+                              <li> 
+                                <img src="{% static 'dist/img/svg/membership-id_ic.svg' %}" alt="">
+                                <span class="list">Membership ID</span> 
+                                <span class="list-output"> OSHB-A4660270 </span>
+                              </li>
+                              <li> 
+                                <img src="{% static 'dist/img/svg/activation-date_ic.svg' %}" alt="">
+                                <span class="list">Activation Date</span> 
+                                <span class="list-output"> 10th Jan'25 </span>
+                              </li>
+                          </ul>
+                          <div class="left-card-document">
+                            <div class="row">
+                              <div class="col-auto">
+                                <img src="{% static 'dist/img/svg/documents_ic.svg' %}" alt="" class="">
+                              </div>
+                              <div class="col">
+                                <h4 class="card-hding mb-0 pb-0">Documents</h4>
+                                <p class="left-card-document-prgh">Healthcards, certificates and policy documents</p>
+                              </div>
+                              <div class="col-auto">
+                                <img src="{% static 'dist/img/svg/right-arrow_ic.svg' %}" alt="" class="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md px-0">
+                    <div class="card member-detail-right-card">
+                      
+                      <ul class="nav nav-pills profile-tab">
+                          <li class="nav-item text-bold"><a class="nav-link active" href="#membership-tab" data-toggle="tab">Membership</a></li>
+                          <li class="nav-item text-bold"><a class="nav-link" href="#organisation-tab" data-toggle="tab">Organisation</a></li>
+                          <li class="nav-item text-bold"><a class="nav-link" href="#personal-detail-tab" data-toggle="tab">Personal & Family</a></li>
+                          <li class="nav-item text-bold"><a class="nav-link" href="#claims-tab" data-toggle="tab">Claims</a></li>
+                      </ul>
+                      
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="tab-content tab-scrollbar">
+                          <div class="active tab-pane" id="membership-tab">
+                            <div class="row border-bottom">
+                              <div class="col-md-9">
+                                <a href="javascript:void(0)">
+                                  <h1 class="card-hding mb-0 pb-0 text-dark">Netyx</h1>
+                                  <p class="wrap-small text-gray">Includes: Team Member, Spouse and two Children</p>
+                                  <ul class="membership-list">
+                                    <li>
+                                      <i class="fas fa-check-circle"></i> 
+                                      <div>
+                                        Health Insurance
+                                        <span>1.0 Lakhs</span>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <i class="fas fa-check-circle"></i> 
+                                      <div>
+                                        Teleconsultations
+                                        <span>Unlimited(Free 5 Per Month)</span>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <i class="fas fa-check-circle"></i> 
+                                      <div>
+                                        Accidental insurance
+                                        <span>3.0 Lakhs</span>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <i class="fas fa-check-circle"></i> 
+                                      <div>
+                                        Discounted Medicine Orders
+                                        <span>Unlimited</span>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </a>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="d-flex justify-content-end">
+                                  <p class="text-success">Active</p>
+                                  <div class="dropdown dropright ">
+                                      <img src="{% static 'dist/img/svg/menu-dot-vr.svg' %}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                      <ul class="dropdown-menu table-dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Deactivate Plan</a></li>
+                                      </ul>
+                                    </div>
+                                </div>
+                                <p class="wrap-prgh text-right mt-2">₹295/month</p>
+                              </div>
+                            </div>
+                            <p class="text-right wrap-prgh pt-4">Activation Date <span class="font-weight-bold ml-2">10th Jan'25</span></p>
+                          </div>
+                          <div class="tab-pane" id="organisation-tab">
+                            <!-- Personal Details -->
+                            <div class="row mt-3">
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Employee ID</p>
+                                  <p class="userdetail-highligt">OSHS-A14844269</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Department</p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl "><b>Location</b></p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                              
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Division</p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Branch</p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Employment Type</p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl "><b>Designation</b></p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- /.Personal Details -->
+                          </div>
+                          <!-- /.tab-pane -->
+                          <div class="tab-pane" id="personal-detail-tab">
+                            <!-- Professional Detials -->
+                            <div class="row mt-3">
+                              <div class="col-md-12">
+                                <h3 class="card-hding">PERSONAL & FAMILY INFO</h3>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Full Name</p>
+                                  <p class="userdetail-highligt">Ratnesh Kumar Sharma</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl "><b>Gender</b></p>
+                                  <p class="userdetail-highligt">Male</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Date of Birth</p>
+                                  <p class="userdetail-highligt">10th Nov'86</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Marital Status</p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Membership Status</p>
+                                  <p class="userdetail-highligt">Active</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Activation Date</p>
+                                  <p class="userdetail-highligt">10th Jan'25</p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <hr>
+                                <h3 class="card-hding pt-3">CONTACT INFO</h3>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Phone Number</p>
+                                  <p class="userdetail-highligt">9953786487</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Work Email ID</p>
+                                  <p class="userdetail-highligt">ratnesh@netleafinfosoft.com</p>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="userdetail-group">
+                                  <p class="userdetail-lbl ">Personal Email ID</p>
+                                  <p class="userdetail-highligt">-</p>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <hr>
+                                <h3 class="card-hding pt-3">FAMILY INFO (DEPENDANTS)</h3>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-5 col-lg-5">
+                                <div class="family-info-card">
+                                  <div class="row">
+                                    <div class="col-auto">
+                                      <div class="nametag">SS</div>
+                                    </div>
+                                    <div class="col">
+                                      <h4 class="card-hding mb-0 pb-0">Shilka Saxena</h4>
+                                      <p class="wrap-small text-gray">Female <span class="ml-3"><i class="fas fa-check-circle"></i></span> Spouse</p>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-sm-12">
+                                      <hr>
+                                      <div class="ml-3 pl-1">
+                                        <p class="wrap-prgh font-weight-bold mb-0 pb-0">Netyx</p>
+                                        <p class="wrap-small">Team Member, Spouse and two Children</p>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6 col-md-5 col-lg-5">
+                                <div class="family-info-card">
+                                  <div class="row">
+                                    <div class="col-auto">
+                                      <div class="nametag">AS</div>
+                                    </div>
+                                    <div class="col">
+                                      <h4 class="card-hding mb-0 pb-0">Angad Sharma</h4>
+                                      <p class="wrap-small text-gray">Male <span class="ml-3"><i class="fas fa-check-circle"></i></span> Child1</p>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-sm-12">
+                                      <hr>
+                                      <div class="ml-3 pl-1">
+                                        <p class="wrap-prgh font-weight-bold mb-0 pb-0">Netyx</p>
+                                        <p class="wrap-small">Team Member, Spouse and two Children</p>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- /.Professional Detials -->
+                          </div>
+                          <!-- /.tab-pane -->
+                          <div class="tab-pane" id="claims-tab">
+                              <div class="row align-items-center mt-3 mb-3">
+                                <div class="col-md-auto">
+                                  <h3 class="card-hding mb-0 pb-0">Claim History</h3>
+                                </div>
+                                <div class="col">
+                                  <div class="d-flex justify-content-end">
+                                    <a href="#" class="dashboard-btn-outline mx-2">Search Cashless Hospitals</a>
+                                    <a href="#" class="dashboard-addbtn">Raise a Claim</a>
+                                  </div>
+                                </div>
+                              </div>  
+                            <!-- Documents -->
+                            <div class="table-responsive">
+                              <table class="table table-design admin-table-design">
+                                <thead class="align-middle thead-light">
+                                    <tr>
+                                        <th>Claim ID/Type</th>
+                                        <th>Patient Name/Relation</th>
+                                        <th>Claim Status/Last Update On</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td colspan="3">
+                                      <div class="d-flex justify-content-center py-5">
+                                        <div>
+                                          <img src="{% static 'dist/img/svg/drive.svg' %}" alt="" class="mx-auto d-table">
+                                          <p class="wrap-small text-gray text-center pt-2">No Data</p>
+                                        </div>  
+                                      </div>   
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>                               
+                             </div>    
+                            <!-- /.Documents -->
+                          </div>
+                        </div>
+                          <!-- /.tab-content -->
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              
+            </div>
+          </div>
+        <!-- /.content-wrapper -->
+    
+        {% include "footer.html" %}
+    </div>
+    <!-- ./wrapper -->
+    
+    {% include 'footer-script.html' %}
+    
+    
+    
+    
+    </body>
+
+{% endblock %}

@@ -1,0 +1,190 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+{% load static %}
+
+
+
+<style>
+  body { font-family: "Poppins", serif !important; font-size:13px;}
+  .bill-header-logo {width:180px; margin-bottom: 20px;}
+  .invoice-to {
+      font-weight: 700;
+      text-align: left;
+      text-transform: uppercase;
+      font-size: 15px;
+      margin-bottom: 10px;
+      background-color: #e8e8e8;
+      padding:4px 12px;
+  }
+  .invoice-detail {
+      font-weight: 400;
+      line-height: 1.9;
+      margin-bottom: 15px;
+  }
+  .w-100 {width: 100%;}
+  .table-header thead tr td {padding:0px 12px;}
+  table thead tr th, table thead tr td, table tbody tr td {font-size: 13px; }
+  .table-design tbody tr:not(:last-of-type) {
+    border-bottom: 1px solid #dee2e6;
+  }
+  .table-design tbody tr:not(:last-child) td {
+    border-bottom: 1px solid #dee2e6;
+  }
+  .table-design tbody tr td:not(:last-child) {
+    border-right: 1px solid #dee2e6;
+  }
+  
+  .table-bordered {
+      border: 1px solid #dee2e6;
+  }
+  .table-design tbody tr td {
+    color: #000;
+    padding: 4px 12px;
+    vertical-align: middle !important;
+}
+.table-thead-bg-light {
+        background: #eff9ff;
+}
+.pdf-title {
+  font-size:15px;
+  padding:5px 10px;
+  margin-bottom: 0px;
+}
+.thead-bg {
+  background-color: #cccccc;
+}
+.mb-3 {margin-bottom: 15px;}
+</style>
+<table border="0" cellpadding="0" cellspacing="0" class="w-100 table-header mb-3">
+  <thead>
+    <tr>
+      <td colspan="2">
+        <center>
+          <img src="{{ logo_url }}" alt="" class="bill-header-logo">
+        </center>  
+      </td>
+    </tr>
+    <tr>
+      
+      <td valign="top">
+        <p class="invoice-to">Customer Details </p>
+        <table border="0" class="w-100">
+          <tbody>
+              <tr>
+                  <td>
+                      <p class="invoice-detail">
+                          <strong>{{ customer.name_as_per_pan }}</strong> <br>
+                          {{ customer.mobile_number }} <br>
+                          {{ customer.email_address }} <br>
+                          {% if customer.pan_card_number %}
+                              <strong>PAN:</strong> {{ customer.pan_card_number }} <br>
+                          {% endif %}
+                          {% if customer.quote_date %}
+                              <strong>Quote Date:</strong> {{ customer.quote_date }}<br>
+                          {% endif %}
+                          {% if customer.date_of_birth %}
+                              <strong>DOB:</strong> {{ customer.date_of_birth|date:"d-m-Y" }} <br>
+                          {% endif %}
+                          {{ customer.address }}, {{ customer.city }}, {{ customer.state }} ({{ customer.pincode }}) <br>
+                      </p>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      
+      </td>
+      <td valign="top">
+        <p class="invoice-to">Vehicle Information </p>
+          <table border="0" class="w-100">
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="invoice-detail">
+                            <strong>Vehicle:</strong> {{ vehicle_info.vehicle_type|default:"N/A" }} <br>
+                            <strong>Model:</strong> {{ vehicle_info.model|default:"N/A" }} <br>
+                            <strong>Registration No.:</strong> {{ vehicle_info.registration_number|default:"N/A" }} <br>
+                            <strong>Registration Date:</strong> {{ vehicle_info.registration_date|date:"d-m-Y"|default:"N/A" }} <br>
+                            <strong>Variant:</strong> {{ vehicle_info.variant|default:"N/A" }} <br>
+                            <strong>Year of Manufacture:</strong> {{ vehicle_info.year_of_manufacture|default:"N/A" }} <br>
+                            <strong>Chassis No.:</strong> {{ vehicle_info.chassis_number|default:"N/A" }} <br>
+                            <strong>Engine No.:</strong> {{ vehicle_info.engine_number|default:"N/A" }}
+                        </p>
+                    </td>
+                    <td>
+                        <p class="invoice-detail">
+                            <strong>Registration State:</strong> {{ vehicle_info.registration_state|default:"N/A" }} <br>
+                            <strong>Registration City: </strong>{{ vehicle_info.registration_city|default:"N/A" }} <br>
+                            <strong>Claim (Last Year):</strong> {{ vehicle_info.claim_history|default:"N/A" }} <br>
+                            <strong>NCB Percentage:</strong> {{ vehicle_info.ncb_percentage|default:"0.00" }}% <br>
+                            <strong>IDV:</strong> {{ vehicle_info.idv_value|default:"0.00" }} <br>
+                            <strong>Policy Type:</strong> {{ vehicle_info.policy_type|default:"N/A" }} <br>
+                            <strong>Policy Duration:</strong> {{ vehicle_info.policy_duration|default:"N/A" }} <br>
+                            <strong>Add-ons:</strong> 
+                            {% if addon_names %}
+                                {{ addon_names|join:", " }}
+                            {% else %}
+                                None
+                            {% endif %}
+                        </p>
+                    </td>
+                </tr>
+            </tbody>  
+        </table>
+      
+      </td>
+    </tr>
+  </thead>
+</table>
+
+{% load custom_filters %}
+
+  <table border="0" cellpadding="0" cellspacing="0" class="w-100 table table-design table-bordered">
+    <thead class="thead-bg">
+      <tr>
+        <td colspan="{{ selected_policy_companies|length|add:'1' }}">
+          <h1 class="pdf-title">Estimate Quote</h1>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Insurer Name Row -->
+      <tr>
+        <td class="table-thead-bg-light"><strong>Insurer Name</strong></td>
+        {% for company in selected_policy_companies %}
+          <td>{{ company }}</td>
+        {% endfor %}
+      </tr>
+
+      {% with policy_string="plan_name,premium,policy_type,idv,ncb,own_damage,third_party,addons,claim_ratio,garage_network,tenure,deductibles" %}
+        {% for field in policy_string|split:"," %}
+          <tr>
+            <td class="table-thead-bg-light">
+              <strong>
+                {% if field == "plan_name" %}Plan Name
+                {% elif field == "premium" %}Premium Amount (INR)
+                {% elif field == "policy_type" %}Policy Type
+                {% elif field == "idv" %}IDV (INR)
+                {% elif field == "ncb" %}NCB Discount (%)
+                {% elif field == "own_damage" %}Own Damage Premium (INR)
+                {% elif field == "third_party" %}Third-Party Premium (INR)
+                {% elif field == "addons" %}Add-Ons Included
+                {% elif field == "claim_ratio" %}Claim Settlement Ratio (%)
+                {% elif field == "garage_network" %}Cashless Garage Network
+                {% elif field == "tenure" %}Policy Tenure
+                {% elif field == "deductibles" %}Deductibles (INR)
+                {% else %}{{ field|capfirst }}
+                {% endif %}
+              </strong>
+            </td>
+            {% for i in selected_policy_companies %}
+              {% with idx=forloop.counter0|stringformat:"s" %}
+                {% with key=field|stringformat:"s"|add:"_"|add:idx %}
+                  <td>{{ data_dict|dict_key:key }}</td>
+                {% endwith %}
+              {% endwith %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      {% endwith %}
+    </tbody>
+</table>

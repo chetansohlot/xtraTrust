@@ -1,0 +1,422 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Update Allocation
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Update Allocation</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Employee</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Update Allocation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                
+                  {% include 'employee/common-link.html' with step=6 %}
+                
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <form autocomplete="off" id="employeeAllocationForm" name="employeeForm"
+                        action="{% url 'employee-management-update-allocation' employee.id %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="admin-title border-bottom pb-2 mb-4">Employee Allocation</h2>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Branch -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="branch">Branch</label>
+                                <select class="form-field" name="branch" id="branch">
+                                    <option value="">Select Branch</option>
+                                    {% for branch in branches %}
+                                        <option value="{{ branch.id }}" {% if branch.id|stringformat:"s" == employee.branch_id|stringformat:"s" %}selected{% endif %}>
+                                            {{ branch.branch_name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Role -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="role">Role</label>
+                                <select class="form-field" name="role" id="role">
+                                    <option value="">Select Role</option>
+                                    {% for role in roles %}
+                                        <option value="{{ role.id }}" {% if role.id|stringformat:"s" == employee.role_id|stringformat:"s" %}selected{% endif %}>
+                                            {{ role.roleName }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Department -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="department">Department</label>
+                                <select class="form-field" name="department" id="department">
+                                    <option value="">Select Department</option>
+                                    {% for department in departments %}
+                                        <option value="{{ department.id }}" {% if department.id|stringformat:"s" == employee.department_id|stringformat:"s" %}selected{% endif %}>
+                                            {{ department.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4" id="salesManagerContainer" style="{% if employee.role_id == 6 or employee.role_id == 7 %}display:block;{% else %}display:none;{% endif %}">
+                                <label class="form-lbl" for="sales_manager">Select Manager</label>
+                                <select class="form-field" name="manager" id="sales_manager">
+                                    <option value="">Select Manager</option>
+                                    {% for m in manager_list %}
+                                        <option value="{{ m.id }}" {% if manager_id == m.id %}selected{% endif %}>{{ m.first_name }} {{ m.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4" id="teamLeaderContainer" style="{% if employee.role_id == 7 %}display:block;{% else %}display:none;{% endif %}">
+                                <label class="form-lbl" for="team_leader">Select Team Leader</label>
+                                <select class="form-field" name="team_leader" id="team_leader">
+                                    <option value="">Select Team Leader</option>
+                                    {% for tl in tl_list %}
+                                        <option value="{{ tl.id }}" {% if employee.senior_id == tl.id %}selected{% endif %}>{{ tl.first_name }} {{ tl.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4" id="annual_ctc_container">
+                                <label for="annual_ctc" class="form-lbl">Annual CTC</label>
+                                <input type="text" class="form-field number" name="annual_ctc" id="annual_ctc" placeholder="Enter Annual CTC" value="{{employee.annual_ctc|default:0}}" maxlength="8">
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4" id="monthly_ctc_container">
+                                <label for="monthly_ctc" class="form-lbl">Monthly CTC</label>
+                                <input type="text" class="form-field number" name="monthly_ctc" id="monthly_ctc" placeholder="Enter Monthly CTC" value="{{employee.monthly_ctc|default:0}}" readonly>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4" id="target_percent_container">
+                                <label for="target_percent" class="form-lbl">Targeted Times</label>
+                                <input type="text" class="form-field percentage" name="target_percent" id="target_percent" placeholder="Target Percentage" value="{{employee.target_percent|default:0}}" min="1" max="10" maxlength="2">
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4" id="target_amt_container">
+                                <label for="target_amt" class="form-lbl">Targeted Amount</label>
+                                <input type="text" class="form-field number" name="target_amt" id="target_amt" placeholder="Enter Targeted Amount" value="{{employee.target_amt|default:0}}" readonly>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4" id="monthly_target_amt_container">
+                                <label for="monthly_target_amt" class="form-lbl"> Monthly Targeted Amount</label>
+                                <input type="text" class="form-field number" name="monthly_target_amt" id="monthly_target_amt" placeholder="Enter Monthly Targeted Amount"  readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+
+                      <a href="{% url 'employee-management-update-refrences' employee_id=employee_data.employee_id %}" class="btn btn-secondary"> Back</a>
+                            <button type="submit" class="form-submit-btn">
+                                {% if employee %}Update Employee{% else %}Save Employee{% endif %}
+                            </button>
+                        </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+ 
+    <script>
+$(document).ready(function () {
+    const roleSelect = $('#role');
+    const branchSelect = $('#branch');
+    const departmentSelect = $('#department');
+    const managerSelect = $('#sales_manager');
+    const teamLeaderSelect = $('#team_leader');
+
+    const salesManagerContainer = $('#salesManagerContainer');
+    const teamLeaderContainer = $('#teamLeaderContainer');
+    const departmentContainer = departmentSelect.closest('.form-group');
+
+    // Initial check
+    toggleFields(roleSelect.val());
+        const selectedManagerId = '{{ manager_id|default_if_none:"" }}';
+        const selectedTeamLeaderId = '{{ employee.senior_id|default_if_none:"" }}';
+
+    const initialRoleId = roleSelect.val();
+    if (initialRoleId == 6 || initialRoleId == 7) {
+        fetchManagersAndThen(() => {
+            if (selectedManagerId) {
+                managerSelect.val(selectedManagerId).trigger('change');
+            }
+            if (initialRoleId == 7 && selectedManagerId) {
+                fetchTeamLeadersAndThen(() => {
+                    if (selectedTeamLeaderId) {
+                        teamLeaderSelect.val(selectedTeamLeaderId);
+                    }
+                });
+            }
+        });
+    }
+
+    function fetchManagersAndThen(callback) {
+        const roleId = 5;
+        const branchId = branchSelect.val();
+        const departmentId = departmentSelect.val();
+
+        $.ajax({
+            url: "{% url 'get_users_by_role_id' %}",
+            type: 'GET',
+            data: {
+                'role_id': roleId,
+                'branch_id': branchId,
+                'department_id': departmentId,
+            },
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            success: function (response) {
+                managerSelect.empty().append('<option value="">Select Manager</option>');
+                if (response.users && response.users.length > 0) {
+                    $.each(response.users, function (index, user) {
+                        managerSelect.append(`<option value="${user.id}">${user.full_name}</option>`);
+                    });
+                } else {
+                    managerSelect.append('<option value="">No users available</option>');
+                }
+                if (callback) callback();
+            },
+            error: function () {
+                alert('Error fetching managers');
+            }
+        });
+    }
+
+    function fetchTeamLeadersAndThen(callback) {
+        const managerId = managerSelect.val();
+        if (!managerId) {
+            teamLeaderSelect.empty().append('<option value="">Select Team Leader</option>');
+            return;
+        }
+
+        $.ajax({
+            url: "{% url 'get_team_leaders_by_manager' %}",
+            type: 'GET',
+            data: { 'manager_id': managerId },
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            success: function (response) {
+                teamLeaderSelect.empty().append('<option value="">Select Team Leader</option>');
+                if (response.users && response.users.length > 0) {
+                    $.each(response.users, function (index, user) {
+                        teamLeaderSelect.append(`<option value="${user.id}">${user.full_name}</option>`);
+                    });
+                } else {
+                    teamLeaderSelect.append('<option value="">No team leaders available</option>');
+                }
+                if (callback) callback();
+            },
+            error: function () {
+                alert('Error fetching team leaders');
+            }
+        });
+    }
+
+    roleSelect.change(function () {
+        const roleId = $(this).val();
+        toggleFields(roleId);
+    });
+
+    branchSelect.change(fetchManagersAndLeaders);
+    departmentSelect.change(fetchManagersAndLeaders);
+
+    $('#sales_manager').change(fetchTeamLeaders);
+
+    function toggleFields(roleId) {
+        const numericRoleId = parseInt(roleId);
+
+        // Show/hide department
+        if (numericRoleId <= 4) {
+            departmentContainer.hide();
+        } else {
+            departmentContainer.show();
+        }
+
+        if (numericRoleId <= 5) {
+            salesManagerContainer.hide();
+            teamLeaderContainer.hide();
+        } else if (numericRoleId == 6) {
+            salesManagerContainer.show();
+            teamLeaderContainer.hide();
+            fetchManagers();  // Only managers
+        } else if (numericRoleId == 7) {
+            salesManagerContainer.show();
+            teamLeaderContainer.show();
+            fetchManagers();  // Managers for team leader
+        }
+    }
+
+    function fetchManagers() {
+        const roleId = 5;  // Fetch managers
+        const branchId = branchSelect.val();
+        const departmentId = departmentSelect.val();
+
+        $.ajax({
+            url: "{% url 'get_users_by_role_id' %}",
+            type: 'GET',
+            data: {
+                'role_id': roleId,
+                'branch_id': branchId,
+                'department_id': departmentId,
+            },
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            success: function (response) {
+                managerSelect.empty();
+                managerSelect.append('<option value="">Select Manager</option>');
+                if (response.users && response.users.length > 0) {
+                    $.each(response.users, function (index, user) {
+                        managerSelect.append(`<option value="${user.id}">${user.full_name}</option>`);
+                    });
+                } else {
+                    managerSelect.append('<option value="">No users available</option>');
+                }
+            },
+            error: function () {
+                alert('Error fetching managers');
+            }
+        });
+    }
+
+    function fetchTeamLeaders() {
+        const managerId = managerSelect.val();
+        if (!managerId) {
+            teamLeaderSelect.empty().append('<option value="">Select Team Leader</option>');
+            return;
+        }
+
+        $.ajax({
+            url: "{% url 'get_team_leaders_by_manager' %}",
+            type: 'GET',
+            data: { 'manager_id': managerId },
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            success: function (response) {
+                teamLeaderSelect.empty();
+                teamLeaderSelect.append('<option value="">Select Team Leader</option>');
+                if (response.users && response.users.length > 0) {
+                    $.each(response.users, function (index, user) {
+                        teamLeaderSelect.append(`<option value="${user.id}">${user.full_name}</option>`);
+                    });
+                } else {
+                    teamLeaderSelect.append('<option value="">No team leaders available</option>');
+                }
+            },
+            error: function () {
+                alert('Error fetching team leaders');
+            }
+        });
+    }
+
+    function fetchManagersAndLeaders() {
+        const roleId = roleSelect.val();
+        if (roleId == 6 || roleId == 7) {
+            fetchManagers();
+        }
+    }
+});
+
+function calculate_montly_ctc(){
+    let annual_ctc = $('#annual_ctc').val();
+    monthly_ctc = annual_ctc/12;
+    $('#monthly_ctc').val(monthly_ctc.toFixed(2))
+}
+
+function calculate_targeted_amount(){
+    let annual_ctc = $('#annual_ctc').val();
+    let target_percent = $('#target_percent').val();
+    target_amt = annual_ctc*target_percent;
+    monthly_target_amt = target_amt/12;
+    $('#target_amt').val(target_amt.toFixed(2))
+    $('#monthly_target_amt').val(monthly_target_amt.toFixed(2))
+}
+
+$('#annual_ctc').on('input',function(){
+    let val = $(this).val();
+    let isValid = true;
+    if (val.includes('.')) {
+        let parts = val.split('.');
+        if (parts[1].length > 2 ||parts[0].length > 10) {
+            isValid = false;
+        }
+    }else{
+      if (val.length > 10) {
+        isValid = false;
+      }
+    }
+    if (isValid) {
+        calculate_montly_ctc()
+    }
+});
+
+$('#target_percent').on('input',function(){
+    let val = $(this).val();
+    let isValid = true;
+    if (val.includes('.')) {
+        let parts = val.split('.');
+        if (parts[1].length > 2 ||parts[0].length > 2) {
+            isValid = false;
+        }
+    }else{
+      if (val.length > 2) {
+        isValid = false;
+      }
+    }
+    if (isValid) {
+        calculate_targeted_amount()
+    }
+});
+
+</script>
+
+
+</body>
+{% endblock %}

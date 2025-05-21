@@ -1,0 +1,444 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Employee Management
+{% endblock %}
+  
+{% block content %}
+{% load static %}
+{% load custom_filters %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+        {% include 'sidebar.html' %}
+    
+        <div class="content-wrapper white-bg">
+          <!-- Content Header (Page header) -->
+          <div class="content-header header-content-bg">
+            <div class="container-fluid ">
+              <div class="row pt-2 pb-2">
+                <div class="col-sm-6">
+                  <div class="d-flex align-items-center">
+                  <h1 class="admin-title m-0 pt-2">Employee Management</h1>
+                  </div>
+                  <ul class="breadcrump">
+                    <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                    <li>Employee management</li>
+                  </ul>
+                </div>
+                <div class="col-sm-6">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'employee-management-create' %}" class="breadcrump-addbtn"><i class="fas fa-plus"></i> Add Employee</a>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card active">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            
+                            <p class="card-text">
+                              Total Employee
+                            </p>
+                            <h5 class="card-title card-number">{{ total_count }}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>   
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card counter-active-card ">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            <p class="card-text">
+                              Active Employee
+                            </p>
+                            <h5 class="card-title card-number">{{ total_count }}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>  
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card counter-deactive-card ">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            
+                            <p class="card-text">
+                              Inactive Employee
+                            </p>
+                            <h5 class="card-title card-number">0</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>  
+                </div>  
+              </div>
+            </div>
+          </div>
+          <!-- /.content-header -->
+      
+                      <!-- Display error messages -->
+                   
+          <!-- Main content -->
+          <div class="content">
+            <div class="container-fluid">
+              <div class="row">
+                
+                <div class="col-sm-12 col-md-12">  
+                    <div class="card box-shadow-none">
+                      <div class="card-body px-0 pb-0">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="table-search-area">
+                              <form method="GET" class="d-flex">
+                                <select class="table-select-field" name="search_field">
+                                    <option value="" disabled selected>Filter By</option>
+                                    <option value="first_name" {% if search_field == "first_name" %}selected{% endif %}>Name</option>
+                                    <option value="phone" {% if search_field == "phone" %}selected{% endif %}>Mobile Number</option>
+                                    <option value="email" {% if search_field == "email" %}selected{% endif %}>Email ID</option>
+                                </select>
+                            
+                                <input type="text" name="search_query" class="table-search-field" placeholder="Search" value="{{ search_query }}">
+                            
+                                <button type="submit" class="table-search-btn">
+                                    <img src="{% static 'dist/img/svg/search-icon.svg' %}" alt="Search">
+                                </button>
+                            </form>
+                            
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class=" d-flex justify-content-end">
+                              <div class="dropdown">
+                                <div class="shorting-select"  data-toggle="dropdown" aria-expanded="false">
+                                  <img src="{% static 'dist/img/svg/shorting-icon.svg' %}" alt="">
+                                  <span>Sort</span>
+                                  <img src="{% static 'dist/img/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                                </div>
+                                <!-- <form action="">
+                                  <ul class="dropdown-menu shorting-dropdown-menu">
+                                    <p class="border-bottom pb-1 title2">Short</p>
+                                    <li><input type="radio" name="shorting" id="name-a_z"> <label for="name-a_z">Name A &gt; Z</label></li>
+                                    <li><input type="radio" name="shorting" id="name-z_a"> <label for="name-z_a">Name Z &lt; A</label></li>
+                                    <li><input type="radio" name="shorting" id="recently_activated"> <label for="recently_activated">Recently Activated</label></li>
+                                    <li><input type="radio" name="shorting" id="recently_deactivated"> <label for="recently_deactivated">Recently Deactivated</label></li>
+                                    <div class="d-flex justify-content-center border-top pt-3 mt-2 pb-2">
+                                      <button type="submit" class="dashboard-addbtn w-100">Apply</button>
+                                    </div>   
+                                  </ul>
+                                </form> -->
+
+                                <form method="get">
+                                  <ul class="dropdown-menu shorting-dropdown-menu">
+                                    <p class="border-bottom pb-1 title2">Sort</p>
+                                
+                                    <li>
+                                      <input type="radio" name="sort_by" id="name-a_z" value="name-a_z" {% if sort_by == 'name-a_z' %}checked{% endif %}>
+                                      <label for="name-a_z">Name A &gt; Z</label>
+                                    </li>
+                                
+                                    <li>
+                                      <input type="radio" name="sort_by" id="name-z_a" value="name-z_a" {% if sort_by == 'name-z_a' %}checked{% endif %}>
+                                      <label for="name-z_a">Name Z &lt; A</label>
+                                    </li>
+                                
+                                    <li>
+                                      <input type="radio" name="sort_by" id="recently_activated" value="recently_activated" {% if sort_by == 'recently_activated' %}checked{% endif %}>
+                                      <label for="recently_activated">Recently Created</label>
+                                    </li>
+                                
+                                    <li>
+                                      <input type="radio" name="sort_by" id="recently_deactivated" value="recently_deactivated" {% if sort_by == 'recently_deactivated' %}checked{% endif %}>
+                                      <label for="recently_deactivated">Recently Updated</label>
+                                    </li>
+                                    
+
+                                    <input type="hidden" name="page"   value="{{ page_obj.number }}">
+
+                                
+                                    <div class="d-flex justify-content-center border-top pt-3 mt-2 pb-2">
+                                      <button type="submit" class="dashboard-addbtn w-100">Apply</button>
+                                    </div>
+                                  </ul>
+                                </form>
+                              
+                              </div>  
+                              <div class="shorting-select" data-toggle="modal" data-target="#modal-filter">
+                                <img src="{% static 'dist/img/svg/filter-icon.svg' %}" alt="">
+                                <span>Filter</span>
+                                <img src="{% static 'dist/img/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                            </div>  
+                          </div>
+                        </div>
+                        {% comment %} <div class="table-responsive table-ht"> {% endcomment %}
+                        <div class="table-responsive">
+                            
+                            <table class="table table-design table-trlink">
+                                <thead class="table-thead-bg-light table-header-fix">
+                                    <tr>
+                                        <th width="10">
+                                            <input type="checkbox" id="checkall" class="table-chk">
+                                            <label for="checkall"></label>
+                                        </th>
+                                        <th>Employee Name</th>
+                                        <th>Role Info</th>
+                                        <th>Contact Info</th>
+                                        <th>Supervisor</th>
+                                        <th>Branch</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for employee in page_obj %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="check{{ employee.id }}" class="table-chk">
+                                            <label for="check{{ employee.id }}"></label>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'employee-management-update' employee_id=employee.id %}" class="trlink">
+                                                {{ employee.full_name|default:"N/A" }}
+                                                <span class="text-gray d-block small">PAN#{{ employee.pan_no }}</span>
+                                            </a>
+                                        </td>
+                                        
+                                        <td>
+                                          <a href="{% url 'employee-management-update-allocation' employee_id=employee.id %}" class="trlink">
+                                              {% if employee.branch_head == 1 %}
+                                                  Branch Head
+                                              {% else %}
+                                                  {{ employee.role.roleName|default:"N/A" }}
+                                                  {% if employee.department %}
+                                                      <span class="text-gray d-block small">{{ employee.department.name }}</span>
+                                                  {% endif %}
+                                              {% endif %}
+                                          </a>
+                                        </td>
+                                        
+                                        <td>
+                                          <a href="{% url 'employee-management-update' employee_id=employee.id %}" class="trlink">
+                                              {{ employee.phone|default:"-" }}
+                                              <span class="text-gray d-block small">{{ employee.email|default:"-" }}</span>
+                                          </a>
+                                        </td>
+                                        <td>
+                                            {% with all_users|get_item:employee.senior_id as supervisor %}
+                                                {% if supervisor and employee.role_id != 2 %}
+                                                    {{ supervisor.first_name }} {{ supervisor.last_name }}
+                                                {% elif employee.role_id == 2 %}
+                                                    Subhash Bishnoi
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            {% endwith %}
+                                        </td>
+                                        
+                                        <td>{{ branches|get_item:employee.branch_id|default:"-" }}</td>
+                                        
+                                        <td>
+                                            <div class="d-flex">
+                                              <a href="{% url 'employee-management-update' employee_id=employee.id %}" class="btn btn-xs btn-warning mx-1">
+                                                <i class="fas fa-edit"></i>
+                                              </a>
+                                              <a href="{% url 'employee-management-view' employee_id=employee.id %}" class="btn btn-xs btn-primary mx-1">
+                                                <i class="fas fa-eye"></i>
+                                              </a>
+
+                                              {% if employee.user_active == 1 %}
+                                                <!-- Deactivate -->
+                                                <a href="javascript:void(0);" onclick="handleEmployeeAction('{{ employee.id }}', 'deactivate')" class="btn btn-xs btn-danger mx-1">
+                                                  <i class="fas fa-trash"></i>                                                  
+                                                </a>
+                                              {% else %}
+                                                <!-- Activate -->
+                                                <a href="javascript:void(0);" onclick="handleEmployeeAction('{{ employee.id }}', 'activate')" class="btn btn-xs btn-success mx-1">
+                                                  <i class="fas fa-check"></i>
+                                                </a>
+                                              {% endif %}
+                                            </div>
+                                          </td>
+
+
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                            
+                            
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="bottom-fix-pagination">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1&per_page={{ per_page }}" aria-label="First">
+                                            <span aria-hidden="true">&laquo;&laquo;</span>
+                                            <span class="sr-only">First</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                    
+                                {% for num in page_obj.paginator.page_range %}
+                                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                                        <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}">{{ num }}</a>
+                                    </li>
+                                {% endfor %}
+                    
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&per_page={{ per_page }}" aria-label="Last">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                            <span class="sr-only">Last</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                    
+                            <form method="GET" class="d-flex">
+                                <select class="pagination-dropdown form-select" name="per_page" onchange="this.form.submit()">
+                                    <option value="10" {% if per_page == '10' %}selected{% endif %}>10 / Page</option>
+                                    <option value="20" {% if per_page == '20' %}selected{% endif %}>20 / Page</option>
+                                    <option value="50" {% if per_page == '50' %}selected{% endif %}>50 / Page</option>
+                                    <option value="100" {% if per_page == '100' %}selected{% endif %}>100 / Page</option>
+                                </select>
+                                <input type="hidden" name="page" value="1">
+                            </form>
+                        </div>
+                    </div>
+                     
+                  </div>
+                </div>
+              </div>  
+            </div>
+            
+          </div>
+          
+        </div>
+        <!-- /.content-wrapper -->
+    
+        {% include "footer.html" %}
+    </div>
+    <!-- ./wrapper -->
+    
+    
+    <div class="modal fade table-filter-modal" id="modal-filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content">
+          <div class="modal-header">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <h5 class="modal-title">Filter</h5>
+              <p class="modal-title text-gray mb-0">Clear All</p>
+            </div>  
+            <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">&times;</button> -->
+          </div>
+          <div class="modal-body">
+            <h4 class="filter-hding">Status</h4>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-active">
+              <label for="status-active">Active</label>
+            </div>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-deactived">
+              <label for="status-deactived">Deactived</label>
+            </div>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-onnotice">
+              <label for="status-onnotice">Active | On Notice</label>
+            </div>
+            <h4 class="filter-hding">Member Name</h4>
+            <input type="search" name="" class="filter-search-field" placeholder="Search Members">
+            <h4 class="filter-hding">Plan</h4>
+            <select class="filter-search-field" id="planselect">
+              <option value="" selected>Select Plan</option>
+              <option value="Team Member">Netyx (Team Member)</option>
+              <option value="Family">Netyx (Team Member, Spouse and Two Children)</option>
+            </select>
+            <h4 class="filter-hding">Activation Date Range</h4>
+            <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+            <h4 class="filter-hding">Deactivation Date Range</h4>
+            <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="dashboard-btn-outline" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="dashboard-addbtn">Apply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    {% include 'footer-script.html' %}
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      function handleEmployeeAction(employeeId, action) {
+        let config = {
+          title: '',
+          text: '',
+          icon: '',
+          confirmButtonText: '',
+        };
+
+        if (action === 'activate') {
+          config.title = 'Activate employee?';
+          config.text = 'This will activate the employee.';
+          config.icon = 'question';
+          config.confirmButtonText = 'Yes, activate!';
+        } else {
+          config.title = 'Are you sure?';
+          config.text = 'This will deactivate the employee.';
+          config.icon = 'warning';
+          config.confirmButtonText = 'Yes, deactivate!';
+        }
+
+        Swal.fire({
+          title: config.title,
+          text: config.text,
+          icon: config.icon,
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: config.confirmButtonText
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = `/employee-management/toggle-status/${employeeId}/${action}/`;
+          }
+        });
+      }
+    </script>
+
+ 
+    
+    </body>
+
+{% endblock %}

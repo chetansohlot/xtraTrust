@@ -1,0 +1,112 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}Add Franchise - Regulatory & Compliance{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <div class="content-wrapper">
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Regulatory & Compliance</a>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Franchise</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Regulatory & Compliance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+
+              <ul class="stepflow-text stepflow-five-col mt-0">
+                <li><a href="#" class="completed">Basic Info</a></li>
+                <li><a href="#" class="completed">Contact Information</a></li>
+                <li><a href="#" class="completed">Address Details</a></li>
+                <li><a href="#" class="active">Regulatory & Compliance</a></li>
+                <li><a href="#">Banking & Payout Details</a></li>
+              </ul>
+
+              <ul class="new-stepflow mb-3">
+                <li class="active"></li>
+                <li class="active"></li>
+                <li class="active"></li>
+                <li class=""></li>
+                <li class=""></li>
+              </ul>
+
+              <!-- <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <form action="{% url 'franchise-management-regulatory-compliance' franchise_id=franchise_id %}" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row"> -->
+
+                       <!-- Card with form -->
+                      <div class="card box-shadow-none p-md-5 p-3">
+                        <div class="card-body px-0 pb-0 pt-0">
+                          <form action="{% url 'franchise-management-regulatory-compliance' franchise_id=franchise_id %}" method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="col-md-12">
+                                <h2 class="admin-title border-bottom pb-2 mb-4">Regulatory & Compliance Details</h2>
+                      </div> 
+
+                      <div class="form-group col-md-4">
+                        <label for="pan_number">PAN Number</label>
+                        <input type="text" name="pan_number" id="pan_number" class="form-field" placeholder="Enter PAN Number" value="{{ franchise.pan_number|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="gst_number">GST Number</label>
+                        <input type="text" name="gst_number" id="gst_number" class="form-field" placeholder="Enter GST Number" value="{{ franchise.gst_number|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="aadhar_number">Aadhar Number</label>
+                        <input type="text" name="aadhar_number" id="aadhar_number" class="form-field" placeholder="Enter Aadhar Number" value="{{ franchise.aadhar_number|default:'' }}">
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                      <a href="{% url 'franchise-management-address-details' franchise_id=franchise_id %}" class="btn btn-outline-secondary">Back</a>
+                      <button type="submit" class="form-submit-btn">Next</button>
+                    </div>
+                  </form>
+
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+  </div>
+</body>
+{% endblock %}

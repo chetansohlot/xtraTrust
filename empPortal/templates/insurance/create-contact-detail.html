@@ -1,0 +1,151 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+Insurance Company- {% if insurance %}Edit Insurance Company{% else %}Create Insurance Company{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Breadcrumb -->
+        <div class="content-header breadcrump-bg">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">
+                                {% if insurance %}Edit Insurance Company{% else %}Create Insurance Company{% endif %}
+                            </a>
+                        </div>
+                        <ul class="breadcrump">
+                            <li><a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                            <li><a href="{% url 'insurance_index' %}">Insurance</a> <i class="fas fa-chevron-right"></i></li>
+                            <li>{% if insurance %}Edit Insurance Company{% else %}Create Insurance Company{% endif %}</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'insurance_index' %}" class="breadcrump-addbtn">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="stepflow-text stepflow-five-col mt-0">
+                            <li class="active"><a href="#">Basic Company Details</a></li>
+                            <li><a href="#">Contact Details</a></li>
+                            
+                          </ul>
+                          <ul class="new-stepflow mb-3">
+                            <li class="active"></li>
+                            <li></li>
+                           
+                          </ul>
+                        <!-- Form Card -->
+                        <div class="card box-shadow-none p-md-5 p-3">
+                            <div class="card-body px-0 pb-0 pt-0">
+                                <form id="insurer_mgt_contact_details" method="POST" action="">
+                                    {% csrf_token %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5>Primary Contact Person Details</h5>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label><strong>Primary Contact Person Name *</strong></label>
+                                                    <input type="text" name="primary_name" class="form-control" placeholder="Contact Person Name" >
+                                                    <small class="form-text text-muted">Please enter primary contact person's name.</small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label><strong>Designation *</strong></label>
+                                                    <input type="text" name="primary_designation" class="form-control" placeholder="Designation" >
+                                                    <small class="form-text text-muted">Please enter designation.</small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label><strong>Contact No. *</strong></label>
+                                                    <input type="text" name="primary_contact" class="form-control" placeholder="Contact No." >
+                                                    <small class="form-text text-muted">Please enter contact number.</small>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label><strong>Contact Email *</strong></label>
+                                                    <input type="email" name="primary_email" class="form-control" placeholder="Contact Email" >
+                                                    <small class="form-text text-muted">Please enter contact email.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <br>
+                            
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5>Secondary Contact Person Details</h5>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label><strong>Secondary Contact Person Name *</strong></label>
+                                                    <input type="text" name="secondary_name" class="form-control" placeholder="Contact Person Name" >
+                                                    <small class="form-text text-muted">Please enter secondary contact person's name.</small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label><strong>Designation *</strong></label>
+                                                    <input type="text" name="secondary_designation" class="form-control" placeholder="Designation" >
+                                                    <small class="form-text text-muted">Please enter designation.</small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label><strong>Contact No. *</strong></label>
+                                                    <input type="text" name="secondary_contact" class="form-control" placeholder="Contact No." >
+                                                    <small class="form-text text-muted">Please enter contact number.</small>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label><strong>Contact Email *</strong></label>
+                                                    <input type="email" name="secondary_email" class="form-control" placeholder="Contact Email" >
+                                                    <small class="form-text text-muted">Please enter contact email.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <br>
+                                    
+                                    <!-- Submit Button -->
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="form-submit-btn">
+                                            {% if insurance %}Update Insurance Company{% else %}Save Insurance Company{% endif %}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+</div>
+</body>
+{% endblock %}

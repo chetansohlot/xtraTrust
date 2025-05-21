@@ -1,0 +1,51 @@
+<div class="tab-pane" id="previous-policy-info-tab">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Previous Policy Details</h4>
+    </div>
+    <div class="card-body row">
+      <div class="col-md-4 mb-2"><strong>Registration Number:</strong> {{ lead_previous_policy.registration_number|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Registration Date:</strong> {{ lead_previous_policy.registration_date|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Vehicle Type:</strong> {{ lead_previous_policy.vehicle_type|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Make:</strong> {{ lead_previous_policy.make|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Model:</strong> {{ lead_previous_policy.model|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Variant:</strong> {{ lead_previous_policy.variant|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Year of Manufacture:</strong> {{ lead_previous_policy.year_of_manufacture|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Registration State:</strong> {{ lead_previous_policy.registration_state|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Registration City:</strong> {{ lead_previous_policy.registration_city|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Chassis Number:</strong> {{ lead_previous_policy.chassis_number|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Engine Number:</strong> {{ lead_previous_policy.engine_number|default:"N/A" }}</div>
+
+      <div class="col-md-4 mb-2"><strong>Vehicle Color:</strong> {{ lead_previous_policy.vehicle_color|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Body Type:</strong> {{ lead_previous_policy.body_type_description|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Vehicle Class:</strong> {{ lead_previous_policy.vehicle_class_description|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Vehicle Category:</strong> {{ lead_previous_policy.vehicle_category|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Cubic Capacity:</strong> {{ lead_previous_policy.vehicle_cubic_capacity|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Gross Weight:</strong> {{ lead_previous_policy.vehicle_gross_weight|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Seating Capacity:</strong> {{ lead_previous_policy.vehicle_seating_capacity|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Fuel Type:</strong> {{ lead_previous_policy.vehicle_fuel_description|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Owner Serial No:</strong> {{ lead_previous_policy.vehicle_owner_number|default:"N/A" }}</div>
+
+      <div class="col-md-4 mb-2"><strong>Owner Name:</strong> {{ lead_previous_policy.owner_name|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Father Name:</strong> {{ lead_previous_policy.father_name|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Location:</strong> {{ lead_previous_policy.location|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>State Code:</strong> {{ lead_previous_policy.state_code|default:"N/A" }}</div>
+
+      <div class="col-md-4 mb-2"><strong>Claim History:</strong> 
+        {% if lead_previous_policy.claim_history == True %}Yes{% elif lead_previous_policy.claim_history == False %}No{% else %}N/A{% endif %}
+      </div>
+      <div class="col-md-4 mb-2"><strong>NCB:</strong> 
+        {% if lead_previous_policy.ncb == True %}Yes{% elif lead_previous_policy.ncb == False %}No{% else %}N/A{% endif %}
+      </div>
+      <div class="col-md-4 mb-2"><strong>NCB Percentage:</strong> {{ lead_previous_policy.ncb_percentage|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>IDV Value:</strong> {{ lead_previous_policy.idv_value|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Policy Type:</strong> {{ lead_previous_policy.policy_type|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Policy Duration:</strong> {{ lead_previous_policy.policy_duration|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Insurance Company:</strong> {{ lead_previous_policy.insurance_company.insurance_company|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Insurance Expiry Date:</strong> {{ lead_previous_policy.insurance_expiry_date|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>Insurance Policy No:</strong> {{ lead_previous_policy.insurance_policy_number|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>RC Expiry Date:</strong> {{ lead_previous_policy.rc_expiry_date|default:"N/A" }}</div>
+      <div class="col-md-4 mb-2"><strong>PUCC Expiry Date:</strong> {{ lead_previous_policy.rc_pucc_expiry_date|default:"N/A" }}</div>
+    </div>
+  </div>
+</div>

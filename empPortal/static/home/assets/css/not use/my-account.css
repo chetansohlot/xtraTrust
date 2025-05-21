@@ -1,0 +1,335 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-bg{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19);
+padding: 2px 30px 0px 30px;
+}
+.Insuramcepro-dash{
+    font-size:28px;
+     font-weight: 600; 
+    font-family: sans-serif;
+}
+.Insuramcepro-dash-p{
+color: blue;
+}
+/*
+.le ad-h4{
+    font-size: 23px;
+   font-weight: 700;
+}
+.lead -img-no-data{
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .lead -more-infomation{
+  line-height: 11px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  }
+  .lea d-more-infomation p > a{
+      text-decoration: none;
+  }
+  .lea d-id{
+      padding: 6px 10px 6px 10px; 
+      border: none; 
+      border-radius: 5px 0px 0px 5px;
+      color: black;
+      font-size: 13px;
+  }
+  .v l{
+      height: 25px;
+   color: black;
+      border-left: 0px solid black;
+  }
+  .en ter-lead-id{
+      padding: 0px 10px 0px 10px; 
+       border: none;
+     border: none;
+  
+  }
+  .e nter-lead-id::placeholder{
+      color: black;
+      font-size: 13px;
+      padding-left: 10px;
+  }
+  .lead -search{
+      padding: 3px 25px 3px 10px; 
+      border: none;
+      background-color: rgb(169, 206, 241);
+      color: rgb(31, 31, 223);
+      border-radius: 0px 5px 5px 0px;
+  }*/
+  .well-icon-user{
+      border:1px solid rgb(82, 80, 80);
+      padding: 4px 6px 4px 6px;
+      border-radius: 50%;
+      margin-right: 5px;
+  }
+  .btn-user{
+      padding: 2px 10px 2px 10px;
+      border-radius: 20px;
+      background-color: #fff;
+      border:1px solid rgb(82, 80, 80);
+  }
+  .btn-user i{
+      margin-right:7px;
+  }
+  .user-right-arrow{
+      margin-left: 7px;
+      font-size: 12px;
+  }
+
+
+
+/*----------------------sidebar------------------css-------------start------------------*/
+ul > li {
+font-size: 14px;
+font-weight: 500;
+list-style-type: none;
+padding-top: 13px;
+
+} 
+ul > li > .sidebar-arrow{
+    float: right;
+}
+ul > li a{
+    color: rgb(70, 58, 58);
+    text-decoration: none;
+    padding: 7px 10px 7px 10px;
+    border-radius: 0px 20px 20px 0px;
+
+}
+ul > li:hover > a {
+    color: blue;
+    background-color: rgb(223, 218, 218);
+    
+}
+.sidebar-menu{margin: 0px;padding: 0px;}
+.sidebar-menu li a{display: flex;justify-content: space-between;}
+.sidebar-menu li a div i{margin-right: 5px;}
+.right-arrow{
+    font-size: 11px;
+}
+.bg-sidebar{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+  0 6px 20px 0 rgba(216, 211, 211, 0.19); 
+  height: 100dvh;  
+}
+
+
+/*----------------------sidebar------------------css-------------end------------------*/
+
+
+
+.btn-dashboard{
+    font-size: 20px;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+.dash-btn{
+    display: inline-block;
+    border-radius:30px;
+    border: 1px solid gray;
+    background-color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 2px 12px 2px 12px;
+}
+/*-------------------------------------card-----------------------start-------------------------*/
+.main-div-card{
+    box-shadow: 0px 10px 15px rgb( 0,0,0,.10);
+    background-color:#fff;
+    margin-top: 10px;
+    border-radius: 0px 0px 20px 20px;
+}
+.card-span-p{
+    float: left;
+     font-size: 15px; color:
+      rgb(95, 89, 89);
+    font-weight: 600;
+    padding-left:20px;
+    color: #212529;;
+    
+}
+ .card-span{
+display: inline-block;
+} 
+.card-span-img{
+    width: 12%; 
+    float:right;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+#more-info-1{
+    background-color: rgb(196, 233, 250);
+    color: black;
+    font-size: 13px;
+     font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  line-height: 35px;
+border-radius: 0px 0px 20px 20px;
+margin-top: 10px;
+}
+/*----------card----------one------------end--------------*/
+#more-info-2 {
+    background-color: rgb(158, 245, 219);
+    color: black;
+    margin-top: 10px;
+    font-size: 13px;
+     font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  line-height: 35px;
+border-radius: 10px 10px 10px 10px;
+border-radius: 0px 0px 20px 20px;
+}
+
+#more-info-3{
+    background-color: rgb(241, 238, 190);
+    color: black;
+    font-size: 13px;
+     font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  line-height: 35px;
+  margin-top: 10px;
+border-radius: 0px 0px 20px 20px;
+}
+
+.vdo-img-p{
+    font-size: 13px;
+    font-weight: 500;
+    margin-left:0%;
+    width: 86%;
+}
+/*----------------------popup----------first----------css---------------------start----------------*/
+.pan-card-details{
+    padding: 5px 0px 5px 20px;
+}
+.mmmmmm{
+    padding: 0px 0px 25px 0px;
+}
+.popup-pan-num{
+    font-size: 14px ;
+    font-weight: 500; 
+    margin-bottom: 10px;
+    padding: 5px 0px 5px 0px;
+}
+    .star-colo{
+        color: red;
+}
+.popup-1-div-ll{
+font-size: 14px; 
+font-weight: 600;
+margin-bottom:6px;
+
+}
+.popup-1-div-nn{
+padding: 8px 15px 12px;
+border-radius: 4px;
+}
+.popup-1-div-nn::placeholder{
+    font-size: 13px;
+    color: black;
+}
+
+.verify-btn{
+  margin-top: 29px;
+  color: white;
+  font-size: 16px;
+  padding: 8px 15px 12px;
+  border-radius: 4px;
+  background-color: rgb(71, 45, 187);
+  width: 100%;
+}
+
+/*----------------------------second-------------------popup--------------------------start-------------*/
+.pan-card-2-details{
+    padding: 5px 0px 5px 34px;
+}
+.popup-1-div-cateoory{
+    font-size: 14px; 
+font-weight: 600;
+margin-bottom:6px;
+}
+.verify-22-btn{
+   width: 100%;
+    padding:10px 15px 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(71, 45, 187);
+    color: white;
+}
+/*-------------------------------------------third--------------------popup---------------start------------------------*/
+.pan-card-3-details{
+    padding: 5px 0px 5px 20px;
+}
+.document-type{
+    background-color: rgb(218, 214, 214);
+    border-radius: 4px;
+    /* padding: 0px 0px 0px 0px; */
+}
+.document-type-p{
+    font-size: 14px;
+    border-color:rgb(138, 138, 240);   
+    font-weight: 600;
+   padding: 9px 0px 0px 0px;
+  
+}
+.pan-doc{
+    font-size: 14px;
+    font-family: roboto,sans-serif;
+    font-weight: 600;
+}
+.file-chosen{
+     font-size: 14px;
+     font-weight: 600;
+     border-radius: 4px;
+     border: none; 
+}
+.btn-no-file{
+    background-color: rgb(245, 57, 57);
+    color: white;
+    border-radius: 4px;
+    border: none;
+}
+.remark-border{
+    border: 2px dotted;
+     border-color:rgb(39, 39, 250);
+   width: 66%;
+   justify-content: center;
+   border-radius: 4px;
+   margin-bottom: 0px;
+
+}
+.remark-border-p{
+    color:rgb(138, 138, 240); 
+}
+.btn-submit{
+border: none;
+background-color:rgb(73, 73, 226);
+border-radius: 4px;
+color: white;
+font-size: 14px;
+font-weight: 500;
+width: 100%;
+padding:10px 15px 10px 15px;
+}
+
+.input-hidden{
+    display:none;
+}
+/*-----------------------side----bar------------------------css-------------start------*/
+
+/*-----------------------side----bar------------------------css------------end-----*/

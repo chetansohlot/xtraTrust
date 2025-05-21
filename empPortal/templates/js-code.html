@@ -1,0 +1,55 @@
+
+<script>
+    let zoomLevel = 1;
+  
+    function updateZoom(change) {
+      zoomLevel += change;
+      zoomLevel = Math.max(0.2, Math.min(zoomLevel, 5)); // Clamp zoom between 0.2 and 5
+      const img = document.getElementById("zoomableImage");
+      if (img) {
+        img.style.transform = `scale(${zoomLevel})`;
+      }
+    }
+  
+    function resetZoom() {
+      zoomLevel = 1;
+      const img = document.getElementById("zoomableImage");
+      if (img) {
+        img.style.transform = `scale(1)`;
+      }
+    }
+  
+    $('#docViewerModal').on('show.bs.modal', function (event) {
+      let trigger = $(event.relatedTarget);
+      let url = trigger.data('url');
+      let title = trigger.data('title');
+  
+      let modal = $(this);
+      modal.find('.modal-title').text(title);
+  
+      let viewerContent = '';
+  
+      if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) {
+        zoomLevel = 1; // reset zoom on new image
+        viewerContent = `
+          <div class="viewer-wrapper">
+            <img id="zoomableImage" src="${url}" alt="${title}" class="img-fluid">
+          </div>
+          <div class="zoom-controls">
+            <button onclick="updateZoom(0.2)">+</button>
+            <button onclick="updateZoom(-0.2)">−</button>
+            <button onclick="resetZoom()">⟳</button>
+          </div>
+        `;
+      } else if (url.match(/\.pdf$/i)) {
+        viewerContent = `<iframe src="${url}" width="100%" height="600px" frameborder="0"></iframe>`;
+      } else {
+        viewerContent = `<p class="text-danger">Unsupported document type</p>`;
+      }
+  
+      modal.find('#docViewerContent').html(viewerContent);
+    });
+  </script>
+  
+  
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

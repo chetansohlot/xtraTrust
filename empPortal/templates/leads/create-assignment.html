@@ -1,0 +1,276 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+{% if lead %}Edit Lead{% else %}Add New Lead{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Lead Mgt</a>
+              </div>
+              <ul class="breadcrump">
+                  <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="{% url 'leads-mgt' %}">Lead Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Edit Lead : <strong>#{{lead_data.lead_id|default:"-"}}</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+            <div class="col-sm-12">
+              <div class="card box-shadow-none p-md-4 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <ul class="stepflow-text stepflow-five-col mt-0">
+                    <li class="active"><a href="#">Insurance Info</a></li>
+                    <li class="active"><a href="#">Basic Info</a></li>
+                    <li class="active"><a href="#">Lead Source Info</a></li>
+                    <li class="active"><a href="#">Location Info</a></li>
+                    <li><a href="#">Assignment</a></li>
+                    <li><a href="#">Previous Policy Information</a></li>
+                  </ul>
+                  <ul class="new-stepflow mb-2">
+                    <li class="active"></li>
+                    <li class="active"></li>
+                    <li class="active"></li>
+                    <li class="active"></li>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="card box-shadow-none p-md-4 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+
+                  <form autocomplete="off" id="leadAssignmentForm" name="leadAssignmentForm"
+                    action="{% url 'save-lead-assignment-info' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="lead_ref_id" name="lead_ref_id" value="{{lead_data.lead_id}}">
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h2 class="admin-title border-bottom pb-2 mb-4">Assignment</h2>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="form-lbl">Branch</label>
+                        <select class="form-field" name="branch" id="branch">
+                          <option value="">Select</option>
+                          {% for branch in branches %}
+                            <option value="{{ branch.id }}" {% if branch.id|stringformat:"s" == lead_data.branch_id|stringformat:"s" %}selected{% endif %}>{{ branch.branch_name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="form-lbl">Assigned Manager</label>
+                        <select class="form-field" name="assigned_manager" id="assigned_manager">
+                          <option value="">Select</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="form-lbl">Assigned TeamLeader</label>
+                        <select class="form-field" name="assigned_teamleader" id="assigned_teamleader">
+                          <option value="">Select</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="form-lbl">Assigned To</label>
+                        <select class="form-field" name="assigned_to" id="assigned_to">
+                          <option value="">Select</option>
+                        </select>
+                      </div>
+                      
+                      <div class="form-group col-md-4">
+                        <label class="form-lbl">Lead Status Type</label>
+                        <select class="form-field" name="lead_status_type" id="lead_status_type">
+                          <option value="1" {%if lead_data.lead_status_type == 1 %}selected{%endif%}>New</option>
+                          <option value="2" {%if lead_data.lead_status_type == 2 %}selected{%endif%}>Follow-up</option>
+                          <option value="3" {%if lead_data.lead_status_type == 3 %}selected{%endif%}>Quoted</option>
+                          <option value="4" {%if lead_data.lead_status_type == 4 %}selected{%endif%}>Booked</option>
+                          <option value="5" {%if lead_data.lead_status_type == 5 %}selected{%endif%}>Closed</option>
+                        </select> 
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="form-lbl">Lead Tag</label>
+                        <select class="form-field" name="lead_tag" id="lead_tag">
+                          <option value="">Select</option>
+                          <option value="1" {% if lead_data.lead_tag == 1 %}selected{% endif %}>Hot</option>
+                          <option value="2" {% if lead_data.lead_tag == 2 %}selected{% endif %}>Warm</option>
+                          <option value="3" {% if lead_data.lead_tag == 3 %}selected{% endif %}>Cold</option>
+                          <option value="4" {% if lead_data.lead_tag == 4 %}selected{% endif %}>Renewal</option>
+                          <option value="5" {% if lead_data.lead_tag == 5 %}selected{% endif %}>Break-in</option>
+                          <option value="6" {% if lead_data.lead_tag == 6 %}selected{% endif %}>etc.</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button type="submit" class="form-submit-btn mt-3">
+                        {% if lead %}Update Lead{% else %}Add Lead{% endif %}
+                      </button>
+                    </div>
+                  </form>
+
+                </div>
+                <div id="loader" class="form-loader" style="display: none;">
+                  <div>
+                    <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                    <span class="visually-hidden d-block pt-2">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  {% include "footer.html" %}
+  {% include "footer-script.html" %}
+  <script>
+    $(document).ready(function() {
+
+      function fetchBranchSalesManager(branchId=null,selectedId=null){
+        $.ajax({
+            url: "{% url 'get-branch-sales-managers' %}",
+            method: 'POST',              
+            data: {
+                branch_id: branchId,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(response) {
+                let $select = $('#assigned_manager');
+                $select.empty(); // Clear existing options
+                $select.append('<option value="">Select</option>');
+                if (response && response.length > 0) {
+                    response.forEach(function(managers) {
+                      let selected = (selectedId && parseInt(selectedId) == managers.id) ? 'selected' : '';
+                      $select.append(
+                          `<option value="${managers.id}" ${selected}>${managers.first_name} ${managers.last_name}</option>`
+                      );
+                  });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error here
+                console.error(error);
+            }
+        });
+      }
+        
+      function fetchSalesTeamLeader(assigned_manager=null,branch_id=null,selectedId=null){
+        $.ajax({
+            url: "{% url 'get-sales-teamleader' %}",
+            method: 'POST',              
+            data: {
+                assigned_manager: assigned_manager,
+                branch_id: branch_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(response) {
+                let $select = $('#assigned_teamleader');
+                $select.empty(); // Clear existing options
+                $select.append('<option value="">Select</option>');
+                if (response && response.length > 0) {
+                    response.forEach(function(relation_managers) {
+                      let selected = (selectedId && parseInt(selectedId) == relation_managers.id) ? 'selected' : '';
+                      $select.append(
+                          `<option value="${relation_managers.id}" ${selected}>${relation_managers.first_name} ${relation_managers.last_name}</option>`
+                      );
+                  });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error here
+                console.error(error);
+            }
+        });
+      }
+      
+      function fetchSalesRelationshipManager(assigned_teamleader=null,branch_id=null,selectedId=null){
+        $.ajax({
+            url: "{% url 'get-sales-relation-managers' %}",
+            method: 'POST',              
+            data: {
+                assigned_teamleader: assigned_teamleader,
+                branch_id: branch_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(response) {
+                let $select = $('#assigned_to');
+                $select.empty(); // Clear existing options
+                $select.append('<option value="">Select</option>');
+                if (response && response.length > 0) {
+                    response.forEach(function(relation_managers) {
+                      let selected = (selectedId && parseInt(selectedId) == relation_managers.id) ? 'selected' : '';
+                      $select.append(
+                          `<option value="${relation_managers.id}" ${selected}>${relation_managers.first_name} ${relation_managers.last_name}</option>`
+                      );
+                  });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error here
+                console.error(error);
+            }
+        });
+      }
+
+      $('#branch').on('change', function() {
+        var branchId = $(this).val();
+        fetchBranchSalesManager(branchId);
+      });
+
+      $('#assigned_manager').on('change', function() {
+        var assigned_manager = $(this).val();
+        var branch_id = $('#branch').val();
+        fetchSalesTeamLeader(assigned_manager,branch_id);
+      });
+
+      $('#assigned_teamleader').on('change', function() {
+        var assigned_teamleader = $(this).val();
+        var branch_id = $('#branch').val();
+        fetchSalesRelationshipManager(assigned_teamleader,branch_id);
+      });
+
+      let branch_id = "{{lead_data.branch_id}}";
+      let assigned_manager = "{{lead_data.assigned_manager_id}}";
+      let assigned_teamleader = "{{lead_data.assigned_teamleader_id}}";
+      let assigned_to = "{{lead_data.assigned_to_id}}";
+      fetchBranchSalesManager(branch_id,assigned_manager)
+      fetchSalesTeamLeader(assigned_manager,branch_id,assigned_teamleader)
+      fetchSalesRelationshipManager(assigned_teamleader,branch_id,assigned_to)
+    });
+  </script>
+</body>
+{% endblock %}

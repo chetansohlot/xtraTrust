@@ -1,0 +1,196 @@
+{% extends 'master.html' %}
+
+{% block title %}BQP Master{% endblock %}
+
+{% block content %}
+{% load static %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    {% include 'navbar.html' %}
+    {% include 'sidebar.html' %}
+
+    <div class="content-wrapper white-bg">
+      <!-- Header -->
+      <div class="content-header header-content-bg">
+        <div class="container-fluid">
+          <div class="row pt-2 pb-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <h1 class="admin-title m-0 pt-2">BQP</h1>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="{% url 'bqp_list' %}">BQP</a></li>
+              </ul>
+            </div>
+            <div class="col-sm-6">
+              <div class="d-flex justify-content-end">
+                <a href="{% url 'bqp_create' %}" class="breadcrump-addbtn"><i class="fas fa-plus"></i> Add BQP</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6 col-sm-4 col-md-3">
+              <a href="#">
+                <div class="card counter-img-card active">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <p class="card-text">Total BQPs</p>
+                        <h5 class="card-title card-number">{{ total_count }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3">
+              <a href="#">
+                <div class="card counter-img-card counter-active-card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <p class="card-text">Active BQPs</p>
+                        <h5 class="card-title card-number">{{ active_count }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3">
+              <a href="#">
+                <div class="card counter-img-card counter-deactive-card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <p class="card-text">Inactive BQPs</p>
+                        <h5 class="card-title card-number">{{ inactive_count }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="table-search-area">
+                <form method="get" class="d-flex">
+                  <select class="table-select-field" name="search_field">
+                    <option value="" disabled selected>Filter By</option>
+                    <option value="pan_number" {% if search_field == 'pan_number' %}selected{% endif %}>PAN Number</option>
+                    <option value="bqp_fname" {% if search_field == 'bqp_fname' %}selected{% endif %}>First Name</option>
+                    <option value="bqp_lname" {% if search_field == 'bqp_lname' %}selected{% endif %}>Last Name</option>
+                  </select>
+                  <input type="text" name="search_query" class="table-search-field" placeholder="Search" value="{{ search_query }}">
+                  <button type="submit" class="table-search-btn">
+                    <img src="{% static 'dist/img/svg/search-icon.svg' %}" alt="Search">
+                  </button>
+                </form>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="table-responsive table-ht">
+            <table class="table table-design table-trlink">
+              <thead class="table-thead-bg-light table-header-fix">
+                <tr>
+                  <th width="10">
+                    <input type="checkbox" id="checkall" class="table-chk">
+                    <label for="checkall"></label>
+                  </th>
+                  <th>PAN Number</th>
+                  <th>User Name</th>
+                  <th>Contact Info</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Updated At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for bqp in bqp_qs %}
+                <tr>
+                  <td>
+                    <input type="checkbox" id="check{{ bqp.id }}" class="table-chk">
+                    <label for="check{{ bqp.id }}"></label>
+                  </td>
+                  <td>
+                    <a href="{% url 'bqp_edit' bqp.id %}" class="trlink">
+                      {{ bqp.pan_number }}
+                      <span class="text-gray d-block small">#{{ bqp.id }}</span>
+                    </a>
+                  </td>
+                  <td>{{ bqp.bqp_fname }} {{ bqp.bqp_lname }}</td>
+                  
+                  <td>{{ bqp.email_address }}
+                    <span class="text-gray d-block small">{{bqp.mobile_number}}</span>
+                  </td>
+                  <td>
+                    {% if bqp.bqp_status %}
+                      <span class="badge badge-success">Active</span>
+                    {% else %}
+                      <span class="badge badge-danger">Inactive</span>
+                    {% endif %}
+                  </td>
+                  <td><i class="fas fa-calendar-alt text-secondary"></i> {{ bqp.created_at|date:"d M Y, H:i:s" }}</td>
+                  <td><i class="fas fa-clock text-primary"></i> {{ bqp.updated_at|date:"d M Y, H:i:s" }}</td>
+                  <td>
+                    <a href="{% url 'bqp_edit' bqp.id %}" class="btn btn-xs btn-warning"><i class="fas fa-edit"></i></a>
+                    <a href="{% url 'bqp_delete' bqp.id %}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="9" class="text-center">No BQPs found.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          {% if bqps.has_other_pages %}
+          <div class="bottom-fix-pagination">
+            <div class="d-flex justify-content-between align-items-center">
+              <ul class="pagination">
+                {% if bqps.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1&per_page={{ per_page }}">&laquo;&laquo;</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ bqps.previous_page_number }}&per_page={{ per_page }}">&laquo;</a></li>
+                {% endif %}
+                {% for num in bqps.paginator.page_range %}
+                <li class="page-item {% if num == bqps.number %}active{% endif %}"><a class="page-link" href="?page={{ num }}&per_page={{ per_page }}">{{ num }}</a></li>
+                {% endfor %}
+                {% if bqps.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ bqps.next_page_number }}&per_page={{ per_page }}">&raquo;</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ bqps.paginator.num_pages }}&per_page={{ per_page }}">&raquo;&raquo;</a></li>
+                {% endif %}
+              </ul>
+              <form method="get" class="d-flex">
+                <select class="pagination-dropdown form-select" name="per_page" onchange="this.form.submit()">
+                  <option value="10" {% if per_page == '10' %}selected{% endif %}>10 / Page</option>
+                  <option value="20" {% if per_page == '20' %}selected{% endif %}>20 / Page</option>
+                  <option value="50" {% if per_page == '50' %}selected{% endif %}>50 / Page</option>
+                  <option value="100" {% if per_page == '100' %}selected{% endif %}>100 / Page</option>
+                </select>
+                <input type="hidden" name="page" value="1">
+              </form>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+    {% include 'footer.html' %}
+    {% include 'footer-script.html' %}
+  </div>
+</body>
+{% endblock %}

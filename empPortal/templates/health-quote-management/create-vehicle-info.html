@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Vehicle Info{% endblock %}
+
+{% block content %}
+{% load custom_filters %}
+
+<div class="content-header header-content-bg">
+    <div class="container-fluid ">
+      <div class="row pt-2 pb-3">
+        <div class="col-sm-6">
+          <div class="d-flex align-items-center">
+          <h1 class="admin-title m-0 pt-2">Create Quote</h1>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- /.content-header -->
+
+  <style>
+    .input-group .fetch-btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border: 1px solid #f15e33;
+        background-color: #f15e33;;
+        color: white;
+        padding: 6px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .input-group .fetch-btn:hover {
+        background-color: #f16e63;
+        border-color: #f16e63;
+    }
+
+    .input-group .form-control {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+</style>
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md-12">  
+            <ul class="stepflow-text">
+              <li class="active"><a href="#link1"><span>Client Information</span></a></li>
+              <li><a href="#link2"><span>Vehicle & Policy Information</span></a></li>
+            </ul>
+            <ul class="new-stepflow">
+              <li class="active"><a href="#link1"></a></li>
+              <li class="circle-active"><a href="#link2"></a></li>
+            </ul>
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0">
+            
+
+                <form action="{% if vehicle_info %}{% url 'create-vehicle-info' vehicle_info.customer_id %}{% else %}{% url 'create-vehicle-info' cus_id %}{% endif %}" method="POST">
+                  {% csrf_token %}
+                  <div class="card">
+                      <div class="card-body pb-0 position-relative">
+                          <p class="form-top-title">Vehicle & Policy Information</p>
+                          <div class="row">
+              
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label class="form-lbl">Registration Number</label>
+                                    <div class="input-group">
+                                        <input class="form-field form-control" type="text" name="registration_number" id="registration_number" placeholder="Registration Number"
+                                               value="{% if registration_number %}{{ registration_number }}{% elif vehicle_info.registration_number %}{{ vehicle_info.registration_number }}{% endif %}">
+                                        
+                                        <button type="button" id="fetch-vehicle-btn" class="btn btn-primary fetch-btn">Fetch</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                              
+                              <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label class="form-lbl">Registration Date</label>
+                                    <input class="form-field common_datepicker" type="date" name="registration_date" 
+                                           value="{{ vehicle_info.registration_date|date:'Y-m-d' }}">
+                                </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Vehicle Type</label>
+                                      <select class="form-field" name="vehicle_type">
+                                          <option value="Car" {% if vehicle_info.vehicle_type == "Car" %}selected{% endif %}>Car</option>
+                                          <option value="Bike" {% if vehicle_info.vehicle_type == "Bike" %}selected{% endif %}>Bike</option>
+                                          <option value="Commercial" {% if vehicle_info.vehicle_type == "Commercial" %}selected{% endif %}>Commercial</option>
+                                      </select>
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Make</label>
+                                      <input class="form-field" type="text" name="make" placeholder="Make"
+                                             value="{{ vehicle_info.make|default_if_none:'' }}">
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Model</label>
+                                      
+                                        {% if vehicle_info %}
+                                            <input class="form-field" type="text" name="model" placeholder="Model"
+                                                value="{{ vehicle_json.result.vehicle_make_model|default:vehicle_info.model|default_if_none:'' }}">
+                                        {% else %}
+                                            <input class="form-field" type="text" name="model" placeholder="Model" value="{{ vehicle_json.result.vehicle_make_model|default:'' }}">
+                                        {% endif %}
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Variant</label>
+                                      <select class="form-field" name="variant">
+                                          <option value="Petrol" {% if vehicle_info.variant == "Petrol" %}selected{% endif %}>Petrol</option>
+                                          <option value="Diesel" {% if vehicle_info.variant == "Diesel" %}selected{% endif %}>Diesel</option>
+                                          <option value="Electric" {% if vehicle_info.variant == "Electric" %}selected{% endif %}>Electric</option>
+                                      </select>
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Year of Manufacture</label>
+                                        {% if vehicle_info %}
+                                            <input class="form-field" type="number" name="year_of_manufacture" placeholder="Year of Manufacture"
+                                                value="{{ vehicle_json.result.vehicle_manufactured_date|get_year|default:vehicle_info.year_of_manufacture|default_if_none:'' }}">
+                                        {% else %}
+                                            <input class="form-field" type="number" name="year_of_manufacture" placeholder="Year of Manufacture"
+                                                value="{{ vehicle_json.result.vehicle_manufactured_date|get_year|default:'' }}">
+                                        {% endif %}
+
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Registration State</label>
+                                        {% if vehicle_info %}
+                                            <input class="form-field" type="text" name="registration_state" placeholder="Registration State"
+                                                value="{{ vehicle_json.result.state|default:vehicle_info.registration_state|default_if_none:'' }}">
+                                        {% else %}
+                                            <input class="form-field" type="text" name="registration_state" placeholder="Registration State" value="{{ vehicle_json.result.state|default_if_none:'' }}">
+                                        {% endif %}
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label class="form-lbl">Registration City</label>
+                                    {% if vehicle_info %}
+                                        <input class="form-field" type="text" name="registration_city" placeholder="Registration City"
+                                               value="{{ vehicle_json.result.city|default:vehicle_info.registration_city|default_if_none:'' }}">
+                                    {% else %}
+                                        <input class="form-field" type="text" name="registration_city" placeholder="Registration City"
+                                               value="{{ vehicle_json.result.city|default_if_none:'' }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            
+                                <!-- <pre>{{ vehicle_json.result|default:"No result data" | pprint }}</pre> -->
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Chassis Number</label>
+                                        {% if vehicle_info %}
+                                            <input class="form-field" type="text" name="chassis_number" placeholder="Chassis Number"
+                                                   value="{{ vehicle_json.result.rc_chassis_number|default:vehicle_info.chassis_number|default_if_none:'' }}">
+                                        {% else %}
+                                            <input class="form-field" type="text" name="chassis_number" placeholder="Chassis Number"
+                                                   value="{{ vehicle_json.result.rc_chassis_number|default_if_none:'' }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Engine Number</label>
+                                        {% if vehicle_info %}
+                                            <input class="form-field" type="text" name="engine_number" placeholder="Engine Number"
+                                                   value="{{ vehicle_json.result.rc_engine_number|default:vehicle_info.engine_number|default_if_none:'' }}">
+                                        {% else %}
+                                            <input class="form-field" type="text" name="engine_number" placeholder="Engine Number"
+                                                   value="{{ vehicle_json.result.rc_engine_number|default_if_none:'' }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+              
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Claim History (Last Year)</label>
+                                        <select class="form-field" name="claim_history">
+                                            <option value="Yes" {% if vehicle_info.claim_history == "Yes" %}selected{% endif %}>Yes</option>
+                                            <option value="No" {% if vehicle_info.claim_history == "No" %}selected{% endif %}>No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">NCB</label>
+                                        <select class="form-field" name="ncb">
+                                            <option value="Yes" {% if vehicle_info.ncb == "Yes" %}selected{% endif %}>Yes</option>
+                                            <option value="No" {% if vehicle_info.ncb == "No" %}selected{% endif %}>No</option>
+                                        </select>
+                                    </div>
+                                </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">NCB (No Claim Bonus) Percentage</label>
+                                      <input class="form-field" type="text" name="ncb_percentage" placeholder="Percentage"
+                                             value="{{ vehicle_info.ncb_percentage|default_if_none:'' }}">
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">IDV (Insured Declared Value)</label>
+                                      <input class="form-field" type="text" name="idv_value" placeholder="IDV (Insured Declared Value)"
+                                             value="{{ vehicle_info.idv_value|default_if_none:'' }}">
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Policy Type</label>
+                                      <input class="form-field" type="text" name="policy_type" placeholder="Policy Type"
+                                             value="{{ vehicle_info.policy_type|default_if_none:'' }}">
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Policy Duration</label>
+                                      <input class="form-field" type="text" name="policy_duration" placeholder="Policy Duration"
+                                             value="{{ vehicle_info.policy_duration|default_if_none:'' }}">
+                                  </div>
+                              </div>
+              
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Add-ons</label>
+                                      <select class="form-field" name="addons">
+                                          <option value="1" {% if vehicle_info.addons == "1" %}selected{% endif %}>Zero Depreciation</option>
+                                          <option value="2" {% if vehicle_info.addons == "2" %}selected{% endif %}>Roadside Assistance</option>
+                                          <option value="3" {% if vehicle_info.addons == "3" %}selected{% endif %}>Engine Protection</option>
+                                      </select>
+                                  </div>
+                              </div>
+                                                            
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Policy Companies</label>
+                                        <select class="form-field tomselect" name="policy_companies[]" id="policy_companies" multiple>
+                                            <option value="1" {% if "1" in selected_policy_companies %}selected{% endif %}>Icici</option>
+                                            <option value="2" {% if "2" in selected_policy_companies %}selected{% endif %}>Hdfc</option>
+                                            <option value="3" {% if "3" in selected_policy_companies %}selected{% endif %}>Tata</option>
+                                            <option value="4" {% if "4" in selected_policy_companies %}selected{% endif %}>Bajaj Allianz</option>
+                                            <option value="5" {% if "5" in selected_policy_companies %}selected{% endif %}>Reliance General</option>
+                                            <option value="6" {% if "6" in selected_policy_companies %}selected{% endif %}>SBI General</option>
+                                            <option value="7" {% if "7" in selected_policy_companies %}selected{% endif %}>New India Assurance</option>
+                                            <option value="8" {% if "8" in selected_policy_companies %}selected{% endif %}>Oriental Insurance</option>
+                                            <option value="9" {% if "9" in selected_policy_companies %}selected{% endif %}>United India Insurance</option>
+                                            <option value="10" {% if "10" in selected_policy_companies %}selected{% endif %}>Future Generali</option>
+                                        </select>
+                                    </div>
+                                </div>
+                          </div>
+                      </div>
+                  </div>
+              
+                  <div class="form-group d-flex justify-content-end">
+                      <button type="submit" class="wrap-btn">
+                          {% if vehicle_info %} Update & Continue {% else %} Save & Continue {% endif %}
+                      </button>
+                  </div>
+              </form>
+              
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    
+  </div>
+
+  <script>
+
+    document.getElementById("fetch-vehicle-btn").addEventListener("click", function () {
+        let registrationNumber = document.getElementById("registration_number").value;
+        let csrfToken = document.querySelector("input[name='csrfmiddlewaretoken']").value;
+
+        // Create a form programmatically
+        let form = document.createElement("form");
+        form.method = "post";
+        form.action = "{% url 'fetch-vehicle-info' %}";
+
+        // Add CSRF token
+        let csrfInput = document.createElement("input");
+        csrfInput.type = "hidden";
+        csrfInput.name = "csrfmiddlewaretoken";
+        csrfInput.value = csrfToken;
+        form.appendChild(csrfInput);
+
+        // Add Mobile Number field
+        let registrationNumberInput = document.createElement("input");
+        registrationNumberInput.type = "hidden";
+        registrationNumberInput.name = "registration_number";
+        registrationNumberInput.value = registrationNumber;
+        form.appendChild(registrationNumberInput);
+
+        // Add Mobile Number field
+        let customerIdInput = document.createElement("input");
+        customerIdInput.type = "hidden";
+        customerIdInput.name = "customer_id";
+        customerIdInput.value = "{{ cus_id|default_if_none:'' }}";
+        form.appendChild(customerIdInput);
+
+        // Append form to body and submit
+        document.body.appendChild(form);
+        form.submit();
+    });
+</script>
+
+{% endblock %}

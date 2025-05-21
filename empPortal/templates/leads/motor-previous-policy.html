@@ -1,0 +1,331 @@
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md-12">  
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0">
+                <form autocomplete="off" id="motor-previous-policy-lead-save" action="{% url 'save-lead-motor-previous-policy-info' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="lead_ref_id" name="lead_ref_id" value="{{lead_data.lead_id}}">
+
+                    <div class="card">
+                        <div class="card-body pb-0 position-relative">
+                            <p class="form-top-title">Vehicle Information</p>
+                            <div class="row">
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Registration Number</label>
+                                      <div class="input-group">
+                                          <input class="form-field form-control" type="text" name="registration_number" id="registration_number" placeholder="Registration Number" value="{{lead_previous_policy.registration_number|default_if_none:''}}">
+                                          <button type="button" id="fetch-vehicle-btn" class="btn btn-primary fetch-btn">Fetch</button>
+                                      </div>
+                                  </div>
+                              </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                            <label class="form-lbl">Registration Date</label>
+                                            <input class="form-field common_datepicker" type="date" name="registration_date" id="registration_date" value="{{lead_previous_policy.registration_date|default_if_none:''|date:'Y-m-d'}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-lbl">Vehicle Type</label>
+                                        <select class="form-field" name="vehicle_type">
+                                            <option value="">Select Vehicle Type</option>
+                                            {% if vehicle_type_list %}
+                                              {% for vehicle_types in vehicle_type_list %}
+                                                <option value="{{vehicle_types.id}}" {% if vehicle_types.id|stringformat:"s" == lead_previous_policy.vehicle_type_id|stringformat:"s" %} selected {% endif %}> {{vehicle_types.name}} </option>
+                                              {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Make</label>
+                                      <input class="form-field" type="text" name="make" id="make" placeholder="Make" value="{{lead_previous_policy.make|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                        <label class="form-lbl">Model</label>
+                                        <input class="form-field" type="text" name="model" id="model" placeholder="Model" value="{{ lead_previous_policy.model|default:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label class="form-lbl">Variant</label>
+                                    <select class="form-field" name="variant" id="varient">
+                                        {% with selected_variant=lead_previous_policy.variant|default:'' %}
+                                            <option value="Petrol" {% if selected_variant == "PETROL" %}selected{% endif %}>Petrol</option>
+                                            <option value="Diesel" {% if selected_variant == "DIESEL" %}selected{% endif %}>Diesel</option>
+                                            <option value="Electric" {% if selected_variant == "ELECTRIC" %}selected{% endif %}>Electric</option>
+                                            <option value="CNG" {% if selected_variant == "CNG" %}selected{% endif %}>CNG</option>
+                                            <option value="LPG" {% if selected_variant == "LPG" %}selected{% endif %}>LPG</option>
+                                        {% endwith %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                        <label class="form-lbl">Year of Manufacture</label>
+                                        <input class="form-field" type="number" name="year_of_manufacture" id="year_of_manufacture" placeholder="Year of Manufacture" value="{{ lead_previous_policy.year_of_manufacture|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Registration State</label>
+                                          <input class="form-field" type="text" name="registration_state" id="registration_state" placeholder="Registration State" value="{{ lead_previous_policy.registration_state|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Registration City</label>
+                                          <input class="form-field" type="text" name="registration_city" id="registration_city" placeholder="Registration City" value="{{ lead_previous_policy.registration_city|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Chassis Number</label>
+                                        <input class="form-field" type="text" name="chassis_number" id="chassis_number" placeholder="Chassis Number"
+                                              value="{{ lead_previous_policy.chassis_number|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Engine Number</label>
+                                     
+                                          <input class="form-field" type="text" name="engine_number" id="engine_number" placeholder="Engine Number"
+                                              value="{{ lead_previous_policy.engine_number|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                            </div>
+  
+                            <!-- Policy Info Section -->
+                            <p class="form-top-title">Policy Information</p>
+                            <div class="row">
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Claim History (Last Year)</label>
+                                      <select class="form-field" name="claim_history" id="claim_history">
+                                          <option value="1" {% if lead_previous_policy.claim_history == "Yes" %}selected{% endif %}>Yes</option>
+                                          <option value="0" {% if lead_previous_policy.claim_history == "No" %}selected{% endif %}>No</option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">NCB</label>
+                                      <select class="form-field" name="ncb" id="ncb">
+                                          <option value="1" {% if lead_previous_policy.ncb == "Yes" %}selected{% endif %}>Yes</option>
+                                          <option value="0" {% if lead_previous_policy.ncb == "No" %}selected{% endif %}>No</option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3in">
+                                  <div class="form-group">
+                                      <label class="form-lbl">NCB (No Claim Bonus) Percentage</label>
+                                      <input class="form-field" type="text" name="ncb_percentage" id="ncb_percentage" placeholder="Percentage"
+                                          value="{{ lead_previous_policy.ncb_percentage|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">IDV (Insured Declared Value)</label>
+                                      <input class="form-field" type="text" name="idv_value" id="idv_value" placeholder="IDV (Insured Declared Value)"
+                                          value="{{ lead_previous_policy.idv_value|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Policy Type</label>
+                                      <select name="policy_type" id="policy_type" class="form-field">
+                                        <option value="">Select Policy Type</option>
+                                        {% if policy_type_list %}
+                                          {% for policy_types in policy_type_list %}
+                                            <option value="{{policy_types.id}}" {% if policy_types.id|stringformat:"s" == lead_previous_policy.policy_type|stringformat:"s" %} selected {% endif %}>{{policy_types.name}}</option>
+                                          {% endfor %}
+                                        {% endif %}
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Policy Duration</label>
+                                      <input class="form-field" type="text" name="policy_duration" id="policy_duration" placeholder="Policy Duration"
+                                          value="{{ lead_previous_policy.policy_duration|default_if_none:'' }}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Add-ons</label>
+                                      <select class="form-field" name="addons" id="addons">
+                                          <option value="1" {% if lead_previous_policy.addons == "1" %}selected{% endif %}>Zero Depreciation</option>
+                                          <option value="2" {% if lead_previous_policy.addons == "2" %}selected{% endif %}>Roadside Assistance</option>
+                                          <option value="3" {% if lead_previous_policy.addons == "3" %}selected{% endif %}>Engine Protection</option>
+                                      </select>
+                                  </div>
+                              </div>
+                            </div>
+  
+                            <!-- Owner Info Section -->
+                            <p class="form-top-title">Owner Details & Information</p>
+                            <div class="row">
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Owner Name</label>
+                                      <input class="form-field" type="text" name="owner_name" id="owner_name" placeholder="Owner Name"
+                                          value="{% if lead_previous_policy.owner_name %}{{ lead_previous_policy.owner_name }}{% endif %}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Father Name</label>
+                                      <input class="form-field" type="text" name="father_name" id="father_name" placeholder="Father Name"
+                                          value="{{lead_previous_policy.father_name|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">State Code</label>
+                                      <input class="form-field" type="text" name="state_code" id="state_code"
+                                          value="{{lead_previous_policy.state_code|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Location</label>
+                                      <input class="form-field" type="text" name="location" id="location"
+                                          value="{{lead_previous_policy.location|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Vehicle Category</label>
+                                      <input class="form-field" type="text" name="vehicle_category" id="vehicle_category" placeholder="Vehicle Category"
+                                          value="{{lead_previous_policy.vehicle_category|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Vehicle Class</label>
+                                      <input class="form-field" type="text" name="vehicle_class_description" id="vehicle_class_description" placeholder="Vehicle Class"
+                                          value="{{lead_previous_policy.vehicle_class_description|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Body Type</label>
+                                      <input class="form-field" type="text" name="body_type_description" id="body_type_description" placeholder="Body Type"
+                                          value="{{lead_previous_policy.body_type_description|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Vehicle Colour</label>
+                                      <input class="form-field" type="text" name="vehicle_color" id="vehicle_color" placeholder="Vehicle Colour"
+                                          value="{{lead_previous_policy.vehicle_color|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Cubic Capacity</label>
+                                      <input class="form-field" type="text" name="vehicle_cubic_capacity" id="vehicle_cubic_capacity" placeholder="Cubic Capacity"
+                                          value="{{lead_previous_policy.vehicle_cubic_capacity|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Gross Weight</label>
+                                      <input class="form-field" type="text" name="vehicle_gross_weight" id="vehicle_gross_weight" placeholder="Gross Weight"
+                                          value="{{lead_previous_policy.vehicle_gross_weight|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Seating Capacity</label>
+                                      <input class="form-field" type="text" name="vehicle_seating_capacity" id="vehicle_seating_capacity" placeholder="Seating Capacity"
+                                          value="{{lead_previous_policy.vehicle_seating_capacity|default_if_none:''}}">
+
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Fuel Type</label>
+                                      <input class="form-field" type="text" name="vehicle_fuel_description" id="vehicle_fuel_description" placeholder="Fuel Type"
+                                          value="{{lead_previous_policy.vehicle_fuel_description|default_if_none:''}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Vehicle Owner Number</label>
+                                      <input class="form-field" type="text" name="vehicle_owner_number" id="vehicle_owner_number" placeholder="Owner Number"
+                                          value="{{lead_previous_policy.vehicle_owner_number|default_if_none:''}}">
+
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">RC Expiry Date</label>
+                                      <input class="form-field common_datepicker" type="date" name="rc_expiry_date" id="rc_expiry_date"
+                                          value="{{lead_previous_policy.rc_expiry_date|default_if_none:''|date:'Y-m-d'}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">PUCC Expiry Date</label>
+                                      <input class="form-field common_datepicker" type="date" name="rc_pucc_expiry_date" id="rc_pucc_expiry_date"
+                                          value="{{lead_previous_policy.rc_pucc_expiry_date|default_if_none:''|date:'Y-m-d'}}">
+                                  </div>
+                              </div>
+                            </div>
+  
+                            <!-- Insurer Info Section -->
+                            <p class="form-top-title">Insurer Details & Information</p>
+                            <div class="row">
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Insurance Company</label>
+                                      <select name="insurance_company" id="insurance_company" class="form-field">
+                                        <option value="">Select Insurance Company</option>
+                                        {% if insurance_company_list %}
+                                            {% for insurance_cmpny in insurance_company_list %}
+                                              <option value="{{insurance_cmpny.id}}" {% if lead_previous_policy.insurance_company_id == insurance_cmpny.id %} selected {% endif %}>{{insurance_cmpny.insurance_company}}</option>
+                                            {% endfor %}
+                                        {% endif %}
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Insurance Expiry Date</label>
+                                      <input class="form-field common_datepicker" type="date" name="insurance_expiry_date" id="insurance_expiry_date"
+                                          value="{{lead_previous_policy.insurance_expiry_date|default_if_none:''|date:'Y-m-d'}}">
+                                  </div>
+                              </div>
+                              <div class="col-sm-6 col-md-3">
+                                  <div class="form-group">
+                                      <label class="form-lbl">Insurance Policy Number</label>
+                                      <input class="form-field" type="text" name="insurance_policy_number" id="insurance_policy_number" placeholder="Policy Number"
+                                          value="{{lead_previous_policy.insurance_policy_number|default_if_none:''}}">
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+  
+                    <div class="form-group d-flex justify-content-end">
+                        <button type="submit" class="wrap-btn">
+                            {% if vehicle_info %} Update & Continue {% else %} Save & Continue {% endif %}
+                        </button>
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div>

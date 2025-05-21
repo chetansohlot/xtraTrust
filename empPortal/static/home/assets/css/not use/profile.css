@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#profile-verify-btn{
+    margin-top: 33px;
+    border: none;
+    border-radius: 10px;
+padding: 0px 20px 0px 20px;
+margin-top: 30px;
+border: none;
+
+}
+
+.verify-btn{
+    margin-top: 33px;
+    padding: 4% 23px 5px 23px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(71, 45, 187);
+    color: white;
+    width: 100%;
+} 
+#input-pplce{
+    padding: 4px 10px 4px 10px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+#input-pplce::placeholder{
+    font-size: 13px;
+    color: black;
+}
+/*-----------------------second----------------------popup----------------------css-----------*/
+.verify-22-btn{
+   margin-top: 10px;
+    padding: 5px 23px 5px 23px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(71, 45, 187);
+    color: white;
+    width: 15%;
+}
+
+.document-type{
+    background-color: rgb(218, 214, 214);
+    padding: 0px 0px 0px 0px;
+}
+.document-type-p{
+    font-size: 14px;
+    border-color:rgb(138, 138, 240);   
+    font-weight: 600;
+   padding-top: 10px;
+}
+
+.pan-doc{
+    font-size: 14px;
+    font-family: roboto,sans-serif;
+    font-weight: 600;
+
+ 
+}
+.file-chosen{
+   
+     font-size: 14px;
+     font-weight: 500;
+     border-radius: 5px;
+     padding: 10px;
+     border: none; 
+     margin-top: 15px;
+     padding: 2px 7px 2px 7px;
+}
+.btn-no-file{
+    background-color: rgb(245, 57, 57);
+    /* background-color: rgb(138, 138, 240); */
+    color: white;
+    border-radius: 5px;
+    /* padding: 4px 10px 2px 10px; */
+    border: none;
+    width: 60%;
+    height: 50%;
+    margin-top: 10px;
+   
+}
+.remark-border{
+    border: 2px dotted;
+     border-color:rgb(39, 39, 250);
+ width: 60%;
+ height: 50%;
+ margin-top: 10px;
+}
+.remark-border-p{
+    color:rgb(138, 138, 240); ;
+}
+.btn-submit{
+    float: right;
+    margin-top: 1%;
+    padding: 3px 15px 3px 15px;
+border: none;
+background-color:rgb(73, 73, 226);
+border-radius: 5px;
+color: white;
+font-size: 14px;
+font-weight: 500;
+margin-right: 9%;
+}

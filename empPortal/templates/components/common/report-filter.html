@@ -1,0 +1,153 @@
+{% url 'commission-report' as comparision_url %}
+{% url 'sales-manager-business-report' as sm_business_url %}
+{% url 'agent-business-report' as agent_business_url %}
+{% url 'franchisees-business-report' as franchise_business_url %}
+{% url 'insurer-business-report' as insurer_business_url %}
+
+
+{% url 'agent-commission' as agent_commission %}
+{% url 'franchisees-commission' as franchise_commission %}
+{% url 'insurer-commission' as insurer_commission %}
+{% url 'insurer-payment' as insurer_payment %}
+<form action="" method="get">
+    <input type="hidden" name="_token" value="A2fV8nxKXXE5tj11gwhB8wlsa7Q6oj2rS8WfPOGo">
+    <input type="hidden" name="filter_is_on" value="filter_on">
+    <div class="row">
+  
+      <!-- Existing Fields -->
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Insurer Name" name="insurance_provider" class="form-field" value="{{ request.GET.insurance_provider }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Policy No" name="policy_number" class="form-field" value="{{ request.GET.policy_number }}">
+      </div>
+  
+  
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Policy Type" name="policy_type" class="form-field" value="{{ request.GET.policy_type }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Vehicle Type" name="vehicle_type" class="form-field" value="{{ request.GET.vehicle_type }}">
+      </div>
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Vehicle Registration Number" name="vehicle_number" class="form-field" value="{{ request.GET.vehicle_number }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="date" placeholder="Policy Start Date" name="start_date" class="form-field" value="{{ request.GET.start_date }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="date" placeholder="Policy End Date" name="end_date" class="form-field" value="{{ request.GET.end_date }}">
+      </div>
+  
+      <!-- Additional Merged Fields -->
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Customer Name" name="policy_holder_name" class="form-field" value="{{ request.GET.policy_holder_name }}">
+      </div>
+  
+      <!-- Fuel Type -->
+      <div class="col-sm-2 form-group">
+        <select class="form-field" name="fuel_type">
+          <option value="">Select Fuel</option>
+          <option value="Petrol" {% if request.GET.fuel_type == "Petrol" %}selected{% endif %}>Petrol</option>
+          <option value="Diesel" {% if request.GET.fuel_type == "Diesel" %}selected{% endif %}>Diesel</option>
+          <option value="Cng" {% if request.GET.fuel_type == "Cng" %}selected{% endif %}>Cng</option>
+          <option value="Be-Fuel" {% if request.GET.fuel_type == "Be-Fuel" %}selected{% endif %}>Be-Fuel</option>
+        </select>
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Engine No" name="engine_number" class="form-field" value="{{ request.GET.engine_number }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="text" placeholder="Chassis No" name="chassis_number" class="form-field" value="{{ request.GET.chassis_number }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="number" placeholder="Mfg Year From" name="manufacturing_year_from" class="form-field" value="{{ request.GET.manufacturing_year_from }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="number" placeholder="Mfg Year To" name="manufacturing_year_to" class="form-field" value="{{ request.GET.manufacturing_year_to }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="number" placeholder="GVW/CC From" name="gvw_from" class="form-field" value="{{ request.GET.gvw_from }}">
+      </div>
+  
+      <div class="col-sm-2 form-group">
+        <input type="number" placeholder="GVW/CC To" name="gvw_to" class="form-field" value="{{ request.GET.gvw_to }}">
+      </div>
+  
+      <!-- Branch -->
+      <div class="col-sm-2 form-group">
+        <select class="form-field" name="branch_name">
+          <option value="">Select Branch</option>
+          {% for branch in branches %}
+          <option value="{{ branch.id }}" {% if branch.id|stringformat:"s" == request.GET.branch_name|stringformat:"s" %}selected{% endif %}>
+            {{ branch.branch_name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+  
+      <!-- BQP -->
+      <div class="col-sm-2 form-group">
+        <select class="form-field" name="bqp">
+          <option value="">Select BQP</option>
+          {% for bqp in bqpList %}
+          <option value="{{ bqp.id }}" {% if bqp.id|stringformat:"s" == request.GET.bqp|stringformat:"s" %}selected{% endif %}>{{ bqp.bqp_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+  
+      <!-- POS Name -->
+      <div class="col-sm-2 form-group">
+        <select class="form-field" name="pos_name">
+          <option value="">Select POS Name</option>
+          {% for partner in partners %}
+          <option value="{{ partner.id }}" {% if partner.id|stringformat:"s" == request.GET.pos_name|stringformat:"s" %}selected{% endif %}>{{ partner.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+                            
+      <!-- Referral -->
+      <div class="col-sm-2 form-group">
+        <select class="form-field" name="referral_name">
+          <option value="">Select Referral</option>
+          {% for referral in referrals %}
+          <option value="{{ referral.id }}" {% if referral.id|stringformat:"s" == request.GET.referral_name|stringformat:"s" %}selected{% endif %}>
+            {{ referral.name }} - {{ referral.referral_code }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <!-- Action Buttons -->
+      <div class="col-sm-auto">
+        <div class="row">
+          <div class="col-auto">
+            <input type="submit" name="submit_filter" class="filter-search-btn" value="Apply">
+          </div>
+          <div class="col-auto">
+            {% if request.path == comparision_url %}
+              <a href="{% url 'commission-report' %}" class="filter-search-btn bg-dark">Clear</a>
+            {% elif request.path == agent_business_url %}
+              <a href="{% url 'agent-business-report' %}" class="filter-search-btn bg-dark">Clear</a>
+            {% elif request.path == franchise_business_url %}
+              <a href="{% url 'franchisees-business-report' %}" class="filter-search-btn bg-dark">Clear</a>
+            {% elif request.path == sm_business_url %}
+              <a href="{% url 'sales-manager-business-report' %}" class="filter-search-btn bg-dark">Clear</a>
+            {% elif request.path == franchise_business_url %}
+              <a href="{% url 'franchisees-business-report' %}" class="filter-search-btn bg-dark">Clear</a>
+            {% endif %}
+          </div>
+          <div class="col-auto">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>

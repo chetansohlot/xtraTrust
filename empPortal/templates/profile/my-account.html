@@ -1,0 +1,1483 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Members
+{% endblock %}
+  
+{% block content %}
+{% load static %}
+{% include "css-code.html" %}
+
+
+<!-- Bootstrap CSS -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+<!-- Bootstrap Bundle with Popper.js -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+
+  
+  
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+        {% include 'sidebar.html' %}
+    
+        <div class="content-wrapper white-bg">
+            
+            <div class="content-header header-content-bg mb-0">
+              <div class="container-fluid">
+                <div class="row justify-content-between justify-content-sm-start pb-5">
+                  <div class="col col-sm-4">
+                    <!-- <h1 class="admin-title m-0 py-2">My Account </h1> -->
+                    <!-- <a href="#"><img src="{% static 'dist/img/svg/back_ic.svg' %}" alt="" class="mt-2 pl-3"></a> -->
+                  </div>
+                  <div class="col">
+                    <div class="d-flex justify-content-end mt-2">
+                      <!-- <button class="dashboard-btn-outline mb-0" type="button">Deactivate Membership</button> -->
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Main content -->
+            <div class="content px-0">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-4 px-0">
+                        <div class="card member-detail-left-card">
+                            <div class="card-body box-profile">
+                                <div class="text-center position-relative">
+                                    <!-- Edit Profile Modal Trigger (for profile image) -->
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#editProfileImageModal" 
+                                       class="position-absolute" style="right: 0; top: 0;">
+                                        <i class="fas fa-camera"></i>
+                                    </a>
+                                
+                                    <!-- Existing Edit User Modal Trigger -->
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#editUserModal" 
+                                       class="position-absolute" style="left: 0; top: 0;">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                
+                                    <!-- Profile Image -->
+                                    {% if user_details.profile_image %}
+                                        <img src="{{ user_details.profile_image.url }}" alt="Profile Image" class="card-profile-img">
+                                    {% else %}
+                                        <img src="{% static 'dist/img/svg/profile-avatar-male.svg' %}" alt="Default Profile" class="card-profile-img">
+                                    {% endif %}
+                                
+                                    <!-- User Name -->
+                                    <h3 class="profile-username text-center mt-2">{{ user_details.first_name }} {{ user_details.last_name }}</h3>
+                                </div>
+                                
+                                <div class="d-flex justify-content-center mt-2">
+                                    {% if user_details.partner.partner_status == '0' %}
+                                    <span class="text-warning">Requested</span>
+                                {% elif user_details.partner.partner_status == '1' %}
+                                    <span class="text-info">Document Verification</span>
+                                {% elif user_details.partner.partner_status == '2' %}
+                                    <span class="text-primary">In Training</span>
+                                {% elif user_details.partner.partner_status == '3' %}
+                                    <span class="text-secondary">In Exam</span>
+                                {% elif user_details.partner.partner_status == '4' %}
+                                    <span class="text-success">Activated</span>
+                                {% elif user_details.partner.partner_status == '5' %}
+                                    <span class="text-danger">Inactive</span>
+                                {% elif user_details.partner.partner_status == '6' %}
+                                    <span class="text-danger">Rejected</span>
+                                {% endif %}
+                                </div>  
+                    
+                                <div class="profile-info-divider"></div>
+                    
+                                <ul class="member-detail-list">
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/birthday_ic.svg' %}" alt="">
+                                        <span class="list">PAN No</span>
+                                        <span class="list-output">{{ docs.pan_number|default:"N/A" }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/birthday_ic.svg' %}" alt="">
+                                        <span class="list">Agent ID</span>
+                                        <span class="list-output">{{ user_details.user_gen_id|default:"N/A" }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/gender_ic.svg' %}" alt="">
+                                        <span class="list">Gender</span>
+                                        <span class="list-output">
+                                            {% if user_details.gender == 1 %} Male {% elif user_details.gender == 2 %} Female {% else %} N/A {% endif %}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/birthday_ic.svg' %}" alt="">
+                                        <span class="list">Date of birth</span>
+                                        <span class="list-output">{{ user_details.dob }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/phone_ic.svg' %}" alt="">
+                                        <span class="list">Phone</span>
+                                        <span class="list-output">{{ user_details.phone }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/email_ic.svg' %}" alt="">
+                                        <span class="list">E-mail</span>
+                                        <span class="list-output">{{ user_details.email }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/state.svg' %}" alt="">
+                                        <span class="list">State</span>
+                                        <span class="list-output">{{ user_details.state }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/city.svg' %}" alt="">
+                                        <span class="list">City</span>
+                                        <span class="list-output">{{ user_details.city }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/map.svg' %}" alt="">
+                                        <span class="list">Pincode</span>
+                                        <span class="list-output">{{ user_details.pincode }}</span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/address.svg' %}" alt="">
+                                        <span class="list">Communication Address</span>
+                                        <span class="list-output">{{ user_details.address }}</span>
+                                    </li>
+                                    
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/certificate2.svg' %}" alt="">
+                                        <span class="list">Download Certificate</span>
+                                        <span class="list-output">
+                                            {% if user_details.exam_attempt > 0 and user_details.examRes %}
+                                                {% if user_details.examRes.status == 'passed' %}
+                                                        {% if user_details.partner.partner_status == '2' %}
+                                                            <a href="{% url 'download-training-certificate' user_id=user_details.id %}">
+                                                                <i class="fa fa-download"></i>Training Certificate
+                                                            </a>
+                                                        {% elif user_details.partner.partner_status == '3' or user_details.partner.partner_status == '4' %}
+                                                            <a href="{% url 'download-certificate' user_id=user_details.id %}">
+                                                                <i class="fa fa-download"></i>Exam Certificate
+                                                            </a> |
+                                                            <a href="{% url 'download-training-certificate' user_id=user_details.id %}">
+                                                                <i class="fa fa-download"></i>Training Certificate
+                                                            </a>
+                                                        {% else %}
+                                                            N/A
+                                                        {% endif %}
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <img src="{% static 'dist/img/svg/user-status.svg' %}" alt="">
+                                        <span class="list">User Status</span>
+                                        <div class="list-output">
+                                            {% if user_details.partner.partner_status == '0' %}
+                                                <span class="text-warning">Requested</span>
+                                            {% elif user_details.partner.partner_status == '1' %}
+                                                <span class="text-info">Document Verification</span>
+                                            {% elif user_details.partner.partner_status == '2' %}
+                                                <span class="text-primary">In Training</span>
+                                            {% elif user_details.partner.partner_status == '3' %}
+                                                <span class="text-secondary">In Exam</span>
+                                            {% elif user_details.partner.partner_status == '4' %}
+                                                <span class="text-success">Activated</span>
+                                            {% elif user_details.partner.partner_status == '5' %}
+                                                <span class="text-danger">Inactive</span>
+                                            {% elif user_details.partner.partner_status == '6' %}
+                                                <span class="text-danger">Rejected</span>
+                                            {% else %}
+                                                <span class="text-muted">Unknown Status</span>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                    {% if user.role_id == 4 %}
+                                        {% if user.partner.partner_status == "3" or user.partner.partner_status == 3 %}
+                                            {% if user.exam_eligibility == 1 %}
+                                                {% if user.exam_attempt < 3 %}
+                                                    {% if user.exam_pass == 0 %}
+                                                        <li>
+                                                            <img src="{% static 'dist/img/svg/exam.svg' %}" alt="">
+                                                            <span class="list">Start Exam</span>
+                                                            <span class="list-output">
+                                                                <span class="badge badge-info">
+                                                                    <a class="text-white" href="{% url 'members_exam' %}">Start Exam</a>
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                        
+                                        <li>
+                                            <img src="{% static 'dist/img/svg/exam.svg' %}" alt="Exam Icon">
+                                            <span class="list">Exam Score & Status</span>
+                                            <span class="list-output">
+                                                {% if user_details.partner and user_details.partner.partner_status == '4' %}
+                                                    {% if user_details.exam_attempt|default:0 > 0 and user_details.examRes %}
+                                                        Score: {{ user_details.examRes.percentage|default:"0" }} % |
+                                                        Passed: 
+                                                        {% if user_details.examRes.status == "passed" %}
+                                                            <span style="color: green; font-weight: bold;">Yes</span>
+                                                        {% elif user_details.examRes.status == "failed" %}
+                                                            <span style="color: red; font-weight: bold;">No</span>
+                                                        {% else %}
+                                                            <span style="color: gray;">N/A</span>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <span style="color: gray;">Not Attempted</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span style="color: gray;">N/A</span>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- Edit Modal -->
+                    <div class="modal fade modaldesign" id="editUserModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit User Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form name="user-form" id="user-form-validate" method="POST" action="{% url 'update-user-details' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="editFirstName" class="form-lbl">First Name</label>
+                                                    <input type="text" class="form-field" id="editFirstName" name="first_name" value="{{ user_details.first_name }}" maxlength="50">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="editLastName" class="form-lbl">Last Name</label>
+                                                    <input type="text" class="form-field" id="editLastName" name="last_name" value="{{ user_details.last_name }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editEmail" class="form-lbl">E-mail</label>
+                                                    <input type="email" class="form-field" id="editEmail" name="email" value="{{ user_details.email }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editPhone" class="form-lbl">Phone</label>
+                                                    <input type="text" class="form-field" id="editPhone" name="phone" value="{{ user_details.phone }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editGender" class="form-lbl">Gender</label>
+                                                    <select class="form-field" id="editGender" name="gender">
+                                                        <option value="1" {% if user_details.gender == 1 %} selected {% endif %}>Male</option>
+                                                        <option value="2" {% if user_details.gender == 2 %} selected {% endif %}>Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editDob" class="form-lbl">Date of Birth</label>
+                                                    <input type="date" class="form-field" id="editDob" name="dob" value="{{ user_details.dob }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editState" class="form-lbl">State</label>
+                                                    <input type="text" class="form-field" id="editState" name="state" value="{{ user_details.state }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editCity" class="form-lbl">City</label>
+                                                    <input type="text" class="form-field" id="editCity" name="city" value="{{ user_details.city }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editPincode" class="form-lbl">Pincode</label>
+                                                    <input type="text" class="form-field" id="editPincode" name="pincode" value="{{ user_details.pincode }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">    
+                                                <div class="mb-3">
+                                                    <label for="editAddress" class="form-lbl">Communication Address</label>
+                                                    <input type="text" class="form-field" id="editAddress" name="address" value="{{ user_details.address }}">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-12">   
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit" class="form-submit-btn">Save Changes</button>
+                                                </div>     
+                                            </div>    
+                                        </div>    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal fade modaldesign" id="editProfileImageModal" tabindex="-1" aria-labelledby="editProfileImageLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editProfileImageLabel">Update Profile Image</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                </div>
+                                
+                                <div class="modal-body">
+                                    <form id="profileImageForm" method="POST" action="{% url 'update-profile-image' %}" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        
+                                        <div class="text-center mb-3">
+                                            {% if user_details.profile_image %}
+                                                <img id="previewImage" src="{{ user_details.profile_image.url }}" class="rounded-circle" alt="Profile" width="120" height="120">
+                                            {% else %}
+                                                <img id="previewImage" src="{% static 'dist/img/svg/profile-avatar-male.svg' %}" class="rounded-circle" alt="Default" width="120" height="120">
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="profileImage" class="form-lbl">Select New Profile Image</label>
+                                            <input type="file" class="form-control-file" id="profileImage" name="profile_image" accept="image/*" required onchange="previewSelectedImage(this)">
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="form-submit-btn">Upload Image</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        function previewSelectedImage(input) {
+                            if (input.files && input.files[0]) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    document.getElementById('previewImage').src = e.target.result;
+                                };
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                    <div class="col-md-8 px-0">
+                      <div class="card member-detail-right-card">
+                        
+                        <ul class="nav nav-pills profile-tab">
+                            <li class="nav-item text-bold"><a class="nav-link active" href="#personal-detail-tab" data-toggle="tab">Documents</a></li>
+                            <li class="nav-item text-bold"><a class="nav-link" href="#allocation-tab" data-toggle="tab">Allocation </a></li>
+                            <li class="nav-item text-bold"><a class="nav-link" href="#organisation-tab" data-toggle="tab">Bank Details </a></li>
+                            <li class="nav-item text-bold"><a class="nav-link" href="#membership-tab" data-toggle="tab">Payout Details</a></li>
+                        </ul>
+                        
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <div class="tab-content tab-scrollbar">
+                            
+                            <div class="tab-pane" id="allocation-tab">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Contact No</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Branch</td>
+                                            <td>{{ branch.branch_name|default:"N/A" }}</td>
+                                            <td>{{ branch.email|default:"N/A" }}</td>
+                                            <td>{{ branch.mobile|default:"N/A" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Manager</td>
+                                            <td>{{ manager_details.full_name|default:"N/A" }}</td>
+                                            <td>{{ manager_details.email|default:"N/A" }}</td>
+                                            <td>{{ manager_details.phone|default:"N/A" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Team leader</td>
+                                            <td>{{ tl_details.full_name|default:"N/A" }}</td>
+                                            <td>{{ tl_details.email|default:"N/A" }}</td>
+                                            <td>{{ tl_details.phone|default:"N/A" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Relationship Member</td>
+                                            <td>{{ rm_details.full_name|default:"N/A" }}</td>
+                                            <td>{{ rm_details.email|default:"N/A" }}</td>
+                                            <td>{{ rm_details.phone|default:"N/A" }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <div class="tab-pane" id="membership-tab">
+                              
+                              {% if request.user.role_id == 1 %}
+                              <div class="row mb-3">
+                                  <div class="col-md-12">
+                                    <div class="d-flex justify-content-end">
+                                      <button 
+                                          class="dashboard-addbtn" 
+                                          data-member="{{ user_details.id }}"
+                                          data-toggle="modal" 
+                                          data-target="#editCommissionModal" id="addCommissionBtn">
+                                          <i class="fas fa-plus"></i> Add Payout
+                                      </button>
+                                    </div>
+                                  </div>
+                              </div>
+                              {% endif %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                      <div class="table-responsive">
+                                        <table class="table table-design table-trlink">
+                                            <thead class="table-thead-bg-light table-header-fix">
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>TP Prem. (%)</th>
+                                                    <th>OD Prem. (%)</th>
+                                                    <th>Net Prem. (%)</th>
+                                                    {% if request.user.role_id == 1 %}
+                                                    <th>Action</th>
+                                                    {% endif %}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for commission in commissions %}
+                                                <tr>
+                                                    <td>{{ commission.product_name }}</td>
+                                                    <td>{{ commission.tp_percentage }}%</td>
+                                                    <td>{{ commission.od_percentage }}%</td>
+                                                    <td>{{ commission.net_percentage }}%</td>
+                                                    {% if request.user.role_id == 1 %}
+                                                    <td>
+                                                        <button class="btn btn-xs btn-primary edit-btn" 
+                                                                data-id="{{ commission.id }}" 
+                                                                data-member="{{ commission.member_id }}"
+                                                                data-product="{{ commission.product_id }}"
+                                                                data-tp="{{ commission.tp_percentage }}"
+                                                                data-od="{{ commission.od_percentage }}"
+                                                                data-net="{{ commission.net_percentage }}"
+                                                                data-toggle="modal" 
+                                                                data-target="#editCommissionModal">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                    </td>
+                                                    {% endif %}
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No commission found</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                      </div>  
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <!-- Edit Commission Modal -->
+                            <div class="modal fade" id="editCommissionModal" tabindex="-1" aria-labelledby="editCommissionLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="editCommissionLabel">Manage Commission</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form id="editCommissionForm" method="POST" action="{% url 'update-commission' %}">
+                                              {% csrf_token %}
+                                              <input type="hidden" name="commission_id" id="editCommissionId">
+                                              <input type="hidden" name="member_id" id="editMemberId"> <!-- Hidden member ID -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">Product Name</label>
+                                                        <select class="form-field" name="product"  id="editProduct">
+                                                            <option value="">Select Product</option>
+                                                            {% for product in products %}
+                                                                <option value="{{ product.id }}">{{ product.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>    
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">TP %</label>
+                                                        <input type="text" class="form-field percentage" placeholder="TP%" id="editTp" name="tp_percentage">
+                                                        <span class="error tp_percentage_err"></span>
+                                                    </div>
+                                                </div>    
+                                                <div class="col-md-6">    
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">OD %</label>
+                                                        <input type="text" class="form-field percentage" id="editOd" placeholder="OD%" name="od_percentage">
+                                                        <span class="error od_percentage_err"></span>
+                                                    </div>
+                                                </div>    
+                                                <div class="col-md-6">    
+                                                    <div class="mb-3">
+                                                        <label class="form-lbl">Net %</label>
+                                                        <input type="text" class="form-field percentage" id="editNet" placeholder="Net%" name="net_percentage">
+                                                        <span class="error net_percentage_err"></span>
+                                                    </div>
+                                                </div>    
+                                                <div class="col-md-12">   
+                                                    <div class="d-flex justify-content-end">
+                                                        <button  button type="submit" class="form-submit-btn">Save</button>
+                                                    </div>     
+                                                </div>    
+                                            </div>  
+                                          </form>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="tab-pane" id="organisation-tab">
+                                <!-- Personal Details -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="d-flex justify-content-end mb-3">
+                                            <button type="button" class="dashboard-addbtn" data-toggle="modal" data-target="#editBankModal">Edit</button>
+                                        </div>    
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">Account Holder Name</p>
+                                            <p class="userdetail-highligt" id="accountHolderName">
+                                                {% if bank_details %}
+                                                    {{ bank_details.account_holder_name }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">Account Number</p>
+                                            <p class="userdetail-highligt" id="accountNumber">
+                                                {% if bank_details %}
+                                                    {{ bank_details.account_number }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">IFSC Code</p>
+                                            <p class="userdetail-highligt" id="ifscCode">
+                                                {% if bank_details %}
+                                                    {{ bank_details.ifsc_code }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">City</p>
+                                            <p class="userdetail-highligt" id="city">
+                                                {% if bank_details %}
+                                                    {{ bank_details.city }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="userdetail-group">
+                                            <p class="userdetail-lbl">State</p>
+                                            <p class="userdetail-highligt" id="state">
+                                                {% if bank_details %}
+                                                    {{ bank_details.state }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Edit Button -->
+                                
+                            </div>
+                            
+                            
+                                                            
+                                                        <!-- Edit Modal -->
+                            <div class="modal fade" id="editBankModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">Edit Bank Details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form name="bank-form" id="bank-form" method="POST" action="{% url 'store-bank-data' %}">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="editAccountHolderName" class="form-lbl">Account Holder Name</label>
+                                                            <input type="text" class="form-field" id="editAccountHolderName" name="account_holder_name"
+                                                              placeholder="Account Holder Name"  value="{% if bank_details %}{{ bank_details.account_holder_name }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editAccountNumber" class="form-lbl">Account Number</label>
+                                                            <input type="text" class="form-field" id="editAccountNumber" name="account_number"
+                                                             placeholder="Account Number" value="{% if bank_details %}{{ bank_details.account_number }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="editReEnterAccountNumber" class="form-lbl">Re Enter Account Number</label>
+                                                            <input type="text" class="form-field" id="editReEnterAccountNumber" name="re_enter_account_number"
+                                                             placeholder="Re-Enter Account Number"   value="{% if bank_details %}{{ bank_details.re_enter_account_number }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editIfscCode" class="form-lbl">IFSC Code</label>
+                                                            <input type="text" class="form-field" id="editIfscCode" name="ifsc_code"
+                                                            placeholder="IFSC Code"    value="{% if bank_details %}{{ bank_details.ifsc_code }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editCity" class="form-lbl">City</label>
+                                                            <input type="text" class="form-field" id="editCity" name="city"
+                                                             placeholder="City"   value="{% if bank_details %}{{ bank_details.city }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">    
+                                                        <div class="mb-3">
+                                                            <label for="editState" class="form-lbl">State</label>
+                                                            <input type="text" class="form-field" id="editState" name="state"
+                                                            placeholder="State"    value="{% if bank_details %}{{ bank_details.state }}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">    
+                                                        <div class="d-flex justify-content-end">
+                                                            <button id="bank-btn-sub" type="submit" class="form-submit-btn">Save Changes</button>
+                                                        </div>    
+                                                    </div>    
+                                                </div>        
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <style>
+                                .preview-img {
+                                    width: 50px;
+                                    height: 50px;
+                                    object-fit: cover;
+                                    transition: transform 0.2s ease-in-out;
+                                    cursor: pointer;
+                                }
+
+                                .preview-img:hover {
+                                    transform: scale(1.2);
+                                }
+                                .upload-icon {
+                                    display: inline-block;
+                                    cursor: pointer;
+                                    background: #007bff;
+                                    color: #fff;
+                                    padding: 6px 12px;
+                                    border-radius: 5px;
+                                    font-size: 14px;
+                                    margin-top: 8px;
+                                }
+                                .upload-icon i {
+                                    margin-right: 5px;
+                                }
+                                .upload-icon:hover {
+                                    background: #0056b3;
+                                }
+
+
+                            </style>
+
+                            <!-- /.tab-pane -->
+                            
+                            <div class="tab-pane active" id="personal-detail-tab">
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <h3 class="card-hding pt-3">Documents</h3>
+                                            <button type="button" class="dashboard-addbtn" data-toggle="modal" data-target="#uploadDocumentModal">Upload Documents</button>
+                                        </div>    
+                                    </div>
+                            
+                                    {% if docs %}
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>File</th>
+                                                    <th>File Type</th>
+                                                    <th>Doc ID</th>
+                                                    <th>Updated At</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Aadhaar Card Front -->
+                                                <tr>
+                                                    <td>
+                                                        <div class="doc-img">
+                                                            <a href="javascript:void(0);" 
+                                                            data-toggle="modal" 
+                                                            data-target="#docViewerModal" 
+                                                            data-url="{{ docs.aadhaar_card_front.url }}" 
+                                                            data-title="Aadhaar Card Front" >
+                                                            <img class="preview-img" id="aadhaar_card_front_preview" src="{{ docs.aadhaar_card_front.url }}" 
+                                                                alt="Aadhaar Front" 
+                                                                onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                                width="80">
+                                                                <!-- <div class="doc-hover-icon">
+                                                                    <div>
+                                                                        <a href="#"><i class="fa-solid fa-eye"></i></a>
+                                                                        <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                                    </div>    
+                                                                </div> -->
+                                                            </a>
+                                                        </div>
+                                                      </td>
+                                                      
+                                                    <td>Aadhaar Card Front</td>
+                                                    <td>
+                                                        {{ docs.aadhaar_number|default:"-" }} 
+                                                        {% if docs.aadhaar_card_front_status != "Approved" %}
+                                                            <i class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;" onclick="openEditAadhaarModal('{{ docs.aadhaar_number|default:'' }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ docs.aadhaar_card_front_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.aadhaar_card_front_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.aadhaar_card_front_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                    {% if docs.aadhaar_card_front_status != "Approved" %}
+                                                            <label for="aadhaar_card_front" class="btn btn-sm btn-warning">Edit</label>
+                                                            <input type="file" id="aadhaar_card_front" class="d-none" onchange="uploadDocument('aadhaar_card_front')">
+                                                    {% endif %}
+                                                    {% if docs.aadhaar_card_front_status == "Rejected" %}
+                                                        <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.aadhaar_card_front_reject_note }}')"></i>
+                                                    {% endif %}
+                                                    </td>
+
+
+                                                </tr>
+                            
+                                                <!-- Aadhaar Card Back -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.aadhaar_card_back.url }}" 
+                                                           data-title="Aadhaar Card Back">
+                                                          <img class="preview-img" id="aadhaar_card_back_preview" src="{{ docs.aadhaar_card_back.url }}" 
+                                                               alt="Aadhaar Back" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                      </td>
+                                                      
+                                                    <td>Aadhaar Card Back</td>
+                                                    <td>{{ docs.aadhaar_number|default:"-" }}</td>
+                                                    <td>{{ docs.aadhaar_card_back_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.aadhaar_card_back_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.aadhaar_card_back_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.aadhaar_card_back_status != "Approved" %}
+
+                                                            <label for="aadhaar_card_back" class="btn btn-sm btn-warning">Edit</label>
+                                                            <input type="file" id="aadhaar_card_back" class="d-none" onchange="uploadDocument('aadhaar_card_back')">
+                                                        {% endif %}
+                                                        
+                                                        {% if docs.aadhaar_card_back_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.aadhaar_card_back_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+
+                                                </tr>
+                            
+                                                <!-- Pan Card -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.upload_pan.url }}" 
+                                                           data-title="PAN Card">
+                                                          <img class="preview-img" id="upload_pan_preview" src="{{ docs.upload_pan.url }}" 
+                                                               alt="PAN Card" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                      </td>
+                                                    <td>PAN Card</td>
+                                                    <td>
+                                                        {{ docs.pan_number|default:"-" }} 
+                                                        {% if docs.upload_pan_status != "Approved" %}
+                                                            <i class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;" onclick="openEditPanModal('{{ docs.pan_number|default:'' }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ docs.upload_pan_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.upload_pan_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.upload_pan_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.upload_pan_status != "Approved" %}
+                                                            <label for="upload_pan" class="btn btn-sm btn-warning">Edit</label>
+                                                            <input type="file" id="upload_pan" class="d-none" onchange="uploadDocument('upload_pan')">
+                                                        {% endif %}
+                                                        {% if docs.upload_pan_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.upload_pan_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                            
+                                                <!-- Cancelled Cheque -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.upload_cheque.url }}" 
+                                                           data-title="Cancelled Cheque">
+                                                          <img class="preview-img" id="upload_cheque_preview" src="{{ docs.upload_cheque.url }}" 
+                                                               alt="Cheque" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                      </td>
+                                                      
+                                                    <td>Cancelled Cheque</td>
+                                                    <td>
+                                                        {{ docs.cheque_number|default:"-" }} 
+                                                        {% if docs.upload_cheque_status != "Approved" %}
+                                                            <i class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;" onclick="openEditChequeModal('{{ docs.cheque_number|default:'' }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ docs.upload_cheque_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.upload_cheque_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.upload_cheque_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.upload_cheque_status != "Approved" %}
+                                                            <label for="upload_cheque" class="btn btn-sm btn-warning">Edit</label>
+                                                            <input type="file" id="upload_cheque" class="d-none" onchange="uploadDocument('upload_cheque')">
+                                                        {% endif %}
+
+                                                        {% if docs.upload_cheque_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.upload_cheque_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                            
+                                                <!-- 10th Marksheet -->
+                                                <tr>
+                                                    <td>
+                                                        <a href="javascript:void(0);" 
+                                                           data-toggle="modal" 
+                                                           data-target="#docViewerModal" 
+                                                           data-url="{{ docs.tenth_marksheet.url }}" 
+                                                           data-title="10th Marksheet">
+                                                          <img class="preview-img" id="tenth_marksheet_preview" src="{{ docs.tenth_marksheet.url }}" 
+                                                               alt="10th Marksheet" 
+                                                               onerror="this.onerror=null; this.src='/static/dist/img/aadhar-front.jpg';" 
+                                                               width="80">
+                                                        </a>
+                                                      </td>
+                                                      
+                                                    <td>10th Marksheet</td>
+                                                    <td>
+                                                        {{ docs.role_no|default:"-" }} 
+                                                        {% if docs.tenth_marksheet_status != "Approved" %}
+                                                            <i class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;" onclick="openEditRoleNoModal('{{ docs.role_no|default:'' }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ docs.tenth_marksheet_updated_at|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>
+                                                        {% if docs.tenth_marksheet_status == "Approved" %}
+                                                            <span class="text-success">Approved</span>
+                                                        {% elif docs.tenth_marksheet_status == "Rejected" %}
+                                                            <span class="text-danger">Rejected</span>
+                                                        {% else %}
+                                                            <span class="text-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if docs.tenth_marksheet_status != "Approved" %}
+                                                            <label for="tenth_marksheet" class="btn btn-sm btn-warning">Edit</label>
+                                                            <input type="file" id="tenth_marksheet" class="d-none" onchange="uploadDocument('tenth_marksheet')">
+                                                        {% endif %}
+
+                                                        {% if docs.tenth_marksheet_status == "Rejected" %}
+                                                            <i class="fas fa-eye text-danger" style="cursor: pointer;" onclick="showRejectNote('{{ docs.tenth_marksheet_reject_note }}')"></i>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            
+                                    {% else %}
+                                    <div class="col-12">
+                                        <p class="text-muted text-center">No documents uploaded yet.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- MODAL  --> 
+                              
+                             <!-- Edit Document Modal -->
+                            <div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editDocumentModalLabel">Edit Document Number</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="editDocumentForm">
+                                                <input type="hidden" name="user_id" id="user_id" value="{{ request.user.id }}">
+                                                <input type="hidden" name="document_type" id="document_type">
+                                                
+                                                <div class="mb-3">
+                                                    <label for="document_number" class="form-label">Document Number</label>
+                                                    <input type="text" class="form-control" id="document_number" name="document_number">
+                                                </div>
+                                                <button type="button" class="btn btn-primary" onclick="updateDocument()">Save Changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- Edit Document Modal -->
+                            <div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editDocumentModalLabel">Edit Document Number</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="editDocumentForm">
+                                                <input type="hidden" name="user_id" id="user_id" value="{{ request.user.id }}">
+                                                <input type="hidden" name="document_type" id="document_type">
+                                                
+                                                <div class="mb-3">
+                                                    <label for="document_number" class="form-label">Document Number</label>
+                                                    <input type="text" class="form-control" id="document_number" name="document_number">
+                                                </div>
+                                                <button type="button" class="btn btn-primary" onclick="updateDocument()">Save Changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- Edit Aadhaar Number Modal -->
+                            <div class="modal fade" id="editAadhaarModal" tabindex="-1" aria-labelledby="editAadhaarModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editAadhaarModalLabel">Edit Aadhaar Number</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="editAadhaarForm">
+                                                <input type="hidden" name="user_id" id="user_id" value="{{ request.user.id }}">
+                                                <div class="mb-3">
+                                                    <label for="aadhaar_number" class="form-label">Aadhaar Number</label>
+                                                    <input type="text" class="form-control" id="aadhaar_number" name="aadhaar_number" value="{{ docs.aadhaar_number|default:'' }}">
+                                                </div>
+                                                <button type="button" class="btn btn-primary" onclick="updateAadhaar()">Save Changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- MODAL  -->
+                            <!-- upload document modal-->
+                            <div class="modal fade" id="uploadDocumentModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">Upload Document</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            
+                                            <form id="uploadDocumentsForm" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                            
+                                                <input type="hidden" name="user_id" value="{{ request.user.id }}">
+                                            
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-lbl">Aadhaar Number</label>
+                                                            <input type="text" class="form-field" name="aadhaar_number" placeholder="Aadhaar Number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-lbl">Aadhaar Card Front</label>
+                                                                    <input type="file" class="form-field" name="aadhaar_card_front">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-lbl">Aadhaar Card Back</label>
+                                                                    <input type="file" class="form-field" name="aadhaar_card_back">
+                                                                </div>
+                                                            </div>
+                                                        </div>        
+                                                    </div>
+                                                </div>
+                                            
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-lbl">PAN Number</label>
+                                                            <input type="text" class="form-field" name="pan_number" placeholder="PAN Number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <div class="mb-3">
+                                                            <label class="form-lbl">Upload PAN</label>
+                                                            <input type="file" class="form-field" name="upload_pan">
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                            
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-lbl">Account Number</label>
+                                                            <input type="text" class="form-field" name="cheque_number" placeholder="Account Number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <div class="mb-3">
+                                                            <label class="form-lbl">Upload Cheque</label>
+                                                            <input type="file" class="form-field" name="upload_cheque">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-lbl">Roll No</label>
+                                                            <input type="text" class="form-field" name="role_no" placeholder="Roll No">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <div class="mb-3">
+                                                            <label class="form-lbl">Tenth Marksheet</label>
+                                                            <input type="file" class="form-field" name="tenth_marksheet">
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                            
+                                                <button type="submit" class="btn btn-success">Upload</button>
+                                            </form>
+                                            
+                                            <!-- Status Messages -->
+                                            <div id="uploadStatus" class="mt-3"></div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="claims-tab">
+                                <div class="row align-items-center mt-3 mb-3">
+                                  <div class="col-md-auto">
+                                    <h3 class="card-hding mb-0 pb-0">Claim History</h3>
+                                  </div>
+                                  <div class="col">
+                                    <div class="d-flex justify-content-end">
+                                      <a href="#" class="dashboard-btn-outline mx-2">Search Cashless Hospitals</a>
+                                      <a href="#" class="dashboard-addbtn">Raise a Claim</a>
+                                    </div>
+                                  </div>
+                                </div>  
+                              <!-- Documents -->
+                              <div class="table-responsive">
+                                <table class="table table-design admin-table-design">
+                                  <thead class="align-middle thead-light">
+                                      <tr>
+                                          <th>Claim ID/Type</th>
+                                          <th>Patient Name/Relation</th>
+                                          <th>Claim Status/Last Update On</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td colspan="3">
+                                        <div class="d-flex justify-content-center py-5">
+                                          <div>
+                                            <img src="dist/img/svg/drive.svg" alt="" class="mx-auto d-table">
+                                            <p class="wrap-small text-gray text-center pt-2">No Data</p>
+                                          </div>  
+                                        </div>   
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>                               
+                               </div>    
+                              <!-- /.Documents -->
+                            </div>
+                          </div>
+                            <!-- /.tab-content -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <script>
+            $(document).ready(function() {
+                $("#uploadDocumentsForm").submit(function(event) {
+                    event.preventDefault(); // Prevent default form submission
+                    $("#loader").show();
+                    let formData = new FormData(this); // Create FormData object
+                    $(".error-message").remove(); // Remove previous error messages
+            
+                    $.ajax({
+                        url: "{% url 'upload_documents' %}", // Django view URL
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            $("#loader").hide();
+                            if (response.reload) {
+                                // Show SweetAlert success message for 1 second, then reload
+                                Swal.fire({
+                                    title: "Upload Successful!",
+                                    text: "Your document has been uploaded successfully.",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 1000 // Show for 1 second
+                                }).then(() => {
+                                    location.reload(); // Reload after SweetAlert closes
+                                });
+                            } else {
+                                $("#uploadStatus").html("<p class='text-success'>" + response.message + "</p>");
+                            }
+                        },
+                        error: function(xhr) {
+                            $("#loader").hide();
+                            let errors = xhr.responseJSON?.errors || {};
+                            $("#uploadStatus").html("<p class='text-danger'>File upload failed.</p>");
+            
+                            // Show validation errors below each field
+                            for (let field in errors) {
+                                let errorMsg = errors[field];
+                                let inputField = $(`[name="${field}"]`);
+                                inputField.after(`<p class='text-danger error-message'>${errorMsg}</p>`);
+                            }
+                        }
+                    });
+                });
+            });
+            
+          </script>
+        <!-- /.content-wrapper -->
+    <script>
+        document.getElementById('user-btn-sub').addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent default submit action
+            document.getElementById('user-form').submit();  // Submit the user form
+        });
+        
+        document.getElementById('bank-btn-sub').addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent default submit action
+            document.getElementById('bank-form').submit();  // Submit the bank form
+        });
+    </script>
+    
+          
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Handle edit button click
+          document.querySelectorAll(".edit-btn").forEach(button => {
+              button.addEventListener("click", function() {
+                  let commissionId = this.getAttribute("data-id");
+                  let product = this.getAttribute("data-product");
+                  let tp = this.getAttribute("data-tp");
+                  let od = this.getAttribute("data-od");
+                  let net = this.getAttribute("data-net");
+      
+                  document.getElementById("editCommissionId").value = commissionId;
+                  document.getElementById("editMemberId").value = "";
+                  document.getElementById("editProduct").value = product;
+                  document.getElementById("editTp").value = tp;
+                  document.getElementById("editOd").value = od;
+                  document.getElementById("editNet").value = net;
+      
+                  document.getElementById("editCommissionLabel").innerText = "Edit Payout";
+              });
+          });
+      
+          // Handle add commission button click
+          document.getElementById("addCommissionBtn").addEventListener("click", function() {
+              let memberId = this.getAttribute("data-member");
+
+              document.getElementById("editCommissionForm").reset();
+              document.getElementById("editCommissionId").value = "";
+              document.getElementById("editMemberId").value = memberId;
+              document.getElementById("editCommissionLabel").innerText = "Add Payout";
+          });
+      });
+      </script>
+<script>
+    function saveChanges() {
+                document.getElementById('accountHolderName').innerText = document.getElementById('editAccountHolderName').value;
+                document.getElementById('reEnterAccountNumber').innerText = document.getElementById('editReEnterAccountNumber').value;
+                document.getElementById('accountNumber').innerText = document.getElementById('editAccountNumber').value;
+                document.getElementById('ifscCode').innerText = document.getElementById('editIfscCode').value;
+                document.getElementById('city').innerText = document.getElementById('editCity').value;
+                document.getElementById('state').innerText = document.getElementById('editState').value;
+            
+                // Close Modal
+                var modal = new bootstrap.Modal(document.getElementById('editModal'));
+                modal.hide();
+            }
+            </script>
+                {% include "footer.html" %}
+            </div>
+            <!-- ./wrapper -->
+            
+            {% include 'footer-script.html' %}
+            
+        <script>
+            function showRejectNote(note) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Rejected Reason',
+                    text: note || 'No reason provided',  // Show message if note is empty
+                    confirmButtonColor: '#d33'
+                });
+            }
+            </script>
+        <script>
+           
+    // Function to handle document upload with SweetAlert confirmation
+    function uploadDocument(documentType) {
+        let fileInput = document.getElementById(documentType);
+        let file = fileInput.files[0];
+
+        if (!file) return;
+
+        // Show SweetAlert confirmation
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You are about to upload this image.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, upload it!',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let formData = new FormData();
+                formData.append("document_file", file);
+                formData.append("document_type", documentType);
+                
+                // Make the AJAX request to upload the document
+                $.ajax({
+                    url: "/update-document/",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken") 
+                    },
+                    success: function (response) {
+                        if (response.new_image_url) {
+                            // Update the preview image
+                            let previewImg = document.getElementById(documentType + "_preview");
+                            previewImg.src = response.new_image_url;
+                            previewImg.onerror = null;
+
+                            // Show success message after upload
+                            Swal.fire({
+                                title: 'Document Uploaded!',
+                                text: 'Your document has been uploaded successfully.',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000 // Show for 1.5 seconds
+                            });
+
+                            // Refresh the page after 1 second delay
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);  // Delay for 1 second
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error(xhr.responseJSON.error);
+                    }
+                });
+            }
+        });
+    }
+
+    // Function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            let cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === name + "=") {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    </script>
+    <script>
+        // Open modal for Aadhaar, PAN, or Cheque Number
+function openEditModal(currentNumber, type) {
+    document.getElementById("document_number").value = currentNumber;
+    document.getElementById("document_type").value = type;
+    var myModal = new bootstrap.Modal(document.getElementById('editDocumentModal'));
+    myModal.show();
+}
+
+// Functions for each document type
+function openEditAadhaarModal(currentNumber) {
+    openEditModal(currentNumber, 'aadhaar');
+}
+
+function openEditPanModal(currentNumber) {
+    openEditModal(currentNumber, 'pan');
+}
+
+function openEditChequeModal(currentNumber) {
+    openEditModal(currentNumber, 'cheque');
+}
+function openEditRoleNoModal(currentNumber) {
+    openEditModal(currentNumber, 'role');
+}
+
+function getCSRFToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+function updateDocument() {
+    var userId = document.getElementById("user_id").value;
+    var docType = document.getElementById("document_type").value;
+    var docNumber = document.getElementById("document_number").value;
+
+    fetch('/update-document-id/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken() // Get CSRF token dynamically
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            document_type: docType,
+            document_number: docNumber
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // Reload to reflect changes
+        } else {
+            alert("Failed to update document number: " + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    </script>
+    
+    {% include "js-code.html" %}
+      
+    </body>
+
+{% endblock %}

@@ -1,0 +1,199 @@
+
+{% load static %}
+
+<div class="table-responsive table-ht">
+    <table class="table table-design table-trlink">
+      <thead class="table-thead-bg-light table-header-fix">
+        <tr>
+          <th width="10">
+            <input type="checkbox" name="" id="checkall" class="table-chk">
+            <label for="checkall"></label>
+          </th>
+          <th>Name / Pan No</th>
+          <th>Contact Details</th>
+          <!-- <th>Role</th> -->
+          <th>Member Status</th>
+          {% if inexam %}
+          <th>Exam Score & Status</th>
+          <!-- <th>Certificate</th> -->
+          {% endif  %}
+          {% if inprocess %}
+          <th>Doc Status</th>
+          {% endif  %}
+          <th width="50"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in page_obj %}
+          <tr>
+            <td>
+              <input type="checkbox" name="" id="check{{ user.id }}" class="table-chk">
+              <label for="check{{ user.id }}"></label>
+            </td>
+            <td>
+              <a href="{% url 'member-view' user_id=user.id %}" class="trlink">{{ user.full_name }} 
+                <span class="text-gray d-block small">{{ user.pan_no }}</span>
+              </a>
+            </td>
+            <td>
+              {{ user.phone }} 
+              <span class="text-gray d-block small">{{ user.email }}</span>
+            </td>
+            <!-- <td>{{ user.role_names }} <span class="text-gray d-block small">{{ user.status_type }}</span></td> -->
+            <td>
+                {% if user.partner.partner_status == '0' %}
+                  {% if docpendingupload %}
+                    <p class="text-warning">Pending Upload</p>
+                  {% else %}
+                    <p class="text-warning">Registered</p>
+                  {% endif %}
+                {% elif user.partner.partner_status == '1' %}
+                  <p class="text-info">Document Verification</p>
+                {% elif user.partner.partner_status == '2' %}
+                  <p class="text-primary">In Training</p>
+                {% elif user.partner.partner_status == '3' %}
+                  <p class="text-secondary">In-Exam</p>
+                {% elif user.partner.partner_status == '4' %}
+                  {% if inexam %}
+                    <p class="text-secondary">In-Exam</p>
+                  {% else %}
+                    <p class="text-success">Activated</p>
+                  {% endif %}
+                {% elif user.partner.partner_status == '5' %}
+                  <p class="text-danger">Inactive</p>
+                {% elif user.partner.partner_status == '6' %}
+                  <p class="text-danger">Rejected</p>
+                {% else %}
+                  <p class="text-gray">Unknown Status</p>
+                {% endif %}
+              <span class="text-gray d-block small">{{ user.partner.updated_at|date:"d M 'y H:i:s" }} - Present</span>
+            </td>
+
+            {% if inprocess %}
+            <td>
+                {% if user.partner.doc_status|stringformat:"s" == '1' %}
+                    <span class="badge bg-secondary">Doc Uploaded</span>
+                {% elif user.partner.doc_status|stringformat:"s" == '2' %}
+                    <span class="badge bg-info text-dark">In-Process</span>
+                {% elif user.partner.doc_status|stringformat:"s" == '3' %}
+                    <span class="badge bg-success">Verified</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">Pending Upload</span>
+                {% endif %}
+                <span class="text-gray d-block small">{{ user.partner.updated_at|date:"d M 'y H:i:s" }} - Present</span>
+            </td>
+            {% endif %}
+
+            {% if inexam %}
+            <td>
+              {% if user and user.examRes %}
+                {% if user.examRes.percentage and user.examRes.status %}
+                  <span class="badge badge-success">
+                    Score: {{ user.examRes.percentage }}<br>
+                    Status: {{ user.examRes.status }}
+                  </span>
+                {% else %}
+                  <span class="badge badge-warning">Not Attempted</span>
+                {% endif %}
+              {% else %}
+                <span class="badge badge-warning">Not Attempted</span>
+              {% endif %}
+            </td>
+            {% endif %}
+              
+            <td>
+              <div class="dropdown">
+                <img src="{% static 'dist/img/svg/menu-dot-vr.svg' %}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                <ul class="dropdown-menu table-dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'member-view' user_id=user.id %}">View member</a></li>
+                    {% if user.examRes %}
+                      {% if intraining %}
+                      <li><a class="dropdown-item" href="{% url 'download-training-certificate' user_id=user.id %}">Download Training Certificate</a></li>
+                      {% endif %}
+
+
+                      {% if inexam %}
+                       <li><a class="dropdown-item" href="{% url 'download-certificate' user_id=user.id %}">Download Certificate</a></li>
+                       <li><a class="dropdown-item" href="{% url 'download-training-certificate' user_id=user.id %}">Download Training Certificate</a></li>
+                      {% endif %}
+                    {% endif %}  
+                    <li>
+                  {% if docpendingupload %}
+                      <a href="{% url 'request-for-doc' user_id=user.id %}" class="request-for-doc dropdown-item" data-title="Request For Doc">
+                        Request For Document
+                      </a>
+                  {% endif %}
+                     </li>
+                      {% if request.user.role_id == 1 %}
+                      <li>
+                        <a href="{% url 'delete-member' user_id=user.id %}" class="deleteMemberBtn dropdown-item" data-title="Delete Policy">
+                          Delete
+                        </a>
+                      </li>
+                      {% endif %}
+                </ul>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="7" class="text-center">No users found</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.querySelectorAll('.deleteMemberBtn');
+
+    deleteButtons.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = button.href;
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const requestButtons = document.querySelectorAll('.request-for-doc');
+
+    requestButtons.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        Swal.fire({
+          title: 'Request document for this user?',
+          text: "This will send a document request. Do you want to continue?",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, request it!',
+          cancelButtonText: 'No, cancel',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = button.href;
+          }
+        });
+      });
+    });
+  });
+</script>

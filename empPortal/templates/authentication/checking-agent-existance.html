@@ -1,0 +1,67 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Policy Management
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <form autocomplete="off" id="myForm" name="existing_agent">
+                        {% csrf_token %}
+                        <input type="hidden" name="uid" value="{{uid}}">
+                    </form>
+                  </div>
+                  <div id="loader" class="form-loader" style="display: flex;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+   
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+        $(document).ready(function () {
+            // Manually fire the AJAX request, instead of triggering form submission
+            let formData = $('#myForm').serialize();
+    
+            $.ajax({
+                url: "{% url 'verify-agent-existance' %}",
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.status === 'success') {
+                        window.location.replace(response.redirect);
+                    } else {
+                        window.location.replace(response.redirect); // optional
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('An error occurred: ' + error);
+                }
+            });
+        });
+      </script>
+</body>
+{% endblock %}

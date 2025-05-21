@@ -1,0 +1,226 @@
+{% extends 'master.html' %}
+
+{% block title %}
+My Team
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+        {% include 'sidebar.html' %}
+
+        <div class="content-wrapper white-bg">
+            <!-- Content Header (Page header) -->
+            <div class="content-header header-content-bg">
+                <div class="container-fluid ">
+                    <div class="row pt-2 pb-2">
+                        <div class="col-sm-6">
+                            <h1 class="admin-title m-0 pt-2">My Team</h1>
+                            <ul class="breadcrump">
+                                <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                                <li>My Teams</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-sm-12 col-md-12">
+
+
+                            {% load static %}
+
+                            <div class="table-responsive table-ht">
+                                <table class="table table-design table-trlink">
+                                    <thead class="table-thead-bg-light table-header-fix">
+                                        <tr>
+                                            <th>User Id</th>
+                                            <th>Name / Pan No</th>
+                                            <th>Contact Details</th>
+                                            <th>Role</th>
+                                            <th width="50">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in my_team %}
+                                        <tr>
+                                            <td>
+                                                #{{user.user_gen_id}}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'member-view' user_id=user.id %}" class="trlink">{{user.full_name }}
+                                                    <span class="text-gray d-block small">{{ user.pan_no }}</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ user.phone }}
+                                                <span class="text-gray d-block small">{{ user.email }}</span>
+                                            </td>
+                                            <td>
+                                                {{ user.role.roleName }}
+                                            </td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg' %}" alt=""
+                                                        class="table-doticon" data-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                    <ul class="dropdown-menu table-dropdown-menu">
+                                                        <li><a class="dropdown-item"
+                                                                href="{% url 'employee-management-view' employee_id=user.id %}">View
+                                                                Employee</a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="7" class="text-center">No users found</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const deleteButtons = document.querySelectorAll('.deleteMemberBtn');
+
+                                    deleteButtons.forEach(function (button) {
+                                        button.addEventListener('click', function (event) {
+                                            event.preventDefault();
+
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "You won't be able to revert this!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonText: 'Yes, delete it!',
+                                                cancelButtonText: 'Cancel',
+                                                reverseButtons: true
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = button.href;
+                                                }
+                                            });
+                                        });
+                                    });
+                                });
+                            </script>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const requestButtons = document.querySelectorAll('.request-for-doc');
+
+                                    requestButtons.forEach(function (button) {
+                                        button.addEventListener('click', function (event) {
+                                            event.preventDefault();
+
+                                            Swal.fire({
+                                                title: 'Request document for this user?',
+                                                text: "This will send a document request. Do you want to continue?",
+                                                icon: 'question',
+                                                showCancelButton: true,
+                                                confirmButtonText: 'Yes, request it!',
+                                                cancelButtonText: 'No, cancel',
+                                                reverseButtons: true
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = button.href;
+                                                }
+                                            });
+                                        });
+                                    });
+                                });
+                            </script>
+
+                        </div>
+                    </div>
+
+
+                    {% include "components/filter/paginator.html" %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% include "footer.html" %}
+    </div>
+    <!-- ./wrapper -->
+
+
+    <div class="modal fade table-filter-modal" id="modal-filter" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content">
+                <div class="modal-header">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <h5 class="modal-title">Filter</h5>
+                        <p class="modal-title text-gray mb-0">Clear All</p>
+                    </div>
+                    <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">&times;</button> -->
+                </div>
+                <div class="modal-body">
+                    <h4 class="filter-hding">Status</h4>
+                    <div class="filter-status">
+                        <input type="checkbox" name="" id="status-active">
+                        <label for="status-active">Active</label>
+                    </div>
+                    <div class="filter-status">
+                        <input type="checkbox" name="" id="status-deactived">
+                        <label for="status-deactived">Deactived</label>
+                    </div>
+                    <div class="filter-status">
+                        <input type="checkbox" name="" id="status-onnotice">
+                        <label for="status-onnotice">Active | On Notice</label>
+                    </div>
+                    <h4 class="filter-hding">Member Name</h4>
+                    <input type="search" name="" class="filter-search-field" placeholder="Search Members">
+                    <h4 class="filter-hding">Plan</h4>
+                    <select class="filter-search-field" id="planselect">
+                        <option value="" selected>Select Plan</option>
+                        <option value="Team Member">Netyx (Team Member)</option>
+                        <option value="Family">Netyx (Team Member, Spouse and Two Children)</option>
+                    </select>
+                    <h4 class="filter-hding">Activation Date Range</h4>
+                    <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+                    <h4 class="filter-hding">Deactivation Date Range</h4>
+                    <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="dashboard-btn-outline" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="dashboard-addbtn">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% include 'footer-script.html' %}
+
+
+
+
+</body>
+
+{% endblock %}

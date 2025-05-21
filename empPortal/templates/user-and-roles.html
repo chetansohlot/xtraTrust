@@ -1,0 +1,96 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Users and Roles
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Roles </a>
+            </div>
+            <ul class="breadcrump">
+              <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li> <a href="{% url 'user-and-roles' %}">Roles</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-end">
+              <a href="/new-role" class="dashboard-btn-outline"><i class="fas fa-plus"></i> New Role</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab"
+                    aria-controls="tab2" aria-selected="false">Roles</a>
+                </div>
+                
+                      <table class="table table-design">
+                        <thead class="table-thead-bg-light table-header-fix">
+                          <tr>
+                            <th>Role ID</th>
+                            <th>Role Name</th>
+                            <th>Senior Role</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for rl in role_data %}
+                            <tr>
+                              <td>{{ rl.roleGenID }}</td>
+                              <td>{{ rl.roleName }}</td>
+                              <td>{{ rl.primary_role_name }}</td>
+                              <td>
+                                <a href="{% url 'edit-role' id=rl.roleGenID %}" class="circle-arrow-link tooltip-sec" data-title="Edit Role"><i class="fa-solid fa-chevron-right"></i></a>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+</body>
+
+{% endblock %}

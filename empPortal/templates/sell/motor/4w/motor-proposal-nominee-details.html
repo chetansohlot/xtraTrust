@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+    <section class="bg-light py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12 col-lg-12">
+            
+            <div class="row">
+              <div class="col-md-8">
+                <ul class="journey-step">
+                  <li class="active">Basic Details</li>
+                  <li class="active">Nominee Details</li>
+                  <li>Address</li>
+                  <li>Vehicle Details</li>
+                </ul>
+                <h2 class="wrap-subhding">Nominee Details</h2>
+                <div class="form-box">
+                  <form action="{% url 'create-4w-motor-proposal-address' %}">
+                      
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-lbl">Name of Nominee</label>
+                            <input type="text" name="" placeholder="" class="form-field">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-lbl">Relationship with Car Owner</label>
+                            <select class="form-field">
+                              <option>--Select--</option>
+                              <option>Husband/Wife</option>
+                              <option>Son</option>
+                              <option>Daughter</option>
+                              <option>Mother</option>
+                              <option>Fater</option>
+                              <option>Brother</option>
+                              <option>Sister</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-lbl">Age of Nominee</label>
+                            <input type="text" name="" placeholder="" class="form-field">
+                          </div>
+                        </div>
+                        
+                        
+                        <div class="col-sm-12">
+                          <button type="submit" class="form-btn w-auto ms-auto d-table mt-4">Continue</button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="quote-box mt-4">
+                  <div class="row align-items-center mb-2">
+                    <div class="col-auto">
+                      <div class="quote-img">
+                        <img src="{% static 'home/assets/image/partner-logo/national-insurance-logo.png' %}" alt="">
+                      </div>
+                    </div>
+                    <div class="col-md">
+                      <p class="wrap-prgh mb-0"><strong>National Insurance</strong></p>
+                    </div>
+                    <div class="col-md">
+                      <h2 class="wrap-subhding text-end"><i class="fa-solid fa-indian-rupee-sign"></i>6734</h2>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Car Model</p>
+                        <p class="quote-lbl">Kia, Seltos, Petrol, HTK PLUS 1.5 (1497 CC)</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">IDV</p>
+                        <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i>8,51,970</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">CRN</p>
+                        <p class="quote-lbl">9563409</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Reg Date</p>
+                        <p class="quote-lbl">18 Mar, 2024</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Premium</p>
+                        <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i>5,970</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Policy Type</p>
+                        <p class="quote-lbl">Own Damage</p>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+    
+          </div>
+        </div>
+      </div>  
+    </section>    
+
+{% include 'home/layouts/footer.html' %}
+
+
+</body>
+</html>

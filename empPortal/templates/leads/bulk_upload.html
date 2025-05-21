@@ -1,0 +1,119 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+Upload Leads
+{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+      <!-- Header -->
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-md-6">
+              <h2 class="admin-title m-0 pt-2 text-dark">Add Bulk Leads</h2>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Leads Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Bulk Upload</li>
+              </ul>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-center">
+              <div>
+                <a href="{% url 'leads-mgt' %}" class="breadcrump-addbtn mx-1">View Leads</a>
+                <a href="empPortal/media/sample/leads_upload_sample.xlsx" class="breadcrump-addbtn mx-1" download>Download Sample</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+
+                  <form autocomplete="off" id="uploadLeadExcelForm" action="{% url 'bulk-upload-leads' %}" method="post" enctype="multipart/form-data" onsubmit="return validateLeadUploadForm()">
+                    {% csrf_token %}
+                    <div class="row">
+                    
+                      <div class="col-md-6 mb-3">
+                        <label class="form-lbl mb-2" for="excel_file">Upload Excel File</label>
+                        <input type="file" class="form-field" name="excel_file" id="excel_file" accept=".xlsx, .xls" style="max-width: 100%;">
+                        <span class="error excel_file_err d-block mt-1 text-danger"></span>
+                        {% if error %}
+                          <span class="text-danger d-block mt-1">{{ error }}</span>
+                        {% endif %}
+                        <p class="text-gray small pt-1 mb-0">Only .xlsx files allowed. Max size 5MB.</p>
+                      </div>
+                    
+                      
+                      <div class="col-md-6 mb-3">
+                        <label class="form-lbl mb-2" for="camp_name">Campaign Name</label>
+                        <input type="text" class="form-field" name="camp_name" id="camp_name" placeholder="Campaign Name" style="max-width: 100%;">
+                        <span class="error camp_name_err d-block mt-1 text-danger"></span>
+                        {% if form.camp_name.errors %}
+                          <span class="text-danger">{{ form.camp_name.errors.0 }}</span>
+                        {% endif %}
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="d-flex justify-content-end">
+                          <button type="submit" class="form-submit-btn">Upload </button>
+                        </div>
+                      </div> 
+                      
+                    </div>
+                    
+                  </form>
+
+                  <!-- Optional loader -->
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Uploading...</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+
+    <!-- Validation Script -->
+    <script>
+      function validateLeadUploadForm() {
+        const fileInput = document.getElementById('excel_file');
+        const errorSpan = document.querySelector('.excel_file_err');
+        const loader = document.getElementById('loader');
+
+        errorSpan.textContent = ''; // Clear previous error
+
+        if (!fileInput.value) {
+          errorSpan.textContent = 'Please select a file to upload.';
+          return false;
+        }
+
+        loader.style.display = "flex";
+        return true;
+      }
+    </script>
+</body>
+{% endblock %}

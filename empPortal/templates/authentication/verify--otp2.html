@@ -1,0 +1,64 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}
+  Verification
+{% endblock %}
+
+{% block content %}
+  <body class="hold-transition sidebar-mini layout-fixed">
+    <section class="container-fluid">
+      <div class="row justify-content-between">
+        <div class="col-sm-12 col-md-6 col-xl-5 pr-md-0">
+          <div class="login-leftside">
+            <div>
+              <img src="{% static 'dist/img/logo.png' %}" alt="" class="login-leftside-logo" />
+              <h2 class="admin-login-hding">Verify OTP</h2>
+              <p class="login-lftac">Please enter the OTP sent to your email.</p>
+                <form action="{% url 'verify-otp' %}" method="post" autocomplete="off">
+                    {% csrf_token %}
+
+                    <!-- OTP Field -->
+                    <div class="form-group">
+                        <label for="otp">Enter OTP</label>
+                        <input type="text" name="otp" class="form-control otp-input" maxlength="6" placeholder="Enter OTP" required />
+                    </div>
+
+                    <!-- Display Error Messages -->
+                    
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
+                    </div>
+
+                    <!-- Resend OTP -->
+                    <div class="text-center mt-3">
+                        <p>Didn't receive the OTP? <a href="{% url 'resend-otp' %}" class="resend-otp">Resend OTP</a></p>
+                    </div>
+                </form>
+              <div class="col-sm-12 text-center mt-3">
+                  <p>Don't have an account? <a href="{% url 'register' %}" class="text-primary">Register here</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 pl-md-0 d-none d-md-block">
+          <div class="login-rightside">
+            <span class="login-right-circlbg"></span>
+            <div class="login-ritetxt-area">
+              <h1 class="admin-lr-hding">Welcome to NetInsurancePro</h1>
+              <p class="admin-lr-prgh">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <span class="login-rightbot-circlbg"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <p class="admin-powered-by">
+      Powered by <a href="#">Netleaf Software</a>
+    </p>
+    
+    {% include "footer-script.html" %}
+
+  </body>
+{% endblock %}

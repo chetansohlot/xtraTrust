@@ -1,0 +1,279 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Edit Policy Vehicle
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Edit Policy Vehicle</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Policy Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Edit Policy Vehicle</li>
+                </ul>
+              </div>
+              
+              <div class="col-sm-6">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'edit-policy' id=policy_data.id %}" class="breadcrump-addbtn mx-1">Back</a>
+                    <a href="{% url 'policy-data' %}" class="breadcrump-addbtn mx-1">Exit</a>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    <form autocomplete="off" id="myVehiclePolicyForm" name="updatePolicy" action="{% url 'edit-policy-vehicle-details' policy_data.id %}" method="post">
+                        {% csrf_token %}
+                      
+                        <input type="hidden" class="form-field" name="policy_id" id="policy_id" value="{{ policy_data.id }}">
+                        
+                        <div class="form-box-shadow">
+                          <h2 class="form-bg-title">Basic Policy</h2>
+                          <div class="form-padding">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_number">Policy Number</label>
+                                  <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Policy Number" value="{{ policy_data.policy_number }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_issue_date">Policy Issue Date</label>
+                                  <input type="text" class="form-field" name="policy_issue_date" id="policy_issue_date" placeholder="Policy Issue Date" value="{{ policy.policy_issue_date|default:policy_data.policy_issue_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_start_date">Policy Start Date</label>
+                                  <input type="text" class="form-field" name="policy_start_date" id="policy_start_date" placeholder="Policy Start Date" value="{{ policy.policy_start_date|default:policy_data.policy_start_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_expiry_date">Policy Expiry Date</label>
+                                  <input type="text" class="form-field" name="policy_expiry_date" id="policy_expiry_date" placeholder="Policy Expiry Date" value="{{ policy.policy_expiry_date|default:policy_data.policy_expiry_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-box-shadow">
+                              <iframe src="{{ pdf_path }}" frameborder="0" width="100%" height="400px"></iframe>
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                            <ul class="new-stepflow">
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                             </ul>
+                            
+                             <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Vehicle Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                            
+                                  <!-- Vehicle Type -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_type">Vehicle Type</label>
+                                      <input type="text" class="form-field" name="vehicle_type" id="vehicle_type" placeholder="Vehicle Type" value="{{ vehicle.vehicle_type|default:policy_data.vehicle_type }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Make -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_make">Make</label>
+                                      <input type="text" class="form-field" name="vehicle_make" id="vehicle_make" placeholder="Vehicle Make" value="{{ vehicle.vehicle_make|default:policy_data.vehicle_make }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Model -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_model">Model</label>
+                                      <input type="text" class="form-field" name="vehicle_model" id="vehicle_model" placeholder="Vehicle Model" value="{{ vehicle.vehicle_model|default:policy_data.vehicle_model }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Variant -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_variant">Variant</label>
+                                      <input type="text" class="form-field" name="vehicle_variant" id="vehicle_variant" placeholder="Vehicle Variant" value="{{ vehicle.vehicle_variant|default:extracted_data.vehicle_details.variant }}">
+                                    </div>
+                                  </div>
+                                  <!-- Fuel Type -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="fuel_type">Fuel Type</label>
+                                      {% with vehicle.fuel_type|default:extracted_data.vehicle_details.fuel_type|title as selected_fuel %}
+                                        <select class="form-field" name="fuel_type" id="fuel_type">
+                                          <option value="">Select</option>
+                                          <option value="Petrol" {% if selected_fuel == 'Petrol' %}selected{% endif %}>Petrol</option>
+                                          <option value="Diesel" {% if selected_fuel == 'Diesel' %}selected{% endif %}>Diesel</option>
+                                          <option value="Cng" {% if selected_fuel == 'Cng' %}selected{% endif %}>Cng</option>
+                                          <option value="Be-Fuel" {% if selected_fuel == 'Be-Fuel' %}selected{% endif %}>Be-Fuel</option>
+                                          
+                                        </select>
+                                      {% endwith %}
+
+
+                                    </div>
+                                  </div>
+                            
+                                  <!-- GVW -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="gvw">GVW</label>
+                                      <input type="text" class="form-field" name="gvw" id="gvw" placeholder="GVW" value="{{ vehicle.gvw|default:extracted_data.vehicle_details.vehicle_gross_weight|default:'' }}">
+                                    </div>
+                                  </div>
+
+                                  <!-- NCB Percent -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="ncb">NCB</label>
+                                      <input type="text" class="form-field percentage" name="ncb" id="ncb" placeholder="NCB" value="{{ vehicle.ncb|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Cubic Capacity -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="cubic_capacity">Cubic Capacity</label>
+                                      <input type="text" class="form-field" name="cubic_capacity" id="cubic_capacity" placeholder="Cubic Capacity" value="{{ vehicle.cubic_capacity|default:extracted_data.vehicle_details.cubic_capacity }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Seating Capacity -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="seating_capacity">Seating Capacity</label>
+                                      <input type="text" class="form-field" name="seating_capacity" id="seating_capacity" placeholder="Seating Capacity" value="{{ vehicle.seating_capacity|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Registration Number -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="vehicle_reg_no">Reg Number</label>
+                                      <input type="text" class="form-field" name="vehicle_reg_no" id="vehicle_reg_no" placeholder="Vehicle Reg Number" value="{{ vehicle.registration_number|default:extracted_data.vehicle_number|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Engine Number -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="engine_number">Engine Number</label>
+                                      <input type="text" class="form-field" name="engine_number" id="engine_number" placeholder="Engine Number" value="{{ vehicle.engine_number|default:extracted_data.vehicle_details.engine_number|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Chassis Number -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="chassis_number">Chassis Number</label>
+                                      <input type="text" class="form-field" name="chassis_number" id="chassis_number" placeholder="Chassis Number" value="{{ vehicle.chassis_number|default:extracted_data.vehicle_details.chassis_number|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Manufacture Year -->
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="mgf_year">Manufacture Date</label>
+                                      <input type="text" class="form-field" name="mgf_year" id="mgf_year" placeholder="MGF Year" value="{{ vehicle.manufacture_year|default:policy_data.vehicle_manuf_date }}">
+                                    </div>
+                                  </div>
+                            
+                                </div>
+                              </div>
+                            </div>
+                            
+                            
+
+                            
+
+                            <div class="d-flex justify-content-end mt-4">
+                              <button type="button" id="save-vehicle-policy-form" class="dashboard-addbtn">Save and Continue</button>
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        
+                        
+                    </form>
+                    <div id="loader" class="form-loader" style="display: none;">
+                      <div>
+                        <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                        <span class="visually-hidden d-block pt-2">Loading...</span>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myVehiclepolicyForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+</body>
+{% endblock %}

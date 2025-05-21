@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+    <section class="bg-light">
+      <div class="container">
+        <div class="row justify-content-between align-items-center pt-2">
+          <div class="col-lg-12">
+            
+            <div class="form-box">
+              <form>
+                <div class="row">
+                  <div class="col-md-5 col-lg-4">
+                    <div class="row mb-3">
+                      <div class="col-auto">
+                        <p class="quote-filter-lbl-gray">Quotes for </p>
+                      </div>
+                      <div class="col">
+                        <p class="quote-filter-lbl">38 Yrs, 2 Adult, 1 Child, 121005 </p>
+                      </div>  
+                    </div>
+                    <div class="row">
+                      <div class="col-md-auto">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray">CRN </p>
+                          </div>
+                          <div class="col">
+                            <p class="quote-filter-lbl">9575224 </p>
+                          </div>      
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-auto">
+                            <a href="#" class="quote-btn-outline" data-bs-toggle="modal" data-bs-target="#edit-age-modal">Edit </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-lg">
+                    <div class="row">
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray pt-1">Insurance Cover </p>
+                          </div>
+                          <div class="col">
+                            <div class="dropdown d-inline-block cursor" id="myDropdown">
+                              <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>4 Lakh</span>
+                                <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                              <form action="">
+                                <ul class="dropdown-menu shorting-dropdown-menu">
+                                  <ul class="addons-list">
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-1-lakh">
+                                      <label for="insurer-1-lakh">1 Lakh</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-2-lakh">
+                                      <label for="insurer-2-lakh">2 Lakh</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-3-lakh">
+                                      <label for="insurer-3-lakh">3 Lakh</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-4-lakh" checked>
+                                      <label for="insurer-4-lakh">4 Lakh</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-5-lakh">
+                                      <label for="insurer-5-lakh">5 Lakh</label>
+                                    </li>
+  
+                                  </ul>
+                                 
+                                  <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                    <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                    <button type="submit" class="form-btn w-auto">Apply</button>
+                                  </div>  
+  
+                                </ul>
+                              </form>
+                            </div>  
+                          </div>      
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray pt-1">Insurer</p>
+                          </div>
+                          <div class="col">
+                            <div class="dropdown d-inline-block cursor" id="myDropdown">
+                              <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>Select</span>
+                                <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                              <form action="">
+                                <ul class="dropdown-menu shorting-dropdown-menu">
+                                  <ul class="addons-list">
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-select-all">
+                                      <label for="insurer-select-all">Select All</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-future-general">
+                                      <label for="insurer-future-general">Future General</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-icici-lombard">
+                                      <label for="insurer-icici-lombard">ICICI Lombard</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="insurer-royal-sudaram">
+                                      <label for="insurer-royal-sudaram">Royal Sundaram</label>
+                                    </li>
+                                  </ul>
+                                 
+                                  <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                    <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                    <button type="submit" class="form-btn w-auto">Apply</button>
+                                  </div>  
+  
+                                </ul>
+                              </form>
+                            </div> 
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray pt-1">Existing Disease </p>
+                          </div>
+                          <div class="col">
+                            <div class="dropdown d-inline-block cursor" id="myDropdown">
+                              <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>No Preference</span>
+                                <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                              <form action="">
+                                <ul class="dropdown-menu shorting-dropdown-menu">
+                                  <ul class="addons-list">
+                                    <li>
+                                      <input type="radio" name="addons" id="no-preference">
+                                      <label for="no-preference">No Preference</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="upto-1-year">
+                                      <label for="upto-1-year">Upto 1 Year</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="upto-2-year">
+                                      <label for="upto-2-year">Upto 2 Year</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="upto-3-year" checked>
+                                      <label for="upto-3-year">Upto 3 Year</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="addons" id="upto-4-year">
+                                      <label for="upto-4-year">Upto 4 Year</label>
+                                    </li>
+                                  </ul>
+                                  <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                    <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                    <button type="submit" class="form-btn w-auto">Apply</button>
+                                  </div> 
+                                </ul>
+                              </form>
+                            </div>  
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray pt-1">No Claim Bonus </p>
+                          </div>
+                          <div class="col">
+                            <div class="dropdown d-inline-block cursor" id="myDropdown">
+                              <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>Select</span>
+                                <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                              <form action="">
+                                <ul class="dropdown-menu shorting-dropdown-menu">
+                                  <ul class="addons-list">
+                                    <li>
+                                      <input type="radio" name="no-claim-bonus" id="no-claim-bonus-select-all">
+                                      <label for="no-claim-bonus-select-all">Select All</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="no-claim-bonus" id="no-claim-bonus-0-10">
+                                      <label for="no-claim-bonus-0-10">0% - 10%</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="no-claim-bonus" id="no-claim-bonus-10-25">
+                                      <label for="no-claim-bonus-10-25">10% - 25%</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="no-claim-bonus" id="no-claim-bonus-25-50" checked>
+                                      <label for="no-claim-bonus-25-50">25% - 50%</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="no-claim-bonus" id="no-claim-bonus-above-50">
+                                      <label for="no-claim-bonus-above-50">Above 50%</label>
+                                    </li>
+                                  </ul>
+                                  <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                    <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                    <button type="submit" class="form-btn w-auto">Apply</button>
+                                  </div> 
+                                </ul>
+                              </form>
+                            </div> 
+                          </div>      
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray pt-1">Tenure (in Yr) </p>
+                          </div>
+                          <div class="col">
+                            <div class="dropdown d-inline-block cursor" id="myDropdown">
+                              <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>1 Year</span>
+                                <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                              <form action="">
+                                <ul class="dropdown-menu shorting-dropdown-menu">
+                                  <ul class="addons-list">
+                                    <li>
+                                      <input type="radio" name="tenure" id="tenure-1" checked>
+                                      <label for="tenure-1">1 Year</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="tenure" id="tenure-2">
+                                      <label for="tenure-2">2 Year</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="tenure" id="tenure-3">
+                                      <label for="tenure-3">3 Year</label>
+                                    </li>
+                                  </ul>
+                                  <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                    <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                    <button type="submit" class="form-btn w-auto">Apply</button>
+                                  </div> 
+                                </ul>
+                              </form>
+                            </div> 
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="row">
+                          <div class="col-auto">
+                            <p class="quote-filter-lbl-gray pt-1">Room Rent </p>
+                          </div>
+                          <div class="col">
+                            <div class="dropdown d-inline-block cursor" id="myDropdown">
+                              <div class="shorting-select"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>No Preference</span>
+                                <img src="{% static 'home/assets/image/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                              <form action="">
+                                <ul class="dropdown-menu shorting-dropdown-menu">
+                                  <ul class="addons-list">
+                                    <li>
+                                      <input type="radio" name="room-rent" id="room-rent-1" checked>
+                                      <label for="room-rent-1">No Preference</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="room-rent" id="room-rent-1" checked>
+                                      <label for="room-rent-1">No Limit</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="room-rent" id="room-rent-2">
+                                      <label for="room-rent-2">Private Room</label>
+                                    </li>
+                                    <li>
+                                      <input type="radio" name="room-rent" id="room-rent-3">
+                                      <label for="room-rent-3">Shared (with Limit)</label>
+                                    </li>
+                                  </ul>
+                                  <div class="d-flex justify-content-between border-top pt-3 mt-2 pb-2">
+                                    <button type="reset" class="form-btn w-auto bg-dark">Reset</button>
+                                    <button type="submit" class="form-btn w-auto">Apply</button>
+                                  </div> 
+                                </ul>
+                              </form>
+                            </div> 
+                          </div>
+                        </div>
+                      </div> 
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-2 col-lg-auto">
+                    <a href="#" class="wrap-btn-outline">Edit</a>
+                  </div> -->
+                </div>
+              </div>   
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <section class="bg-light pb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-12">
+          <h2 class="wrap-subhding">6 Plans Found </h2>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-3.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>Health Shield</strong></p>
+                    <p class="quote-lbl-gray">Insurance Cover: <i class="fa-solid fa-indian-rupee-sign"></i> 10,00,000</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Room Rent </p>
+                      <p class="quote-lbl">No Limit</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Existing Disease </p>
+                      <p class="quote-lbl">2 Years</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">NCB </p>
+                      <p class="quote-lbl"> 10%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Hospitals</p>
+                      <p class="quote-lbl">5500+</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-age-modal" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 19,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-31.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>United India</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Room Rent </p>
+                      <p class="quote-lbl">No Limit</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Existing Disease </p>
+                      <p class="quote-lbl">2 Years</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">NCB </p>
+                      <p class="quote-lbl"> 10%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Hospitals</p>
+                      <p class="quote-lbl">5500+</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-age-modal" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-7.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>TATA AIG</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Room Rent </p>
+                      <p class="quote-lbl">No Limit</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Existing Disease </p>
+                      <p class="quote-lbl">2 Years</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">NCB </p>
+                      <p class="quote-lbl"> 10%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Hospitals</p>
+                      <p class="quote-lbl">5500+</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-age-modal" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-32.jpg' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>New India Assurance</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Room Rent </p>
+                      <p class="quote-lbl">No Limit</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Existing Disease </p>
+                      <p class="quote-lbl">2 Years</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">NCB </p>
+                      <p class="quote-lbl"> 10%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Hospitals</p>
+                      <p class="quote-lbl">5500+</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-age-modal" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-16.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>TATA AIA</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Room Rent </p>
+                      <p class="quote-lbl">No Limit</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Existing Disease </p>
+                      <p class="quote-lbl">2 Years</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">NCB </p>
+                      <p class="quote-lbl"> 10%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Hospitals</p>
+                      <p class="quote-lbl">5500+</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-age-modal" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="quote-box">
+                <div class="row mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-31.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>United India</strong></p>
+                    <p class="quote-lbl-gray">Own Damage</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Room Rent </p>
+                      <p class="quote-lbl">No Limit</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Existing Disease </p>
+                      <p class="quote-lbl">2 Years</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">NCB </p>
+                      <p class="quote-lbl"> 10%</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Cashless Hospitals</p>
+                      <p class="quote-lbl">5500+</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-age-modal" class="wrap-btn w-100 text-center mb-1"><i class="fa-solid fa-indian-rupee-sign"></i> 9,699</a>
+                    <a href="javascript:void(0)" class="quote-lbl text-primary text-center d-block" data-bs-toggle="modal" data-bs-target="#policy-details-modal">View Policy Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+  
+        </div>
+      </div>
+    </div>  
+  </section>
+  
+  <div class="modal fade" id="policy-details-modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button class="modal-close" data-bs-dismiss="modal">&times;</button>  
+          <div class="row">
+            <div class="col-md-7">
+              <ul class="nav nav-tabs modal-tab" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Policy Coverages</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">Premium Breakup</button>
+                </li>
+              </ul>
+  
+              <div class="tab-content pt-4" id="myTabContent">
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                  <h4 class="wrap-title mb-4">Policy Coverages</h4>
+                  <ul class="policy-coverage-list">
+                    <li>
+                      <div class="coverage-list-icon">
+                        <i class="fa-solid fa-check"></i>
+                      </div>
+                      <div>
+                        <p class="quote-lbl-gray">Room Rent</p>
+                        <p class="quote-lbl">No Limit</p>
+                      </div>  
+                    </li>
+                    <li>
+                      <div class="coverage-list-icon">
+                        <i class="fa-solid fa-check"></i>
+                      </div>
+                      <div>
+                        <p class="quote-lbl-gray">ICU Rent</p>
+                        <p class="quote-lbl">No Limit</p>
+                      </div>  
+                    </li>
+                    <li>
+                      <div class="coverage-list-icon">
+                        <i class="fa-solid fa-check"></i>
+                      </div>
+                      <div>
+                        <p class="quote-lbl-gray">CoPay</p>
+                        <p class="quote-lbl">0%</p>
+                      </div>  
+                    </li>
+                    <li>
+                      <div class="coverage-list-icon">
+                        <i class="fa-solid fa-check"></i>
+                      </div>
+                      <div>
+                        <p class="quote-lbl-gray">No Claim Bonus</p>
+                        <p class="quote-lbl">10% for free year, Max 50%</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                  <h4 class="wrap-title mb-4">Premium Breakup</h4>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <p class="quote-lbl">Plan Name</p>
+                      <p class="quote-lbl fw-bold">Health Shield</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p class="quote-lbl">Type</p>
+                      <p class="quote-lbl fw-bold">Floater</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <p class="quote-lbl-gray">Premium</p>
+                    <div class="d-flex justify-content-between">
+                      <p class="quote-lbl">Base Premium</p>
+                      <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 16,360</p>
+                    </div>
+                  </div>  
+                  <div class="form-group">
+                    <p class="quote-lbl-gray">Premium</p>
+                    <div class="d-flex justify-content-between">
+                      <p class="quote-lbl">Net Premium</p>
+                      <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 16,360</p>
+                    </div>
+                  </div>  
+                  <div class="form-group">
+                    <p class="quote-lbl-gray">Taxes</p>
+                    <div class="d-flex justify-content-between">
+                      <p class="quote-lbl">GST@18</p>
+                      <p class="quote-lbl fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 2,950</p>
+                    </div>
+                  </div> 
+                  <hr>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <p class="wrap-prgh">Final Premium</p>
+                      <p class="wrap-prgh fw-bold"><i class="fa-solid fa-indian-rupee-sign"></i> 19,305</p>
+                    </div>
+                  </div>  
+                </div>
+              </div>
+              
+            </div>
+            <div class="col-md-5">
+              <div class="quote-box mt-4">
+                <div class="row align-items-center mb-2">
+                  <div class="col-auto">
+                    <div class="quote-img">
+                      <img src="{% static 'home/assets/image/partner-logo/partner-logo-3.png' %}" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <p class="wrap-prgh mb-0"><strong>ICICI Lombard</strong></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Insurance Cover</p>
+                      <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i> 10,00,000</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">CRN</p>
+                      <p class="quote-lbl">CRN</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Service Log Id</p>
+                      <p class="quote-lbl">309482863</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">Pincode</p>
+                      <p class="quote-lbl">121005</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <p class="quote-lbl-gray">City</p>
+                      <p class="quote-lbl">Faridabad</p>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <a href="#" class="wrap-btn w-100 text-center mb-1" data-bs-toggle="modal" data-bs-target="#edit-age-modal"> Buy Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="edit-age-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button class="modal-close" data-bs-dismiss="modal">&times;</button>  
+          <h2 class="wrap-subhding">Edit Age</h2>
+          <hr>
+          <form action="{% url 'create-health-proposer' %}">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">    
+                <div class="form-group">
+                  <label class="form-lbl">Adult One</label>
+                  <div class="row">
+                    <div class="col-6">
+                      <select class="form-field">
+                        <option>Male</option>
+                        <option>Female</option>
+                      </select>    
+                    </div>
+                    <div class="col-6">
+                      <select class="form-field">
+                        <option>27</option>
+                        <option selected>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                      </select>    
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">    
+                <div class="form-group">
+                  <label class="form-lbl">Adult Two</label>
+                  <div class="row">
+                    <div class="col-6">
+                      <select class="form-field">
+                        <option>Male</option>
+                        <option selected>Female</option>
+                      </select>    
+                    </div>
+                    <div class="col-6">
+                      <select class="form-field">
+                        <option selected>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                      </select>    
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">    
+                <div class="form-group">
+                  <label class="form-lbl">Child One</label>
+                  <div class="row">
+                    <div class="col-6">
+                      <select class="form-field">
+                        <option>Male</option>
+                        <option selected>Female</option>
+                      </select>    
+                    </div>
+                    <div class="col-6">
+                      <select class="form-field">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option selected>5</option>
+                      </select>    
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12">
+                <button type="submit" class="wrap-btn w-100 text-center mb-1 mt-3">Verify</button>
+              </div>
+            </div>
+          </form>  
+        </div>
+      </div>
+    </div>
+  </div>  
+
+{% include 'home/layouts/footer.html' %}
+
+<script type="text/javascript">
+  const
+   range = document.getElementById('range'),
+   tooltip = document.getElementById('tooltip'),
+   setValue = ()=>{
+       const
+           newValue = Number( (range.value - range.min) * 100 / (range.max - range.min) ),
+           newPosition = 16 - (newValue * 0.32);
+       tooltip.innerHTML = `<span>${range.value}</span>`;
+       tooltip.style.left = `calc(${newValue}% + (${newPosition}px))`;
+       document.documentElement.style.setProperty("--range-progress", `calc(${newValue}% + (${newPosition}px))`);
+   };
+  document.addEventListener("DOMContentLoaded", setValue);
+  range.addEventListener('input', setValue);
+</script>
+
+</body>
+</html>

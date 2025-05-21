@@ -1,0 +1,349 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Edit Franchise Payment Info
+{% endblock %}
+{% load custom_filters %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Edit Franchise Payment Info</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Policy Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Edit Policy</li>
+                </ul>
+              </div>
+              
+              <div class="col-sm-6">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'edit-insurer-payment-info' policy_data.id %}" class="breadcrump-addbtn mx-1">Back</a>
+                    <a href="{% url 'policy-data' %}" class="breadcrump-addbtn mx-1">Exit</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    <form autocomplete="off" id="myFranchisePaymentForm" name="updatePolicy" action="{% url 'edit-franchise-payment-info' policy_data.id %}" method="post">
+                        {% csrf_token %}
+                      
+                        <input type="hidden" class="form-field" name="policy_id" id="policy_id" value="{{ policy_data.id }}">
+                        
+                        <div class="form-box-shadow">
+                          <h2 class="form-bg-title">Basic Policy</h2>
+                          <div class="form-padding">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_number">Policy Number</label>
+                                  <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Policy Number" value="{{ policy_data.policy_number }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_issue_date">Policy Issue Date</label>
+                                  <input type="text" class="form-field" name="policy_issue_date" id="policy_issue_date" placeholder="Policy Issue Date" value="{{ policy.policy_issue_date|default:policy_data.policy_issue_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_start_date">Policy Start Date</label>
+                                  <input type="text" class="form-field" name="policy_start_date" id="policy_start_date" placeholder="Policy Start Date" value="{{ policy.policy_start_date|default:policy_data.policy_start_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_expiry_date">Policy Expiry Date</label>
+                                  <input type="text" class="form-field" name="policy_expiry_date" id="policy_expiry_date" placeholder="Policy Expiry Date" value="{{ policy.policy_expiry_date|default:policy_data.policy_expiry_date }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-box-shadow">
+                              <iframe src="{{ pdf_path }}" frameborder="0" width="100%" height="400px"></iframe>
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                            <ul class="new-stepflow">
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                             </ul>
+                            
+                             
+                             <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Franchise Payment Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                            
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise OD Comm</label>
+                                      <input type="text" class="form-field percentage" name="franchise_od_comm" id="franchise_od_comm" value="{{ franchise_payment.franchise_od_comm|blank_if_none_or_text_none }}" placeholder="Franchise OD Comm">
+                                    </div>
+                                  </div>
+
+                                  <input type="hidden" class="form-field number" id="policy_od_amount" value="{{policy.od_premium|default:0}}">
+
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise OD Amount</label>
+                                      <input type="text" class="form-field number" name="franchise_od_amount" id="franchise_od_amount" value="{{ franchise_payment.franchise_od_amount|blank_if_none_or_text_none }}" placeholder="Franchise OD Amount" readonly>
+                                    </div>
+                                  </div>
+                            
+                                  
+                            
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise TP Comm</label>
+                                      <input type="text" class="form-field percentage" name="franchise_tp_comm" id="franchise_tp_comm" value="{{ franchise_payment.franchise_tp_comm|blank_if_none_or_text_none }}" placeholder="Franchise TP Comm">
+                                    </div>
+                                  </div>
+                            
+                                  <input type="hidden" class="form-field number" id="policy_tp_amount" value="{{policy.tp_premium|default:0}}" >
+
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise TP Amount</label>
+                                      <input type="text" class="form-field number" name="franchise_tp_amount" id="franchise_tp_amount" value="{{ franchise_payment.franchise_tp_amount|blank_if_none_or_text_none }}" placeholder="Franchise TP Amount" readonly>
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise Net Comm</label>
+                                      <input type="text" class="form-field percentage" name="franchise_net_comm" id="franchise_net_comm" value="{{ franchise_payment.franchise_net_comm|blank_if_none_or_text_none }}" placeholder="Franchise Net Comm">
+                                    </div>
+                                  </div>
+
+                                  <input type="hidden" class="form-field number" id="policy_net_amount" value="{{policy.net_premium|default:0}}">
+
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise Net Amount</label>
+                                      <input type="text" class="form-field number" name="franchise_net_amount" id="franchise_net_amount" value="{{ franchise_payment.franchise_net_amount|blank_if_none_or_text_none }}" placeholder="Franchise Net Amount" readonly>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise Incentive Amount</label>
+                                      <input type="text" class="form-field number" name="franchise_incentive_amount" id="franchise_incentive_amount" value="{{ franchise_payment.franchise_incentive_amount|blank_if_none_or_text_none }}" placeholder="Franchise Incentive Amount">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Total Comm Amount</label>
+                                      <input type="text" class="form-field number" name="franchise_total_comm_amount" id="franchise_total_comm_amount" value="{{ franchise_payment.franchise_total_comm_amount|blank_if_none_or_text_none }}" placeholder="Total Comm Amount" readonly>
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Franchise TDS</label>
+                                      <input type="text" class="form-field percentage" name="franchise_tds" id="franchise_tds" value="{{ franchise_payment.franchise_tds|blank_if_none_or_text_none }}" placeholder="Franchise TDS">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">TDS Amount</label>
+                                      <input type="text" class="form-field number" name="franchise_tds_amount" id="franchise_tds_amount" value="{{ franchise_payment.franchise_tds_amount|blank_if_none_or_text_none }}" placeholder="TDS Amount" readonly>
+                                    </div>
+                                  </div>
+                                 
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Net Payable Amount</label>
+                                      <input type="text" class="form-field number" name="franchise_net_payable_amount" id="franchise_net_payable_amount" value="{{ franchise_payment.franchise_net_payable_amount|blank_if_none_or_text_none }}" placeholder="Net Payable Amount" readonly>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-4">
+                              <button type="button" id="save-franchise-payment-form" class="dashboard-addbtn">Save and Exit</button>
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        
+                        
+                    </form>
+                    <div id="loader" class="form-loader" style="display: none;">
+                      <div>
+                        <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                        <span class="visually-hidden d-block pt-2">Loading...</span>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myFranchisePaymentForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+
+      $(document).ready(function(){
+        calculateAmts('#policy_od_amount','#franchise_od_comm','#franchise_od_amount')
+        calculateAmts('#policy_tp_amount','#franchise_tp_comm','#franchise_tp_amount')
+        calculateAmts('#policy_net_amount','#franchise_net_comm','#franchise_net_amount')
+        updateTotalCommissionAmount(); 
+        updateTDSAmount();
+        
+      });
+
+      function updateTotalCommissionAmount(){
+        let od_amount = parseFloat($('#franchise_od_amount').val()) || 0;
+        let tp_amount = parseFloat($('#franchise_tp_amount').val()) || 0;
+        let net_amount = parseFloat($('#franchise_net_amount').val()) || 0;
+        let incentive_amount = parseFloat($('#franchise_incentive_amount').val()) || 0;
+    
+        let total_commission_amount = od_amount + tp_amount + net_amount + incentive_amount;
+        $('#franchise_total_comm_amount').val(total_commission_amount.toFixed(2));
+        updateTDSAmount();
+      }
+
+      function updateTDSAmount(){
+        franchise_tds = parseFloat($('#franchise_tds').val()) || 0;
+        franchise_total_comm_amount = parseFloat($('#franchise_total_comm_amount').val()) || 0;
+        franchise_tds_amount = parseFloat(franchise_total_comm_amount*franchise_tds/100) || 0;
+        net_payable_amt = parseFloat(franchise_total_comm_amount-franchise_tds_amount) || 0;
+
+        $('#franchise_tds_amount').val(franchise_tds_amount);
+        $('#franchise_net_payable_amount').val(net_payable_amt);
+      }
+
+      function calculateAmts(policy_amt,comm_percent,comm_amt){
+        let policy_amount = $(policy_amt).val()||0
+        agent_comm = $(comm_percent).val()||0
+        agent_amt = parseFloat(policy_amount*agent_comm/100)||0
+        $(comm_amt).val(agent_amt.toFixed(2))
+      }
+
+      $('#franchise_od_comm').on('input',function(){
+        let val = $(this).val();
+        let isValid = true;
+        if (val.includes('.')) {
+            let parts = val.split('.');
+            if (parts[1].length > 2 ||parts[0].length > 2) {
+                isValid = false;
+            }
+        }else{
+          if (val.length > 2) {
+            isValid = false;
+          }
+        }
+        if (isValid) {
+          calculateAmts('#policy_od_amount','#franchise_od_comm','#franchise_od_amount')
+          updateTotalCommissionAmount(); 
+        }
+      })
+
+      $('#franchise_tp_comm').on('input',function(){
+        let val = $(this).val();
+        let isValid = true;
+        if (val.includes('.')) {
+            let parts = val.split('.');
+            if (parts[1].length > 2 ||parts[0].length > 2) {
+                isValid = false;
+            }
+          }else{
+            if (val.length > 2) {
+              isValid = false;
+            }
+        }
+        if (isValid) {
+          calculateAmts('#policy_tp_amount','#franchise_tp_comm','#franchise_tp_amount')
+          updateTotalCommissionAmount(); 
+        }
+      })
+
+      $('#franchise_net_comm').on('input',function(){
+        let val = $(this).val();
+        let isValid = true;
+        if (val.includes('.')) {
+            let parts = val.split('.');
+            if (parts[1].length > 2 ||parts[0].length > 2) {
+                isValid = false;
+            }
+          }else{
+            if (val.length > 2) {
+              isValid = false;
+            }
+        }
+        if (isValid) {
+          calculateAmts('#policy_net_amount','#franchise_net_comm','#franchise_net_amount')
+          updateTotalCommissionAmount(); 
+        }
+      })
+
+      $('#franchise_od_amount, #franchise_tp_amount, #franchise_net_amount, #franchise_incentive_amount').on('input', function() {
+        updateTotalCommissionAmount(); 
+      });
+
+      $('#franchise_tds').on('input',function(){
+        updateTDSAmount();
+      });
+
+    </script>
+</body>
+{% endblock %}

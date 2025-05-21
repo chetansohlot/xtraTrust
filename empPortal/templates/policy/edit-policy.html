@@ -1,0 +1,398 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+    Edit Policy
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Edit Policy</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Policy Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Edit Policy</li>
+                </ul>
+              </div>
+                  
+              <div class="col-sm-6">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'policy-data' %}" class="breadcrump-addbtn mx-1">Back</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    <form autocomplete="off" id="myPolicyForm" name="updatePolicy" action="{% url 'edit-policy-data' policy_data.id %}" method="post">
+                        {% csrf_token %}
+                      
+                        <input type="hidden" class="form-field" name="policy_id" id="policy_id" value="{{ policy_data.id }}">
+                        
+                        <div class="form-box-shadow">
+                          <h2 class="form-bg-title">Basic Policy</h2>
+                          <div class="form-padding">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_number">Policy Number</label>
+                                  <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Policy Number" value="{{ policy_data.policy_number }}" readonly>
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_issue_date">Policy Issue Date</label>
+                                  <input type="text" class="form-field" name="policy_issue_date" id="policy_issue_date" placeholder="Policy Issue Date" value="{{ policy.policy_issue_date|default:policy_data.policy_issue_date }}">
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_start_date">Policy Start Date</label>
+                                  <input type="text" class="form-field" name="policy_start_date" id="policy_start_date" placeholder="Policy Start Date" value="{{ policy.policy_start_date|default:policy_data.policy_start_date }}">
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="form-group">
+                                  <label class="form-lbl" for="policy_expiry_date">Policy Expiry Date</label>
+                                  <input type="text" class="form-field" name="policy_expiry_date" id="policy_expiry_date" placeholder="Policy Expiry Date" value="{{ policy.policy_expiry_date|default:policy_data.policy_expiry_date }}">
+                                </div>
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                        
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- Reserved for future -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-box-shadow">
+                              <iframe src="{{ pdf_path }}" frameborder="0" width="100%" height="400px"></iframe>
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                            <ul class="new-stepflow">
+                              <li class="active"><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                              <li><a href="javascript:void(0)"></a></li>
+                             </ul>
+                            
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Insured Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="holder_name">Insured Name</label>
+                                      <input type="text" class="form-field" name="holder_name" id="holder_name" placeholder="Insured Name" value="{{ policy.insured_name|default:policy_data.holder_name }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="insured_mobile">Insured Mobile</label>
+                                      <input type="text" class="form-field mobile" name="insured_mobile" id="insured_mobile"
+                                        placeholder="Insured Mobile"
+                                        value="{{ policy.insured_mobile|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="insured_email">Insured Email</label>
+                                      <input type="text" class="form-field" name="insured_email" id="insured_email"
+                                          placeholder="Insured Email"
+                                          value="{{ policy.insured_email|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="insured_address">Insured Address</label>
+                                      <input type="text" class="form-field" name="insured_address" id="insured_address"
+                                          placeholder="Insured Address"
+                                          value="{{ policy.insured_address|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="insured_pan">Insured PAN</label>
+                                      <input type="text" class="form-field" name="insured_pan" id="insured_pan"
+                                          placeholder="Insured PAN"
+                                          value="{{ policy.insured_pan|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="insured_aadhaar">Insured Aadhaar</label>
+                                      <input type="text" class="form-field" name="insured_aadhaar" id="insured_aadhaar"
+                                          placeholder="Insured Aadhaar"
+                                          value="{{ policy.insured_aadhaar|default:'' }}">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="form-box-shadow">
+                              <h2 class="form-bg-title">Policy Details</h2>
+                              <div class="form-padding">
+                                <div class="row">
+                                  {% comment %} Repeat the same pattern for all fields: prefer policy, fallback to policy_data {% endcomment %}
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Insurance Company</label>
+                                      <input type="text" class="form-field" name="insurance_company" placeholder="Insurance Company" value="{{ policy_data.insurerInfo.insurance_company|default:policy.insurance_company|default:policy_data.insurance_provider }}" readonly>
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Branch Name</label>
+                                      <select id="branch" name="registration_city" class="form-field">
+                                          <option value="">Select Branch</option>
+                                          {% for branch in branches %}
+                                          <option value="{{ branch.id }}" {% if branch.id|stringformat:"s" == policy.branch_name|stringformat:"s" %}selected{% endif %}>
+                                              {{ branch.branch_name }}
+                                          </option>
+                                          {% endfor %}
+                                      </select>
+                                    </div>
+                                  </div>
+                                  
+                                  
+                            
+                                  {% comment %} <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Supervisor Name</label>
+                                      <input type="text" class="form-field" name="supervisor_name" placeholder="Supervisor Name" value="{{ policy.supervisor_name|default:request.user.full_name }}">
+                                    </div>
+                                  </div> {% endcomment %}
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Policy Type</label>
+                                      <input type="text" class="form-field" name="policy_type" placeholder="Policy Type" value="{{ policy.policy_type|default:policy_data.policy_type }}">
+                                    </div>
+                                  </div>
+
+
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl" for="fuel_type">Fuel Type</label>
+                                      {% with policy.fuel_type|default:extracted_data.vehicle_details.fuel_type|title as selected_fuel %}
+                                        <select class="form-field" name="fuel_type" id="fuel_type">
+                                          <option value="">Select</option>
+                                          <option value="Petrol" {% if selected_fuel == 'Petrol' %}selected{% endif %}>Petrol</option>
+                                          <option value="Diesel" {% if selected_fuel == 'Diesel' %}selected{% endif %}>Diesel</option>
+                                          <option value="Cng" {% if selected_fuel == 'Cng' %}selected{% endif %}>CNG</option>
+                                          <option value="Be-Fuel" {% if selected_fuel == 'Be-Fuel' %}selected{% endif %}>Be-Fuel</option>
+                                        </select>
+                                      {% endwith %}
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Be-Fuel Amount</label>
+                                      <input type="text" class="form-field" name="be_fuel_amount" id="be_fuel_amount" placeholder="Be-Fuel Amount" value="{{ policy.be_fuel_amount|default:''|default:'0.00' }}">
+                                    </div>
+                                  </div>
+
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Policy Plan</label>
+                                      <input type="text" class="form-field" name="policy_duration" placeholder="Policy Plan" value="{{ policy.policy_plan|default:'' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Sum Insured</label>
+                                      <input type="text" class="form-field" name="idv_value" placeholder="Sum Insured" value="{{ policy.sum_insured|default:policy_data.sum_insured }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">OD Premium</label>
+                                      <input type="text" class="form-field" id="od_premium" name="od_premium" placeholder="OD Premium" value="{{ policy.od_premium|default:policy_data.od_premium }}">
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">
+                                        TP Premium
+                                        <span class="hint-icon" data-toggle="tooltip" data-placement="top" 
+                                          title="TP Additional Premium: {{ extracted_data.coverage_details.third_party.additional_premiums }} 
+                                          & TP premium: {{ extracted_data.coverage_details.third_party.premium }}">
+                                          <i class="fas fa-info-circle"></i> <!-- FontAwesome info icon -->
+                                        </span>
+                                      </label>
+                                      <input type="text" class="form-field"  id="tp_premium" name="tp_premium" placeholder="TP Premium" 
+                                        value="{{ policy.tp_premium|default:policy_data.tp_premium }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">PA Count</label>
+                                      <input type="text" class="form-field" name="pa_count" placeholder="PA Count" value="{{ policy.pa_count|default:''|default:'0' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">PA Amount</label>
+                                      <input type="text" class="form-field" name="pa_amount" placeholder="PA Amount" value="{{ policy.pa_amount|default:''|default:'0.00' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Driver Count</label>
+                                      <input type="text" class="form-field" name="driver_count" placeholder="Driver Count" value="{{ policy.driver_count|default:''|default:'0' }}">
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Driver Amount</label>
+                                      <input type="text" class="form-field" name="driver_amount" placeholder="Driver Amount" value="{{ policy.driver_amount|default:''|default:'0.00' }}">
+                                    </div>
+                                  </div>
+
+
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Gross Premium</label>
+                                      <input type="text" class="form-field" name="gross_premium" placeholder="Gross Premium" value="{{ policy.gross_premium|default:extracted_data.gross_premium|default:0.00 }}">
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">Net Premium</label>
+                                      <input type="text" class="form-field" id="net_premium" name="net_premium" placeholder="Net Premium" value="{{ policy.net_premium|default:extracted_data.net_premium|default:0.00 }}" readonly>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                      <label class="form-lbl">GST</label>
+                                      <input type="text" class="form-field number" name="gst_premium" placeholder="GST Amount" value="{{ policy.gst_premium|default:extracted_data.gst_premium|default:0.00 }}">
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                            
+                            
+
+                            <div class="d-flex justify-content-end mt-4">
+                              <button type="button" id="save-policy-from" class="dashboard-addbtn">Save and Continue</button>
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        
+                        
+                    </form>
+                    <div id="loader" class="form-loader" style="display: none;">
+                      <div>
+                        <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                        <span class="visually-hidden d-block pt-2">Loading...</span>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myPolicyForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+
+      $(document).ready(function(){
+        updateNetPremium();
+        var fuel_type = $('#fuel_type').val();
+        updaterFuelAmount(fuel_type);
+      });
+
+      $('#fuel_type').on('change',function(){
+        var fuel_type = $(this).val();
+        updaterFuelAmount(fuel_type);
+      });
+
+      function updaterFuelAmount(fuel_type){
+        if(fuel_type === "Be-Fuel"){
+          $('#be_fuel_amount').val(60);
+        }else{
+          $('#be_fuel_amount').val(0);
+        }
+      }
+
+      function updateNetPremium() {
+          let od_amount = parseFloat($('#od_premium').val()) || 0;
+          let tp_amount = parseFloat($('#tp_premium').val()) || 0;
+          let net_premium = od_amount + tp_amount;
+          $('#net_premium').val(net_premium.toFixed(2));
+      }
+
+      $('#od_premium, #tp_premium').on('input', function() {
+          updateNetPremium(); 
+      });
+
+
+    </script>
+</body>
+{% endblock %}

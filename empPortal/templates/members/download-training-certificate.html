@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html>
+	{% load custom_filters %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Training Certificate</title>
+	<!-- <link rel="stylesheet" type="text/css" href="css/certificate.css"> -->
+	
+	<style type="text/css">
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		.training-certificate-w {
+			width: 794px;
+			margin: auto;
+			background-size: contain;
+			padding: 0;
+		}
+		.training-certificate-table {width: 100%; margin: auto; display: table; padding: 50px 60px;}
+		.training-certificate-number {font-size: 13px; color: #000;}
+		.training-certificate-hding {
+			font-size: 44px;
+			font-weight: 700;
+			text-transform: uppercase;
+			text-align: center;
+			display: block;
+			margin: 0;
+			padding-top: 0;
+		}
+		.training-certificate-subhding {
+			font-size: 24px;
+			font-weight: 400;
+			text-transform: uppercase;
+			text-align: center;
+			display: block;
+			margin: 0;
+		}
+		.training-certificate-default-img {
+			width: 80px;
+			height: 80px;
+			object-fit: contain;
+			margin: 5px auto 25px;
+			display: block;
+		}
+		.training-certificate-title {
+			font-size: 20px;
+			font-weight: 400;
+			text-transform: uppercase;
+			text-align: center;
+			display: block;
+			margin: 0;
+		}
+		.pt-0 {padding-top: 0px !important;}
+		.training-certificate-name {
+			font-size: 28px;
+			font-weight: 700;
+			text-transform: uppercase;
+			text-align: center;
+			display: block;
+			margin: 0;
+		}
+		.training-certificate-prgh {
+			font-size: 14px;
+			text-align: center;
+			display: block;
+			line-height: 1.6;
+			margin: 0;
+			padding-top: 0;
+		}
+		.training-certificate-date {font-size: 14px;}
+		.text-right {display: block; text-align: right;}
+		.training-certificate-signature {
+			height: 80px;
+			object-fit: contain;
+			margin: auto;
+			display: block;
+		}
+		.training-certificate-addresh {
+			font-size: 13px;
+			text-align: center;
+			display: block;
+			padding: 0;
+			margin: 0;
+		}
+		{% if COMPANY_EMP == "ELE" %}
+		.training-certificate-logo { width: 120px; }
+		{% else %}
+		.training-certificate-logo { width: 200px; }
+		{% endif %}
+	</style>
+	
+</head>
+<body>
+	<div class="training-certificate-w">
+		<img src="{{ certificate_pattern }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+		<div style="position: relative; z-index: 1;">
+		<table class="training-certificate-table">
+			<tbody>
+				<tr>
+					<td>
+						<p class="training-certificate-number">Certificate No.: {{ COMPANY_CFT }}10{{ customer.user_gen_id }}</p>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<center>
+							<img src="{{ logo_url }}" alt="" class="training-certificate-logo">
+						</center>		
+						<h1 class="training-certificate-hding">Point of Sale</h1>
+						<h2 class="training-certificate-subhding">Training Certificate</h2>
+						<img src="{{ default_image_pos }}" alt="" class="training-certificate-default-img">
+						<h3 class="training-certificate-title">THIS IS TO CERTIFY THAT MR./MS.</h3>
+						<h1 class="training-certificate-name">{{ customer.full_name|upper }}</h1>
+						<p class="training-certificate-prgh"> 
+							<strong>[Aadhaar No. {{ docs.aadhaar_number|mask_aadhaar }} | PAN No: {{ customer.pan_no|default:docs.pan_number }}
+								] </strong><br>
+							has successfully completed the prescribed training on 
+							 {% if partner.training_started_at %}
+								{{ partner.training_started_at|add_days_str:5|date:"d/M/Y" }}
+							{% else %} 
+								{{ customer.created_at|add_days:5|date:"d/M/Y" }}
+							 {% endif %} 
+							specified for Point of Sales Person examination conducted by {{ COMPANY_NAME }} under the Guidelines of IRDAI (Ref No. IRDA/LIFE/CIR/MISC/215/12/2019 dated 02.12.2019 Ver-01)
+						</p>
+						<img src="{{ signature_elevate }}" alt="" class="training-certificate-signature">
+						<p class="training-certificate-prgh">
+							<strong>
+								({{ PRINCIPAL_OFFICER }})<br>
+								Principal Officer
+							</strong>	
+						</p>
+
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">
+						<p class="training-certificate-addresh">
+							<strong>{{ COMPANY_NAME }} </strong><br>
+							{{ COMPANY_ADDRESS }}<br>
+							CIN: {{ CIN_NO }} | IRDAI License No.: {{ IRDAI_LICENSE_NO }} | Valid till: {{ VALID_TILL }}
+						</p>	
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</body>
+</html>

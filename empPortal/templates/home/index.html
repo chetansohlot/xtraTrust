@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+<section class="">
+    <div class="container mt-5">
+      <div class="row justify-content-between pt-2">
+        <div class="col-lg-7">
+          <h1 class="banner-hding mt-5">Start With ZERO Investment</h1>
+          <h2 class="banner-subhding">Become a POSP Agent Today </h2>
+          <ul class="homebanner-list"> 
+            <li>Quick Payments</li>
+            <li>Seamless Integration</li>
+          </ul>
+          <div class="d-flex mt-4">
+            {% if not request.user.is_authenticated %}
+              <a href="{% url 'register' %}" class="banner-btn me-2">Become a POSP</a>
+              <a href="{% url 'login' %}" class="banner-btn-outline">Login</a>
+            {% else %}
+              <a href="{% url 'dashboard' %}" class="banner-btn me-2">Go to Dashboard</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-lg-5 order-first order-lg-last">
+          <img src="{% static 'home/assets/image/svg/banner-img.svg' %}"   class="align-items-center img-fluid" >
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="container-bg pb-5">
+    <div class="container mt-5">
+      <div class="row justify-content-between align-items-center pt-2">
+        <div class="col-lg-5">
+          <img src="{% static 'home/assets\image\svg\presentation.svg' %}"   class="align-items-center img-fluid" >
+        </div>
+        <div class="col-lg-6">
+          <p class="quickly-search mt-4 mt-md-0"> Quickly search the best insurance product for your customers and sell online.</p>
+          <ul class="banner-list">
+            <li>
+              <i class="fa fa-circle" aria-hidden="true"></i> 
+              <div>
+                <strong>Zero investment required: </strong> With proper training, you would be selling  insurance products
+              </div>  
+            </li>
+            <li>
+              <i class="fa fa-circle" aria-hidden="true"></i> 
+              <div>
+                <strong>Quick commissions: </strong> Your insurance commission is credited to your account within 15 days of policy issuance.
+              </div>  
+            </li>
+            <li>
+              <i class="fa fa-circle" aria-hidden="true"></i> 
+              <div>
+                <strong>Paperless medium: </strong> Go hassle-free with our online policy issuance module. You do not need to carry hard papers to get the work done.
+              </div>  
+            </li>
+            <li>
+              <i class="fa fa-circle" aria-hidden="true"></i> 
+              <div>
+                <strong>Quick Support: </strong> We don’t leave our team behind. Hence you would be having continuous 24*7 support for all your issues and queries.
+              </div>  
+            </li>
+          </ul>   
+        </div>
+        
+    </div>
+  </div>
+</section>
+
+<section class="container pt-5">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-sm-12 col-md-6">
+      <h2 class="wrap-hding pb-3">What is POSP?</h2>
+      <p class="wrap-prgh">
+        A Point of Sales Person or POS is a self employed sales superstar responsible for selling various financial products without breaking a sweat. They act as a bridge between the customer and the companies they represent offering the best solution that caters to the client needs.
+      </p>
+    </div>
+    <div class="col-sm-12 col-md-5  order-first order-md-last">
+      <img src="{% static 'home/assets/image/svg/financial.svg' %}"   class="align-items-center img-fluid" >
+    </div>
+  </div>
+</section>      
+
+<section class="container">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-sm-12 col-md-5">
+      <img src="{% static 'home/assets/image/svg/money.svg' %}"   class="align-items-center img-fluid" >
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <h2 class="wrap-hding pb-3">Why become a POSP?</h2>
+      <p class="wrap-prgh">
+        Why wait? Embrace the POSP way of life and embark on a journey to financial independence. Take that plush throne as your own boss and earn money with every product sold.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="container pt-4">
+  <div class="row align-items-center justify-content-between">
+    
+    <div class="col-sm-12 col-md-7">
+      <h2 class="wrap-hding pb-3">Benefits to make your life easy</h2>
+      <ul class="ullist-box">
+        <li><i class="far fa-check-circle"></i> Free tailored advice from product & domain experts</li>
+        <li><i class="far fa-check-circle"></i> Dedicated claim support</li>
+        <li><i class="far fa-check-circle"></i> Seminar other than training to keep learning on next level</li>
+        <li><i class="far fa-check-circle"></i> Payout is fair, predefined and time bound by automated processes</li>
+        <li><i class="far fa-check-circle"></i> Digital passbook to track your business through portal</li>
+      </ul>
+    </div>
+    <div class="col-sm-12 col-md-5 order-first order-md-last">
+      <img src="{% static 'home/assets/image/svg/financial-2.svg' %}"   class="align-items-center img-fluid" >
+    </div>
+  </div>
+</section>      
+
+<section class="hiw-bg mb-0 pb-0">
+  <div class="container">
+    <div class="row pb-5 align-items-center justify-content-between">
+      <div class="col-lg-12 col-md-12">
+        <h2 class="wrap-hding text-center pb-5">Become the part of the best team in town</h2>
+      </div>
+      <div class="col-sm-12 col-md-5">
+        <img src="{% static 'home/assets/image/svg/documents.svg' %}"   class="align-items-center img-fluid" >
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="hiw-box-area bg-white h-100">
+          <h2 class="wrap-subhding pb-3"> All the needs to kickstart your Journey</h2>
+          <ul class="ullist">
+            <li><i class="far fa-check-circle"></i> Min 18 years of age</li>
+            <li><i class="far fa-check-circle"></i> Marksheet or degree certificate of 10th & above class</li>
+            <li><i class="far fa-check-circle"></i> Copy of PAN & Aadhar card</li>
+            <li><i class="far fa-check-circle"></i> Address proof</li>
+            <li><i class="far fa-check-circle"></i> Copy of cancelled cheque or bank account statement</li>
+          </ul>
+        </div>  
+      </div>
+
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-3 col-md-12 mb-3">
+            <div class="hiw-box-area bg-white h-100">
+              <div class="row">
+                <div class="col-12">
+                  <div class="hiw-circle">
+                    <img src="{% static 'home/assets/image/register.png' %}">
+                    <span class="hiw-circle-step">01</span>
+                  </div>
+                  <!-- <div class="partner-step-number">01</div> -->
+                  <h3 class="hiw-box-hding text-center pb-2">Account Creation</h3>  
+                  <p class="hiw-box-prgh text-center">Create your account to get started </p>  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12 mb-3">
+            <div class="hiw-box-area bg-white h-100">
+              <div class="row">
+                <div class="col-12">
+                  <div class="hiw-circle">
+                    <img src="{% static 'home/assets/image/kyc.png' %}">
+                    <span class="hiw-circle-step">02</span>
+                  </div>
+                  <h3 class="hiw-box-hding text-center pb-2">Register yourself</h3>  
+                  <p class="hiw-box-prgh text-center">Submit your KYC documents</p>  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12 mb-3">
+            <div class="hiw-box-area bg-white h-100">
+              <div class="row">
+                <div class="col-12">
+                  <div class="hiw-circle">
+                    <img src="{% static 'home/assets/image/training.png' %}">
+                    <span class="hiw-circle-step">03</span>
+                  </div>
+                  <h3 class="hiw-box-hding text-center pb-2">Complete Training</h3>  
+                  <p class="hiw-box-prgh text-center">Complete the training, give exam and get certified</p>  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12 mb-3">
+            <div class="hiw-box-area bg-white h-100">
+              <div class="row">
+                <div class="col-12">
+                  <div class="hiw-circle">
+                    <img src="{% static 'home/assets/image/sell.png' %}">
+                    <span class="hiw-circle-step">04</span>
+                  </div>
+                  <h3 class="hiw-box-hding text-center pb-2">Start Selling</h3>  
+                  <p class="hiw-box-prgh text-center">You are ready to sell insurance</p>  
+                  <a href="{% url 'register' %}" class="wrap-btn-outline mx-auto d-table">Join Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        
+        <h2 class="wrap-hding text-center">Frequently Asked Questions</h2>
+        <p class="wrap-subhding text-center mb-5">Still have questions? Here are a few we’ve answered before.</p>
+          
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab" data-aos="zoom-in">
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    What exactly is a POSP Insurance Agent?
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p class="wrap-prgh">
+                      A Point of Sales Person or POS is a self employed sales superstar responsible for selling various financial products without breaking a sweat. They act as a bridge between the customer and the companies they represent offering the best solution that caters to the client needs.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    What is the eligibility criteria to become a POSP Insurance Agent?
+                  </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p class="wrap-prgh">
+                      Given below is the eligibility criteria to become a POSP Insurance Agent: You need to be minimum 18 years of age You should have passed class 10
+                    </p>  
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    What are documents required to become a POSP Insurance Agent?
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p class="wrap-prgh">
+                        To become a POSP Insurance Agent, you must submit the below documents: PAN Card Aadhar Card Photograph Highest Educational Qualification Proof
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Is it mandatory to appear for POSP Training?
+                  </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p class="wrap-prgh">
+                         Yes, it is mandatory to complete the basic 15-hour POSP training as directed by the IRDAI. After the training, you are required to appear for the examination to become a certified POSP.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    What type of insurance products POSP can sell?
+                  </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p class="wrap-prgh">
+                        As a POSP, you can sell various types of insurance products such as health insurance, travel insurance, motor insurance, life insurance etc
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>                    
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="cta">
+          <div class="row align-items-center justify-content-between">
+            <div class="col-md-4 col-lg-4">
+              <img src="{% static 'home/assets/image/svg/dashboard.svg' %}" alt="" class="img-fluid">
+              
+            </div>
+            <div class="col-md-7 col-lg-7">
+              <h2 class="wrap-hding">Ready to get Started</h2>
+              <p class="wrap-prgh">Head over to our POSP Portal to kickstart your new and independent journey</p>
+              <a href="{% url 'register' %}" class="wrap-btn">Get Started</a>
+            </div>
+          </div>  
+        </div>
+      </div>  
+    </div>
+  </div>
+</section>
+{% include 'home/layouts/footer.html' %}
+</body>
+</html>

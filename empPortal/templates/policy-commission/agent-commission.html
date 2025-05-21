@@ -1,0 +1,444 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Pending Agent Commission
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header header-content-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <h1 class="admin-title m-0 pt-2">Pending Agent Commission</h1>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Pending Agent Commission</li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+              <div class="d-flex justify-content-end">
+                <a href="{% url 'logs-agent-commission-update' %}" class="breadcrump-addbtn mx-1">Logs View</a>
+
+                <!-- <a href="{% url 'edit-bulk-policy' %}" class="breadcrump-addbtn mx-1">Edit Bulk Policy</a>
+                <a href="{% url 'bulk-upload-logs' %}" class="breadcrump-addbtn mx-1">View Bulk Logs</a>
+                <a href="{% url 'bulk-policy-mgt' %}" class="breadcrump-addbtn mx-1">Add Bulk Policy</a>
+                <a href="{% url 'policy-mgt' %}" class="breadcrump-addbtn mx-1">Add Policy</a> -->
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <a href="#">
+              <div class="card counter-img-card active">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      
+                      <p class="card-text">
+                        Total Policy
+                      </p>
+                      <h5 class="card-title card-number">{{ policy_total_count }} </h5>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </a>   
+          </div>  
+          
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <a href="#">
+              <div class="card counter-img-card active">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      
+                      <p class="card-text">
+                        Pending Policy
+                      </p>
+                      <h5 class="card-title card-number">{{ policy_count }} </h5>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </a>   
+          </div>  
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <a href="#">
+              <div class="card counter-img-card counter-active-card ">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      
+                      <p class="card-text">
+                        Motor Policy
+                      </p>
+                      <h5 class="card-title card-number">{{ policy_count }}</h5>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </a>  
+          </div>  
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <a href="#">
+              <div class="card counter-img-card counter-deactive-card ">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      
+                      <p class="card-text">
+                        Health Policy
+                      </p>
+                      <h5 class="card-title card-number">0</h5>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </a>  
+          </div>  
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <a href="#">
+              <div class="card counter-img-card counter-pending-card ">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      
+                      <p class="card-text">
+                        Term Policy
+                      </p>
+                      <h5 class="card-title card-number">0</h5>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </a>  
+          </div>  
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="">
+                      
+                    <div class="card">
+                      <div class="card-body pb-0">
+                        <form method="get">
+                          <div class="row align-items-center">
+                            
+                            <!-- Policy Number -->
+                            {% include "components/policy-commission/commission-filter.html" %}
+
+                            <!-- Buttons -->
+
+                            
+                            <div class="col-sm-6 col-md-2">
+                              <div class="form-group d-flex">
+                                <button type="submit" class="wrap-btn w-100 mr-2">Apply</button>
+                                <a href="{% url 'agent-commission' %}" class="wrap-btn w-100 bg-danger text-white text-center">Reset</a>
+                              </div>
+                            </div>
+                            
+                              </div>  
+                            </div>
+                            <!--filter ends-->
+                                        
+                          </div>
+                        </form>
+                  
+                </div>  
+                {% if has_filters %}
+                <div class="row">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-body pb-0">
+                  
+                          <!-- Update Insurer Commission Form -->
+                          <h5 class="mb-3">Update Agent Commission</h5>
+                            <form method="post" action="{% url 'update-agent-commission' %}">
+                            {% csrf_token %}
+                            <div class="row align-items-center">
+                              <input type="hidden" name="policy_ids" value="{{ filtered_policy_ids|join:',' }}">
+                              
+                              <!-- Agent OD Commission -->
+                              <div class="col-6 col-md-2">
+                                <div class="form-group">
+                                  <input class="form-field percentage" name="agent_od_commission" type="text" placeholder="OD Commission">
+                                  <small class="text-muted">( OD Commission % )</small>
+                                </div>
+                              </div>
+                        
+                              <!-- Agent Net Commission -->
+                              <div class="col-6 col-md-2">
+                                <div class="form-group">
+                                  <input class="form-field percentage" name="agent_net_commission" type="text" placeholder="Net Commission">
+                                  <small class="text-muted">( Net Commission % )</small>
+                                </div>
+                              </div>
+                        
+                              <!-- Agent TP Commission -->
+                              <div class="col-6 col-md-2">
+                                <div class="form-group">
+                                  <input class="form-field percentage" name="agent_tp_commission" type="text" placeholder="TP Commission">
+                                  <small class="text-muted">( TP Commission % )</small>
+                                </div>
+                              </div>
+                        
+                              <!-- Agent Incentive Amount -->
+                              <div class="col-6 col-md-2">
+                                <div class="form-group">
+                                  <input class="form-field amount-number" name="agent_incentive_amount" type="text" placeholder="Incentive Amount">
+                                  <small class="text-muted">( Incentive Amount )</small>
+                                </div>
+                              </div>
+                        
+                              <!-- Agent TDS -->
+                              <div class="col-6 col-md-2">
+                                <div class="form-group">
+                                  <input class="form-field percentage" name="agent_tds" type="text" placeholder="TDS">
+                                  <small class="text-muted">( TDS % )</small>
+                                </div>
+                              </div>
+                        
+                              <!-- Submit Button -->
+                              <div class="col-6 col-md-2">
+                                <div class="form-group">
+                                  <button type="submit" class="wrap-btn w-100 bg-danger text-white">Update Commission</button>
+                                  <small class="text-muted"> &nbsp;</small>
+                                </div>
+                              </div>
+                            </div>
+
+                            <input type="hidden" id="udpating_policy_ids" name="udpating_policy_ids">
+                            
+                            </form>
+                      </div>
+                      </div>
+                    </div>
+                </div>
+                {% endif %}
+                  
+                <ul class="nav nav-pills profile-tab">
+                  <li class="nav-item text-bold">
+                      <a class="nav-link active" href="#">MOTOR</a>
+                  </li>
+                  <li class="nav-item text-bold">
+                      <a class="nav-link " href="#">HEALTH</a>
+                  </li>
+                  <li class="nav-item text-bold">
+                      <a class="nav-link " href="#">TERM</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="table-responsive">
+                     
+                      <table class="table table-design policy-data-table-width">
+                        <thead class="table-thead-bg-light table-header-fix">
+                          <tr>
+                            <th></th>
+                            <th class="nowrap">Insurance Co.</th>
+                            <th class="nowrap">Holder</th>
+                            <th class="nowrap">Policy Type</th>
+                            <th class="nowrap">Date</th>
+                     
+                            <th class="nowrap">Premium</th>
+                        
+                            <th class="nowrap">GST</th>
+                            <th class="nowrap">RM Name</th>
+                            <th class="nowrap">Payment</th>
+                            <th class="nowrap">Vehicle Type</th>
+                            <th class="nowrap">Make/Model</th>
+                            <th class="nowrap">Gross Weight</th>
+                            <th class="nowrap">Sum Insured</th>
+                            <th class="nowrap">Manufacture Year</th>
+                            <th class="nowrap">Commission Status</th>
+                            <th class="nowrap">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in page_obj %}
+                            <tr>
+                              <td><input type="checkbox" name="checked_policy_ids[]" class="checked_policy_ids" value="{{data.id}}"></td>
+                              <td>
+                                <div class="d-flex align-items-start">
+                                  <div>
+                                    
+                                      <span class="d-block">
+                                          {% if data.insurerInfo.insurance_company %}
+                                              {{ data.insurerInfo.insurance_company }}
+                                          {% elif data.policy_infos.insurance_company %}
+                                              {{ data.policy_infos.insurance_company }}
+                                          {% else %}
+                                              {{ data.insurance_provider }}
+                                          {% endif %}
+                                      </span>
+                                    <span class="text-info d-inline-block"><strong>Policy No.:</strong> {{ data.policy_number|default:"-" }}</span>
+                                  </div>  
+                                  <a href="{% url 'edit-policy' id=data.id %}" class="tooltip-sec ml-2 text-danger" data-title="Edit Policy">
+                                    <i class="fa-solid fa-edit"></i>
+                                  </a>
+                                </div>  
+                              </td>
+                              <td>
+                                <div class="d-flex align-items-start">
+                                  <div>
+                                    <span class="d-block">{{ data.holder_name }}</span>
+                                    <span class="d-block "><strong>Reg. No.</strong> {{ data.vehicle_number }}</span>
+                                  </div>  
+                                </div>  
+                              <td>{{ data.policy_type|default:"-" }}</td>
+                              <td>
+                                <span class="circle-icon"><i class="far fa-circle"></i></span><strong>Issue:</strong> {{ data.issue_date|default:"-" }} <br>
+                                <span class="circle-icon"><i class="far fa-circle"></i></span><strong>Start:</strong> {{ data.start_date|default:"-" }}<br>
+                                <span class="circle-icon"><i class="far fa-circle"></i></span><strong>Expiry:</strong> {{ data.expiry_date|default:"-" }}
+                                
+
+                              </td>
+                              <!-- <td>{{ data.start_date|default:"-" }}</td>
+                              <td>{{ data.expiry_date|default:"-" }}</td> -->
+                              <td>
+                                <span class="circle-icon"><i class="far fa-circle"></i></span>
+                                <strong>Net:</strong>
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                {{ data.policy_premium|default_if_none:0|floatformat:2 }} <br>
+
+                                <span class="circle-icon"><i class="far fa-circle"></i></span>
+                                <strong>Gross:</strong>
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                {{ data.policy_total_premium|default_if_none:0|floatformat:2 }} <br>
+
+                                <span class="circle-icon"><i class="far fa-circle"></i></span>
+                                <strong>OD:</strong>
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                {{ data.od_premium|default_if_none:0|floatformat:2 }} <br>
+
+                                <span class="circle-icon"><i class="far fa-circle"></i></span>
+                                <strong>TP:</strong>
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                {{ data.tp_premium|default_if_none:0|floatformat:2 }}
+                              </td>
+                              <!-- <td>{{ data.policy_total_premium }}</td>
+                              <td>{{ data.od_premium }}</td>
+                              <td>{{ data.tp_premium }}</td> -->
+                              <td>{{ data.gst }}</td>
+                              <td>{{ data.rm_name }}</td>
+                              <td>{{ data.payment_status|default:"Not Paid" }}</td>
+                              <td>{{ data.vehicle_type|default:"-" }}</td>
+                              <td>{{ data.vehicle_make|default:"-" }} / {{ data.vehicle_model|default:"-" }} </td>
+                              <td>{{ data.vehicle_gross_weight|default:"-" }}</td>
+                              <td>{{ data.sum_insured|default:"-" }}</td>
+                              <td>{{ data.vehicle_manuf_date|default:"-" }}</td>
+                              <td>
+                                <strong>Agent Commission:</strong>
+                                {% if data.agent_payment_details.id != None %}
+                                   <i class="fa fa-check text-success"></i>
+                                {% else %}
+                                   <i class="fa fa-times text-danger"></i>
+                                {% endif %}
+                                <br>
+
+                                <strong>Insurer Commission:</strong>
+                                {% if data.insurer_payment_details.id != None %}
+                                   <i class="fa fa-check text-success"></i>
+                                {% else %}
+                                   <i class="fa fa-times text-danger"></i>
+                                {% endif %}
+                                <br>
+
+                                <strong>Franchise Commission:</strong>
+                                {% if data.franchise_payment_details.id != None %}
+                                   <i class="fa fa-check text-success"></i>
+                                {% else %}
+                                   <i class="fa fa-times text-danger"></i>
+                                {% endif %}
+                                <br>
+                              </td>
+                              <td>
+                                <div class="d-flex">
+                                  <a href="{{ data.filepath }}" class="tooltip-sec mx-2 text-success" data-title="Download {{ data.filename }}" target="_blank" download><i class="fas fa-download"></i></a>
+                                  <a href="{% url 'edit-policy' id=data.id %}" class="tooltip-sec" data-title="Edit Policy">
+                                    <i class="fa-solid fa-edit"></i>
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+              </div>
+              
+              {% include "components/filter/paginator.html" %}
+              
+            </div>
+            
+            
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(".checked_policy_ids");
+        const hiddenInput = document.getElementById("udpating_policy_ids");
+
+        function updateHiddenField() {
+            let selectedIds = [];
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    selectedIds.push(checkbox.value);
+                }
+            });
+            hiddenInput.value = selectedIds.join(",");
+            console.log(hiddenInput.value);
+        }
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", updateHiddenField);
+        });
+    });
+  </script>
+</body>
+
+{% endblock %}

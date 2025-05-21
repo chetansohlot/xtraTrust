@@ -1,0 +1,296 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Policy Data
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header header-content-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-12">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Policy Files View</a>
+                  <ul class="breadcrump">
+                    <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                    <li><a href="#">Policy Mgt.</a> <i class="fas fa-chevron-right"></i></li>
+                    <li><a href="#">Policy Logs</a> <i class="fas fa-chevron-right"></i></li>
+                    <li>Policy Files View</li>
+                  </ul>
+                </div>
+                
+                <div>
+                    <form id="myForm" action="{% url 'continue-bulk-policies' %}" method="post">
+                            {% csrf_token %}
+                        <input type="hidden" id="continue-bulk-policies" name="continue_bulk_policies">
+                        <input type="hidden" id="log_id" name="log_id" value="{{log_id}}">
+                        <button type="submit" class="breadcrump-addbtn mx-1" id="">Re Process</button>
+                    </form>
+                </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-xs-6 col-sm-4 col-md-3">
+              <div class="card counter-img-card active">
+                  <div class="card-body">
+                      <p class="card-text">Total Files</p>
+                      <h5 class="card-title card-number">{{ total_files }}</h5>
+                  </div>
+              </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-info">File Uploading</p>
+                <h5 class="card-title card-number text-info">{{ status_counts.1|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text success-color">File Uploaded</p>
+                <h5 class="card-title card-number success-color">{{ status_counts.2|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text warning-color">File Analysing</p>
+                <h5 class="card-title card-number warning-color">{{ status_counts.3|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-primary">File Analysed</p>
+                <h5 class="card-title card-number text-primary">{{ status_counts.4|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text text-dark">Policy Creating</p>
+                <h5 class="card-title card-number text-dark">{{ status_counts.5|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text success-color">Complete</p>
+                <h5 class="card-title card-number success-color">{{ status_counts.6|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text danger-color">Duplicate File</p>
+                <h5 class="card-title card-number danger-color">{{ status_counts.7|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="card counter-img-card">
+              <div class="card-body">
+                <p class="card-text danger-color">Failed File</p>
+                <h5 class="card-title card-number danger-color">{{ failed_files_count|default:"0" }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <!-- /.content-header -->
+    
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="table-responsive table-ht">
+                      <table class="table table-design">
+                        <thead class="table-thead-bg-light table-header-fix">
+                          <tr>
+                            <!-- <th>
+                              <input type="checkbox" id="select-all">
+                            </th> -->
+                            <th>File Name</th>
+                            <th>Date of Upload</th>
+                            <th>File</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in files %}
+                            <tr>
+                              <!-- <td>
+                                <input type="checkbox"
+                                  name="reupload[]"
+                                  class="reprocess"
+                                  value="{{ data.id }}"
+                                  disabled
+                                  data-status="{{ data.status }}"
+                                  data-created-at="{{ data.created_at|date:'U' }}"
+                                  id="checkbox-{{ data.id }}">
+                              </td> -->
+                              <td>{{ data.filename }} <span class="tooltip-sec text-info" data-title="{{ data.file_url }}"><i class="fa-solid fa-circle-info"></i></span></td>
+                              <td>{{ data.created_at }}</td>
+                              <td><a href="{{ data.file_url }}" target="_blank" class="btn btn-success btn-xs" download><i class="fa-solid fa-download"></i></a></td>
+                              <td>
+                                {% if data.is_failed == True %}
+                                  <span class="badge badge-danger">Failed</span>
+                                {% else %}
+                                  {% if data.status == 0 %}
+                                    <span class="badge badge-info">File Created</span>
+                                  {% elif data.status == 1 %}
+                                    <span class="badge badge-warning">File Uploading</span>
+                                  {% elif data.status == 2 %}
+                                    <span class="badge badge-dark">File Uploaded</span>
+                                  {% elif data.status == 3 %}
+                                    <span class="badge badge-info">File Analysing</span>
+                                  {% elif data.status == 4 %}
+                                    <span class="badge badge-info">File Analysed</span>
+                                  {% elif data.status == 5 %}
+                                    <span class="badge badge-info">Policy Creating</span>
+                                  {% elif data.status == 6 %}
+                                    <span class="badge badge-success">Complete</span>
+                                  {% elif data.status == 7 %}
+                                    <span class="badge badge-success">Duplicate File</span>
+                                  {% else %}
+                                    <span class="badge badge-secondary">Pending</span>
+                                  {% endif %}
+                                {% endif %}
+                                
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div id="loader" class="form-loader" style="display: none;">
+                        <div>
+                          <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                          <span class="visually-hidden d-block pt-2">Loading...</span>
+                        </div>  
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".reprocess");
+    const hiddenInput = document.getElementById("continue-bulk-policies");
+    const selectAllCheckbox = document.getElementById("select-all");
+
+    // Update hidden input value with selected checkbox IDs
+    function updateHiddenField() {
+      let selectedIds = [];
+      checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          selectedIds.push(checkbox.value);
+        }
+      });
+      hiddenInput.value = selectedIds.join(",");
+      console.log(hiddenInput.value);
+    }
+
+    // Add event listener to each checkbox for change event
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", updateHiddenField);
+    });
+
+    // Enable checkboxes after 2 minutes if not status 6 or 7
+    checkboxes.forEach(function (checkbox) {
+      const createdAt = parseInt(checkbox.getAttribute("data-created-at")) * 1000;
+      const status = parseInt(checkbox.getAttribute("data-status"));
+      const now = Date.now();
+      const timeDiff = now - createdAt;
+
+      const maybeEnable = () => {
+        if (status !== 6 && status !== 7) {
+          checkbox.removeAttribute("disabled");
+        }
+      };
+
+      if (timeDiff >= 2 * 60 * 1000) {
+        maybeEnable();
+      } else {
+        const delay = (2 * 60 * 1000) - timeDiff;
+        setTimeout(maybeEnable, delay);
+      }
+    });
+
+    // Select All functionality
+    if (selectAllCheckbox) {
+      selectAllCheckbox.addEventListener("change", function () {
+        checkboxes.forEach((checkbox) => {
+          if (!checkbox.disabled) {
+            checkbox.checked = selectAllCheckbox.checked;
+          }
+        });
+        updateHiddenField();
+      });
+    }
+  });
+</script>
+
+<script>
+  // Show loader on form submit
+  document.getElementById("myForm").addEventListener("submit", function () {
+    document.getElementById("loader").style.display = "flex";
+  });
+</script>
+</body>
+
+
+    
+{% endblock %}

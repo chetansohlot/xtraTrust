@@ -1,0 +1,128 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    Add Franchise - Contact Information
+{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <div class="content-wrapper">
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Contact Information</a>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Franchise</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Contact Information</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+
+              <ul class="stepflow-text stepflow-five-col mt-0">
+                <li><a href="#" class="completed">Basic Info</a></li>
+                <li><a href="#" class="active">Contact Info</a></li>
+                <li><a href="#">Address Details</a></li>
+                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="#">Banking & Payout Details</a></li>
+              </ul>
+
+              <ul class="new-stepflow mb-3">
+                <li class="active"></li>
+                <li class=""></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+
+              <!-- <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+                  <form action="{% url 'franchise-management-contact-info' franchise_id=franchise_id %}" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row"> -->
+
+                      <!-- Card with form -->
+                      <div class="card box-shadow-none p-md-5 p-3">
+                        <div class="card-body px-0 pb-0 pt-0">
+                          <form action="{% url 'franchise-management-contact-info' franchise_id=franchise_id %}" method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="col-md-12">
+                                <h2 class="admin-title border-bottom pb-2 mb-4">Contact Information Details</h2>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="contact_person">Name</label>
+                        <select name="contact_person" id="contact_person" class="form-field custom-dropdown">
+                          <option value="">Select Owner</option>
+                          <option value="Franchise Owner" {% if franchise.contact_person == 'Franchise Owner' %}selected{% endif %}>Franchise Owner</option>
+                          <option value="Contact Person" {% if franchise.contact_person == 'Contact Person' %}selected{% endif %}>Contact Person</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="mobile_number">Mobile Number</label>
+                        <input type="tel" name="mobile_number" id="mobile_number" class="form-field" placeholder="Primary Contact Number" value="{{ franchise.mobile_number|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="email_address">Email Address</label>
+                        <input type="email" name="email_address" id="email_address" class="form-field" placeholder="Official Email" value="{{ franchise.franchise_email|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="alternate_number">Alternate Number (Optional)</label>
+                        <input type="tel" name="alternate_number" id="alternate_number" class="form-field" placeholder="Secondary Contact Number" value="{{ franchise.alternate_number|default:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="designation">Designation</label>
+                        <input type="text" name="designation" id="designation" class="form-field" placeholder="Role in Franchise (Owner, Director, etc.)" value="{{ franchise.designation|default:'' }}">
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                      <a href="{% url 'franchise-management-edit' franchise_id=franchise_id %}" class="btn btn-outline-secondary">Back</a>
+                      <button type="submit" class="form-submit-btn">Next</button>
+                    </div>
+                  </form>
+
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+  </div>
+</body>
+{% endblock %}

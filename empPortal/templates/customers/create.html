@@ -1,0 +1,138 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}Add Customer{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+      <!-- Content Header -->
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Customer</a>
+              </div>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Customers</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Add Customer</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+            <div class="col-sm-12">
+              <div class="card box-shadow-none p-md-5 p-3">
+                <div class="card-body px-0 pb-0 pt-0">
+
+                  <form autocomplete="off" id="quotationCustomerForm" name="quotationCustomerForm"
+                    action="{% if quotation_customer %}{% url 'quotation-customer-edit' quotation_customer.id %}{% else %}{% url 'quotation-customer-create' %}{% endif %}"
+                    method="post">
+                    {% csrf_token %}
+
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="mobile_number">Mobile Number</label>
+                        <input type="tel" class="form-control mobile" name="mobile_number" id="mobile_number" maxlength="10" minlength="10"
+                          placeholder="Enter Mobile Number" value="{{ quotation_customer.mobile_number|default_if_none:'' }}">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="email_address">Email</label>
+                        <input type="email" class="form-control" name="email_address" id="email_address"
+                          placeholder="Enter Email" value="{{ quotation_customer.email_address|default_if_none:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="name_as_per_pan">Name as per PAN</label>
+                        <input type="text" class="form-control name" name="name_as_per_pan" id="name_as_per_pan"
+                          placeholder="Enter Name as per PAN" value="{{ quotation_customer.name_as_per_pan|default_if_none:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="pan_card_number">PAN Number</label>
+                        <input type="text" class="form-control" name="pan_card_number" id="pan_card_number" 
+                          placeholder="Enter PAN Number" maxlength="10" minlength="10" value="{{ quotation_customer.pan_card_number|default_if_none:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="date_of_birth">Date of Birth</label>
+                        <input type="date" class="form-control" name="date_of_birth" id="date_of_birth"
+                          value="{{ quotation_customer.date_of_birth|date:'Y-m-d' }}">
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" name="state" id="state"
+                          placeholder="Enter State" value="{{ quotation_customer.state|default_if_none:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" name="city" id="city"
+                          placeholder="Enter City" value="{{ quotation_customer.city|default_if_none:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="pincode">Pincode</label>
+                        <input type="text" class="form-control" name="pincode" id="pincode" maxlength="6" minlength="6"
+                          placeholder="Enter Pincode" value="{{ quotation_customer.pincode|default_if_none:'' }}">
+                      </div>
+
+                      <div class="form-group col-md-12">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" name="address" id="address"
+                          placeholder="Enter Address">{{ quotation_customer.address|default_if_none:'' }}</textarea>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">
+                      {% if quotation_customer %}Update Customer{% else %}Add Customer{% endif %}
+                    </button>
+                  </form>
+
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function () {
+        document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+
+  </div>
+</body>
+{% endblock %}
+

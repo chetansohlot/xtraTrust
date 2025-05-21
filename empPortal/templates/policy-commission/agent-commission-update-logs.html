@@ -1,0 +1,103 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Pending Agent Commission
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header header-content-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <h1 class="admin-title m-0 pt-2">Pending Agent Commission Logs</h1>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Pending Agent Commission Logs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="">
+                        <div class="card">
+                            <div class="card-body pb-0">
+                  
+                </div>  
+                
+                  
+                
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="table-responsive">
+                     
+                      <table class="table table-design policy-data-table-width">
+                        <thead class="table-thead-bg-light table-header-fix">
+                          <tr>
+                            <th class="nowrap">Log ID</th>
+                            <th class="nowrap">Requested Count</th>
+                            <th class="nowrap">Success</th>
+                            <th class="nowrap">Failed</th>
+                            <th class="nowrap">Update By</th>
+                            <th class="nowrap">Update Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in log_data %}
+                            <tr>
+                                <td>#{{ data.upload_id }}</td>
+                                <td>{{ data.requested_count }}</td>
+                                <td>{{ data.success_count }}</td>
+                                <td>{{ data.failed_count }}</td>
+                                <td>{{ data.updated_by__first_name }} {{data.updated_by__last_name}}</td>
+                                <td>{{ data.updated_at }}</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+              </div>
+              {% include "components/filter/paginator.html" %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+
+</body>
+
+{% endblock %}

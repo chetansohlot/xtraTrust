@@ -1,0 +1,166 @@
+{% extends 'master.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Campaign-wise Policy Logs{% endblock %}
+
+{% block content %}
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    {% include "navbar.html" %}
+    {% include "sidebar.html" %}
+
+    <div class="content-wrapper">
+      <div class="content-header breadcrump-bg">
+        <div class="container-fluid">
+          <div class="row py-2">
+            <div class="col-md-6">
+              <h2 class="admin-title m-0 pt-2 text-dark">Campaign-wise Policy Logs</h2>
+              <ul class="breadcrump">
+                <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Insurer Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                <li>Policy Logs</li>
+              </ul>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-center">
+              <a href="{% url 'get-campaign-log' %}" class="breadcrump-addbtn mx-1">Refresh</a>
+
+              <a href="{% url 'insurer-payment' %}" class="breadcrump-addbtn mx-1">Back to Bulk Update</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container-fluid">
+
+          <!-- Search -->
+          <form method="get" class="mb-3">
+            <div class="input-group" style="max-width: 400px;">
+              <input type="text" name="q" id="searchCampaign" class="form-control" value="{{ request.GET.q }}" placeholder="Search campaign..." autocomplete="off">
+              <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+            <ul id="campaignSuggestions" class="list-group mt-1" style="position:absolute; z-index:999;"></ul>
+          </form>
+
+          <!-- Table -->
+          <div class="card">
+            <div class="card-body table-responsive p-0">
+              <table class="table table-hover table-bordered">
+                <thead class="thead-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Campaign Name</th>
+                    <th>Uploaded At</th>
+                    <th>Total Rows</th>
+                    <th>Success</th>
+                    <th>Failed</th>
+                    <th>File</th>
+                    <th>Uploaded By</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for upload in uploads %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ upload.campaign_name }}</td>
+                    <td>{{ upload.uploaded_at|date:"d M Y H:i" }}</td>
+                    <td>{{ upload.total_rows|default:"-" }}</td>
+                    <td>{{ upload.success_rows|default:"0" }}</td>
+                    <td>{{ upload.error_rows|default:"0" }}</td>
+                    <td>
+                      {% if upload.file %}
+                        <a href="{{ upload.file.url }}" class="btn btn-sm btn-outline-secondary" target="_blank">Download</a>
+                      {% else %}
+                        -
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% get_user_details upload.created_by_id as user_details %}
+                      {% if user_details %}
+                        {{ user_details.first_name }} {{ user_details.last_name }}
+                      {% else %}
+                        Unknown
+                      {% endif %}
+                    </td>
+                    <td class="text-center">
+                      <a href="{% url 'campaign-policy-logs' upload.id %}" class="btn btn-sm btn-outline-info" title="View Logs">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="9" class="text-center">No campaign uploads found.</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Optional Pagination -->
+          {% if uploads.has_other_pages %}
+          <div class="pagination-wrapper d-flex justify-content-center py-3">
+            <nav>
+              <ul class="pagination">
+                {% if uploads.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ uploads.previous_page_number }}">Previous</a>
+                  </li>
+                {% endif %}
+
+                {% for num in uploads.paginator.page_range %}
+                  {% if uploads.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                  {% elif num > uploads.number|add:'-3' and num < uploads.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                  {% endif %}
+                {% endfor %}
+
+                {% if uploads.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ uploads.next_page_number }}">Next</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+  </div>
+
+  <script>
+    document.getElementById("searchCampaign").addEventListener("input", function () {
+      let q = this.value;
+      if (q.length < 2) {
+        document.getElementById("campaignSuggestions").innerHTML = "";
+        return;
+      }
+
+      fetch(`/ajax/get-campaigns/?q=${q}`)
+        .then(response => response.json())
+        .then(data => {
+          let list = "";
+          data.forEach(item => {
+            list += `<li class="list-group-item list-group-item-action">${item.name}</li>`;
+          });
+          document.getElementById("campaignSuggestions").innerHTML = list;
+
+          document.querySelectorAll("#campaignSuggestions li").forEach(el => {
+            el.addEventListener("click", function () {
+              document.getElementById("searchCampaign").value = this.innerText;
+              document.getElementById("campaignSuggestions").innerHTML = "";
+            });
+          });
+        });
+    });
+  </script>
+</body>
+{% endblock %}

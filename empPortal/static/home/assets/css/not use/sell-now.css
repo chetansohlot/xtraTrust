@@ -1,0 +1,191 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-bg{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19);
+padding: 2px 30px 0px 30px;
+}
+.Insuramcepro-dash{
+    font-size:28px;
+     font-weight: 600; 
+    font-family: sans-serif;
+}
+.Insuramcepro-dash-p{
+color: blue;
+}
+/*----------------------sidebar------------------css-------------start------------------*/
+.bg-sidebar{
+      box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+    0 6px 20px 0 rgba(216, 211, 211, 0.19); 
+    height: 100dvh;  
+}
+ul > li {
+font-size: 14px;
+font-weight: 500;
+list-style-type: none;
+padding-top: 13px;
+
+} 
+ul > li > .sidebar-arrow{
+    float: right;
+}
+ul > li a{
+    color: rgb(70, 58, 58);
+    text-decoration: none;
+    padding: 7px 10px 7px 10px;
+    border-radius: 0px 20px 20px 0px;
+
+}
+ul > li:hover > a {
+    color: blue;
+    background-color: rgb(223, 218, 218);
+    
+}
+.sidebar-menu{margin: 0px;padding: 0px;}
+.sidebar-menu li a{display: flex;justify-content: space-between;}
+.sidebar-menu li a div i{margin-right: 5px;}
+.right-arrow{
+    font-size: 11px;
+}
+/*-----------------------------sidebar----------------------css---------------------end------------------*/
+
+.box-shadow{
+    width: 100%;
+    box-shadow:0px 5px 12px 0px rgb(206 206 206 / 75%);
+}
+.sell-now-general-insurance{
+    font-size: 18px;
+    font-weight: 700;
+    margin-left: 20px;
+}
+.sell-gen-car{
+    box-shadow: 0 4px 8px 0 rgba(173, 169, 169, 0.2),
+ 0 6px 20px 0 rgba(216, 211, 211, 0.19);
+ padding: 5px 10px 5px 10px;
+ border-radius: 5px;
+padding-top: 15px;
+
+}
+
+#icon-car-sell-now{
+font-size: 25px;
+border:1px solid magenta; 
+ color:rgb(223, 72, 223);
+  background-color:rgb(245, 203, 245); 
+    padding: 12px;
+     border-radius: 50%;
+     padding-top: 15px;
+}
+#icon-two-wheeler-sell-now{
+    font-size: 25px;
+    border:1px solid rgb(7, 161, 207);; 
+     color:rgb(7, 161, 207);
+      background-color:rgb(168, 220, 248); 
+        padding: 12px;
+         border-radius: 50%;
+         padding-top: 15px;
+    }
+    #icon-commercial-sell-now{
+        font-size: 25px;
+        border:1px solid rgb(226, 195, 17); 
+         color:rgb(226, 160, 17);
+          background-color:rgb(252, 252, 173); 
+            padding: 12px;
+             border-radius: 50%;
+             padding-top: 15px;
+        }
+        #icon-health-sell-now{
+            font-size: 25px;
+            border:1px solid red; 
+             color:red;
+              background-color:rgb(250, 178, 178); 
+                padding: 7px 15px 7px 15px;
+                 border-radius: 50%;
+                 padding-top: 15px;
+            }
+            #icon-home-sell-now{
+                font-size: 25px;
+                border:1px solid rgb(82, 82, 238); 
+                 color:rgb(82, 82, 238);
+                  background-color:rgb(196, 196, 252); 
+                    padding: 12px;
+                     border-radius: 50%;
+                     padding-top: 15px;
+                }
+                #icon-team-sell-now{
+                    font-size: 25px;
+                    border:1px solid rgb(245, 159, 245); 
+                     color:rgb(245, 159, 245);
+                      background-color:rgb(245, 203, 245); 
+                        padding: 12px;
+                         border-radius: 50%;
+                         padding-top: 15px;
+                    }
+                    #icon-investment-sell-now{
+                        font-size: 25px;
+                        border:1px solid rgb(72, 223, 140); 
+                         color:rgb(72, 223, 140);
+                          background-color:rgb(197, 241, 217); 
+                            padding: 12px;
+                             border-radius: 50%;
+                             padding-top: 15px;
+                        }
+                   
+.sell-now-main-gen-insu{
+display: flex;
+justify-content: space-evenly;}
+
+.sell-gen-car img{
+height: 53px;
+width: 70px;
+margin-top: 10px;
+} 
+.sell-gen-car p{
+    font-size: 13px;
+    font-weight: 500; 
+padding: 7px 10px 5px 10px;
+}
+/* .img-team{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55px;
+width: 70px;
+} */
+
+.sell-now-life-insurance-row{
+
+}
+.sell-team-insurace-p{
+    background-color: rgb(145, 173, 197);
+    padding: 5px 15px 5px 15px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 4px 4px 0px 0px;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.sell-card-team{
+    margin-left: 15px;
+    margin-bottom: 0px;
+}
+.sell-team-img img{
+    display: flex;
+    justify-content: center;
+    height: 53px;
+width: 70px;
+}
+.img-team{
+    height: 55px;
+    width: 60px;
+}
+.sell-team-card-p{
+font-size: 13px;
+font-weight: 500; 
+margin-top: 5px;
+}

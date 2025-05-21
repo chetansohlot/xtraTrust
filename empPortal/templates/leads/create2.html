@@ -1,0 +1,583 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+{% if lead %}Edit Lead{% else %}Add New Lead{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">{% if lead %}Edit Lead{% else %}Add New Lead{% endif %}</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Lead</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>{% if lead %}Edit Lead{% else %}Add Lead{% endif %}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-4 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <!-- <ul class="stepflow-text">
+                      <li><a href="#">Product Info</a></li>
+                      <li><a href="#">Contact Info</a></li>
+                      <li><a href="#">Source</a></li>
+                    </ul>
+                    <ul class="new-stepflow">
+                      <li></li>
+                      <li></li>
+                      <li></li>
+                    </ul> -->
+                    
+                    <form autocomplete="off" id="leadForm" name="leadForm"
+                        action="{% if lead %}{% url 'leads-mgt-edit' lead.id %}{% else %}{% url 'leads-mgt-create' %}{% endif %}"
+                        method="post">
+                      {% csrf_token %}
+
+                      <div class="row">
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="mobile_number">Mobile Number</label>
+                              <input type="tel" class="form-field" name="mobile_number" id="mobile_number" pattern="[0-9]{10}"
+                                    placeholder="Enter Mobile Number" value="{{ lead.mobile_number|default_if_none:'' }}">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="email_address">Email</label>
+                              <input type="email" class="form-field" name="email_address" id="email_address"
+                                    placeholder="Enter Email" value="{{ lead.email_address|default_if_none:'' }}">
+                          </div>
+
+                          <!-- <div class="form-group col-md-4">
+                              <label class="form-lbl" for="quote_date">Quote Date</label>
+                              <input type="date" class="form-field" name="quote_date" id="quote_date"
+                                    value="{{ lead.quote_date|date:'Y-m-d' }}">
+                          </div> -->
+
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="name_as_per_pan">Name as per PAN</label>
+                              <input type="text" class="form-field" name="name_as_per_pan" id="name_as_per_pan"
+                                    placeholder="Enter Name as per PAN" value="{{ lead.name_as_per_pan|default_if_none:'' }}">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="pan_card_number">PAN Number</label>
+                              <input type="text" class="form-field" name="pan_card_number" id="pan_card_number" maxlength="10"
+                                    placeholder="Enter PAN Number" value="{{ lead.pan_card_number|default_if_none:'' }}">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="date_of_birth">Date of Birth</label>
+                              <input type="date" class="form-field" name="date_of_birth" id="date_of_birth"
+                                    value="{{ lead.date_of_birth|date:'Y-m-d' }}">
+                          </div>
+
+                         <!-- <div class="form-group col-md-4">
+                              <label class="form-lbl" for="state">State</label>
+                              <input type="text" class="form-field" name="state" id="state"
+                                    placeholder="Enter State" value="{{ lead.state|default_if_none:'' }}">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="city">City</label>
+                              <input type="text" class="form-field" name="city" id="city"
+                                    placeholder="Enter City" value="{{ lead.city|default_if_none:'' }}">
+                          </div>-->
+                          <!--<div class="form-group col-md-4">
+                            <label class="form-lbl" for="state">State</label>
+                            <select class="form-field" name="state" id="state">
+                              <option value="">Select State</option>
+                              {% for s in states %}
+                                  <option value="{{ s.name }}" {% if lead.state == s.name %}selected{% endif %}>{{ s.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        
+                        <div class="form-group col-md-4">
+                            <label class="form-lbl" for="city">City</label>
+                            <select class="form-field" name="city" id="city">
+                              {% if lead.city %}
+                                  <option value="{{ lead.city }}" selected>{{ lead.city }}</option>
+                              {% else %}
+                                  <option value="">Select City</option>
+                              {% endif %}
+                          </select>
+                        </div>-->
+                        <div class="form-group col-md-4">
+                          <label class="form-lbl" for="state">State</label>
+                          <select class="form-field" name="state" id="state">
+                              <option value="">Select State</option>
+                              {% for s in states %}
+                                  <option value="{{ s.name }}" {% if lead and lead.state == s.name %}selected{% endif %}>
+                                      {{ s.name }}
+                                  </option>
+                              {% endfor %}
+                          </select>
+                      </div>
+                      
+                      <div class="form-group col-md-4">
+                          <label class="form-lbl" for="city">City</label>
+                          <select class="form-field" name="city" id="city">
+                              {% if lead %}
+                                  <option value="{{ lead.city }}" selected>{{ lead.city }}</option>
+                              {% else %}
+                                  <option value="">Select City</option>
+                              {% endif %}
+                          </select>
+                      </div>
+                      
+                                                  
+                          <div class="form-group col-md-4">
+                              <label class="form-lbl" for="pincode">Pincode</label>
+                              <input type="text" class="form-field" name="pincode" id="pincode" pattern="[0-9]{6}"
+                                    placeholder="Enter Pincode" value="{{ lead.pincode|default_if_none:'' }}">
+                          </div>
+
+                          <!--<div class="form-group col-md-12">
+                            <label class="form-lbl" for="address">Address</label>
+                            <textarea class="form-field" name="address" id="address"
+                                      placeholder="Enter Address">{{ lead.address|default_if_none:'' }}</textarea>
+                        </div>-->
+                        <div class="form-group col-md-12">
+                            <label class="form-lbl" for="lead_description">Lead Description</label>
+                            <textarea class="form-field" name="lead_description" id="lead_description"
+                            rows="4" maxlength="1000"
+                            placeholder="Enter Lead Description">{{ lead.lead_description|default_if_none:'' }}</textarea>
+                  <small class="form-text text-muted">Max 1000 characters.</small>
+
+                        </div>
+
+                          <!-- <div class="form-group col-md-4">
+                              <label class="form-lbl" for="lead_type">Lead Type</label>
+                              <select class="form-field" name="lead_type" id="lead_type">
+                                  <option value="MOTOR" {% if lead.lead_type == "MOTOR" %}selected{% endif %}>MOTOR</option>
+                                  <option value="HEALTH" {% if lead.lead_type == "HEALTH" %}selected{% endif %}>HEALTH</option>
+                                  <option value="TERM" {% if lead.lead_type == "TERM" %}selected{% endif %}>TERM</option>
+                              </select>
+                          </div> -->
+
+                          <div class="form-group col-md-4">
+                            <label class="form-lbl" for="lead_type">Lead Type</label>
+                            <select class="form-field" name="lead_type" id="lead_type" onchange="handleLeadTypeChange()">
+                                <option value="MOTOR" {% if lead.lead_type == "MOTOR" %}selected{% endif %}>MOTOR</option>
+                                <option value="HEALTH" {% if lead.lead_type == "HEALTH" %}selected{% endif %}>HEALTH</option>
+                                <option value="TERM" {% if lead.lead_type == "TERM" %}selected{% endif %}>TERM</option>
+                            </select>
+                        </div>
+                        
+                        <!--<div class="form-group col-md-4" id="registration_number" style="display: none;">
+                            <label class="form-lbl" for="registration_number">Vehicle No</label>
+                            <input type="text" class="form-field" name="registration_number" id="registration_number" value="{{ lead.registration_number }}" placeholder="Enter Vehicle Number">
+
+                            <!-- ✅ Vehicle Type -->
+                            <!--<label class="form-lbl" for="registration_number">Vehicle Type</label>
+                            <input type="text" name="vehicle_type" class="form-control" placeholder="Enter Vehicle Type">                                                         
+                          </div>-->
+                          <div class="form-group col-md-4" id="registration_number_div" style="display: none;">
+                            <label class="form-lbl" for="registration_number">Vehicle No</label>
+                            <div class="input-group">
+                                <input type="text" class="form-field form-control" name="registration_number" id="registration_number_input"
+                                       value="{{ lead.registration_number|default:'' }}" placeholder="Enter Vehicle Number">
+                                
+                                
+                                <!-- Show only in Add mode -->
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" onclick="fetchPolicyDetails()">Fetch</button>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        
+<!-- Add fields to auto-fill data -->
+<div class="form-group col-md-4">
+  <label class="form-lbl" for="insurance_company">Insurance Company</label>
+  <input type="text" class="form-field" name="insurance_company" id="insurance_company" placeholder="Enter Insurance Company" disabled>
+</div>
+
+<div class="form-group col-md-4">
+  <label class="form-lbl" for="policy_number">Policy Number</label>
+  <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Enter Policy Number" disabled>
+</div>
+
+<div class="form-group col-md-4">
+  <label class="form-lbl" for="policy_type">Policy Type</label>
+  <input type="text" class="form-field" name="policy_type" id="policy_type" placeholder="Enter Policy Type" disabled>
+</div>
+
+<div class="form-group col-md-4">
+  <label class="form-lbl" for="vehicle_type">Vehicle Type</label>
+  <input type="text" class="form-field" name="vehicle_type" id="vehicle_type" placeholder="Enter Vehicle Type" disabled>
+</div>
+
+<div class="form-group col-md-4">
+  <label class="form-lbl" for="sum_insured">Sum Insured</label>
+  <input type="text" class="form-field" name="sum_insured" id="sum_insured" placeholder="Enter Sum Insured" disabled>
+</div>
+
+<div class="form-group col-md-4">
+  <label class="form-lbl" for="policy_date">Policy Start Date</label>
+  <input type="text" class="form-field" name="policy_date" id="policy_date" placeholder="Enter Policy Start Date" disabled>
+</div>
+
+
+                            <!-- <div class="form-group col-md-4">
+                              <label class="form-lbl" for="status">Status</label>
+                              <select class="form-field" name="status" id="status">
+                                  <option value="new" {% if lead.status == "new" %}selected{% endif %}>New</option>
+                                  <option value="contacted" {% if lead.status == "contacted" %}selected{% endif %}>Contacted</option>
+                                  <option value="converted" {% if lead.status == "converted" %}selected{% endif %}>Converted</option>
+                              </select>
+                          </div> -->
+                          <div class="form-group col-md-4">
+                            <label class="form-lbl" for="lead_source">Lead Source</label>
+                            <select class="form-field" name="lead_source" id="lead_source" onchange="toggleReferralBy()">
+                                <option value="">Select Source</option>
+                                <option value="referral_partner" {% if lead.lead_source == "referral_partner" %}selected{% endif %}>Referral Partner</option>
+                                <option value="pos_partner" {% if lead.lead_source == "pos_partner" %}selected{% endif %}>Pos Partner</option>
+                                <option value="self" {% if lead.lead_source == "self" %}selected{% endif %}>Self</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-md-4" id="referral_by_div" style="{% if lead.lead_source != 'referral_partner' %}display: none;{% endif %}">
+                            <label class="form-lbl" for="referral_by">Referral By</label>
+                            <select class="form-field" name="referral_by" id="referral_by">
+                                <option value="">Select Referral</option>
+                                {% for referral in referrals %}
+                                  <option value="{{ referral.id }}" {% if lead and lead.referral_by|stringformat:"s" == referral.id|stringformat:"s" %}selected{% endif %}>
+                                      {{ referral.name }} - {{ referral.referral_code }}
+                                  </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-4" id="pos_partner_div" style="{% if lead.lead_source != 'pos_partner' %}display: none;{% endif %}">
+                            <label class="form-lbl" for="partner_id">Partner</label>
+                            <select class="form-field" name="partner_id" id="partner_id">
+                                <option value="">Select Partner</option>
+                                {% for partner in partners %}
+                                <option value="{{ partner.id }}" {% if lead and lead.partner_id|stringformat:"s" == partner.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ partner.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <script>
+                        function toggleReferralBy() {
+                            var leadSource = document.getElementById("lead_source").value;
+                            var referralDiv = document.getElementById("referral_by_div");
+                            var posPartnerDiv = document.getElementById("pos_partner_div");
+                            if (leadSource === "referral_partner") {
+                                referralDiv.style.display = "block";
+                                posPartnerDiv.style.display = "none";
+                            }else if (leadSource === "pos_partner") {
+                                posPartnerDiv.style.display = "block";
+                                referralDiv.style.display = "none";
+                            } else {
+                                posPartnerDiv.style.display = "none";
+                                referralDiv.style.display = "none";
+                            }
+                        }
+                        
+                        // Run once on page load in case of pre-selected value
+                        document.addEventListener("DOMContentLoaded", function() {
+                            toggleReferralBy();
+                        });
+                        </script>
+                        
+                          
+                        
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button type="submit" class="form-submit-btn mt-3">
+                            {% if lead %}Update Lead{% else %}Add Lead{% endif %}
+                        </button>
+                      </div>  
+                    </form>
+                    
+                  </div>
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      function handleLeadTypeChange() {
+        const leadType = document.getElementById('lead_type').value;
+        const registrationDiv = document.getElementById('registration_number_div');
+        if (leadType === 'MOTOR') {
+            registrationDiv.style.display = 'block';
+        } else {
+            registrationDiv.style.display = 'none';
+            document.getElementById('registration_number_input').value = '';
+            document.getElementById('insurance_company').value = '';
+            document.getElementById('policy_number').value = '';
+            document.getElementById('policy_type').value = '';
+            document.getElementById('vehicle_type').value = '';
+            document.getElementById('sum_insured').value = '';
+            document.getElementById('policy_date').value = '';
+        }
+      }
+      // Call it on page load to ensure correct initial state
+      window.onload = handleLeadTypeChange;
+  </script>
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+      
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const leadTypeSelect = document.getElementById("lead_type");
+        const vehicleFields = document.getElementById("vehicle_fields");
+        handleLeadTypeChange();
+      
+
+        function toggleVehicleFields() {
+            if (leadTypeSelect.value === "MOTOR") {
+                vehicleFields.style.display = "block";
+            } else {
+                vehicleFields.style.display = "none";
+
+                //document.getElementById('registration_number_input').value = '';
+                //clearFormFields();
+            }
+        }
+
+        // Initial check
+        toggleVehicleFields();
+
+        // Listen for changes
+       leadTypeSelect.addEventListener("change", toggleVehicleFields);
+    });
+        
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+         function fetchPolicyDetails() {
+             var registrationNumber = $("#registration_number_input").val();
+             if (registrationNumber.trim() === "") {
+                 return; 
+             }
+         
+             $.ajax({
+                 url: "{% url 'fetch-policy-details' %}", 
+                 type: "POST",
+                 data: {
+                     'registration_number': registrationNumber,
+                     'csrfmiddlewaretoken': '{{ csrf_token }}'
+                 },
+                 success: function(response) {
+                  if (response.success) {
+                      // Auto-fill the form with policy details
+                      $("#insurance_company").val(response.insurance_company || "");
+                      $("#policy_number").val(response.policy_number || "");
+                      $("#policy_type").val(response.policy_type || "");
+                      $("#vehicle_type").val(response.vehicle_type || "");
+                      $("#sum_insured").val(response.sum_insured || "");
+                      $("#policy_date").val(response.policy_date || "");
+      
+                      // Disable the fields after auto-filling the data
+                      disableFormFields();
+      
+                      // Show all fields for the found policy
+                      showAllFields();
+
+                    const isEditMode = "{{ lead.id|default:'' }}" !== "";
+
+                  // Only disable fields in Add mode
+                  if (!isEditMode) {
+                    disableFormFields();
+                  } else {
+                    // In Edit mode, ensure fields are enabled
+                    enableManualEntryFields();
+                  }
+
+                  } else {
+                    clearFormFields();
+                      // Enable manual entry fields and show only the required fields
+                      enableManualEntryFields();
+                      hideUnnecessaryFields();
+                      // Show sweet alert here
+                      
+                  }
+                
+              },
+                 error: function(xhr, status, error) {
+                     alert("Something went wrong. Please try again.");
+                 }
+             });
+         }
+         
+         // Disable all fields after auto-fill
+         function disableFormFields() {
+             $("#insurance_company").prop("disabled", true);
+             $("#policy_number").prop("disabled", true);
+             $("#policy_type").prop("disabled", true);
+             $("#vehicle_type").prop("disabled", true);
+             $("#sum_insured").prop("disabled", true);
+             $("#policy_date").prop("disabled", true);
+         }
+         
+         // Enable all fields for manual entry
+         function enableManualEntryFields() {
+             $("#insurance_company").prop("disabled", false);
+             $("#policy_number").prop("disabled", false);
+             $("#policy_type").prop("disabled", false);
+             $("#vehicle_type").prop("disabled", false);
+             $("#sum_insured").prop("disabled", false);
+             $("#policy_date").prop("disabled", false);
+         }
+         
+         // Show all fields when the policy is found
+         function showAllFields() {
+             $("#insurance_company").closest('.form-group').show();
+             $("#policy_number").closest('.form-group').show();
+             $("#policy_type").closest('.form-group').show();
+             $("#vehicle_type").closest('.form-group').show();
+             $("#sum_insured").closest('.form-group').show();
+             $("#policy_date").closest('.form-group').show();
+         }
+         
+         // Hide unnecessary fields when the policy is not found
+         function hideUnnecessaryFields() {
+   
+             // Hide fields that are not needed for manual entry (e.g., "Policy Number")
+             $("#insurance_company").closest('.form-group').hide();
+             $("#policy_number").closest('.form-group').hide();  // This can be hidden if not required in manual entry
+             $("#policy_type").closest('.form-group').hide();
+             $("#vehicle_type").closest('.form-group').show();
+             $("#sum_insured").closest('.form-group').hide();
+             $("#policy_date").closest('.form-group').hide();
+         }
+   
+         function clearFormFields() {
+           $("#insurance_company").val("");
+           $("#policy_number").val("");
+           $("#policy_type").val("");
+           $("#vehicle_type").val("");
+           $("#sum_insured").val("");
+           $("#policy_date").val("");
+       }
+       
+     </script> 
+  <script>
+    $(document).ready(function () {
+        const registrationNumber = $("#registration_number_input").val();
+        const isEditMode = "{{ lead.id|default:'' }}" !== "";  // Adjust based on how you're passing lead
+  
+        if (isEditMode && registrationNumber !== "") {
+            fetchPolicyDetails();  // Auto-fetch in edit mode
+        }
+    });
+  </script>
+  
+  
+  <script>
+  $('#state').change(function () {
+    var stateName = $(this).val();  // changed to state name
+    $('#city').html('<option value="">Loading...</option>');
+    if (stateName) {
+        $.ajax({
+            url: "{% url 'get_cities' %}",
+            data: {
+                'state_id': stateName  // this is now state name
+            },
+            success: function (data) {
+                var options = '<option value="">Select City</option>';
+                data.forEach(function(city) {
+                    options += <option value="${city.city}">${city.city}</option>;
+                });
+                $('#city').html(options);
+            }
+        });
+    } else {
+        $('#city').html('<option value="">Select City</option>');
+    }
+});
+</script>
+
+
+  <script>
+    function loadCities(stateName, selectedCity = null) {
+        $('#city').html('<option value="">Loading cities...</option>');
+        if (stateName) {
+            $.ajax({
+                url: "{% url 'get_cities' %}",
+                data: {
+                    'state_id': stateName
+                },
+                success: function (data) {
+                    let options = '<option value="">Select City</option>';
+                    data.forEach(function(city) {
+                        if (selectedCity && city.city === selectedCity) {
+                            options += <option value="${city.city}" selected>${city.city}</option>;
+                        } else {
+                            options += <option value="${city.city}">${city.city}</option>;
+                        }
+                    });
+                    $('#city').html(options);
+                }
+            });
+        } else {
+            $('#city').html('<option value="">Select City</option>');
+        }
+    }
+
+    $(document).ready(function () {
+        const selectedState = $('#state').val();
+        const selectedCity = "{{ lead.city|default:''|escapejs }}";
+
+        // Always load cities if state is selected (even if city is not)
+        if (selectedState) {
+            loadCities(selectedState, selectedCity);
+        }
+
+        $('#state').change(function () {
+            const stateName = $(this).val();
+            loadCities(stateName);
+        });
+    });
+</script>
+
+
+
+</body>
+{% endblock %}

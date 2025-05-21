@@ -1,0 +1,140 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Create Branch
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Create Branch</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="{% url 'branch-management' %}">Branches</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Create Branch</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <form autocomplete="off" id="branchForm" name="branchForm"
+                    action="{% if branch %}{% url 'branch-management-edit' branch.id %}{% else %}{% url 'branch-management-create' %}{% endif %}"
+                    method="post">
+                  {% csrf_token %}
+                  
+                  <input type="hidden" name="branch_id" id="branch_id" value="{{ branch.id|default_if_none:'' }}">
+              
+                  <div class="row">
+                      <div class="form-group col-md-6">
+                          <label for="branch_name">Branch Name</label>
+                          <input type="text" class="form-control" name="branch_name" id="branch_name" 
+                                 placeholder="Enter Branch Name" required maxlength="255"
+                                 value="{{ branch.branch_name|default_if_none:'' }}">
+                      </div>
+              
+                      <div class="form-group col-md-6">
+                          <label for="contact_person">Contact Person</label>
+                          <input type="text" class="form-control" name="contact_person" id="contact_person" 
+                                 placeholder="Enter Contact Person" required maxlength="255"
+                                 value="{{ branch.contact_person|default_if_none:'' }}">
+                      </div>
+              
+                      <div class="form-group col-md-6">
+                          <label for="mobile">Mobile</label>
+                          <input type="tel" class="form-control" name="mobile" id="mobile" 
+                                 placeholder="Enter Mobile Number" required pattern="[0-9]{10}"
+                                 value="{{ branch.mobile|default_if_none:'' }}">
+                      </div>
+              
+                      <div class="form-group col-md-6">
+                          <label for="email">Email</label>
+                          <input type="email" class="form-control" name="email" id="email" 
+                                 placeholder="Enter Email" required maxlength="255"
+                                 value="{{ branch.email|default_if_none:'' }}">
+                      </div>
+              
+                      <div class="form-group col-md-12">
+                          <label for="address">Address</label>
+                          <textarea class="form-control" name="address" id="address" 
+                                    placeholder="Enter Full Address" rows="2">{{ branch.address|default_if_none:'' }}</textarea>
+                      </div>
+              
+                      <div class="form-group col-md-4">
+                          <label for="city">City</label>
+                          <input type="text" class="form-control" name="city" id="city" placeholder="Enter City"
+                                 value="{{ branch.city|default_if_none:'' }}">
+                      </div>
+              
+                      <div class="form-group col-md-4">
+                          <label for="state">State</label>
+                          <input type="text" class="form-control" name="state" id="state" placeholder="Enter State"
+                                 value="{{ branch.state|default_if_none:'' }}">
+                      </div>
+              
+                      <div class="form-group col-md-4">
+                          <label for="pincode">Pincode</label>
+                          <input type="text" class="form-control" name="pincode" id="pincode" 
+                                 placeholder="Enter Pincode" pattern="[0-9]{6}"
+                                 value="{{ branch.pincode|default_if_none:'' }}">
+                      </div>
+                  </div>
+              
+                  <button type="submit" class="btn btn-primary mt-3">
+                      {% if branch %}Update Branch{% else %}Add Branch{% endif %}
+                  </button>
+              </form>
+              
+                
+
+                    
+                  </div>
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+</body>
+{% endblock %}

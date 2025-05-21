@@ -1,0 +1,405 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}
+    Lead Mgt - Lead View
+{% endblock %}
+
+{% block content %}
+    {% include "css-code.html" %}
+
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            {% include 'navbar.html' %}
+            {% include 'sidebar.html' %}
+            <div class="content-wrapper white-bg">
+                <div class="content-header header-content-bg mb-0">
+                    <div class="container-fluid">
+                        <div class="row justify-content-between justify-content-sm-start pb-4">
+                            <div class="col-sm-10">
+                                <h1 class="admin-title m-0 pt-2">Lead Mgt</h1>
+                                <ul class="breadcrump">
+                                    <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                                    <li> <a href="{% url 'leads-mgt' %}">Lead Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                                    <li>Lead View: #{{lead.lead_id}}</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="{% url 'leads-mgt' %}" class="breadcrump-addbtn">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main content -->
+                <div class="content px-0">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- <div class="col-md-12 px-0">
+                                <ul class="lead-view-step">
+                                    <li class="active">Working-Contacted</li>
+                                    <li>
+                                        <div class="arrow-design"></div>
+                                        Close - Not Converted
+                                    </li>
+                                    <li>
+                                        <div class="arrow-design"></div>
+                                        Disqualified
+                                    </li>
+                                    <li>
+                                        <div class="arrow-design"></div>
+                                        Converted
+                                    </li>
+                                </ul>
+                            </div> -->
+                            <div class="col-md-4 px-0">
+                                <div class="card member-detail-left-card">
+                                    <div class="card-body box-profile">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <h3 class="profile-username m-0">
+                                                <span class="text-capitalize">{{ lead.name_as_per_pan }}</span>
+                                                {% if lead.lead_customer_gender == 1 %}
+                                                    <span class="text-muted ms-1">(Male)</span>
+                                                {% elif lead.lead_customer_gender == 2 %}
+                                                    <span class="text-muted ms-1">(Female)</span>
+                                                {% elif lead.lead_customer_gender == 3 %}
+                                                    <span class="text-muted ms-1">(Other)</span>
+                                                {% endif %}
+                                            </h3>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <span class="text-muted m-0">
+                                                Customer Since:
+                                                {% if lead.created_at.date == today %}
+                                                    <span class="badge bg-primary rounded-pill">Today</span>
+                                                {% elif lead.created_at.date == yesterday %}
+                                                    <span class="badge bg-primary rounded-pill">Yesterday</span>
+                                                {% else %}
+                                                    <span class="badge bg-primary rounded-pill">
+                                                        {{ lead.created_at|timesince }} ago
+                                                    </span>
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-center mt-2">
+                                            <a href="javascript:void(0)" class="breadcrump-addbtn" data-toggle="modal" data-target="#dispostion-update-model-id">Dispose the lead</a>
+                                        </div>
+                                        
+                                        <ul class="member-detail-list">
+                                            <li><span class="list">Status</span><span class="list-output"> {{ lead.status|default:"N/A"  }}</span></li>
+                                            <li><span class="list">Email</span><span class="list-output">{{ lead.email_address|default:"N/A"  }}</span></li>
+                                            <li><span class="list">Mobile</span><span class="list-output">{{ lead.mobile_number|default:"N/A"  }}</span></li>
+                                            <li><span class="list">Identity No.</span><span class="list-output text-uppercase">{{ lead.lead_customer_identity_no|default:"N/A"  }}</span></li>
+                                            <li><span class="list">Insurance Type</span><span class="list-output">{{ lead.lead_insurance_type|default:"N/A" }}</span></li>
+                                            <li><span class="list">Product Category</span><span class="list-output">{{ lead.lead_insurance_category|default:"N/A" }}</span></li>
+                                            <li><span class="list">Product Name</span><span class="list-output">{{ lead.lead_insurance_product|default:"N/A" }}</span></li>
+                                            <li><span class="list">Lead Source Type</span><span class="list-output">{{ lead.lead_source_type.source_name|default:"N/A" }}</span></li>
+                                            <li><span class="list">Lead Source Name</span><span class="list-output">{{ lead.lead_source|default:"N/A" }}</span></li>
+                                            <li><span class="list">Referral Name</span><span class="list-output">{{ lead.referral_name|default:"N/A" }}</span></li>
+                                            <li><span class="list">Source Medium</span><span class="list-output">
+                                                {% if lead.lead_source_medium == 1 %}
+                                                    Facebook
+                                                {% elif lead.lead_source_medium == 2 %}
+                                                    Google
+                                                {% elif lead.lead_source_medium == 3 %}
+                                                    WhatsApp
+                                                {% elif lead.lead_source_medium == 4 %}
+                                                    Walk-in
+                                                {% elif lead.lead_source_medium == 5 %}
+                                                    Embedded Partner
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            </span></li>
+                                            <li><span class="list">Assigned By</span><span class="list-output">{{ lead.created_by.full_name|default:"N/A" }}</span></li>
+                                            <li><span class="list">Assigned To</span><span class="list-output">{{ lead.assigned_to.full_name|default:"N/A" }}</span></li>
+                                            <li><span class="list">Main Disposition</span><span class="list-output">{{ lead_disposition.disp.disp_name|default:"N/A" }}</span></li>
+                                            <li><span class="list">Sub Disposition</span><span class="list-output">{{ lead_disposition.sub_disp.sub_disp_name|default:"N/A" }}</span></li>
+                                            <li><span class="list">Disposition Followup Date</span><span class="list-output">{{ lead_disposition.followup_date|default:"N/A" }}</span></li>
+                                            <li><span class="list">Disposition Followup Time</span><span class="list-output">{{ lead_disposition.followup_time|default:"N/A" }}</span></li>
+                                            <li><span class="list">Disposition Remark</span><span class="list-output left-card-remark">{{ lead_disposition.remark|default:"N/A" }}</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 px-0">
+                                <div class="card member-detail-right-card">
+                                    <div class="tabarea-scrollbar">
+                                        <ul class="nav nav-pills profile-tab tabarea-scrollbar-singleline">
+                                            <li class="nav-item text-bold"><a class="nav-link active" href="#activity-tab" data-toggle="tab">Activity</a></li>
+                                            <li class="nav-item text-bold"><a class="nav-link" href="#lead-details-tab" data-toggle="tab">Lead Details</a></li>
+                                            <li class="nav-item text-bold"><a class="nav-link" href="#previous-policy-info-tab" data-toggle="tab">Previous Policy Information </a></li>
+                                            <li class="nav-item text-bold"><a class="nav-link" href="#quote-tab" data-toggle="tab">Quote </a></li>
+                                            <li class="nav-item text-bold"><a class="nav-link" href="#booking-tab" data-toggle="tab">Booking</a></li>
+                                            <li class="nav-item text-bold"><a class="nav-link" href="#policy-issued-tab" data-toggle="tab">Policy Issued </a></li>
+                                            <li class="nav-item text-bold"><a class="nav-link" href="#disposition-logs" data-toggle="tab">Disposition Logs </a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tab-content tab-scrollbar">
+                                            {% include "components/leads/lead-activity-tab.html" %}
+                                            {% include "components/leads/lead-details-tab.html" %}
+                                            {% if lead.lead_insurance_product_id and lead.lead_insurance_product_id == 32 %}
+                                                {% include "components/leads/lead-motor-previous-policy-tab.html" %}
+                                            {% else %}
+                                                {% include "components/leads/lead-previous-policy-info-tab.html" %}
+                                            {% endif %}
+                                            {% include "components/leads/lead-quote-tab.html" %}
+                                            {% include "components/leads/lead-booking-tab.html" %}
+                                            {% include "components/leads/lead-policy-issue-tab.html" %}
+                                            {% include "components/leads/lead-claims-tab.html" %}
+                                            {% include "components/leads/lead-disposition-log-tab.html" %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+        <script>
+            function showRejectNote(note) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Rejected Reason',
+                    text: note || 'No reason provided',  // Show message if note is empty
+                    confirmButtonColor: '#d33'
+                });
+            }
+        </script>
+            
+        <div class="modal fade" id="dispostion-update-model-id">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header p-2 h6">
+                        <label class="px-2 my-2" id="customer_details_heading">Lead Disposition</label>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                            
+                    <div class="modal-body px-4">
+                        <form id="update-dispostion-form-id">
+                            {% csrf_token %}
+                            <input type="hidden" name="lead_id" id="disposition_lead_id" value="{{lead.lead_id}}">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group ">
+                                        <label for="main_disposition model-form-lbl">Main Disposition <span class="text-red">*</span></label>
+                                        <select class="form-field" name="main_disposition" id="main_disposition">
+                                            <option value="">Select Main Disposition</option>
+                                            {% if disposition_list %}
+                                                {% for dispositions in disposition_list %}
+                                                    <option value="{{dispositions.disp_id}}">{{dispositions.disp_name}}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                    
+                                <div class="col-sm-6">
+                                    <div class="form-group ">
+                                        <label for="sub_disposition model-form-lbl">Sub Disposition <span class="text-red">*</span></label>
+                                        <select class="form-field sub-disposition-class" name="sub_disposition" id="sub_disposition">
+                                            <option value="">Select Sub Disposition</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="form-group ">
+                                        <label for="model-form-lbl">Follow Up Date <span class="text-red">*</span></label>
+                                        <input type="date" class="form-field" name="follow_up_date" id="follow_up_date">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group ">
+                                        <label for="model-form-lbl">Follow Up Time <span class="text-red">*</span></label>
+                                        <input type="time" class="form-field" name="follow_up_time" id="follow_up_time">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group ">
+                                        <label for="model-form-lbl">Remark <span class="text-red">*</span></label>
+                                        <textarea rows="3" class="form-field" name="remark" id="remark"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group text-right">
+                                        <button type="submit" class="form-submit-btn" id="update-dispostion-form-btn" disabled>Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>                    
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "footer.html" %}
+    </div>
+        
+    {% include 'footer-script.html' %}
+        <script>
+            function getSubDispositionList(){
+                main_disp_id = $('#main_disposition').val();
+                    $.ajax({
+                        url: "{% url 'get-sub-disposition' %}",
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')  // Django requires this header
+                        },
+                        data: {
+                            disposition_id: main_disp_id,
+                        },
+                        success: function(response) {
+                            let options = '<option value="">Select Sub Disposition</option>';
+                            $.each(response.sub_disposition_list, function(index, sub_disposition) {
+                                options += `<option value="${sub_disposition.sub_disp_id}">${sub_disposition.sub_disp_name}</option>`;
+                            });
+                            $('#sub_disposition').html(options);
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+            }
+            
+            $(document).ready(function(){
+                $('#main_disposition').on('change',function(){
+                    getSubDispositionList()
+                });
+
+
+                $('#update-dispostion-form-btn').prop('disabled', false);
+
+                $.validator.addMethod("futureDateTime", function(value, element) {
+                    let dateVal = $('#follow_up_date').val();
+                    let timeVal = $('#follow_up_time').val();
+
+                    if (!dateVal || !timeVal) {
+                        return true; // skip validation if either field is empty
+                    }
+
+                    let selectedDateTime = new Date(dateVal + 'T' + timeVal);
+                    let now = new Date();
+
+                    return selectedDateTime > now;
+                }, "Follow up date and time must be in the future");
+
+
+                $("#update-dispostion-form-id").validate({
+                    rules: {
+                        main_disposition: {
+                            required: true
+                        },
+                        sub_disposition: {
+                            required: true
+                        },
+                        follow_up_date: {
+                            futureDateTime: true,
+                            required: function () {
+                                return $('#follow_up_time').val().length > 0;
+                            }
+                        },
+                        follow_up_time: {
+                            futureDateTime: true,
+                            required: function () {
+                                return $('#follow_up_date').val().length > 0;
+                            }
+                        },
+                        remark: {
+                            maxlength: 500
+                        }
+                    },
+                    messages: {
+                        main_disposition: {
+                            required: "Please select main disposition"
+                        },
+                        sub_disposition: {
+                            required: "Please select sub disposition"
+                        },
+                        remark: {
+                            maxlength: "Remark cannot be more than 500 characters"
+                        },
+                        follow_up_date: {
+                            required: "Please select follow up date"
+                        },
+                        follow_up_time: {
+                            required: "Please select follow up time"
+                        },
+                    },
+                    errorElement: "div",
+                    errorPlacement: function (error, element) {
+                        error.addClass("text-danger");
+                        error.insertAfter(element);
+                    },
+                    submitHandler: function (form) {
+                        let formData = new FormData(form);
+                        $('#update-dispostion-form-btn').prop('disabled', true);
+
+                        $.ajax({
+                            url: '{% url "save-lead-dispositions" %}',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                if(response.statusCode == 401){
+                                    window.location.replace("{% url 'login' %}")
+                                }else if(response.statusCode == 405){
+                                    $('#update-dispostion-form-btn').prop('disabled', false);
+                                    window.location.reload(true);
+                                }else if(response.statusCode == 200){
+                                    $('#update-dispostion-form-btn').prop('disabled', false);
+                                    window.location.reload(true);
+                                }else if(response.statusCode == 500){
+                                    $('#update-dispostion-form-btn').prop('disabled', false);
+                                    window.location.reload(true);
+                                }else{
+                                    $('#update-dispostion-form-btn').prop('disabled', false);
+                                    window.location.reload(true);
+                                }
+                            },
+                            error: function(xhr) {
+                                console.error('Error:', xhr.responseText);
+                                $('#update-dispostion-form-btn').prop('disabled', false);
+                                window.location.reload(true);
+                            }
+                        });
+                    }
+                });
+            });
+
+        </script>
+        <script>
+            $(document).ready(function(){
+                function getLeadActivityLogs(){
+                    $.ajax({
+                        url: "{% url 'get-lead-activity-logs' %}",
+                        method: 'POST',              
+                        data: {
+                            lead_id: "{{lead.lead_id}}",
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            $('#activity-tab-data').html(response.html);
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error here
+                            console.error(error);
+                        }
+                    });
+                }
+                getLeadActivityLogs();
+            })
+        </script>
+        {% include "js-code.html" %}
+        
+    </body>
+
+{% endblock %}

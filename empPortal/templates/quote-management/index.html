@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+
+{% block title %}Motor Quote Management{% endblock %}
+
+{% block content %}
+<div class="white-bg">
+    <div class="content-header header-content-bg">
+        <div class="container-fluid ">
+        <div class="row pt-2 pb-2">
+            <div class="col-sm-6">
+                <h1 class="admin-title m-0 pt-2">Motor Quote Management</h1>
+                <ul class="breadcrump">
+                    <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                    <li> <a href="#">Quote Management</a> <i class="fas fa-chevron-right"></i></li>
+                    <li>Motor</li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'quote-management-create' %}" class="breadcrump-addbtn"><i class="fas fa-plus"></i> Create Quote </a>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-4 col-md-2">
+            <a href="#">
+                <div class="card counter-img-card active">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <p class="card-text">
+                        Total Quotes
+                        </p>
+                        <h5 class="card-title card-number">{{ total_quotes }}</h5>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </a>   
+            </div>  
+            <div class="col-xs-6 col-sm-4 col-md-2">
+            <a href="#">
+                <div class="card counter-img-card counter-active-card ">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <p class="card-text">
+                        Shared Quotes
+                        </p>
+                        <h5 class="card-title card-number">0</h5>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </a>  
+            </div>  
+            <div class="col-xs-6 col-sm-4 col-md-2">
+            <a href="#">
+                <div class="card counter-img-card counter-deactive-card ">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <p class="card-text">
+                        Pending Quotes
+                        </p>
+                        <h5 class="card-title card-number">0</h5>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </a>  
+            </div>  
+            <div class="col-xs-6 col-sm-4 col-md-2">
+            <a href="#">
+                <div class="card counter-img-card counter-pending-card ">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <p class="card-text">
+                        Drafted Quotes
+                        </p>
+                        <h5 class="card-title card-number">0</h5>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </a>  
+            </div>  
+            <div class="col-xs-6 col-sm-4 col-md-2">
+            <a href="#">
+                <div class="card counter-img-card counter-deactive-card ">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <p class="card-text">
+                        Rejected Quotes
+                        </p>
+                        <h5 class="card-title card-number">0</h5>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </a>  
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-2">
+            <a href="#">
+                <div class="card counter-img-card counter-active-card">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col">
+                        <p class="card-text">
+                        Approved Quotes
+                        </p>
+                        <h5 class="card-title card-number">0</h5>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </a>  
+            </div>
+        </div>
+
+        </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+        <div class="row">
+            
+            <div class="col-sm-12 col-md-12">  
+                <div class="card box-shadow-none px-3">
+                <div class="card-body px-0 pb-0">
+                    <!-- Filter Start -->
+                    <div class="card">
+                    <div class="card-body pb-0">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-field" name="customer_id" type="text" placeholder="Customer ID" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-field" name="customer_name" type="text" placeholder="Customer Name" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-field" name="customer_mobile" type="text" placeholder="Customer Mobile Number" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-field" name="policy_type" type="text" placeholder="Policy Type" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <select class="form-field" name="quote_status">
+                                            <option value="">Quote Status</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-field common_datepicker" name="quote_date_range" type="text" placeholder="Quote Date Range" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <select class="form-field" name="vehicle_type">
+                                            <option value="">Vehicle Type</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-field" name="ncb" type="text" placeholder="NCB (No Claim Bonus)" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-field" name="insurer_name" type="text" placeholder="Insurer Name" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group d-flex">
+                                        <button type="submit" class="wrap-btn w-100">Apply</button>
+                                        <a href="{% url 'quote-management' %}" class="wrap-btn w-100 bg-danger ml-2 text-center">Reset</a>
+                                    </div>  
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                    </div>
+                    <!-- FIlter End -->
+                    <ul class="nav nav-pills profile-tab">
+                        <li class="nav-item text-bold"><a class="nav-link active" href="#tab1" data-toggle="tab">Shared</a></li>
+                        <li class="nav-item text-bold"><a class="nav-link" href="#tab2" data-toggle="tab">Pending </a></li>
+                        <li class="nav-item text-bold"><a class="nav-link" href="#tab3" data-toggle="tab">Approved</a></li>
+                        <li class="nav-item text-bold"><a class="nav-link" href="#tab4" data-toggle="tab">Rejected</a></li>
+                    </ul>
+                    <div class="tab-content">
+                    <div class="tab-pane active" id="tab1">
+                        <div class="table-responsive table-ht">
+                            <table class="table table-design table-trlink quote-table-w">
+                                <thead class="table-thead-bg-light table-header-fix">
+                                    <tr>
+                                        <!-- <th width="200">Quote Customer Id</th> -->
+                                        <th width="250">Customer Name</th>
+                                        <th width="250">Registration Number</th>
+                                        <th width="200">Vehicle Type</th>
+                                        <th width="250">Year of Manufacture</th>
+                                        <th width="200">Plan Name</th>
+                                        <th width="200">IDV (₹)</th>
+                                        <th width="200">Premium (₹)</th>
+                                        <th width="200">Add-ons</th>
+                                        <th width="200">Claim Ratio (%)</th>
+                                        <th width="200">RM Info</th>
+                                        <th width="200">Share Date</th>
+                                        <th width="200">History</th>
+                                        <th width="50">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for quotation in quotations %}
+                                    <tr>
+                                        <!-- <td>{{ quotation.customer_id }}</td> -->
+                                        <td>{{ quotation.name_as_per_pan|default:"N/A" }}</td>
+                                        <td>
+                                            <a 
+                                                style="all: unset; cursor: pointer;" 
+                                                href="{% url 'quote-management-edit' customer_id=quotation.customer_id %}">
+                                                {{ quotation.vehicle.registration_number|default:"N/A" }}
+                                            </a>
+                                        </td>
+                                        <td>{{ quotation.vehicle.vehicle_type|default:"N/A" }}</td>
+                                        <td>{{ quotation.vehicle.year_of_manufacture|default:"N/A" }}</td>
+                                        <td>{{ quotation.vehicle.policy_type|default:"N/A" }}</td>
+                                        <td>{{ quotation.vehicle.idv_value|default:"N/A" }}</td>
+                                        <td>{{ quotation.vehicle.premium|default:"N/A" }}</td>
+                                        <td>{{ quotation.vehicle.addons_display|default:"N/A" }}</td>
+                                        <td>{{ quotation.vehicle.claim_history|default:"N/A" }}</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td><a href="#">View</a></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <img src="/static/dist/img/svg/menu-dot-vr.svg" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                                <ul class="dropdown-menu table-dropdown-menu">
+                                                    <li>
+                                                        <a 
+                                                            class="dropdown-item" 
+                                                            href="{% url 'quote-management-edit' customer_id=quotation.customer_id %}">Edit
+                                                        </a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" href="#">View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="14" class="text-center">No quotations found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                        Tab 2
+                    </div>
+                    <div class="tab-pane" id="tab3">
+                        Tab 3
+                    </div>
+                    <div class="tab-pane" id="tab4">
+                        Tab 4
+                    </div>
+                    </div>
+                
+                </div>
+                </div>
+                <div class="bottom-fix-pagination">
+                <div class="d-flex">
+                    <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                    </ul>
+                    <select class="pagination-dropdown">
+                    <option>10 / Page</option>
+                    <option>20 / Page</option>
+                    <option>50 / Page</option>
+                    <option>100 / Page</option>
+                    </select>
+                </div>  
+                </div>  
+            </div>
+            </div>
+        </div>  
+        </div>
+        
+    </div>
+</div>    
+{% endblock %}

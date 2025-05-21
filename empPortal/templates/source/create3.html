@@ -1,0 +1,79 @@
+{% extends 'master.html' %}
+
+{% block title %}
+  {% if form.instance.pk %}Edit Source{% else %}Add Source{% endif %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    {% include 'navbar.html' %}
+    {% include 'sidebar.html' %}
+
+    <div class="content-wrapper white-bg">
+
+      <!-- Header -->
+      <div class="content-header header-content-bg">
+        <div class="container-fluid">
+          <div class="row pt-2 pb-2">
+            <div class="col-sm-6">
+              <h1 class="admin-title m-0 pt-2">
+                {% if form.instance.pk %}Edit Source{% else %}Add Source{% endif %}
+              </h1>
+            </div>
+            <div class="col-sm-6">
+              <div class="d-flex justify-content-end">
+                <a href="{% url 'source_list' %}" class="breadcrump-addbtn">
+                  <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="card box-shadow-none">
+            <div class="card-body">
+
+              <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group mb-3">
+                  {{ form.source_name.label_tag }}
+                  {{ form.source_name }}
+                </div>
+
+                <div class="form-group mb-3">
+                  {{ form.sort_source_name.label_tag }}
+                  {{ form.sort_source_name }}
+                </div>
+
+                <div class="form-group mb-3">
+                  {{ form.status.label_tag }}
+                  {{ form.status }}
+                </div>
+
+                <button type="submit" class="dashboard-addbtn">
+                  Save
+                </button>
+                <a href="{% url 'source_list' %}" class="dashboard-btn-outline">
+                  Cancel
+                </a>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'footer.html' %}
+  </div>
+  {% include 'footer-script.html' %}
+</body>
+{% endblock %}

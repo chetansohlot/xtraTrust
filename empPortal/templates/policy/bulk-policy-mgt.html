@@ -1,0 +1,160 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Policy Management
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-12 col-md-6">
+                <h2 class="admin-title m-0 pt-2 text-dark">Add Bulk Policy </h2>
+                <ul class="breadcrump">
+                  <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="{% url 'policy-data' %}">Post Policies Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Bulk Policy Mgt</li>
+                </ul>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="d-flex align-items-center justify-content-end">
+                  <div>
+                    <a href="{% url 'bulk-upload-logs' %}" class="breadcrump-addbtn mx-1">View Bulk Policy</a>
+                    <a href="{% url 'policy-mgt' %}" class="breadcrump-addbtn mx-1">Add Policy</a>
+                    <a href="{% url 'policy-data' %}" class="breadcrump-addbtn mx-1">View Policy</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    
+                    <form autocomplete="off" id="bulkPolicyUploadIdForm" name="browsePolicy" action="{% url 'bulk-browser-policy' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-lbl" for="zip_file">Upload ZIP File</label>
+                                <input type="file" class="form-field" name="zip_file" id="zip_file" accept=".zip">
+                                <span class="error zip_file_err"></span>
+                                {% if form.zip_file.errors %}
+                                    <span class="text-danger">{{ form.zip_file.errors.0 }}</span>
+                                {% endif %}
+                                <p class="text-gray small pt-1">Only Zip allowed, Max Size 50 MB Allowed, Zip Contains Max files 50 only and pdfs only</p>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-lbl" for="product_type">Product Type</label>
+                                <select name="product_type" id="product_type" class="form-field">
+                                  <option value="">Select</option>
+                                  {% for k,v in product_types.items %}
+                                    <option value="{{k}}">{{v}}</option>
+                                  {% endfor %}
+                                </select>
+                                <span class="error product_type_err"></span>
+                                {% if form.product_type.errors %}
+                                    <span class="text-danger">{{ form.product_type.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-lbl" for="camp_name">Campaign Name</label>
+                                <input type="text" class="form-field" name="camp_name" id="camp_name" placeholder="Campaign Name">
+                                <span class="error camp_name_err"></span>
+                                {% if form.camp_name.errors %}
+                                    <span class="text-danger">{{ form.camp_name.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-lbl" for="rm_name">RM Name</label>
+                                <select name="rm_id" id="rm_id" class="form-field">
+                                  <option value="">Select RM</option>
+                                  {% for user in users %}
+                                      <option value="{{ user.id }}" {% if user.id == request.user.id %}selected{% endif %}>
+                                          {{ user.full_name }}
+                                      </option>
+                                  {% endfor %}
+                                </select>
+                                <span class="error rm_id_err"></span>
+                                {% if form.rm_id.errors %}
+                                    <span class="text-danger">{{ form.rm_id.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-lbl" for="rm_name">Insurance Company</label>
+                                <select name="insurance_company" id="insurance_company" class="form-field">
+                                  <option value="">Select Insurance Company</option>
+                                  {% for insurer in insurers %}
+                                      <option value="{{ insurer.id }}" {% if insurer.id == request.insurer.id %}selected{% endif %}>
+                                          {{ insurer.insurance_company }}
+                                      </option>
+                                  {% endfor %}
+                                </select>
+                                <span class="error insurance_company_err"></span>
+                                {% if form.insurance_company.errors %}
+                                    <span class="text-danger">{{ form.insurance_company.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <div class="d-flex justify-content-end">
+                              <button type="submit" class="form-submit-btn">Upload ZIP</button>
+                            </div>
+                          </div>  
+                        </div>
+                        
+                    </form>
+                    
+                  </div>
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+   
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+        <!-- document.getElementById("bulkPolicyUploadIdForm").addEventListener("submit", function() {
+            document.getElementById("loader").style.display = "flex";
+        }); -->
+      </script>
+</body>
+{% endblock %}

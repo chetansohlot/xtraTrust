@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Material & Question Paper - {{ COMPANY_SHORT_NAME }}</title>
+    <link rel="stylesheet" href="{{ COMPANY_WEBSITE }}assets/css/style.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .question {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        .header, .footer {
+            background: #003366;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+        .header h1, .footer p {
+            margin: 0;
+        }
+        a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            background: #003366;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #3c763d;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>{{ COMPANY_SHORT_NAME }} Training & Examination</h1>
+        <p>Empowering Agents with Knowledge</p>
+    </header>
+    
+    <div class="container">
+        <section class="section">
+            <h2>Company Information</h2>
+            <p><strong>Address:</strong> {{ COMPANY_ADDRESS }}</p>
+            <p><strong>Email:</strong> {{ COMPANY_EMAIL }} | <strong>Website:</strong> <a href="{{ COMPANY_WEBSITE }}">{{ COMPANY_WEBSITE }}</a></p>
+            <p><strong>IRDAI License Number:</strong> {{ IRDAI_LICENSE_NO }}</p>
+        </section>
+        
+        <section class="section">
+            <h2>Training & Guidelines</h2>
+            <h3>1. Instructions</h3>
+            <ul>
+                <li><strong>Total Questions:</strong> 50 (25 Motor Insurance + 25 Health Insurance)</li>
+                <li><strong>Each question carries 1 mark.</strong></li>
+                <li><strong>No negative marking </strong>for wrong answers. </li>
+                <li><strong>Time Duration: </strong>60 minutes.</li>
+                <li><strong>Passing Criteria: </strong> 60% (30 out of 50 correct answers). </li>
+                <li><strong>Select the most appropriate option </strong>  for each question. </li>
+            </ul>
+        </section>
+        
+        <form action="{% url 'start_exam' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Start Exam</button>
+        </form>
+        <!-- <a href="" class="btn btn-success">Start Exam</a> -->
+        <!-- <button type="button" class="btn btn-success">Start Exam</button> -->
+
+        <!-- <section class="section">
+            <h2>Examination - Question Paper</h2>
+            <form id="examForm">
+                <div class="question">1. What does IRDAI stand for?</div>
+                <div class="options">
+                    <input type="radio" name="q1" value="a"> a) Insurance Regulatory and Development Authority of India<br>
+                    <input type="radio" name="q1" value="b"> b) Indian Regulatory and Development Association<br>
+                    <input type="radio" name="q1" value="c"> c) Insurance Rules and Development Agency<br>
+                </div>
+            </form>
+            <div id="result" class="result"></div>
+        </section> -->
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2025 {{ COMPANY_SHORT_NAME }}. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

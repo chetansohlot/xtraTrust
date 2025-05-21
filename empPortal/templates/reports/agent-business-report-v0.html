@@ -1,0 +1,222 @@
+{% extends 'master.html' %}
+
+{% block title %}
+  Commission Report
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Agent Business Report</a>
+            </div>
+            <ul class="breadcrump">
+              <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+              <li> <a href="#">Reports</a> <i class="fas fa-chevron-right"></i></li>
+              <li>Agent Business Report</li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-end">
+              <a href="javascript:void()" class="breadcrump-addbtn bg-warning mx-1" data-toggle="modal" data-target="#export-report-modal">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid mobile-filter">
+            <div class="row">
+                <button type="button" class="mobile-filter-close">×</button>
+                <div class="col-sm-12">
+                  {% include "components/common/report-filter.html" %}
+                </div>
+            </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <!-- <a class="nav-item nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab"
+                     aria-controls="tab1" aria-selected="true">Report</a> -->
+                  <!-- <a class="nav-item nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab"
+                    aria-controls="tab2" aria-selected="false">Roles</a> -->
+                </div>
+                <div>
+                
+                    
+                  </div>
+                <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    
+                    <div class="table-responsive table-ht">
+                      
+                      <table class="table table-design commission-report-table-width">
+                        <thead class="table-thead-bg-light table-header-fix">
+                            <tr>
+                              <th class="nowrap"> Month</th>
+                              <th class="nowrap"> Policy Month</th>
+                              <th class="nowrap"> Branch Name</th>
+                              <th class="nowrap"> Sales Manager</th>
+                              <th class="nowrap"> Agent Name</th>
+                              <th class="nowrap"> Insurance Company</th>
+                              <th class="nowrap"> Insured Name</th>
+                              <th class="nowrap"> Reg Number</th>
+                              <th class="nowrap"> Policy Number</th>
+                              <th class="nowrap"> Vehicle Type</th>
+                              <th class="nowrap"> Manufacturing Year</th>
+                              <th class="nowrap"> Make & Model</th>
+                              <th class="nowrap"> Fuel Type</th>
+                              <th class="nowrap"> Policy Type</th>
+                              <th class="nowrap"> GVW</th>
+                              <th class="nowrap"> Cubic Capacity</th>
+                              <th class="nowrap"> Seating Capacity</th>
+                              <th class="nowrap"> Sum Insured</th>
+                              <th class="nowrap"> NCB</th>
+                              <th class="nowrap"> OD Premium</th>
+                              <th class="nowrap"> TP Premium</th>
+                              <th class="nowrap"> Net Premium</th>
+                              <th class="nowrap"> Gross Premium</th>
+                              <th class="nowrap"> Final Value</th>
+                              <th class="nowrap"> Policy Year</th>
+                              <th class="nowrap"> Agent Payment Mode</th>
+                              <th class="nowrap"> Agent Payment Date</th>
+                              <th class="nowrap"> Policy Issue Date</th>
+                              <th class="nowrap"> Risk Start Date</th>
+                              <th class="nowrap"> Risk End Date</th>
+                              <th class="nowrap"> Agent Amount</th>
+                              <th class="nowrap"> Agent OD Comm</th>
+                              <th class="nowrap"> Agent OD Amount</th>
+                              <th class="nowrap"> Agent Net Comm</th>
+                              <th class="nowrap"> Agent Net Amount</th>
+                              <th class="nowrap"> Agent TP Comm</th>
+                              <th class="nowrap"> Agent TP Amount</th>
+                              <th class="nowrap"> Agent Incentive Amount</th>
+                              <th class="nowrap"> Agent Total Comm Amount</th>
+                              <th class="nowrap"> Agent Remarks</th>
+                              <th class="nowrap"> Created By</th>
+                              <th class="nowrap"> Updated By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <!-- {% for data in policy_data %} -->
+                          <tr>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                           <td>N/A</td>
+                        </tr>
+                        
+                          <!-- {% endfor %} -->
+                      </tbody>
+                    </table>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <!-- <pre>{{ page_obj|pprint }}</pre>    -->
+              <div class="pagination-dynamic">
+                {% if page_obj.paginator.num_pages > 1 %}
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value|urlencode }}{% endif %}{% endfor %}">« Prev</a>
+                            </li>
+                        {% endif %}
+            
+                        {% for num in page_obj.paginator.page_range %}
+                            <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                                <a class="page-link" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value|urlencode }}{% endif %}{% endfor %}">{{ num }}</a>
+                            </li>
+                        {% endfor %}
+            
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value|urlencode }}{% endif %}{% endfor %}">Next »</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+</body>
+
+{% endblock %}

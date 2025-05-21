@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Customer{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="content-header header-content-bg">
+    <div class="container-fluid ">
+      <div class="row pt-2 pb-3">
+        <div class="col-sm-6">
+          <div class="d-flex align-items-center">
+            <h1 class="admin-title m-0 pt-2">Estimate Quote</h1>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      
+      <div class="row">
+        <div class="col-sm-12 col-md-12">  
+          
+      
+            <div class="card box-shadow-none">
+              <div class="card-body pb-0">
+                <div class="row justify-content-between">
+                  <div class="col-3">
+                    <div class="d-flex align-items-center h-100">
+                      <img src="{% static 'dist/img/logo2.png' %}" alt="" class="bill-header-logo">
+                    </div>  
+                  </div>
+                  <div class="col-3">
+                    <p class="invoice-to">Customer Details</p>
+                    <p class="invoice-detail">
+                        <strong>{{ customer.name_as_per_pan }}</strong> <br>
+                        {{ customer.mobile_number }} <br>
+                        {{ customer.email_address }} <br>
+                        {% if customer.pan_card_number %}
+                            <strong>PAN:</strong> {{ customer.pan_card_number }}<br>
+                        {% endif %}
+                        {% if customer.date_of_birth %}
+                            <strong>DOB:</strong> {{ customer.date_of_birth|date:"d-m-Y" }} <br>
+                        {% endif %}
+                        {{ customer.address }}, {{ customer.city }}, {{ customer.state }} ({{ customer.pincode }}) <br>
+                    </p>
+                </div>
+                
+                  <div class="col-6">
+                      <p class="invoice-to">Vehicle Information </p>
+                    
+                      <table border="0" class="w-100 mb-3">
+                        <tr>
+                            <td>
+                                <p class="invoice-detail">
+                                    <strong>Vehicle:</strong> {{ vehicle_info.vehicle_type|default:"N/A" }} <br>
+                                    <strong>Model:</strong> {{ vehicle_info.model|default:"N/A" }} <br>
+                                    <strong>Registration No.:</strong> {{ vehicle_info.registration_number|default:"N/A" }} <br>
+                                    <strong>Registration Date:</strong> {{ vehicle_info.registration_date|date:"d-m-Y"|default:"N/A" }} <br>
+                                    <strong>Variant:</strong> {{ vehicle_info.variant|default:"N/A" }} <br>
+                                    <strong>Year of Manufacture:</strong> {{ vehicle_info.year_of_manufacture|default:"N/A" }} <br>
+                                    <strong>Chassis No.:</strong> {{ vehicle_info.chassis_number|default:"N/A" }} <br>
+                                    <strong>Engine No.:</strong> {{ vehicle_info.engine_number|default:"N/A" }}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="invoice-detail">
+                                    <strong>Registration State:</strong> {{ vehicle_info.registration_state|default:"N/A" }} <br>
+                                    <strong>Registration City: </strong>{{ vehicle_info.registration_city|default:"N/A" }} <br>
+                                    <strong>Claim (Last Year):</strong> {{ vehicle_info.claim_history|default:"N/A" }} <br>
+                                    <strong>NCB Percentage:</strong> {{ vehicle_info.ncb_percentage|default:"0.00" }}% <br>
+                                    <strong>IDV:</strong> {{ vehicle_info.idv_value|default:"0.00" }} <br>
+                                    <strong>Policy Type:</strong> {{ vehicle_info.policy_type|default:"N/A" }} <br>
+                                    <strong>Policy Duration:</strong> {{ vehicle_info.policy_duration|default:"N/A" }} <br>
+                                    <strong>Add-ons:</strong>
+                                    {% if addon_names %}
+                                        {{ addon_names|join:", " }}
+                                    {% else %}
+                                        None
+                                    {% endif %}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                  </div>
+                </div>
+                <table class="table table-design table-bordered">
+                  <tbody>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Insurer Name</strong></td>
+                      <td>ICICI Lombard</td>
+                      <td>HDFC Ergo</td>
+                      <td>TATA AIG</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Plan Name</strong></td>
+                      <td>Comprehensive Plan A</td>
+                      <td>Comprehensive Secure</td>
+                      <td>Auto Secure Plan</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Premium Amount (INR)</strong></td>
+                      <td>INR12,500</td>
+                      <td>INR11,800</td>
+                      <td>INR13,200</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Policy Type</strong></td>
+                      <td>Comprehensive</td>
+                      <td>Comprehensive</td>
+                      <td>Comprehensive</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>IDV (INR)</strong></td>
+                      <td>INR5,00,000</td>
+                      <td>INR4,80,000</td>
+                      <td>INR5,20,000</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>NCB Discount (%)</strong></td>
+                      <td>20%</td>
+                      <td>25%</td>
+                      <td>18%</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Own Damage Premium (INR)</strong></td>
+                      <td>INR 7,500</td>
+                      <td>INR 7,000</td>
+                      <td>INR 8,000</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Third-Party Premium (INR)</strong></td>
+                      <td>INR 4,500</td>
+                      <td>INR 4,800</td>
+                      <td>INR 5,200</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Personal Accident Cover (INR)</strong></td>
+                      <td>INR 15,00,000</td>
+                      <td>INR 15,00,000</td>
+                      <td>INR 15,00,000</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Add-Ons Included</strong></td>
+                      <td>Zero Dep, Roadside Assist, Engine Protect</td>
+                      <td>Zero Dep, Engine Protect</td>
+                      <td>Zero Dep, Consumables Cover, Key Replacement</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Claim Settlement Ratio (%)</strong></td>
+                      <td>95%</td>
+                      <td>93%</td>
+                      <td>97%</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Cashless Garage Network</strong></td>
+                      <td>5000+</td>
+                      <td>4500+</td>
+                      <td>5500+</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Policy Tenure</strong></td>
+                      <td>1 Year</td>
+                      <td>1 Year</td>
+                      <td>1 Year</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Roadside Assistance</strong></td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>NCB Protection</strong></td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Engine Protect Cover</strong></td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                      <td>No</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Consumables Cover</strong></td>
+                      <td>Yes</td>
+                      <td>No</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Key Replacement Cover</strong></td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Deductibles (INR)</strong></td>
+                      <td>INR 1,000</td>
+                      <td>INR 750</td>
+                      <td>INR 1,500</td>
+                    </tr>
+                    <tr>
+                      <td class="table-thead-bg-light"><strong>Additional Benefits</strong></td>
+                      <td>Free Vehicle Pickup, Instant Claim Approval</td>
+                      <td>Discount on Long-Term Policy</td>
+                      <td>24/7 Claim Assistance, Fastest Settlement</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <form action="{% url 'quote-management' %}">
+                  <div class="row mt-4 justify-content-end text-end">
+                    <div class="col-auto">
+                      <!-- Download PDF Button with Right Padding -->
+                      <a href="{% url 'download-quotation-pdf' cus_id %}" class="wrap-btn m-3">
+                        <i class="fas fa-download"></i>
+                      </a>
+                
+                      <!-- Radio Buttons -->
+                      <div class="d-inline-block">
+                        <input type="checkbox" name="shareopt" class="chkbox-btn" id="email">
+                        <label for="email">Email</label>
+                      </div>
+                      <div class="d-inline-block">
+                        <input type="checkbox" name="shareopt" class="chkbox-btn" id="Whatsapp">
+                        <label for="Whatsapp">WhatsApp</label>
+                      </div>
+                      <div class="d-inline-block">
+                        <input type="checkbox" name="shareopt" class="chkbox-btn" id="sms">
+                        <label for="sms">SMS</label>
+                      </div>
+                
+                      <!-- Send & Share Button -->
+                      <button type="submit" class="wrap-btn ms-2">Send & Share</button>
+                    </div>
+                  </div>
+                </form>
+                
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,2722 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}{% endblock %}</title>
+  {% include 'head.html' %}
+  {% load static %}
+  <script src="{% static 'dist/js/jquery.min.js' %}"></script>
+  <script src="{% static 'dist/js/custom.js' %}?v={{ cache_buster }}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+
+</head>
+
+<style>
+  #loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+#loader img {
+  width: 500px; /* Adjust size as needed */
+  height: auto;
+}
+
+</style>
+<div id="loader">
+  <img src="/empPortal/static/dist/img/loader.webp" alt="Loading..." />
+</div>
+{% block content %}
+  
+{% endblock %}
+
+<script>
+  window.addEventListener("load", function () {
+      document.getElementById("loader").style.display = "none";
+  });
+</script>
+
+
+  <!-- jQuery (Must be Loaded First) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- jQuery Validate Plugin (Must be Loaded After jQuery) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  
+  <!-- Toastr CSS -->
+<!-- jQuery (Required for Toastr) -->
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+  <script>
+        $(document).ready(function() {
+            {% for message in messages %}
+                toastr.{{ message.tags }}("{{ message|escapejs }}");
+            {% endfor %}
+        });
+    </script>
+<!-- jQuery Validation Script -->
+<script>
+  $(document).ready(function () {
+
+    $("#registerForm").validate({
+        rules: {
+            full_name: {
+                required: true,
+                minlength: 3,
+                maxlength: 30
+            },
+            gender: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true,
+                remote: {
+                    url: "/check-email/", // Django view to check email
+                    type: "POST",
+                    data: {
+                        email: function () {
+                            return $("#email").val();
+                        },
+                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    dataFilter: function (response) {
+                        var data = JSON.parse(response);
+                        return data.exists ? "false" : "true"; // 'false' means email is taken
+                    }
+                }
+            },
+            mobile: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10,
+                remote: {
+                    url: "/check-mobile/", // Django view to check email
+                    type: "POST",
+                    data: {
+                        mobile: function () {
+                            return $("#mobile").val();
+                        },
+                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    dataFilter: function (response) {
+                        var data = JSON.parse(response);
+                        return data.exists ? "false" : "true"; // 'false' means email is taken
+                    }
+                }
+            },
+            password: {
+                required: true,
+                minlength: 6
+            },
+            confirm_password: {
+                required: true,
+                minlength: 6,
+                equalTo: "#password" // Ensures confirm_password matches password
+            },
+            terms: {
+                required: true
+            },
+            pan_no:{
+                required: true,
+                maxlength:10,
+                minlength:10,
+                regex: "[A-Z]{5}[0-9]{4}[A-Z]{1}" 
+            }
+        },
+        messages: {
+            full_name: {
+                required: "Please enter your full name",
+                minlength: "Name must be at least 3 characters long"
+            },
+            email: {
+                required: "Please enter your email",
+                email: "Enter a valid email",
+                remote: "This email is already registered."
+            },
+            mobile: {
+                required: "Please enter your mobile number",
+                digits: "Only numbers allowed",
+                minlength: "Must be 10 digits",
+                maxlength: "Must be 10 digits",
+                remote: "This mobile is already registered."
+            },
+            password: {
+                required: "Please enter your password",
+                minlength: "Password must be at least 6 characters long"
+            },
+            confirm_password: {
+                required: "Please confirm your password",
+                minlength: "Password must be at least 6 characters long",
+                equalTo: "Passwords do not match"
+            },
+            terms: {
+                required: "You must agree to the Terms & Conditions"
+            },
+            pan_no: {
+                required: "Please enter your pan number",
+                maxlength : "Pan Number Must Be of 10 Characters",
+                minlength : "Pan Number Must Be of 10 Characters",
+                regex: "Please enter a valid PAN number (e.g., ABCDE1234F)."
+            }
+        },
+        errorElement: "div",
+        errorPlacement: function (error, element) {
+            error.addClass("text-danger");
+            error.insertAfter(element);
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+
+  </script>
+
+  
+  
+    <script>
+        $(document).ready(function () {
+            $("#departmentForm").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    contact_person: {
+                        required: true,
+                        minlength: 3
+                    },
+                    mobile: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 10
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    department_code: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 20
+                    },
+                    head_of_department: {
+                        required: true,
+                        minlength: 3
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "Please enter Department Name",
+                        minlength: "Department Name must be at least 3 characters long"
+                    },
+                    contact_person: {
+                        required: "Please enter Contact Person",
+                        minlength: "Contact Person must be at least 3 characters long"
+                    },
+                    mobile: {
+                        required: "Please enter Mobile Number",
+                        digits: "Only numbers allowed",
+                        minlength: "Mobile number must be 10 digits",
+                        maxlength: "Mobile number must be 10 digits"
+                    },
+                    email: {
+                        required: "Please enter an Email Address",
+                        email: "Enter a valid email address"
+                    },
+                  
+                    department_code: {
+                        required: "Please enter Department Code",
+                        minlength: "Department Code must be at least 3 characters",
+                        maxlength: "Department Code must not exceed 20 characters"
+                    },
+                    head_of_department: {
+                        required: "Please enter Head of Department",
+                        minlength: "Head of Department must be at least 3 characters long"
+                    }
+                },
+                errorElement: "div",
+                errorPlacement: function (error, element) {
+                    error.addClass("text-danger");
+                    error.insertAfter(element);
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+        
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#motor-previous-policy-lead-save").validate({
+                rules: {
+                    registration_number: {
+                        maxlength: 50
+                    },
+                    registration_date: {
+                        date: true
+                    },
+                    vehicle_type: {
+                        required: true
+                    },
+                    make: {
+                        maxlength: 100
+                    },
+                    model: {
+                        maxlength: 100
+                    },
+                    variant: {
+                        maxlength: 100
+                    },
+                    year_of_manufacture: {
+                        digits: true
+                    },
+                    registration_state: {
+                        maxlength: 50
+                    },
+                    registration_city: {
+                        maxlength: 100
+                    },
+                    chassis_number: {
+                        maxlength: 100
+                    },
+                    engine_number: {
+                        maxlength: 100
+                    },
+                    ncb_percentage: {
+                        number: true,
+                        max: 100
+                    },
+                    idv_value: {
+                        number: true
+                    },
+                    policy_duration: {
+                        maxlength: 50
+                    },
+                    addons: {
+                        maxlength: 1000
+                    },
+                    owner_name: {
+                        maxlength: 100
+                    },
+                    father_name: {
+                        maxlength: 100
+                    },
+                    state_code: {
+                        maxlength: 10
+                    },
+                    location: {
+                        maxlength: 100
+                    },
+                    vehicle_category: {
+                        maxlength: 100
+                    },
+                    vehicle_class_description: {
+                        maxlength: 100
+                    },
+                    body_type_description: {
+                        maxlength: 100
+                    },
+                    vehicle_color: {
+                        maxlength: 50
+                    },
+                    vehicle_cubic_capacity: {
+                        number: true
+                    },
+                    vehicle_gross_weight: {
+                        number: true
+                    },
+                    vehicle_seating_capacity: {
+                        digits: true
+                    },
+                    vehicle_fuel_description: {
+                        maxlength: 50
+                    },
+                    vehicle_owner_number: {
+                        digits: true
+                    },
+                    rc_expiry_date: {
+                        date: true
+                    },
+                    rc_pucc_expiry_date: {
+                        date: true
+                    },
+                    insurance_expiry_date: {
+                        date: true
+                    },
+                    insurance_policy_number: {
+                        maxlength: 100
+                    }
+                },
+                messages: {
+                    registration_number: {
+                        required: "Please enter Registration Number",
+                        maxlength: "Maximum 50 characters allowed"
+                    },
+                    registration_date: {
+                        required: "Please enter Registration Date",
+                        date: "Please enter a valid date"
+                    },
+                    vehicle_type: {
+                        required: "Please select Vehicle Type"
+                    },
+                    make: {
+                        required: "Please enter Make",
+                        maxlength: "Maximum 100 characters allowed"
+                    },
+                    model: {
+                        required: "Please enter Model",
+                        maxlength: "Maximum 100 characters allowed"
+                    },
+                    claim_history: {
+                        required: "Please select Claim History"
+                    },
+                    ncb: {
+                        required: "Please select NCB"
+                    },
+                    ncb_percentage: {
+                        number: "Enter a valid percentage",
+                        max: "Percentage can't exceed 100"
+                    },
+                    idv_value: {
+                        number: "Enter a valid IDV amount"
+                    },
+                    policy_type: {
+                        required: "Please select Policy Type"
+                    },
+                    insurance_company: {
+                        required: "Please select Insurance Company"
+                    },
+                    insurance_expiry_date: {
+                        date: "Enter a valid expiry date"
+                    }
+                },
+                errorElement: "div",
+                errorPlacement: function (error, element) {
+                    error.addClass("text-danger");
+                    error.insertAfter(element);
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+
+        
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            // Custom regex validator for PAN
+            jQuery.validator.addMethod("regex", function (value, element, regexp) {
+                let re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            }, "Invalid format.");
+        
+            // Apply validation rules to the form
+            $("#myPolicyForm").validate({
+                rules: {
+                    // Insured Details
+                    holder_name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    insured_mobile: {
+                        // required: true,
+                        // required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 10
+                    },
+                    insured_email: {
+                        // required: true,
+                        // required: true,
+                        email: true
+                    },
+                    insured_address: {
+                        // required: true,
+                        minlength: 5
+                    },
+                    insured_pan: {
+                        // required: true,
+                        regex: "^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
+                    },
+                    insured_aadhaar: {
+                        // required: true,
+                        digits: true,
+                        minlength: 12,
+                        maxlength: 12
+                    },
+        
+                    // Policy Details
+                    insurance_company: { required: true },
+                    location: { required: true },
+                    owner_name: { required: true },
+                    father_name: { required: true },
+                    vehicle_owner_number: { required: true },
+                    // registration_city: { required: true },
+                    supervisor_name: { required: true },
+                    policy_type: { required: true },
+                    // policy_duration: { required: true },
+                    idv_value: {
+                        required: true,
+                        number: true
+                    },
+                    od_premium: {
+                        required: true,
+                        number: true
+                    },
+                    tp_premium: {
+                        required: true,
+                        number: true
+                    },
+                    pa_count: {
+                        required: true,
+                        digits: true
+                    },
+                    pa_amount: {
+                        required: true,
+                        number: true
+                    },
+                    driver_count: {
+                        required: true,
+                        digits: true
+                    },
+                    driver_amount: {
+                        required: true,
+                        number: true
+                    }
+                },
+                messages: {
+                    holder_name: {
+                        required: "Please enter insured name",
+                        minlength: "Name must be at least 3 characters"
+                    },
+                    insured_mobile: {
+                        required: "Please enter insured mobile number",
+                        digits: "Only digits allowed",
+                        minlength: "Must be 10 digits",
+                        maxlength: "Must be 10 digits"
+                    },
+                    insured_email: {
+                        required: "Please enter insured email",
+                        email: "Enter a valid email"
+                    },
+                    insured_address: {
+                        required: "Please enter address",
+                        minlength: "Address must be at least 5 characters"
+                    },
+                    insured_pan: {
+                        required: "Please enter PAN",
+                        regex: "Enter valid PAN (e.g., ABCDE1234F)"
+                    },
+                    insured_aadhaar: {
+                        required: "Please enter Aadhaar",
+                        digits: "Only digits allowed",
+                        minlength: "Must be 12 digits",
+                        maxlength: "Must be 12 digits"
+                    },
+        
+                    // Policy Details messages
+                    insurance_company: { required: "Enter Insurance Company" },
+                    location: { required: "Enter Service Provider" },
+                    owner_name: { required: "Enter Insurer Name" },
+                    father_name: { required: "Enter Bqp" },
+                    vehicle_owner_number: { required: "Enter Pos Name" },
+                    registration_city: { required: "Enter Branch Name" },
+                    supervisor_name: { required: "Enter Supervisor Name" },
+                    policy_type: { required: "Enter Policy Type" },
+                    policy_duration: { required: "Enter Policy Plan" },
+                    idv_value: {
+                        required: "Enter Sum Insured",
+                        number: "Must be a number"
+                    },
+                    od_premium: {
+                        required: "Enter OD Premium",
+                        number: "Must be a number"
+                    },
+                    tp_premium: {
+                        required: "Enter TP Premium",
+                        number: "Must be a number"
+                    },
+                    pa_count: {
+                        required: "Enter PA Count",
+                        digits: "Must be an integer"
+                    },
+                    pa_amount: {
+                        required: "Enter PA Amount",
+                        number: "Must be a number"
+                    },
+                    driver_count: {
+                        required: "Enter Driver Count",
+                        digits: "Must be an integer"
+                    },
+                    driver_amount: {
+                        required: "Enter Driver Amount",
+                        number: "Must be a number"
+                    }
+                },
+                errorElement: "div",
+                errorPlacement: function (error, element) {
+                    error.addClass("text-danger");
+                    error.insertAfter(element);
+                }
+            });
+        
+            // Save button click handler
+            $("#save-policy-from").on("click", function () {
+                if ($("#myPolicyForm").valid()) {
+                    $("#myPolicyForm").submit();
+                } else {
+                    console.log("Form has validation errors.");
+                }
+            });
+        });
+        </script>
+        
+        
+        <script>
+            $(document).ready(function () {
+                // Add custom regex method if needed
+                jQuery.validator.addMethod("regex", function (value, element, regexp) {
+                    let re = new RegExp(regexp);
+                    return this.optional(element) || re.test(value);
+                }, "Invalid format.");
+            
+                // Validate the vehicle policy form
+                $("#myVehiclePolicyForm").validate({
+                    rules: {
+                        vehicle_type: { required: true },
+                        vehicle_make: { required: true },
+                        vehicle_model: { required: true },
+                        // vehicle_variant: { required: true },
+                        fuel_type: { required: true },
+                        gvw: {
+                            number: true
+                        },
+                        cubic_capacity: {
+                            number: true
+                        },
+                        seating_capacity: {
+                            digits: true
+                        },
+                        vehicle_reg_no: { required: true },
+                        engine_number: { required: true },
+                        chassis_number: { required: true },
+                        mgf_year: {
+                            required: true,
+                            digits: true,
+                            minlength: 4,
+                            maxlength: 4
+                        }
+                    },
+                    messages: {
+                        vehicle_type: { required: "Enter vehicle type" },
+                        vehicle_make: { required: "Enter make" },
+                        vehicle_model: { required: "Enter model" },
+                        vehicle_variant: { required: "Enter variant" },
+                        fuel_type: { required: "Select fuel type" },
+                        gvw: {
+                            required: "Enter GVW",
+                            number: "Must be a number"
+                        },
+                        cubic_capacity: {
+                            required: "Enter cubic capacity",
+                            number: "Must be a number"
+                        },
+                        seating_capacity: {
+                            required: "Enter seating capacity",
+                            digits: "Must be digits only"
+                        },
+                        vehicle_reg_no: { required: "Enter vehicle registration number" },
+                        engine_number: { required: "Enter engine number" },
+                        chassis_number: { required: "Enter chassis number" },
+                        mgf_year: {
+                            required: "Enter manufacture year",
+                            digits: "Must be digits",
+                            minlength: "Enter 4-digit year",
+                            maxlength: "Enter 4-digit year"
+                        }
+                    },
+                    errorElement: "div",
+                    errorPlacement: function (error, element) {
+                        error.addClass("text-danger");
+                        error.insertAfter(element);
+                    }
+                });
+            
+                // Handle save button click
+                $("#save-vehicle-policy-form").on("click", function () {
+                    if ($("#myVehiclePolicyForm").valid()) {
+                        $("#myVehiclePolicyForm").submit();
+                    } else {
+                        console.log("Form has validation errors.");
+                    }
+                });
+            });
+            </script>
+            
+            <script>
+                $(document).ready(function () {
+                
+                    // Custom regex validator if needed
+                    jQuery.validator.addMethod("regex", function (value, element, regexp) {
+                        let re = new RegExp(regexp);
+                        return this.optional(element) || re.test(value);
+                    }, "Invalid format.");
+                
+                    // Agent Payment Form Validation
+                    $("#myAgentPaymentForm").validate({
+                        rules: {
+                            agent_name: { required: false },
+                            referral_by: { required: true },
+                            bqp: { required: false },
+                            pos_name: { required: false },
+                            agent_payment_mod: { required: true },
+                            transaction_id: { required: true },
+                            agent_payment_date: { required: true, date: true },
+                            agent_amount: { required: true, number: true },
+                            agent_remarks: { required: false },
+                            agent_od_comm: { required: false, number: true },
+                            agent_od_amount: { required: false, number: true },
+                            agent_tp_comm: { required: false, number: true },
+                            agent_tp_amount: { required: false, number: true },
+                            agent_net_comm: { required: false, number: true },
+                            agent_net_amount: { required: false, number: true },
+                            agent_incentive_amount: { required: false, number: true },
+                            agent_total_comm_amount: { required: false, number: true },
+                            agent_tds: { required: false, number: true },
+                            agent_tds_amount: { required: false, number: true },
+                            agent_net_payable_amount: { required: false, number: true }
+                        },
+                        messages: {
+                            agent_name: { required: "Please enter referral name" },
+                            referral_by: { required: "Please select referral name" },
+                            bqp: { required: "Please enter BQP" },
+                            agent_payment_mod: { required: "Please select payment mode" },
+                            transaction_id: { required: "Please enter transaction id (If Not Available pass 0)" },
+                            agent_payment_date: { required: "Enter payment date", date: "Enter a valid date" },
+                            agent_amount: { required: "Enter agent amount", number: "Must be a valid number" },
+                            agent_tp_comm: { number: "Must be a valid number" },
+                            agent_od_comm: { number: "Must be a valid number" },
+                            agent_net_comm: { number: "Must be a valid number" },
+                            agent_incentive_amount: { number: "Must be a valid number" },
+                            agent_tds: { number: "Must be a valid number" },
+                            agent_od_amount: { number: "Must be a valid number" },
+                            agent_net_amount: { number: "Must be a valid number" },
+                            agent_tp_amount: { number: "Must be a valid number" },
+                            agent_total_comm_amount: { number: "Must be a valid number" },
+                            agent_net_payable_amount: { number: "Must be a valid number" },
+                            agent_tds_amount: { number: "Must be a valid number" },
+                            pos_name: { required: "Enter Pos Name" }
+                        },
+                        errorElement: "div",
+                        errorPlacement: function (error, element) {
+                            error.addClass("text-danger");
+                            error.insertAfter(element);
+                        }
+                    });
+                
+                    // Save and Continue button handler
+                    $("#save-agent-payment-form").on("click", function () {
+                        if ($("#myAgentPaymentForm").valid()) {
+                            $("#myAgentPaymentForm").submit();
+                        } else {
+                            console.log("Agent Payment Form has validation errors.");
+                        }
+                    });
+                
+                });
+                </script>
+                <script>
+                    $(document).ready(function () {
+                      // Custom regex validator if needed
+                      jQuery.validator.addMethod("regex", function (value, element, regexp) {
+                        let re = new RegExp(regexp);
+                        return this.optional(element) || re.test(value);
+                      }, "Invalid format.");
+                  
+                      // Franchise Payment Form Validation
+                      $("#myFranchisePaymentForm").validate({
+                        rules: {
+                        
+                          franchise_od_comm: { number: true },
+                          franchise_net_comm: { number: true },
+                          franchise_tp_comm: { number: true },
+                          franchise_incentive_amount: { number: true },
+                          franchise_tds: { number: true },
+                          franchise_od_amount: { number: true },
+                          franchise_net_amount: { number: true },
+                          franchise_tp_amount: { number: true },
+                          franchise_total_comm_amount: { number: true },
+                          franchise_net_payable_amount: { number: true },
+                          franchise_tds_amount: { number: true }
+                        },
+                        messages: {
+                       
+                          franchise_od_comm: { number: "Must be a valid number" },
+                          franchise_net_comm: { number: "Must be a valid number" },
+                          franchise_tp_comm: { number: "Must be a valid number" },
+                          franchise_incentive_amount: { number: "Must be a valid number" },
+                          franchise_tds: { number: "Must be a valid number" },
+                          franchise_od_amount: { number: "Must be a valid number" },
+                          franchise_net_amount: { number: "Must be a valid number" },
+                          franchise_tp_amount: { number: "Must be a valid number" },
+                          franchise_total_comm_amount: { number: "Must be a valid number" },
+                          franchise_net_payable_amount: { number: "Must be a valid number" },
+                          franchise_tds_amount: { number: "Must be a valid number" }
+                        },
+                        errorElement: "div",
+                        errorPlacement: function (error, element) {
+                          error.addClass("text-danger");
+                          error.insertAfter(element);
+                        }
+                      });
+                  
+                      // Save and Continue button handler
+                      $("#save-franchise-payment-form").on("click", function () {
+                        if ($("#myFranchisePaymentForm").valid()) {
+                          $("#myFranchisePaymentForm").submit();
+                        } else {
+                          console.log("Franchise Payment Form has validation errors.");
+                        }
+                      });
+                    });
+                  </script>
+                  
+                <script>
+                    $(document).ready(function () {
+                  
+                      // Custom regex validator if needed
+                      jQuery.validator.addMethod("regex", function (value, element, regexp) {
+                        let re = new RegExp(regexp);
+                        return this.optional(element) || re.test(value);
+                      }, "Invalid format.");
+                  
+                      // Insurer Payment Form Validation
+                      $("#myInsurerPaymentForm").validate({
+                        rules: {
+                       
+                          insurer_payment_mode: { required: true },
+                          insurer_payment_date: {  date: true },
+                          insurer_amount: {  number: true },
+                          insurer_remarks: { required: false },
+                  
+                          insurer_od_comm: { required: false, number: true },
+                          insurer_tp_comm: { required: false, number: true },
+                          insurer_net_comm: { required: false, number: true },
+                         
+                          insurer_od_amount: {  number: true },
+                          insurer_tp_amount: {  number: true },
+                          insurer_net_amount: {  number: true },
+                  
+                          insurer_tds: {  number: true },
+                          insurer_tds_amount: { required: false, number: true },
+                          insurer_incentive_amount: {  number: true },
+                  
+                          insurer_total_comm_amount: { required: false, number: true },
+                          insurer_net_payable_amount: { required: false, number: true },
+
+                          insurer_receive_amount: { required: false, number: true },
+                          insurer_total_commission: { required: false, number: true },
+                          insurer_balance_amount: { required: false, number: true },
+
+
+
+                        },
+                        messages: {
+                        
+                  
+                          insurer_payment_mode: { required: "Please enter payment mode" },
+                          insurer_payment_date: {
+                            required: "Enter payment date",
+                            date: "Enter a valid date"
+                          },
+                          insurer_amount: {
+                            required: "Enter payment amount",
+                            number: "Must be a valid number"
+                          },
+                  
+                          insurer_od_comm: { number: "Must be a valid number" },
+                          insurer_net_comm: { number: "Must be a valid number" },
+                          insurer_tp_comm: { number: "Must be a valid number" },
+                  
+                          insurer_incentive_amount: { number: "Must be a valid number" },
+                          insurer_tds: { number: "Must be a valid number" },
+                  
+                          insurer_od_amount: { number: "Must be a valid number" },
+                          insurer_net_amount: { number: "Must be a valid number" },
+                          insurer_tp_amount: { number: "Must be a valid number" },
+                  
+                          insurer_total_comm_amount: { number: "Must be a valid number" },
+                          insurer_net_payable_amount: { number: "Must be a valid number" },
+                          insurer_tds_amount: { number: "Must be a valid number" },
+
+                          insurer_receive_amount: { number: "Must be a valid number" },
+                          insurer_total_commission: { number: "Must be a valid number" },
+                          insurer_balance_amount: { number: "Must be a valid number" }
+                        },
+                        errorElement: "div",
+                        errorPlacement: function (error, element) {
+                          error.addClass("text-danger");
+                          error.insertAfter(element);
+                        }
+                      });
+                  
+                      // Save and Continue button handler
+                      $("#save-insurer-payment-form").on("click", function () {
+                        if ($("#myInsurerPaymentForm").valid()) {
+                          $("#myInsurerPaymentForm").submit();
+                        } else {
+                          console.log("Insurer Payment Form has validation errors.");
+                        }
+                      });
+                  
+                    });
+                  </script>
+                  
+  
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
+  <!-- jQuery Validate Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+      $("#user-form-validate").validate({
+          rules: {
+              first_name: {
+                  required: true,
+                  minlength: 2,
+                  maxlength: 50
+              },
+              last_name: {
+                  required: true,
+                  minlength: 2,
+                  maxlength: 50
+              },
+              email: {
+                  required: true,
+                  email: true
+              },
+              phone: {
+                  required: true,
+                  digits: true,
+                  minlength: 10,
+                  maxlength: 10
+              },
+              gender: {
+                  required: true
+              },
+              dob: {
+                  required: true,
+                  date: true
+              },
+              state: {
+                  required: true
+              },
+              city: {
+                  required: true
+              },
+              pincode: {
+                  required: true,
+                  digits: true,
+                  minlength: 6,
+                  maxlength: 6
+              },
+              address: {
+                  required: true,
+                  minlength: 5
+              }
+          },
+          messages: {
+              first_name: {
+                  required: "Please enter your first name",
+                  minlength: "First name must be at least 2 characters",
+                  maxlength: "First name cannot exceed 50 characters"
+              },
+              last_name: {
+                  required: "Please enter your last name",
+                  minlength: "Last name must be at least 2 characters",
+                  maxlength: "Last name cannot exceed 50 characters"
+              },
+              email: {
+                  required: "Please enter your email",
+                  email: "Enter a valid email address"
+              },
+              phone: {
+                  required: "Please enter your phone number",
+                  digits: "Only numbers allowed",
+                  minlength: "Phone number must be 10 digits",
+                  maxlength: "Phone number must be 10 digits"
+              },
+              gender: {
+                  required: "Please select your gender"
+              },
+              dob: {
+                  required: "Please enter your date of birth",
+                  date: "Enter a valid date"
+              },
+              state: {
+                  required: "Please enter your state"
+              },
+              city: {
+                  required: "Please enter your city"
+              },
+              pincode: {
+                  required: "Please enter your pincode",
+                  digits: "Only numbers allowed",
+                  minlength: "Pincode must be 6 digits",
+                  maxlength: "Pincode must be 6 digits"
+              },
+              address: {
+                  required: "Please enter your address",
+                  minlength: "Address must be at least 5 characters long"
+              }
+          },
+          errorElement: "div",
+          errorPlacement: function(error, element) {
+              error.addClass("text-danger");
+              error.insertAfter(element);
+          },
+          submitHandler: function(form) {
+              form.submit();
+          }
+      });
+  });
+</script>
+
+<!-- jQuery Validate Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#editCommissionForm").validate({
+        rules: {
+            product: {
+                required: true
+            },
+            tp_percentage: {
+                required: true,
+                number: true,
+                min: 0,
+                max: 100
+            },
+            od_percentage: {
+                required: true,
+                number: true,
+                min: 0,
+                max: 100
+            },
+            net_percentage: {
+                required: true,
+                number: true,
+                min: 0,
+                max: 100
+            }
+        },
+        messages: {
+            product: {
+                required: "Please select a product"
+            },
+            tp_percentage: {
+                required: "Please enter TP percentage",
+                number: "Enter a valid number",
+                min: "Value must be at least 0%",
+                max: "Value cannot exceed 100%"
+            },
+            od_percentage: {
+                required: "Please enter OD percentage",
+                number: "Enter a valid number",
+                min: "Value must be at least 0%",
+                max: "Value cannot exceed 100%"
+            },
+            net_percentage: {
+                required: "Please enter Net percentage",
+                number: "Enter a valid number",
+                min: "Value must be at least 0%",
+                max: "Value cannot exceed 100%"
+            }
+        },
+        errorElement: "div",
+        errorPlacement: function (error, element) {
+            error.addClass("text-danger");
+            error.insertAfter(element);
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+  });
+</script>
+<!-- jQuery Validate Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+    // Custom method for IFSC validation
+    $.validator.addMethod("ifscPattern", function (value, element) {
+        return this.optional(element) || /^[A-Z]{4}0[A-Z0-9]{6}$/.test(value);
+    }, "Enter a valid IFSC code (e.g., ABCD0123456)");
+
+    $("#bank-form").validate({
+        rules: {
+            account_holder_name: {
+                required: true,
+                minlength: 3,
+                maxlength: 50
+            },
+            account_number: {
+                required: true,
+                digits: true,
+                minlength: 6,
+                maxlength: 18,
+                remote: {
+                    url: "/check-account-number/",  // Django view to check account number
+                    type: "POST",
+                    data: {
+                        account_number: function () {
+                            return $("#editAccountNumber").val();
+                        },
+                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    dataFilter: function (response) {
+                        var data = JSON.parse(response);
+                        return data.exists ? "false" : "true"; // 'false' means account number is taken
+                    }
+                }
+            },
+            re_enter_account_number: {
+                required: true,
+                digits: true,
+                minlength: 6,
+                maxlength: 18,
+                equalTo: "#editAccountNumber"
+            },
+            ifsc_code: {
+                required: true,
+                ifscPattern: true // Use the custom validation method
+            },
+            city: {
+                required: true
+            },
+            state: {
+                required: true
+            }
+        },
+        messages: {
+            account_holder_name: {
+                required: "Please enter the account holder's name",
+                minlength: "Name must be at least 3 characters long",
+                maxlength: "Name cannot exceed 50 characters"
+            },
+            account_number: {
+                required: "Please enter the account number",
+                digits: "Only numbers allowed",
+                minlength: "Account number must be at least 6 digits",
+                maxlength: "Account number cannot exceed 18 digits",
+                remote: "This account number is already registered."
+            },
+            re_enter_account_number: {
+                required: "Please re-enter the account number",
+                digits: "Only numbers allowed",
+                minlength: "Account number must be at least 6 digits",
+                maxlength: "Account number cannot exceed 18 digits",
+                equalTo: "Account numbers do not match"
+            },
+            ifsc_code: {
+                required: "Please enter the IFSC code"
+            },
+            city: {
+                required: "Please enter the city"
+            },
+            state: {
+                required: "Please enter the state"
+            }
+        },
+        errorElement: "div",
+        errorPlacement: function (error, element) {
+            error.addClass("text-danger");
+            error.insertAfter(element);
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+
+    // Prevent form submission when clicking "Save Changes"
+    $("#bank-btn-sub").click(function () {
+        if ($("#bank-form").valid()) {
+            $("#bank-form").submit();
+        }
+    });
+});
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#forget-password").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                email: {
+                    required: "Please enter your email address",
+                    email: "Enter a valid email (e.g., example@domain.com)"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#login-form").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                email: {
+                    required: "Please enter your email",
+                    email: "Enter a valid email (e.g., email@domain.com)"
+                },
+                password: {
+                    required: "Please enter your password",
+                    minlength: "Password must be at least 6 characters long"
+                }
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger small");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+        // Prevent submission if form is invalid
+        $(".signup-submit-btn").click(function () {
+            if ($("#login-form").valid()) {
+                $("#login-form").submit();
+            }
+        });
+
+        // Show/Hide Password
+        $(".showhide-password").click(function () {
+            let passwordField = $("#login_password_id");
+            let icon = $(this).find("i");
+            if (passwordField.attr("type") === "password") {
+                passwordField.attr("type", "text");
+                icon.removeClass("fa-eye").addClass("fa-eye-slash");
+            } else {
+                passwordField.attr("type", "password");
+                icon.removeClass("fa-eye-slash").addClass("fa-eye");
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+    $("#franchiseForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 3,
+                maxlength: 255
+            },
+            contact_person: {
+                required: true,
+                minlength: 3,
+                maxlength: 255
+            },
+            mobile: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            address: {
+                required: true,
+                minlength: 5
+            },
+            city: {
+                required: true
+            },
+            state: {
+                required: true
+            },
+            pincode: {
+                required: true,
+                digits: true,
+                minlength: 6,
+                maxlength: 6
+            },
+            gst_number: {
+                required: true,
+                maxlength: 20
+            },
+            pan_number: {
+                required: true,
+                maxlength: 10
+            },
+            registration_no: {
+                required: true,
+                maxlength: 50
+            }
+        },
+        messages: {
+            name: {
+                required: "Please enter the franchise name",
+                minlength: "Name must be at least 3 characters long"
+            },
+            contact_person: {
+                required: "Please enter the contact person's name",
+                minlength: "Name must be at least 3 characters long"
+            },
+            mobile: {
+                required: "Please enter the mobile number",
+                digits: "Only numbers are allowed",
+                minlength: "Must be exactly 10 digits",
+                maxlength: "Must be exactly 10 digits"
+            },
+            email: {
+                required: "Please enter an email",
+                email: "Enter a valid email"
+            },
+            address: {
+                required: "Please enter the full address",
+                minlength: "Address must be at least 5 characters long"
+            },
+            city: {
+                required: "Please enter the city"
+            },
+            state: {
+                required: "Please enter the state"
+            },
+            pincode: {
+                required: "Please enter the pincode",
+                digits: "Only numbers allowed",
+                minlength: "Must be exactly 6 digits",
+                maxlength: "Must be exactly 6 digits"
+            },
+            gst_number: {
+                required: "Please enter the GST number",
+                maxlength: "Maximum 20 characters allowed"
+            },
+            pan_number: {
+                required: "Please enter the PAN number",
+                maxlength: "Maximum 10 characters allowed"
+            },
+            registration_no: {
+                required: "Please enter the registration number",
+                maxlength: "Maximum 50 characters allowed"
+            }
+        },
+        errorElement: "div",
+        errorPlacement: function (error, element) {
+            error.addClass("text-danger");
+            error.insertAfter(element);
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+</script>
+<script>
+    $(document).ready(function () {
+        $("#leadForm").validate({
+            rules: {
+                customer_id: {
+                    required: true
+                },
+                mobile_number: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                email_address: {
+                    required: true,
+                    email: true
+                },
+                quote_date: {
+                    required: true,
+                    date: true
+                },
+                name_as_per_pan: {
+                    required: true,
+                    minlength: 3
+                },
+                pan_card_number: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10,
+                    pattern: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
+                },
+                date_of_birth: {
+                    required: true,
+                    date: true
+                },
+                state: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                pincode: {
+                    required: true,
+                    digits: true,
+                    minlength: 6,
+                    maxlength: 6
+                },
+                address: {
+                    required: true,
+                    minlength: 10
+                },
+                lead_type: {
+                    required: true
+                },
+                status: {
+                    required: true
+                }
+            },
+            messages: {
+                customer_id: {
+                    required: "Please select a Customer ID"
+                },
+                mobile_number: {
+                    required: "Please enter a mobile number",
+                    digits: "Only numbers allowed",
+                    minlength: "Mobile number must be 10 digits",
+                    maxlength: "Mobile number must be 10 digits"
+                },
+                email_address: {
+                    required: "Please enter an email address",
+                    email: "Enter a valid email address"
+                },
+                quote_date: {
+                    required: "Please select a quote date"
+                },
+                name_as_per_pan: {
+                    required: "Please enter your name as per PAN",
+                    minlength: "Name must be at least 3 characters long"
+                },
+                pan_card_number: {
+                    required: "Please enter PAN number",
+                    minlength: "PAN must be 10 characters long",
+                    maxlength: "PAN must be 10 characters long",
+                    pattern: "Enter a valid PAN (e.g., ABCDE1234F)"
+                },
+                date_of_birth: {
+                    required: "Please enter Date of Birth"
+                },
+                state: {
+                    required: "Please enter State"
+                },
+                city: {
+                    required: "Please enter City"
+                },
+                pincode: {
+                    required: "Please enter Pincode",
+                    digits: "Only numbers allowed",
+                    minlength: "Pincode must be 6 digits",
+                    maxlength: "Pincode must be 6 digits"
+                },
+                address: {
+                    required: "Please enter Address",
+                    minlength: "Address must be at least 10 characters long"
+                },
+                lead_type: {
+                    required: "Please select Lead Type"
+                },
+                status: {
+                    required: "Please select Status"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+   
+</script>
+    
+<script>
+    $(document).ready(function () {
+    
+        $("#branchForm").validate({
+            rules: {
+                branch_name: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                contact_person: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                mobile: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    maxlength: 255,
+                    remote: {
+                        url: "/check-branch-email/",  // Django view to check branch email
+                        type: "POST",
+                        data: {
+                            email: function () {
+                                return $("#email").val();
+                            },
+                            branch_id: function () {
+                                return $("#branch_id").val();  // Pass branch ID to allow current email in edit mode
+                            },
+                            csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                        },
+                        dataFilter: function (response) {
+                            var data = JSON.parse(response);
+                            return data.exists ? "false" : "true"; // 'false' means email is taken
+                        }
+                    }
+                },
+                address: {
+                    required: true,
+                    minlength: 5
+                },
+                city: {
+                    required: true
+                },
+                state: {
+                    required: true
+                },
+                pincode: {
+                    required: true,
+                    digits: true,
+                    minlength: 6,
+                    maxlength: 6
+                }
+            },
+            messages: {
+                branch_name: {
+                    required: "Please enter the branch name",
+                    minlength: "Branch name must be at least 3 characters long"
+                },
+                contact_person: {
+                    required: "Please enter the contact person's name",
+                    minlength: "Name must be at least 3 characters long"
+                },
+                mobile: {
+                    required: "Please enter the mobile number",
+                    digits: "Only numbers are allowed",
+                    minlength: "Must be exactly 10 digits",
+                    maxlength: "Must be exactly 10 digits"
+                },
+                email: {
+                    required: "Please enter an email",
+                    email: "Enter a valid email",
+                    maxlength: "Email must be under 255 characters",
+                    remote: "This email is already registered."
+                },
+                address: {
+                    required: "Please enter the full address",
+                    minlength: "Address must be at least 5 characters long"
+                },
+                city: {
+                    required: "Please enter the city"
+                },
+                state: {
+                    required: "Please enter the state"
+                },
+                pincode: {
+                    required: "Please enter the pincode",
+                    digits: "Only numbers allowed",
+                    minlength: "Must be exactly 6 digits",
+                    maxlength: "Must be exactly 6 digits"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+    
+</script>
+<script>
+    $(document).ready(function () {
+        $.validator.addMethod("excelFile", function (value, element) {
+            return this.optional(element) || /\.(xlsx)$/i.test(value);
+        }, "Please upload a valid Excel file (.xlsx)");
+
+        $("#update_bulk_policies").validate({
+            rules: {
+                file: {
+                    required: true,
+                    excelFile: true
+                },
+                camp_name: {
+                    required:true
+                }
+            },
+            messages: {
+                file: {
+                    required: "Please upload an Excel file.",
+                    excelFile: "Only .xlsx files are allowed."
+                },
+                camp_name : {
+                    required: "Please enter campaign name"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+    
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#single_policy_upload").validate({
+            rules: {
+                file: {
+                    required: true,
+                    accept: "application/pdf",
+                },
+                product_type: {
+                    required:true
+                }
+            },
+            messages: {
+                file: {
+                    required: "Please upload an PDF file.",
+                    accept: "Only PDF files are allowed."
+                },
+                product_type : {
+                    required: "Please enter Product Type"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $("#loader").show();
+                form.submit();
+            }
+        });
+    });
+    
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Form validation
+        $("#quotationCustomerForm").validate({
+            rules: {
+                mobile_number: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                email_address: {
+                    required: true,
+                    email: true
+                },
+                name_as_per_pan: {
+                    required: true,
+                    minlength: 3
+                },
+                pan_card_number: {
+                    required: true,
+                    maxlength: 10,
+                    minlength: 10,
+                    pattern:"[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                },
+                date_of_birth: {
+                    required: true,
+                    date: true
+                },
+                state: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                pincode: {
+                    required: true,
+                    digits: true,
+                    minlength: 6,
+                    maxlength: 6,
+                    pattern :/^[1-9][0-9]{5}$/
+                },
+                address: {
+                    required: true
+                }
+            },
+            messages: {
+                mobile_number: {
+                    required: "Please enter a mobile number",
+                    digits: "Only digits are allowed",
+                    minlength: "Mobile number must be exactly 10 digits",
+                    maxlength: "Mobile number must be exactly 10 digits"
+                },
+                email_address: {
+                    required: "Please enter an email address",
+                    email: "Please enter a valid email address"
+                },
+                name_as_per_pan: {
+                    required: "Please enter the name as per PAN",
+                    minlength: "Name must be at least 3 characters long"
+                },
+                pan_card_number: {
+                    required: "Please enter the PAN number",
+                    maxlength: "PAN number must be exactly 10 characters",
+                    minlength: "PAN number must be exactly 10 characters",
+                    pattern: "Please enter a valid PAN number (e.g., ABCDE1234F)"
+                },
+                date_of_birth: {
+                    required: "Please enter your date of birth",
+                    date: "Please enter a valid date"
+                },
+                state: {
+                    required: "Please enter the state"
+                },
+                city: {
+                    required: "Please enter the city"
+                },
+                pincode: {
+                    required: "Please enter the pincode",
+                    digits: "Only digits are allowed",
+                    minlength: "Pincode must be exactly 6 digits",
+                    maxlength: "Pincode must be exactly 6 digits",
+                    pattern: "Invalid pincode format"
+                },
+                address: {
+                    required: "Please enter the address"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+    });
+</script>
+
+
+  
+
+
+<script>
+    $(document).ready(function () {
+
+        // Form validation
+        $("#quotationCustomerForm").validate({
+            rules: {
+                mobile_number: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                email_address: {
+                    required: true,
+                    email: true
+                },
+                name_as_per_pan: {
+                    required: true,
+                    minlength: 3
+                },
+                pan_card_number: {
+                    required: true,
+                    maxlength: 10,
+                    minlength: 10,
+                    pattern:"[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                },
+                date_of_birth: {
+                    required: true,
+                    date: true
+                },
+                state: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                pincode: {
+                    required: true,
+                    digits: true,
+                    minlength: 6,
+                    maxlength: 6,
+                    pattern :/^[1-9][0-9]{5}$/
+                },
+                address: {
+                    required: true
+                }
+            },
+            messages: {
+                mobile_number: {
+                    required: "Please enter a mobile number",
+                    digits: "Only digits are allowed",
+                    minlength: "Mobile number must be exactly 10 digits",
+                    maxlength: "Mobile number must be exactly 10 digits"
+                },
+                email_address: {
+                    required: "Please enter an email address",
+                    email: "Please enter a valid email address"
+                },
+                name_as_per_pan: {
+                    required: "Please enter the name as per PAN",
+                    minlength: "Name must be at least 3 characters long"
+                },
+                pan_card_number: {
+                    required: "Please enter the PAN number",
+                    maxlength: "PAN number must be exactly 10 characters",
+                    minlength: "PAN number must be exactly 10 characters",
+                    pattern: "Please enter a valid PAN number (e.g., ABCDE1234F)"
+                },
+                date_of_birth: {
+                    required: "Please enter your date of birth",
+                    date: "Please enter a valid date"
+                },
+                state: {
+                    required: "Please enter the state"
+                },
+                city: {
+                    required: "Please enter the city"
+                },
+                pincode: {
+                    required: "Please enter the pincode",
+                    digits: "Only digits are allowed",
+                    minlength: "Pincode must be exactly 6 digits",
+                    maxlength: "Pincode must be exactly 6 digits",
+                    pattern: "Invalid pincode format"
+                },
+                address: {
+                    required: "Please enter the address"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        // Form validation
+        $.validator.addMethod("zipExtension", function (value, element) {
+            return this.optional(element) || /\.zip$/i.test(value);
+        }, "Only ZIP files are allowed.");
+
+        $("#bulkPolicyUploadIdForm").validate({
+            rules: {
+                zip_file: {
+                    required: true,
+                    zipExtension: true
+                },
+                camp_name: {
+                    required: true,
+                },
+                rm_id: {
+                    required: true,
+                },
+                product_type: {
+                    required: true,
+                }
+            },
+            messages: {
+                zip_file: {
+                    required: "Please upload ZIP file",
+                    zipExtension: "Invalid file format. Only ZIP files are allowed."
+                },
+                camp_name: {
+                    required: "Campaign Name is mandatory"
+                },
+                rm_id: {
+                    required: "RM Name is mandatory"
+                },
+                product_type: {
+                    required: "Please select Product Type"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $("#loader").show(); 
+                form.submit();
+            }
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+      // PAN format validation
+      $.validator.addMethod("pan", function (value, element) {
+        return this.optional(element) || /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value);
+      }, "PAN format should be e.g., ABCDE1234F");
+  
+      // Pincode format validation
+      $.validator.addMethod("indianPincode", function (value, element) {
+        return this.optional(element) || /^[1-9][0-9]{5}$/.test(value);
+      }, "Invalid pincode format");
+
+      $.validator.addMethod("pastDate", function(value, element) {
+      if (this.optional(element)) {
+        return true;
+      }
+      // parse YYYY-MM-DD
+      var parts = value.split("-");
+      var input = new Date(parts[0], parts[1] - 1, parts[2]);
+      var today = new Date();
+      today.setHours(0,0,0,0);
+      return input < today;
+    }, "Date of birth must be in the past");
+  
+      $("#referralForm").validate({
+        rules: {
+          name: {
+            required: true,
+            minlength: 3,
+          },
+          user_role: {
+            required: true
+          },
+          branch: {
+            required: true,
+            maxlength: 50
+          },
+          sales: {
+            required: true,
+            maxlength: 50
+          },
+          supervisor: {
+            required: true,
+            maxlength: 50
+          },
+          franchise: {
+            required: true,
+            maxlength: 50
+          },
+          mobile: {
+            required: true,
+            digits: true,
+            minlength: 10,
+            maxlength: 10,
+          },
+          email: {
+            required: true,
+            email: true
+          },
+          dob: {
+            required: true,
+            date: true,
+            pastDate: true   // checks it’s before today
+          },
+          date_of_anniversary: {
+            date: true
+          },
+          pan_card_number: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            pan: true
+          },
+          aadhar: {
+            required: true,
+            minlength: 12,
+            maxlength: 12,
+            digits: true
+          },
+          address: {
+            required: true
+          },
+          city: {
+            required: true
+          },
+          state: {
+            required: true
+          },
+          pincode: {
+            required: true,
+            digits: true,
+            minlength: 6,
+            maxlength: 6,
+            indianPincode: true
+          }
+        },
+        messages: {
+          name: {
+            required: "Please enter name",
+            minlength: "Name must be at least 3 characters",
+            maxlength: "Name can’t exceed 50 characters"
+          },
+          user_role: {
+            required: "Please select user role"
+          },
+          branch: {
+            required: "Please enter branch",
+            maxlength: "Branch can’t exceed 50 characters"
+          },
+          sales: {
+            required: "Please enter sales manager name",
+            maxlength: "Sales Manager name can’t exceed 50 characters"
+          },
+          supervisor: {
+            required: "Please enter supervisor name",
+            maxlength: "Supervisor name can’t exceed 50 characters"
+          },
+          franchise: {
+            required: "Please enter franchise",
+            maxlength: "Franchise can’t exceed 50 characters"
+          },
+          mobile: {
+            required: "Please enter mobile number",
+            digits: "Only digits are allowed",
+            minlength: "Mobile number must be 10 digits",
+            maxlength: "Mobile number must be 10 digits"
+          },
+          email: {
+            required: "Please enter email",
+            email: "Enter a valid email address"
+          },
+          dob: {
+            required: "Please enter date of birth",
+            date: "Enter a valid date",
+            pastDate: "Date of birth must be before today"
+          },
+          date_of_anniversary: {
+            date: "Enter a valid date"
+          },
+          pan_card_number: {
+            required: "Please enter PAN number",
+            minlength: "PAN must be 10 characters",
+            maxlength: "PAN must be 10 characters",
+            pan: "PAN format should be e.g., ABCDE1234F"
+          },
+          aadhar: {
+            required: "Please enter Aadhar number",
+            digits: "Only digits are allowed",
+            minlength: "Aadhar must be 12 digits",
+            maxlength: "Aadhar must be 12 digits"
+          },
+          address: {
+            required: "Please enter address"
+          },
+          city: {
+            required: "Please enter city"
+          },
+          state: {
+            required: "Please enter state"
+          },
+          pincode: {
+            required: "Please enter pincode",
+            digits: "Only digits are allowed",
+            minlength: "Pincode must be 6 digits",
+            maxlength: "Pincode must be 6 digits",
+            indianPincode: "Invalid pincode format"
+          }
+        },
+        errorElement: "div",
+        errorPlacement: function (error, element) {
+          error.addClass("text-danger");
+          if (element.attr("name") == "dob") {
+          error.appendTo("#dob-error"); // Target custom error div for DOB
+        } else {
+          error.insertAfter(element);
+        }
+        },
+        submitHandler: function (form) {
+          $("#loader").show();  // Optional loader
+          form.submit();
+        }
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+        $.validator.addMethod("ageLimit", function(value, element) {
+            var dob = new Date(value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            return age >= 18;
+        }, "You must be at least 18 years old");
+
+            $("#leadBasicInfo").validate({
+              rules: {
+                customer_name:{
+                  required: true,
+                },
+                email_address:{
+                  required: true,
+                },
+                gender:{
+                  required: true,
+                },
+                date_of_birth:{
+                  required: true,
+                  ageLimit: true
+                }
+              
+              },
+              messages: {
+                customer_name: {
+                    required: "Customer is required"
+                },
+                email_address: {
+                    required: "Email is required"
+                },
+                gender: {
+                    required: "Gender is required"
+                },
+                date_of_birth: {
+                    required: "DOB is required",
+                    ageLimit: "Age must be 18 years or older"
+                },
+                identity_no: {
+                    required: "Aadhar or PAN must be required",
+                }
+              },
+              errorElement: "div",
+              errorPlacement: function (error, element) {
+                  error.addClass("text-danger");
+                  error.insertAfter(element);
+              },
+              submitHandler: function (form) {
+                  $("#loader").show();
+                  form.submit();
+              }
+            });
+      });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+            $("#insuranceForm").validate({
+              rules: {
+                insurance_company:{
+                  required: true,
+                },
+                ins_short_name:{
+                    required: true,
+                },
+                registered_state:{
+                  required: true,
+                },
+                registered_city:{
+                  required: true,
+                },
+                registered_pincode:{
+                  required: true,
+                },
+                registered_address:{
+                  required: true,
+                },
+              
+              },
+              messages: {
+                insurance_company: {
+                    required: "Insurance Company Name is required"
+                },
+                 ins_short_name: {
+                    required: "Insurance Company Short Name is required"
+                },
+                registered_state: {
+                    required: "State is required"
+                },
+                registered_city: {
+                    required: "City is required"
+                },
+                registered_pincode: {
+                    required: "Pincode is required",
+                },
+                registered_address: {
+                    required: "Address must be required",
+                }
+              },
+              errorElement: "div",
+              errorPlacement: function (error, element) {
+                  error.addClass("text-danger");
+                  error.insertAfter(element);
+              },
+              submitHandler: function (form) {
+                  $("#loader").show();
+                  form.submit();
+              }
+            });
+      });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+        $("#insurer_mgt_contact_details").validate({
+            rules: {
+            primary_name: {
+                required: true,
+            },
+            primary_designation: {
+                required: true,
+            },
+            primary_contact: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10,
+            },
+            primary_email: {
+                required: true,
+                email: true,
+            },
+            secondary_name: {
+                required: true,
+            },
+            secondary_designation: {
+                required: true,
+            },
+            secondary_contact: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10,
+            },
+            secondary_email: {
+                required: true,
+                email: true,
+            },
+            },
+            messages: {
+            primary_name: {
+                required: "Primary name is required.",
+            },
+            primary_designation: {
+                required: "Primary designation is required.",
+            },
+            primary_contact: {
+                required: "Primary mobile number is required.",
+                digits: "Only digits are allowed.",
+                minlength: "Must be 10 digits.",
+                maxlength: "Must be 10 digits.",
+            },
+            primary_email: {
+                required: "Primary email is required.",
+                email: "Enter a valid email.",
+            },
+            secondary_name: {
+                required: "Secondary name is required.",
+            },
+            secondary_designation: {
+                required: "Secondary designation is required.",
+            },
+            secondary_contact: {
+                required: "Secondary mobile number is required.",
+                digits: "Only digits are allowed.",
+                minlength: "Must be 10 digits.",
+                maxlength: "Must be 10 digits.",
+            },
+            secondary_email: {
+                required: "Secondary email is required.",
+                email: "Enter a valid email.",
+            },
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $("#loader").show();
+                    form.submit();
+                },
+            });
+        });
+
+  </script>
+
+  <script>
+    $(document).ready(function () {
+        $.validator.addMethod("referralRequired", function (value, element) {
+            let leadSource = $('#lead_source_type').val();
+            // Required only if lead source is 9 (Referral)
+            return (leadSource == '9') ? $.trim(value) !== "" : true;
+        }, "This field is required");
+
+        $.validator.addMethod("pospRequired", function (value, element) {
+            let leadSource = $('#lead_source_type').val();
+            // Required only if lead source is 7 (POSP)
+            return (leadSource == '7') ? $.trim(value) !== "" : true;
+        }, "This field is required");
+
+        $.validator.addMethod("leadSourceNameRequired", function (value, element) {
+            let leadSource = $('#lead_source_type').val();
+            // Required only if lead source is 12 (Other)
+            return (leadSource == '12') ? $.trim(value) !== "" : true;
+        }, "This field is required");
+        
+            $("#leadSourceForm").validate({
+              rules: {
+                    lead_source_type: {
+                        required: true
+                    },
+                    refered_by: {
+                        referralRequired: true
+                    },
+                    posp_by: {
+                        pospRequired: true
+                    },
+                    lead_source_name: {
+                        leadSourceNameRequired: true
+                    }
+                },
+                messages: {
+                    lead_source_type: {
+                        required: "This field is required"
+                    },
+                    refered_by: {
+                        referralRequired: "This field is required"
+                    },
+                    posp_by: {
+                        pospRequired: "This field is required"
+                    },
+                    lead_source_name: {
+                        leadSourceNameRequired: "This field is required"
+                    }
+                },
+              errorElement: "div",
+              errorPlacement: function (error, element) {
+                  error.addClass("text-danger");
+                  error.insertAfter(element);
+              },
+              submitHandler: function (form) {
+                  $("#loader").show();
+                  form.submit();
+              }
+            });
+      });
+  </script>
+  
+  <script>
+    $(document).ready(function () {
+            $("#leadAssignmentForm").validate({
+              rules: {
+                assigned_to:{
+                  required: true,
+                },
+                branch:{
+                  required: true,
+                },
+                lead_status_type:{
+                  required: true,
+                },
+                lead_tag:{
+                  required: true,
+                }
+              },
+              messages: {
+                assigned_to: {
+                    required: "This field is required"
+                },
+                branch: {
+                    required: "This field is required"
+                },
+                lead_status_type: {
+                    required: "This field is required"
+                },
+                lead_tag: {
+                    required: "This field is required"
+                }
+              },
+              errorElement: "div",
+              errorPlacement: function (error, element) {
+                  error.addClass("text-danger");
+                  error.insertAfter(element);
+              },
+              submitHandler: function (form) {
+                  $("#loader").show();
+                  form.submit();
+              }
+            });
+      });
+  </script>
+  
+  <script>
+    $(document).ready(function () {
+        $("#leadPreviousPolicyForm1").validate({
+            rules: {
+                previous_insurer_name: {
+                    required: true
+                },
+                policy_number: {
+                    required: true
+                },
+                policy_type: {
+                    required: true
+                },
+                policy_date: {
+                    required: true
+                },
+                expiry_status: {
+                    required: true
+                },
+                policy_end_date: {
+                    required: true
+                },
+                ncb: {
+                    required: true,
+                    number: true,
+                    maxlength: 4
+                },
+                previous_idv_amount: {
+                    required: true,
+                    number: true,
+                    maxlength: 10
+                },
+                previous_sum_insured: {
+                    required: true,
+                    number: true,
+                    maxlength: 10
+                },
+                claim_made: {
+                    required: true
+                },
+                claim_amount: {
+                    required: true,
+                    number: true,
+                    maxlength: 10
+                },
+                previous_policy_source: {
+                    required: true
+                },
+                vehicle_type: {
+                    required: true
+                },
+                vehicle_class: {
+                    required: true
+                },
+                insurance_type: {
+                    required: true
+                },
+                product_category: {
+                    required: true
+                },
+                vehicle_reg_no: {
+                    required: true
+                },
+                vehicle_make: {
+                    required: true
+                },
+                vehicle_model: {
+                    required: true
+                },
+                mgf_year: {
+                    required: true,
+                    number: true,
+                    maxlength: 4
+                },
+                sum_insured: {
+                    required: true,
+                    number: true,
+                    maxlength: 10
+                }
+            },
+            messages: {
+                previous_insurer_name: {
+                    required: "Please enter the previous insurer name"
+                },
+                policy_number: {
+                    required: "Please enter the policy number"
+                },
+                policy_type: {
+                    required: "Please select the policy type"
+                },
+                policy_date: {
+                    required: "Please select the policy start date"
+                },
+                expiry_status: {
+                    required: "Please select the expiry status"
+                },
+                policy_end_date: {
+                    required: "Please select the policy end date"
+                },
+                ncb: {
+                    required: "Please enter NCB value",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 4 digits allowed"
+                },
+                previous_idv_amount: {
+                    required: "Please enter the previous IDV amount",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                },
+                previous_sum_insured: {
+                    required: "Please enter the previous sum insured",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                },
+                claim_made: {
+                    required: "Please select if a claim was made"
+                },
+                claim_amount: {
+                    required: "Please enter the claim amount",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                },
+                previous_policy_source: {
+                    required: "Please select the policy source"
+                },
+                vehicle_type: {
+                    required: "Please select the vehicle type"
+                },
+                vehicle_class: {
+                    required: "Please select the vehicle class"
+                },
+                insurance_type: {
+                    required: "Please select the insurance type"
+                },
+                product_category: {
+                    required: "Please select the product category"
+                },
+                vehicle_reg_no: {
+                    required: "Please enter the vehicle registration number"
+                },
+                vehicle_make: {
+                    required: "Please select the vehicle make"
+                },
+                vehicle_model: {
+                    required: "Please select the vehicle model"
+                },
+                mgf_year: {
+                    required: "Please enter the manufacturing year",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 4 digits allowed"
+                },
+                sum_insured: {
+                    required: "Please enter the sum insured",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $("#loader").show();
+                form.submit();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#leadPreviousPolicyForm").validate({
+            rules: {
+                ncb: {
+                    number: true,
+                    maxlength: 4
+                },
+                previous_idv_amount: {
+                    number: true,
+                    maxlength: 10
+                },
+                previous_sum_insured: {
+                    number: true,
+                    maxlength: 10
+                },
+                claim_amount: {
+                    number: true,
+                    maxlength: 10
+                },
+                mgf_year: {
+                    number: true,
+                    maxlength: 4
+                },
+                sum_insured: {
+                    number: true,
+                    maxlength: 10
+                }
+            },
+            messages: {
+                previous_insurer_name: {
+                    required: "Please enter the previous insurer name"
+                },
+                policy_number: {
+                    required: "Please enter the policy number"
+                },
+                policy_type: {
+                    required: "Please select the policy type"
+                },
+                policy_date: {
+                    required: "Please select the policy start date"
+                },
+                expiry_status: {
+                    required: "Please select the expiry status"
+                },
+                policy_end_date: {
+                    required: "Please select the policy end date"
+                },
+                ncb: {
+                    required: "Please enter NCB value",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 4 digits allowed"
+                },
+                previous_idv_amount: {
+                    required: "Please enter the previous IDV amount",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                },
+                previous_sum_insured: {
+                    required: "Please enter the previous sum insured",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                },
+                claim_made: {
+                    required: "Please select if a claim was made"
+                },
+                claim_amount: {
+                    required: "Please enter the claim amount",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                },
+                previous_policy_source: {
+                    required: "Please select the policy source"
+                },
+                vehicle_type: {
+                    required: "Please select the vehicle type"
+                },
+                vehicle_class: {
+                    required: "Please select the vehicle class"
+                },
+                insurance_type: {
+                    required: "Please select the insurance type"
+                },
+                product_category: {
+                    required: "Please select the product category"
+                },
+                vehicle_reg_no: {
+                    required: "Please enter the vehicle registration number"
+                },
+                vehicle_make: {
+                    required: "Please select the vehicle make"
+                },
+                vehicle_model: {
+                    required: "Please select the vehicle model"
+                },
+                mgf_year: {
+                    required: "Please enter the manufacturing year",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 4 digits allowed"
+                },
+                sum_insured: {
+                    required: "Please enter the sum insured",
+                    number: "Only numeric values are allowed",
+                    maxlength: "Maximum 10 digits allowed"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function (error, element) {
+                error.addClass("text-danger");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $("#loader").show();
+                form.submit();
+            }
+        });
+    });
+
+  </script>
+  
+  
+
+</html>

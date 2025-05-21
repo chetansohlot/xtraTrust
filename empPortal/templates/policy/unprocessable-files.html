@@ -1,0 +1,128 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Policy Data
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+   {% include 'sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper white-bg">
+    <!-- Content Header (Page header) -->
+    <div class="content-header breadcrump-bg">
+      <div class="container-fluid ">
+        <div class="row py-2">
+          <div class="col-sm-12">
+            <div class="d-flex align-items-center justify-content-between">
+                <div><a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Policy Data</a></div>
+                <div>
+                    <form id="myForm" action="{% url 'reprocess-bulk-policies' %}" method="post">
+                            {% csrf_token %}
+                        <input type="hidden" id="reprocess-bulk-policies" name="reprocess_bulk_policies">
+                        <button type="submit" class="breadcrump-addbtn mx-1" id="">Re Process</button>
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="card box-shadow-none">
+              <div class="card-body px-0 pb-0 pt-0">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="table-responsive table-ht">
+                      
+                      <table class="table table-design table-width-design">
+                        <thead class="table-thead-bg-light table-header-fix">
+                          <tr>
+                            <th></th>
+                            <th class="nowrap">File Name</th>
+                            <th class="nowrap">Date of Upload</th>
+                            <th class="nowrap">File</th>
+                            <th class="nowrap">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in files %}
+                                <tr>
+                                    <td><input type="checkbox" name="reupload[]" class="reprocess" value="{{data.id}}"></td>
+                                    <td>{{data.doc_name}}</td>
+                                    <td>{{data.created_date}}</td>
+                                    <td><a href="{{data.file_path}}" target="_blank" download>View</a></td>
+                                    <td>{{data.status}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div id="loader" class="form-loader" style="display: none;">
+                        <div>
+                          <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                          <span class="visually-hidden d-block pt-2">Loading...</span>
+                        </div>  
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
+{% include 'footer-script.html' %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(".reprocess");
+        const hiddenInput = document.getElementById("reprocess-bulk-policies");
+
+        function updateHiddenField() {
+            let selectedIds = [];
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    selectedIds.push(checkbox.value);
+                }
+            });
+            hiddenInput.value = selectedIds.join(",");
+            console.log(hiddenInput.value);
+        }
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", updateHiddenField);
+        });
+    });
+</script>
+<script>
+    document.getElementById("myForm").addEventListener("submit", function() {
+        document.getElementById("loader").style.display = "flex";
+    });
+  </script>
+</body>
+
+
+    
+{% endblock %}

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+    <section class="bg-light py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12 col-lg-12">
+            
+            <div class="row">
+              <div class="col-md-8">
+                <ul class="journey-step">
+                  <li class="active">Proposer</li>
+                  <li class="active">Insured</li>
+                  <li>Medical History</li>
+                </ul>
+                <h2 class="wrap-title py-2">Tell us the details about the members to be insured</h2>
+                <div class="form-box">
+                  <form action="{% url 'create-health-history' %}">
+                    <div class="row">
+                      <div class="col-12">
+                        <p class="wrap-title mb-0">Vinod Kumar</p>
+                        <p class="wrap-prgh">Please provide us with some additional details</p>
+                      </div>  
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">DOB</label>
+                          <input type="text" name="" class="form-field" placeholder="DOB (DD-MM-YYYY)">
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Height (Feet)</label>
+                          <select class="form-field">
+                            <option>Height</option>
+                            <option>1 Feet</option>
+                            <option>2 Feet</option>
+                            <option>3 Feet</option>
+                            <option>4 Feet</option>
+                            <option>5 Feet</option>
+                            <option>6 Feet</option>
+                            <option>7 Feet</option>
+                            <option>8 Feet</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Height (Inch)</label>
+                          <select class="form-field">
+                            <option>Height</option>
+                            <option>0 Inch</option>
+                            <option>1 Inch</option>
+                            <option>2 Inch</option>
+                            <option>3 Inch</option>
+                            <option>4 Inch</option>
+                            <option>5 Inch</option>
+                            <option>6 Inch</option>
+                            <option>7 Inch</option>
+                            <option>8 Inch</option>
+                            <option>9 Inch</option>
+                            <option>10 Inch</option>
+                            <option>11 Inch</option>
+                            <option>12 Inch</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Weight (KG)</label>
+                          <input type="text" name="" class="form-field" placeholder="Weight">
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <p class="wrap-title mt-3 mb-0">Spouse</p>
+                        <p class="wrap-prgh">Give us the details for your Spouse</p>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Spouse Full Name</label>
+                          <input type="text" name="" class="form-field" placeholder="Enter Spouse Full Name">
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">DOB</label>
+                          <input type="text" name="" class="form-field" placeholder="DOB (DD-MM-YYYY)">
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-3 pr-2">
+                        <div class="form-group">
+                          <label class="form-lbl">Height (Feet)</label>
+                          <select class="form-field">
+                            <option>Height</option>
+                            <option>1 Feet</option>
+                            <option>2 Feet</option>
+                            <option>3 Feet</option>
+                            <option>4 Feet</option>
+                            <option>5 Feet</option>
+                            <option>6 Feet</option>
+                            <option>7 Feet</option>
+                            <option>8 Feet</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-3 pl-2">
+                        <div class="form-group">
+                          <label class="form-lbl">Height (Inch)</label>
+                          <select class="form-field">
+                            <option>Height</option>
+                            <option>0 Inch</option>
+                            <option>1 Inch</option>
+                            <option>2 Inch</option>
+                            <option>3 Inch</option>
+                            <option>4 Inch</option>
+                            <option>5 Inch</option>
+                            <option>6 Inch</option>
+                            <option>7 Inch</option>
+                            <option>8 Inch</option>
+                            <option>9 Inch</option>
+                            <option>10 Inch</option>
+                            <option>11 Inch</option>
+                            <option>12 Inch</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Weight (KG)</label>
+                          <input type="text" name="" class="form-field" placeholder="Weight">
+                        </div>
+                      </div>
+                      
+                      <div class="col-12">
+                        <p class="wrap-title mt-3 mb-0">Child</p>
+                        <p class="wrap-prgh">Give us the details for your child</p>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Child Full Name</label>
+                          <input type="text" name="" class="form-field" placeholder="Enter Child Full Name">
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">DOB</label>
+                          <input type="text" name="" class="form-field" placeholder="DOB (DD-MM-YYYY)">
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-3 pr-2">
+                        <div class="form-group">
+                          <label class="form-lbl">Height (Feet)</label>
+                          <select class="form-field">
+                            <option>Height</option>
+                            <option>1 Feet</option>
+                            <option>2 Feet</option>
+                            <option>3 Feet</option>
+                            <option>4 Feet</option>
+                            <option>5 Feet</option>
+                            <option>6 Feet</option>
+                            <option>7 Feet</option>
+                            <option>8 Feet</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-3 pl-2">
+                        <div class="form-group">
+                          <label class="form-lbl">Height (Inch)</label>
+                          <select class="form-field">
+                            <option>Height</option>
+                            <option>0 Inch</option>
+                            <option>1 Inch</option>
+                            <option>2 Inch</option>
+                            <option>3 Inch</option>
+                            <option>4 Inch</option>
+                            <option>5 Inch</option>
+                            <option>6 Inch</option>
+                            <option>7 Inch</option>
+                            <option>8 Inch</option>
+                            <option>9 Inch</option>
+                            <option>10 Inch</option>
+                            <option>11 Inch</option>
+                            <option>12 Inch</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Weight (KG)</label>
+                          <input type="text" name="" class="form-field" placeholder="Weight">
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="form-lbl">Child Relation</label>
+                          <select class="form-field">
+                            <option>Daughter</option>
+                            <option>Son</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">  
+                        <button type="submit" class="form-btn w-auto ms-auto d-table mt-4">Proceed to Next</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="quote-box mt-4">
+                  <div class="row align-items-center mb-2">
+                    <div class="col-auto">
+                      <div class="quote-img">
+                        <img src="{% static 'home/assets/image/partner-logo/partner-logo-3.png' %}" alt="">
+                      </div>
+                    </div>
+                    <div class="col-md">
+                      <p class="wrap-prgh mb-0"><strong>Health Shield</strong></p>
+                    </div>
+                    <div class="col-md">
+                      <h2 class="wrap-subhding text-end"><i class="fa-solid fa-indian-rupee-sign"></i>19305</h2>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Family Composition</p>
+                        <p class="quote-lbl">2 Adult, 1 Child</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">CRN</p>
+                        <p class="quote-lbl">9563409</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Insurance Cover</p>
+                        <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i>5,970</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Tenure</p>
+                        <p class="quote-lbl">1 year(s)</p>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+    
+          </div>
+        </div>
+      </div>  
+    </section> 
+
+{% include 'home/layouts/footer.html' %}
+
+</body>
+</html>

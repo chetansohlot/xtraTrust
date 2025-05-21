@@ -1,0 +1,215 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.insurancepro{
+font-size:25px;
+font-weight: 700; 
+font-family: sans-serif;
+}
+.pro{
+color: blue;
+}
+.nav-font{
+font-weight: 400;
+color: black;
+}
+.nav-items{
+margin-right: 10%;
+word-spacing: -3px;
+font-size:14px;
+font-weight: 600;
+letter-spacing: 0px;
+font-stretch: 13px;
+}
+.navbar .navbar-nav .nav-link {
+color: #000000;
+font-size: 1.1em;
+}
+.navbar .navbar-nav .nav-link:hover{
+color: #808080;
+}
+@media only screen and (min-width: 960px) {
+.dropdown:hover .dropdown-menu {
+display: block;
+margin-top: 0;
+
+
+}
+.dropdown .dropdown-menu {
+display: none;
+box-shadow: 0px 0px 12px 0px #dfdbdb;
+/* border: none; */
+}
+.dropdown:hover .dropdown-toggle::after {
+border-bottom: 0.3em solid;
+border-top: 0;
+
+}
+}
+@media screen and (max-width: 991px) {
+.dropdown-toggle.show::after {
+border-top: 0;
+border-bottom: 0.2em solid;
+
+}
+}
+
+.right-icon{
+font-size: 12px;
+color: blue;
+margin-left:5px;
+font-size:10px;
+}
+.insurance-drop-down{
+font-size: 14px;
+padding-top: 10px;
+} */
+/*----------------section1--------------css------------start------------------*/
+
+  /*----------------section1--------------css------------start------------------*/
+  .container-bg{
+    height: 538px;
+    background: #fff;
+    background-image:url("./form-background.jpg"),linear-gradient(180deg, #fff 0,#fff 50%, #eaf2fe 100%);
+   background-position: right bottom;
+      background-repeat: no-repeat;
+  }
+  .quickly-search{
+    font-size: 28px;
+    line-height: 35px;
+    font-weight: 600;
+    font-family: sans-serif;
+  }
+  .zero-invest{
+    font-size: 18px;
+  font-weight: 600;
+  color: rgb(99, 91, 91);
+  }*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .insurancepro{
+  font-size:25px;
+  font-weight: 700; 
+  font-family: sans-serif;
+  }
+  .pro{
+  color: blue;
+  }
+  .nav-font{
+  font-weight: 400;
+  color: black;
+  }
+  .nav-items{
+  margin-right: 10%;
+  word-spacing: -3px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0px;
+  font-stretch: 13px;
+  }
+  #right-icon{
+  font-size: 12px;
+  color: blue;
+  }
+  .insurance-drop-down{
+  font-size: 14px;
+  padding-top: 10px;
+  }
+  /*----------------section1--------------css------------start------------------*/
+  .quickly-search{
+    font-size: 28px;
+    line-height: 35px;
+    font-weight: 600;
+    font-family: sans-serif;
+  }
+  .zero-invest{
+    font-size: 18px;
+  font-weight: 600;
+  color: rgb(99, 91, 91);
+  }
+  
+  
+  .forms-bg{
+    width: 90%;
+    max-width:380px;
+    background-color: #fff;
+    box-shadow: 0px 10px 15px rgb( 0,0,0,.16);
+    margin-left: 40px;
+    padding: 65px 0px 65px 0px;
+    border-radius: 10px;
+  }
+  .otp-icon i{
+    color: black; font-size: 11px; margin-left:10px; margin-bottom: 5px;
+  }
+  .login-to{
+    font-size: 28px;
+    width: 80%;
+    margin-left: 10%;
+  }
+  .if-you{
+  font-size: 14px; 
+  font-weight: 500;
+  color: rgb(155, 152, 152);
+  margin-left: 10%;
+  width: 80%;
+  }
+  .main-div-input-label{
+  position:relative;
+  left: 10%;
+  }
+  .main-div-input-label input{
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px 12px;
+  width: 80%;
+  border-radius: 4px;
+  }
+  .main-div-input-label input:focus{
+    border:1px solid red;
+  }
+  .main-div-input-label label{
+    position: absolute;
+  font-weight: 200;
+  justify-content: end;
+  font-size:18px;
+  left: 66%;
+  padding: 1px 3px 1px 3px;
+  margin-top: 16px;
+  border-radius: 4px;
+  }
+  
+   label{
+    margin-left: 20px;
+    font-size: 25px;
+    font-weight: 500; }
+  
+    #otp{
+      width: 84%;
+      margin-left:8%;
+    }
+  .send-otp{
+    width: 80%;
+    margin-left: 10%;
+    padding: 8px 15px 12px;
+    text-align: center;
+  background-color: rgb(9, 9, 224);
+  color: white;
+  outline: none;
+  border: none;
+  }
+  .play-app-image{
+    display: inline-block;
+    margin-left: 10%;
+    width: 80%;
+  }
+  .google-img-1{
+    width:47%;
+  margin-right:14px;
+  }
+  .google-img-2{
+    width: 47%;
+  }

@@ -1,0 +1,576 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Members
+{% endblock %}
+  
+{% block content %}
+{% load static %}
+
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+        {% include 'sidebar.html' %}
+    
+        <div class="content-wrapper white-bg">
+          <!-- Content Header (Page header) -->
+          <div class="content-header header-content-bg">
+            <div class="container-fluid ">
+              <div class="row pt-2 pb-5">
+                <div class="col-sm-6">
+                  <div class="d-flex align-items-center">
+                  <h1 class="admin-title m-0 pt-2">Members</h1>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'add-members' %}" class="breadcrump-addbtn"><i class="fas fa-plus"></i> Add Members</a>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card active">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            
+                            <p class="card-text">
+                              Total Members
+                            </p>
+                            <h5 class="card-title card-number">14</h5>
+                          </div>
+                          <div class="col-auto">
+                            <div class="cardcount-img">
+                              <img src="{% static 'dist/img/svg/total-members.svg' %}" alt="" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>   
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card counter-active-card ">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            
+                            <p class="card-text">
+                              Active Members
+                            </p>
+                            <h5 class="card-title card-number">6</h5>
+                          </div>
+                          <div class="col-auto">
+                            <div class="cardcount-img">
+                              <img src="{% static 'dist/img/svg/active-members.svg' %}" alt="" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>  
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card counter-deactive-card ">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            
+                            <p class="card-text">
+                              Inactive Members
+                            </p>
+                            <h5 class="card-title card-number">3</h5>
+                          </div>
+                          <div class="col-auto">
+                            <div class="cardcount-img">
+                              <img src="{% static 'dist/img/svg/deactivate-members.svg' %}" alt="" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>  
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card counter-pending-card ">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            
+                            <p class="card-text">
+                              Pending Members
+                            </p>
+                            <h5 class="card-title card-number">0</h5>
+                          </div>
+                          <div class="col-auto">
+                            <div class="cardcount-img">
+                              <img src="{% static 'dist/img/svg/pending-members.svg' %}" alt="" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>  
+                </div>  
+              </div>
+      
+            </div>
+          </div>
+          <!-- /.content-header -->
+      
+          <!-- Main content -->
+          <div class="content">
+            <div class="container-fluid">
+              <div class="row">
+                
+                <div class="col-sm-12 col-md-12">  
+                    <div class="card box-shadow-none">
+                      <div class="card-body px-0 pb-0">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="table-search-area">
+                              <form>
+                                <select class="table-select-field">
+                                  <option value="">Member Name</option>
+                                  <option value="">Employee ID</option>
+                                  <option value="">Mobile Number</option>
+                                  <option value="">Email ID</option>
+                                  <option value="">Membership ID</option>
+                                </select>
+                                <input type="text" name="" class="table-search-field" placeholder="Search">
+                                <button type="submit" class="table-search-btn">
+                                  <img src="{% static 'dist/img/svg/search-icon.svg' %}" alt="">
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class=" d-flex justify-content-end">
+                              <div class="dropdown">
+                                <div class="shorting-select"  data-toggle="dropdown" aria-expanded="false">
+                                  <img src="{% static 'dist/img/svg/shorting-icon.svg' %}" alt="">
+                                  <span>Short</span>
+                                  <img src="{% static 'dist/img/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                                </div>
+                                <form action="">
+                                  <ul class="dropdown-menu shorting-dropdown-menu">
+                                    <p class="border-bottom pb-1 title2">Short</p>
+                                    <li><input type="radio" name="shorting" id="name-a_z"> <label for="name-a_z">Name A &gt; Z</label></li>
+                                    <li><input type="radio" name="shorting" id="name-z_a"> <label for="name-z_a">Name Z &lt; A</label></li>
+                                    <li><input type="radio" name="shorting" id="recently_activated"> <label for="recently_activated">Recently Activated</label></li>
+                                    <li><input type="radio" name="shorting" id="recently_deactivated"> <label for="recently_deactivated">Recently Deactivated</label></li>
+                                    <div class="d-flex justify-content-center border-top pt-3 mt-2 pb-2">
+                                      <button type="submit" class="dashboard-addbtn w-100">Apply</button>
+                                    </div>   
+                                  </ul>
+                                </form>
+                              </div>  
+                              <div class="shorting-select" data-toggle="modal" data-target="#modal-filter">
+                                <img src="{% static 'dist/img/svg/filter-icon.svg' %}" alt="">
+                                <span>Filter</span>
+                                <img src="{% static 'dist/img/svg/down-arrow-icon.svg' %}" alt="" class="change-arrow">
+                              </div>
+                            </div>  
+                          </div>
+                        </div>
+                        <div class="table-responsive table-ht">
+                          <table class="table table-design table-trlink">
+                            <thead class="table-thead-bg-light table-header-fix">
+                              <tr>
+                                <th width="10">
+                                  <input type="checkbox" name="" id="checkall" class="table-chk">
+                                  <label for="checkall"></label>
+                                </th>
+                                <th>Name/ Employee ID</th>
+                                <th>Membership ID</th>
+                                <th>Contact Details</th>
+                                <th>Membership Plan(s)</th>
+                                <th>Member Status</th>
+                                <th width="50"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+      
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td><a href="{% url "member-view" %}" class="trlink">Vinod Kumar <span class="text-gray d-block small">NLS14</span></a></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">vinod@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td><a href="{% url "member-view" %}" class="trlink">Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></a></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td><a href="{% url "member-view" %}" class="trlink">Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></a></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Vinod Kumar <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">vinod@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#"></a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#"></a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Vinod Kumar <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">vinod@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#"></a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Vinod Kumar <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">vinod@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="" id="check1" class="table-chk">
+                                  <label for="check1"></label>
+                                </td> 
+                                <td>Abhishek Choudhary <span class="text-gray d-block small">NLS14</span></td>
+                                <td>OSHB-A4667114</td>
+                                <td>9876543210 <span class="text-gray d-block small">abhishek@netleafinfosoft.com</span></td>
+                                <td>Onyx <span class="text-gray d-block small">Team Member</span></td>
+                                <td>
+                                  <p class="text-success">Active</p> 
+                                  <span class="text-gray d-block small">10 Jan '25 - Present</span>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <img src="{% static 'dist/img/svg/menu-dot-vr.svg'%}" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu table-dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Download Health Insurance Card</a></li>
+                                      <li><a class="dropdown-item" href="#">Deactivate Membership</a></li>
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bottom-fix-pagination">
+                      <div class="d-flex">
+                        <ul class="pagination">
+                          <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                          </li>
+                          <li class="page-item"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                          <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </li>
+                        </ul>
+                        <select class="pagination-dropdown">
+                          <option>10 / Page</option>
+                          <option>20 / Page</option>
+                          <option>50 / Page</option>
+                          <option>100 / Page</option>
+                        </select>
+                      </div>  
+                    </div>  
+                  </div>
+                </div>
+              </div>  
+            </div>
+            
+          </div>
+          
+        </div>
+        <!-- /.content-wrapper -->
+    
+        {% include "footer.html" %}
+    </div>
+    <!-- ./wrapper -->
+    
+    
+    <div class="modal fade table-filter-modal" id="modal-filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content">
+          <div class="modal-header">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <h5 class="modal-title">Filter</h5>
+              <p class="modal-title text-gray mb-0">Clear All</p>
+            </div>  
+            <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">&times;</button> -->
+          </div>
+          <div class="modal-body">
+            <h4 class="filter-hding">Status</h4>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-active">
+              <label for="status-active">Active</label>
+            </div>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-deactived">
+              <label for="status-deactived">Deactived</label>
+            </div>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-onnotice">
+              <label for="status-onnotice">Active | On Notice</label>
+            </div>
+            <h4 class="filter-hding">Member Name</h4>
+            <input type="search" name="" class="filter-search-field" placeholder="Search Members">
+            <h4 class="filter-hding">Plan</h4>
+            <select class="filter-search-field" id="planselect">
+              <option value="" selected>Select Plan</option>
+              <option value="Team Member">Netyx (Team Member)</option>
+              <option value="Family">Netyx (Team Member, Spouse and Two Children)</option>
+            </select>
+            <h4 class="filter-hding">Activation Date Range</h4>
+            <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+            <h4 class="filter-hding">Deactivation Date Range</h4>
+            <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="dashboard-btn-outline" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="dashboard-addbtn">Apply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    {% include 'footer-script.html' %}
+    
+    
+    
+    
+    </body>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    Policy Management
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-12 col-md-6">
+                <h2 class="admin-title m-0 pt-2 text-dark">Update Bulk Policy </h2>
+                <ul class="breadcrump">
+                  <li> <a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="#">Post Policies Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Bulk Policy Mgt</li>
+                </ul>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="d-flex align-items-center justify-content-end">
+                  <div>
+                    <a href="{% url 'policy-data' %}" class="breadcrump-addbtn mx-1">View Policies</a>
+                    <a href="{% url 'bulk-update-logs' %}" class="breadcrump-addbtn mx-1">View Bulk Updates</a>
+                    <a href="{{ EMP_PORTAL_PATH }}media/sample/edit-bulk-policy.xlsx" class="breadcrump-addbtn mx-1" download>Download Sample</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    
+                    <form autocomplete="off" id="update_bulk_policies" name="updateBulkPolicies" action="{% url 'update-bulk-policies' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-lbl" for="file">Upload File</label>
+                                <input type="file" class="form-field" name="file" id="file" accept=".xlsx">
+                                <span class="error file_err"></span>
+                                {% if form.file.errors %}
+                                    <span class="text-danger">{{ form.file.errors.0 }}</span>
+                                {% endif %}
+                                <p class="text-gray small pt-1">Only xlsx allowed, Max Size 5 MB Allowed</p>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-lbl" for="camp_name">Campaign Name</label>
+                                <input type="text" class="form-field" name="camp_name" id="camp_name" value="Update Policies">
+                                <span class="error camp_name_err"></span>
+                                {% if form.camp_name.errors %}
+                                    <span class="text-danger">{{ form.camp_name.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <div class="d-flex justify-content-end">
+                              <button type="submit" class="form-submit-btn">Upload File</button>
+                            </div>
+                          </div>  
+                        </div>
+                    </form>
+                  </div>
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+   
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    
+</body>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% load static %}
+  <!-- Bootstrap Icons CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="tab-content" id="nav-tabContent">
+  <div class="table-responsive">
+   
+    <table class="table table-design table-trlink table-small-font">
+      <thead class="table-thead-bg-light table-header-fix">
+        <tr>
+          <th width="10">
+            <input type="checkbox" id="checkall" class="table-chk">
+            <label for="checkall"></label>
+          </th>
+          <th>Lead Info</th>
+          <th width="180">Customer Info</th>
+          <th>Personal Info</th>
+          <th>Policy Info</th>
+          <th>Lead Source Info</th>
+          <th>Lead Allocation</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lead in page_obj %}
+          <tr>
+            <td>
+              <input type="checkbox" id="check{{ lead.id }}" class="table-chk">
+              <label for="check{{ lead.id }}"></label>
+            </td>
+            
+              <!-- Lead ID + Date -->
+              <td>
+                <span class="badge bg-secondary">{{ lead.lead_id }}</span><br>
+                <span class="d-block">Lead Age :
+                    {% if lead.created_at.date == today %}
+                        <span class="badge bg-primary rounded-pill">Today</span>
+                    {% elif lead.created_at.date == yesterday %}
+                        <span class="badge bg-primary rounded-pill">Yesterday</span>
+                    {% else %}
+                        <span class="badge bg-primary rounded-pill">
+                            {{ lead.created_at|timesince }} ago
+                        </span>
+                    {% endif %}
+                </span>
+                <small class="text-muted">{{ lead.created_at|date:"d M Y h:i A" }}</small>
+                {% if lead.parent_lead_id %}
+                  <small class="badge bg-info text-muted">Reborned</small>
+                {% endif %}
+              </td>
+                 <!-- Customer Info -->
+                <td>
+                <div class="d-flex">
+                  <span class="d-block text-primary">{{ lead.name_as_per_pan }}</span> 
+                    {% if lead.lead_customer_gender == 1 %}
+                    <span class="text-muted ml-1">(Male)</span>
+                  {% elif lead.lead_customer_gender == 2 %}
+                  <span class="text-muted ml-1">(Female)</span>
+                    {% elif lead.lead_customer_gender == 3 %}
+                  <span class="text-muted ml-1">(Other)</span>
+                  {% endif %}
+                  </div>  
+                  <span class="d-block text-lowercase">{{ lead.email_address }}</span>
+                  <span class="d-block text-muted">{{ lead.mobile_number }}</span>
+                  <span class="d-block text-muted">#{{ lead.lead_customer.customer_id }}</span>
+                </td>
+
+                  <!-- Personal Info -->
+              <td>
+                <span class="d-block text-muted">DOB: {{ lead.date_of_birth|default:"N/A" }}</span>
+                  <span>Identity No: {{ lead.lead_customer_identity_no|default:"N/A" }}</span>
+              </td>
+
+          <td>
+            <strong>Insurance Type:</strong> {{ lead.lead_insurance_type|default:"-" }}<br>
+            <span class="d-block text-muted">Category: {{ lead.lead_insurance_category|default:"N/A" }}</span>
+            <span class="d-block text-muted">Product Name: {{ lead.lead_insurance_product|default:"-" }}</span>
+          </td>
+             <!-- Lead Source Info -->
+          <td>
+            Source Type: {{ lead.lead_source_type.source_name|default:"N/A" }}<br>
+            <span class="d-block text-muted">Source Name: {{ lead.lead_source|default:"N/A" }}</span>
+            Refferal Name: {{ lead.referral_name|default:"N/A" }}<br>
+          <span>Source Medium: 
+            {% if lead.lead_source_medium == 1 %}
+              Facebook
+            {% elif lead.lead_source_medium == 2 %}
+              Google
+            {% elif lead.lead_source_medium == 3 %}
+              WhatsApp
+            {% elif lead.lead_source_medium == 4 %}
+              Walk-in
+            {% elif lead.lead_source_medium == 5 %}
+              Embedded Partner
+            {% else %}
+              N/A
+            {% endif %}
+          </td>
+            <!-- Lead Allocation -->
+          <td>
+            Allocated user: {{ lead.assigned_to.full_name|default:"N/A" }}<br>
+            <span class="d-block text-muted">
+            Allocation Date: {{ lead.updated_at|date:"d-m-Y" }}
+          </span>
+          </td>
+          
+          <!-- Status -->
+          <td>
+            Create : {{ lead.created_at|date:"d-m-Y" }}<br>
+            <span class="d-block text-muted">Quote: {{ lead.quote_date|default:"N/A" }}</span>
+            Booking: N/A<br>
+            Issued: N/A
+          </td>
+          <!--Action-->
+          <td> 
+            <div class="dropdown">
+              <img src="/static/dist/img/svg/menu-dot-vr.svg" alt="" class="table-doticon" data-toggle="dropdown" aria-expanded="false">
+              <ul class="dropdown-menu table-dropdown-menu">
+                {% if lead.lead_id %}
+                  <li>
+                    <a class="dropdown-item" href="{% url 'lead-view' lead_id=lead.lead_id %}">
+                      <i class="bi bi-eye mr-2"></i> View
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'lead-allocation' lead_id=lead.lead_id %}" class="dropdown-item">
+                      <i class="bi bi-person-plus mr-2"></i> Allocation
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'edit-lead-init' lead_id=lead.lead_id %}" class="dropdown-item">
+                      <i class="bi bi-pencil-square mr-2"></i> Edit
+                    </a>  
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+          <tr>
+            <td colspan="11" class="text-center">No leads found</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>

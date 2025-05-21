@@ -1,0 +1,252 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+{% if lead %}Edit Lead{% else %}Add New Lead{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include "sidebar.html" %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Lead Mgt</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="{% url 'leads-mgt' %}">Lead Mgt</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Edit Lead : <strong>#{{lead_data.lead_id|default:"-"}}</strong></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-4 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                    <ul class="stepflow-text stepflow-five-col mt-0">
+                      <li class="active"><a href="#">Insurance Info</a></li>
+                      <li class="active"><a href="#">Basic Info</a></li>
+                      <li><a href="#">Lead Source Info</a></li>
+                      <li><a href="#">Location Info</a></li>
+                      <li><a href="#">Assignment</a></li>
+                      <li><a href="#">Previous Policy Information</a></li>
+                    </ul>
+                    <ul class="new-stepflow mb-2">
+                      <li class="active"></li>
+                      <li class="active"></li>
+                      <li></li>
+                      <li></li>
+                      <li></li>
+                      <li></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">  
+                <div class="card box-shadow-none p-md-4 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+                      
+                    <form autocomplete="off" id="leadSourceForm" name="leadSourceForm" action="{% url 'save-lead-source-info' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="lead_ref_id" id="lead_ref_id" value="{{lead_data.lead_id}}">
+                      <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="admin-title border-bottom pb-2 mb-4">Lead Source Info</h2>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label class="form-lbl">Lead Source Type</label>
+                            <select class="form-field" name="lead_source_type" id="lead_source_type">
+                                <option value="">Select</option>
+                                {% if source_list %}
+                                  {% for source in source_list %}
+                                      <option value="{{source.id}}" {% if lead_data.lead_source_type_id == source.id %} selected{% endif %}>{{source.source_name}}</option>
+                                  {% endfor %}
+                                {% endif %}
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4 lead_source_name_div">
+                            <label class="form-lbl" >Lead Source Name (If Other (Optional))</label>
+                            <input type="text" class="form-field" name="lead_source_name" id="lead_source_name" placeholder="Enter Lead Source Name"  value="{{lead_data.lead_source|default:''}}">
+                          </div>
+
+                          <div class="form-group col-md-4 referral_by_div">
+                            <label class="form-lbl">Refered By</label>
+                            <select class="form-field" name="refered_by" id="refered_by">
+                                <option value="">Select</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4 pos_partner_div">
+                            <label class="form-lbl">POSP By</label>
+                            <select class="form-field" name="posp_by" id="posp_by">
+                                <option value="">Select</option>
+                            </select>
+                          </div>
+
+                          <!-- <div class="form-group col-md-4">
+                              <label class="form-lbl" for="referral_name">Referral Name</label>
+                              <input type="text" class="form-field" name="referral_name" id="referral_name" value="{{lead_data.referral_name|default:'' }}" placeholder="Enter Referral Name">
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label class="form-lbl" for="referral_mobile_number">Referral Mobile Number</label>
+                            <input type="text" class="form-field mobile" name="referral_mobile_number" id="referral_mobile_number" value="{{lead_data.referral_mobile_no|default:'' }}" placeholder="Enter Referral Mobile Number">
+                        </div> -->
+
+                          <!-- <div class="form-group col-md-4">
+                            <label class="form-lbl">Source Medium</label>
+                            <select class="form-field" name="source_medium" id="source_medium">
+                                <option value="">Select</option>
+                                <option value="1" {% if lead_data.lead_source_medium == 1 %} selected {% endif %}>Facebook</option>
+                                <option value="2" {% if lead_data.lead_source_medium == 2 %} selected {% endif %}>Google</option>
+                                <option value="3" {% if lead_data.lead_source_medium == 3 %} selected {% endif %}>WhatsApp</option>
+                                <option value="4" {% if lead_data.lead_source_medium == 4 %} selected {% endif %}>Walk-in</option>
+                                <option value="5" {% if lead_data.lead_source_medium == 5 %} selected {% endif %}>Embedded Partner</option>
+                            </select>
+                          </div> -->
+                        
+                        
+                        
+                          
+                        
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button type="submit" class="form-submit-btn mt-3">
+                           Add Lead
+                        </button>
+                      </div>  
+                    </form>
+                    
+                  </div>
+                  <div id="loader" class="form-loader" style="display: none;">
+                    <div>
+                      <div class="spinner-border text-primary mx-auto d-block" role="status"></div>
+                      <span class="visually-hidden d-block pt-2">Loading...</span>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+  
+    <script>
+
+      function getReferralsListForSelect(targetSelectId) {
+        var selectedId = "{{ lead_data.referral_by|default:'' }}";
+        $.ajax({
+            url: "{% url 'get-refferals-for-select' %}",
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                let $select = $('#' + targetSelectId);
+                $select.empty(); // Clear existing options
+                $select.append('<option value="">Select</option>');
+
+                if (response && response.length > 0) {
+                    response.forEach(function(referral) {
+                      let selected = (selectedId && parseInt(selectedId) == referral.id) ? 'selected' : '';
+                      $select.append(
+                          `<option value="${referral.id}" ${selected}>${referral.name}</option>`
+                      );
+                  });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching referrals:", error);
+            }
+        });
+      }
+
+      function getPospListForSelect(targetSelectId) {
+        var selectedId = "{{ lead_data.posp_id|default:'' }}";
+        $.ajax({
+            url: "{% url 'get-posp-for-select' %}",
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                let $select = $('#' + targetSelectId);
+                $select.empty(); // Clear existing options
+                $select.append('<option value="">Select</option>');
+
+                if (response && response.length > 0) {
+                    response.forEach(function(partners) {
+                      let selected = (selectedId && parseInt(selectedId) == partners.user_id) ? 'selected' : '';
+                      $select.append(
+                          `<option value="${partners.user_id}" ${selected}>${partners.name}</option>`
+                      );
+                  });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching partners:", error);
+            }
+        });
+      }
+
+      
+      function toggleReferralBy() {
+        var leadSource = $('#lead_source_type').val();
+
+        if (leadSource == "9") {
+            $('.referral_by_div').removeClass('d-none');
+            getReferralsListForSelect('refered_by');
+            $('.pos_partner_div').addClass('d-none');
+            $('.lead_source_name_div').addClass('d-none');
+        } else if (leadSource == "7") {
+            $('.pos_partner_div').removeClass('d-none');
+            getPospListForSelect('posp_by');
+            $('.referral_by_div').addClass('d-none');
+            $('.lead_source_name_div').addClass('d-none');
+        } else if (leadSource == "12") {
+            $('.pos_partner_div').addClass('d-none');
+            $('.referral_by_div').addClass('d-none');
+            $('.lead_source_name_div').removeClass('d-none');
+        } else {
+            $('.lead_source_name_div').addClass('d-none');
+            $('.referral_by_div').addClass('d-none');
+            $('.pos_partner_div').addClass('d-none');
+        }
+      }
+
+      $(document).ready(function () {
+          toggleReferralBy();
+          $('#lead_source_type').on('change', function () {
+              toggleReferralBy();
+          });
+      });
+
+      // Re-validate conditional fields when lead source changes
+      $('#lead_source_type').on('change', function () {
+          $('#refered_by, #posp_by, #lead_source_name').valid();
+      });
+  </script>
+
+</body>
+{% endblock %}

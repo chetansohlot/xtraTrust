@@ -1,0 +1,504 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Lead Mgt.
+{% endblock %}
+  
+{% block content %}
+{% load static %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'navbar.html' %}
+
+        {% include 'sidebar.html' %}
+    
+        <div class="content-wrapper white-bg">
+          <!-- Content Header (Page header) -->
+          <div class="content-header header-content-bg">
+            <div class="container-fluid ">
+              <div class="row pt-2 pb-2">
+                <div class="col-sm-6">
+                  <h1 class="admin-title m-0 pt-2">Lead Mgt.</h1>
+                  <ul class="breadcrump">
+                    <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                    <li>Lead Mgt</li>
+                  </ul>
+                </div>
+                <div class="col-sm-6">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'lead-init' %}" class="breadcrump-addbtn mx-1"><i class="fas fa-plus"></i> Add lead</a> 
+                    <!-- <a href="{% url 'bulk-upload-leads' %}" class="breadcrump-addbtn mx-1"><i class="fas fa-plus"></i> Add Bulk lead</a> -->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="#">
+                    <div class="card counter-img-card active">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            
+                            <p class="card-text">
+                              Total Lead
+                            </p>
+                            <h5 class="card-title card-number">{{ total_leads }}</h5>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </a>   
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="{% url 'leads-mgt' %}">
+                    <div class="card counter-img-card counter-active-card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            <p class="card-text">Motor Lead</p>
+                            <h5 class="card-title card-number">{{ motor_leads }}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="{% url 'health-lead' %}">
+                    <div class="card counter-img-card counter-deactive-card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            <p class="card-text">Health Lead</p>
+                            <h5 class="card-title card-number">{{ health_leads }}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>  
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                  <a href="{% url 'term-lead' %}">
+                    <div class="card counter-img-card counter-pending-card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            <p class="card-text">Term Lead</p>
+                            <h5 class="card-title card-number">{{ term_leads }}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>  
+              </div>
+      
+            </div>
+          </div>
+          <!-- /.content-header -->
+      
+          <!-- Main content -->
+          <div class="content">
+            <div class="container-fluid">
+                 <div class="row">
+                
+                 <div class="col-sm-12 col-md-12">  
+                    <div class="card box-shadow-none">
+                      <div class="card-body px-0 pb-0"> 
+
+                        <div class="card mb-4">
+                          <div class="card-body pb-0">
+                            <form method="get">
+
+                              <!-- Row 1: 5 Lead filters (plus one empty col to balance 6 slots) -->
+                              <div class="row">
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input class="form-field" name="lead_id" type="text" placeholder="Lead ID" value="{{ request.GET.lead_id }}">
+                                </div>
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input class="form-field" name="name_as_per_pan" type="text" placeholder="Name (as per PAN)" value="{{ request.GET.name_as_per_pan }}">
+                                </div>
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input class="form-field" name="pan_card_number" type="text" placeholder="Identity Number" value="{{ request.GET.pan_card_number }}">
+                                </div>
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input class="form-field" name="email_address" type="email" placeholder="Email Address" value="{{ request.GET.email_address }}">
+                                </div>
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input class="form-field" name="mobile_number" type="tel" placeholder="Mobile Number" value="{{ request.GET.mobile_number }}">
+                                </div>
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input class="form-field" name="policy_number" type="text" placeholder="Policy/Registration Number" value="">
+                                </div>
+                              
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input  type="text" id="start_date" name="start_date" class="form-field" placeholder="Start Date" onkeydown="return false;" onfocus="(this.type='date'); this.showPicker && this.showPicker()" onblur="if(this.value===''){this.type='text'}" value="{{ request.GET.start_date }}">
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <input  type="text" id="end_date" name="end_date" class="form-field" placeholder="End Date" onkeydown="return false;" onfocus="(this.type='date'); this.showPicker && this.showPicker()" onblur="if(this.value===''){this.type='text'}" value="{{ request.GET.end_date }}">
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select name="branch" id="branch" class="form-field">
+                                    <option value="">Select Branch</option>
+                                    {% if branchs %}
+                                      {% for branch in branchs %}
+                                        <option value="{{branch.id}}" {% if request.GET.branch|stringformat:"s" == branch.id|stringformat:"s" %} selected  {% endif %}>{{branch.branch_name}}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                  </select>
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select name="sales_manager" class="form-field" id="sales_manager">
+                                    <option value="">Select Sales Manager</option>
+                                  </select>
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select name="sales_teamleader" class="form-field" id="sales_teamleader">
+                                    <option value="">Select Sales Team Leader</option>
+                                  </select>
+                                </div>
+
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select name="sales_rm" class="form-field" id="sales_rm">
+                                    <option value="">Select Sales RM</option>
+                                  </select>
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select class="form-field" name="insurance_company">
+                                    <option value="">Select Insurance Company</option>
+                                    {% for company in insurance_companies %}
+                                      <option value="{{ company.id }}" {% if request.GET.insurance_company == company.id %}selected{% endif %}>{{ company.insurance_company }}</option>
+                                    {% endfor %}
+                                  </select>
+                                  
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select class="form-field" name="policy_type">
+                                    <option value="">Select Policy Type</option>
+                                    {% for policy_type in policy_type_list %}
+                                      <option value="{{ policy_type.id }}" {% if request.GET.policy_type|stringformat:"s" == policy_type.id|stringformat:"s" %}selected{% endif %}>{{ policy_type.name  }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select class="form-field" name="vehicle_type">
+                                    <option value="">Select Vehicle Type</option>
+                                    {% for vehicle in vehicle_type_list %}
+                                      <option value="{{ vehicle.id }}" {% if request.GET.vehicle_type|stringformat:"s" == vehicle.id|stringformat:"s" %}selected{% endif %}>{{ vehicle.name }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <select class="form-field" name="upcoming_renewals">
+                                    <option value="">Select Upcoming Renewals</option>
+                                    <option value="0" {% if request.GET.upcoming_renewals == '0' %}selected{% endif %}>Today</option>
+                                    <option value="3" {% if request.GET.upcoming_renewals == '3' %}selected{% endif %}>In 3 Days</option>
+                                    <option value="7" {% if request.GET.upcoming_renewals == '7' %}selected{% endif %}>In 7 Days</option>
+                                    <option value="10" {% if request.GET.upcoming_renewals == '10' %}selected{% endif %}>In 10 Days</option>
+                                    <option value="15" {% if request.GET.upcoming_renewals == '15' %}selected{% endif %}>In 15 Days</option>
+                                    <option value="30" {% if request.GET.upcoming_renewals == '30' %}selected{% endif %}>In 30 Days</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="row mb-3">
+                                <!-- 6th col: Apply / Reset -->
+                                <div class="col-sm-6 col-md-2 mb-3">
+                                  <div class="form-group d-flex">
+                                    <button type="submit" class="wrap-btn w-100">Apply</button>
+                                    <a href="{% url 'leads-mgt' %}" class="wrap-btn w-100 bg-danger ml-2 text-center">Reset</a>
+                                    <!--<button type="submit" name="export" value="1" class="wrap-btn w-100 ml-2 bg-success text-white">Export</button>-->
+                                    <form method="get" action="{% url 'lead_mgt_export' %}">
+                                      <button type="submit" name="export" value="1" class="wrap-btn w-100 ml-2 bg-success text-white">Export</button>
+                                  </form>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </form>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                </div> 
+                        {% include "components/leads/lead-list-tab.html" with motor_active="true" %}
+
+                        {% include "components/leads/lead-list.html" %}
+                      </div>
+                    </div>
+                   
+              <div class="bottom-fix-pagination">
+                <div class="d-flex justify-content-between align-items-center">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1&per_page={{ per_page }}" aria-label="First">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                    <span class="sr-only">First</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% with page_obj.number|add:"-5" as start_page %}
+                        {% with page_obj.number|add:"5" as end_page %}
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if num >= start_page and num <= end_page %}
+                                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                                        <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                        {% endwith %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&per_page={{ per_page }}" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                    <span class="sr-only">Last</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <form method="GET" class="d-flex">
+                        <select class="pagination-dropdown form-select" name="per_page" onchange="this.form.submit()">
+                            <option value="10" {% if per_page == 10 %}selected{% endif %}>10 / Page</option>
+                            <option value="20" {% if per_page == 20 %}selected{% endif %}>20 / Page</option>
+                            <option value="50" {% if per_page == 50 %}selected{% endif %}>50 / Page</option>
+                            <option value="100" {% if per_page == 100 %}selected{% endif %}>100 / Page</option>
+                        </select>
+                        <input type="hidden" name="page" value="1">
+                    </form>
+                </div>
+              </div>
+                </div>
+
+
+
+                  </div>
+                </div>
+              </div>  
+            </div>
+            
+          </div>
+          
+        </div>
+        <!-- /.content-wrapper -->
+    
+        {% include "footer.html" %}
+    </div>
+    <!-- ./wrapper -->
+    
+    
+    <div class="modal fade table-filter-modal" id="modal-filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content">
+          <div class="modal-header">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <h5 class="modal-title">Filter</h5>
+              <p class="modal-title text-gray mb-0">Clear All</p>
+            </div>  
+            <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">&times;</button> -->
+          </div>
+          <div class="modal-body">
+            <h4 class="filter-hding">Status</h4>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-active">
+              <label for="status-active">Active</label>
+            </div>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-deactived">
+              <label for="status-deactived">Deactived</label>
+            </div>
+            <div class="filter-status">
+              <input type="checkbox" name="" id="status-onnotice">
+              <label for="status-onnotice">Active | On Notice</label>
+            </div>
+            <h4 class="filter-hding">Member Name</h4>
+            <input type="search" name="" class="filter-search-field" placeholder="Search Members">
+            <h4 class="filter-hding">Plan</h4>
+            <select class="filter-search-field" id="planselect">
+              <option value="" selected>Select Plan</option>
+              <option value="Team Member">Netyx (Team Member)</option>
+              <option value="Family">Netyx (Team Member, Spouse and Two Children)</option>
+            </select>
+            <h4 class="filter-hding">Activation Date Range</h4>
+            <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+            <h4 class="filter-hding">Deactivation Date Range</h4>
+            <input type="text" class="daterange filter-search-field" value="01/01/2025 - 01/15/2025" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="dashboard-btn-outline" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="dashboard-addbtn">Apply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    {% include 'footer-script.html' %}
+    
+    <script>
+      function toggleMotorType() {
+        const leadType = document.getElementById('lead_type').value;
+        const motorTypeContainer = document.getElementById('motor_type_container');
+        if (leadType === 'MOTOR') {
+          motorTypeContainer.style.display = 'block';
+        } else {
+          motorTypeContainer.style.display = 'none';
+        }
+      }
+    
+      // Trigger on page load if MOTOR is preselected
+      window.onload = toggleMotorType;
+    </script> 
+    <style>
+      .form-field:required:invalid::-webkit-datetime-edit {
+        color: transparent;
+      }
+      .form-field:focus::-webkit-datetime-edit {
+        color: initial;
+      }
+    </style>
+    
+    <script>
+      $(document).ready(function(){
+          function fetchBranchSalesManager(branchId=null,selectedId=null){
+            $.ajax({
+              url: "{% url 'get-branch-sales-managers' %}",
+              method: 'POST',              
+              data: {
+                  branch_id: branchId,
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              dataType: 'json',
+              success: function(response) {
+                  let $select = $('#sales_manager');
+                  $select.empty(); // Clear existing options
+                  $select.append('<option value="">Select Sales Manager</option>');
+                  if (response && response.length > 0) {
+                      response.forEach(function(managers) {
+                        let selected = (selectedId && parseInt(selectedId) == managers.id) ? 'selected' : '';
+                        $select.append(
+                            `<option value="${managers.id}" ${selected}>${managers.first_name} ${managers.last_name}</option>`
+                        );
+                    });
+                  }
+              },
+              error: function(xhr, status, error) {
+                  // Handle error here
+                  console.error(error);
+              }
+          });
+        }
+        
+          function fetchSalesTeamLeader(assigned_manager=null,branch_id=null,selectedId=null){
+            $.ajax({
+                url: "{% url 'get-sales-teamleader' %}",
+                method: 'POST',              
+                data: {
+                    assigned_manager: assigned_manager,
+                    branch_id: branch_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function(response) {
+                    let $select = $('#sales_teamleader');
+                    $select.empty(); // Clear existing options
+                    $select.append('<option value="">Select Sales Team Leader</option>');
+                    if (response && response.length > 0) {
+                        response.forEach(function(team_leaders) {
+                          let selected = (selectedId && parseInt(selectedId) == team_leaders.id) ? 'selected' : '';
+                          $select.append(
+                              `<option value="${team_leaders.id}" ${selected}>${team_leaders.first_name} ${team_leaders.last_name}</option>`
+                          );
+                      });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle error here
+                    console.error(error);
+                }
+              });
+            }
+
+          function fetchSalesRelationshipManager(assigned_teamleader=null,branch_id=null,selectedId=null){
+            $.ajax({
+                url: "{% url 'get-sales-relation-managers' %}",
+                method: 'POST',              
+                data: {
+                    assigned_teamleader: assigned_teamleader,
+                    branch_id: branch_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function(response) {
+                    let $select = $('#sales_rm');
+                    $select.empty(); // Clear existing options
+                    $select.append('<option value="">Select Sales RM</option>');
+                    if (response && response.length > 0) {
+                        response.forEach(function(relation_managers) {
+                          let selected = (selectedId && parseInt(selectedId) == relation_managers.id) ? 'selected' : '';
+                          $select.append(
+                              `<option value="${relation_managers.id}" ${selected}>${relation_managers.first_name} ${relation_managers.last_name}</option>`
+                          );
+                      });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle error here
+                    console.error(error);
+                }
+              });
+            }
+
+        $('#branch').on('change', function() {
+          var branchId = $(this).val();
+          fetchBranchSalesManager(branchId);
+        });
+
+        $('#sales_manager').on('change', function() {
+          var assigned_manager = $(this).val();
+          var branch_id = $('#branch').val();
+          fetchSalesTeamLeader(assigned_manager,branch_id);
+        });
+
+        $('#sales_teamleader').on('change', function() {
+          var assigned_teamleader = $(this).val();
+          var branch_id = $('#branch').val();
+          fetchSalesRelationshipManager(assigned_teamleader,branch_id);
+        });
+
+        let branch_id = "{{request.GET.branch}}";
+        let assigned_manager = "{{request.GET.sales_manager}}";
+        let assigned_teamleader = "{{request.GET.sales_teamleader}}";
+        let assigned_to = "{{request.GET.sales_rm}}";
+        fetchBranchSalesManager(branch_id,assigned_manager)
+        fetchSalesTeamLeader(assigned_manager,branch_id,assigned_teamleader)
+        fetchSalesRelationshipManager(assigned_teamleader,branch_id,assigned_to)
+      });
+    </script>
+      
+  </body>
+    {% endblock %}

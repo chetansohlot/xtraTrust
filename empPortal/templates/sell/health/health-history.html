@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'home/layouts/head.html' %}
+    {% load static %}
+
+    <section class="bg-light py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12 col-lg-12">
+            
+            <div class="row">
+              <div class="col-md-8">
+                <ul class="journey-step">
+                  <li class="active">Proposer</li>
+                  <li class="active">Insured</li>
+                  <li class="active">Medical History</li>
+                </ul>
+                <h2 class="wrap-title py-2">Help us know the Medical History</h2>
+                <div class="form-box">
+                  <form action="{% url 'create-health-summary' %}">
+                    <div class="row">
+                      <div class="col-md-12 mb-2">
+                        <div class="d-flex align-items-center">
+                          <input type="checkbox" class="radio-btn" name="not-for-all" id="not-for-all" value="not-for-all">
+                          <label for="not-for-all">Not for All</label>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Hypertension Blood Pressure History</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="hbph" id="hbph-vinod" value="hbph-vinod">
+                              <label for="hbph-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="hbph" id="hbph-pooja" value="hbph-pooja">
+                              <label for="hbph-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="hbph" id="hbph-bhavanya" value="hbph-bhavanya">
+                              <label for="hbph-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="hbph" id="hbph-no" value="hbph-no">
+                              <label for="hbph-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Diabetes History</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="diabets" id="diabets-vinod" value="diabets-vinod">
+                              <label for="diabets-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="diabets" id="diabets-pooja" value="diabets-pooja">
+                              <label for="diabets-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="diabets" id="diabets-bhavanya" value="diabets-bhavanya">
+                              <label for="diabets-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="diabets" id="diabets-no" value="diabets-no">
+                              <label for="diabets-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Any Heart related Or Circulatory Conditions Disorders</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="disorders" id="disorders-vinod" value="disorders-vinod">
+                              <label for="disorders-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="disorders" id="disorders-pooja" value="disorders-pooja">
+                              <label for="disorders-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="disorders" id="disorders-bhavanya" value="disorders-bhavanya">
+                              <label for="disorders-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="disorders" id="disorders-no" value="disorders-no">
+                              <label for="disorders-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Kidney Failure Stone Dialysis Or Any Other Kidney Urinary Tract Or Prostate Disease</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="kidney-failure" id="kidney-failure-vinod" value="kidney-failure-vinod">
+                              <label for="kidney-failure-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="kidney-failure" id="kidney-failure-pooja" value="kidney-failure-pooja">
+                              <label for="kidney-failure-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="kidney-failure" id="kidney-failure-bhavanya" value="kidney-failure-bhavanya">
+                              <label for="kidney-failure-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="kidney-failure" id="kidney-failure-no" value="kidney-failure-no">
+                              <label for="kidney-failure-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Arthritis Spondylosis Joint Replacement Or Any Other Disorder of Joint ligaments</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="spondylosisi" id="spondylosisi-vinod" value="spondylosisi-vinod">
+                              <label for="spondylosisi-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="spondylosisi" id="spondylosisi-pooja" value="spondylosisi-pooja">
+                              <label for="spondylosisi-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="spondylosisi" id="spondylosisi-bhavanya" value="spondylosisi-bhavanya">
+                              <label for="spondylosisi-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="spondylosisi" id="spondylosisi-no" value="spondylosisi-no">
+                              <label for="spondylosisi-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Tuberculosis Asthma Bronchitis Or Any Other Lung Respiratory Disease</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="lung-disease" id="lung-disease-vinod" value="lung-disease-vinod">
+                              <label for="lung-disease-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="lung-disease" id="lung-disease-pooja" value="lung-disease-pooja">
+                              <label for="lung-disease-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="lung-disease" id="lung-disease-bhavanya" value="lung-disease-bhavanya">
+                              <label for="lung-disease-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="lung-disease" id="lung-disease-no" value="lung-disease-no">
+                              <label for="lung-disease-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Liver Disease Or Any Other Gastro Intestinal Or Gallbladder Disease</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="liver-disease" id="liver-disease-vinod" value="liver-disease-vinod">
+                              <label for="liver-disease-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="liver-disease" id="liver-disease-pooja" value="liver-disease-pooja">
+                              <label for="liver-disease-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="liver-disease" id="liver-disease-bhavanya" value="liver-disease-bhavanya">
+                              <label for="liver-disease-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="liver-disease" id="liver-disease-no" value="liver-disease-no">
+                              <label for="liver-disease-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Cancer or Tumor of any kind</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="cancer" id="cancer-vinod" value="cancer-vinod">
+                              <label for="cancer-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="cancer" id="cancer-pooja" value="cancer-pooja">
+                              <label for="cancer-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="cancer" id="cancer-bhavanya" value="cancer-bhavanya">
+                              <label for="cancer-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="cancer" id="cancer-no" value="cancer-no">
+                              <label for="cancer-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Stroke Epilepsy Paralysis Or Any Other Brain Nervous System Disease</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="paralysis" id="paralysis-vinod" value="paralysis-vinod">
+                              <label for="paralysis-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="paralysis" id="paralysis-pooja" value="paralysis-pooja">
+                              <label for="paralysis-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="paralysis" id="paralysis-bhavanya" value="paralysis-bhavanya">
+                              <label for="paralysis-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="paralysis" id="paralysis-no" value="paralysis-no">
+                              <label for="paralysis-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Any Gynecological Breast Disorder</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="gynecological" id="gynecological-vinod" value="gynecological-vinod">
+                              <label for="gynecological-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="gynecological" id="gynecological-pooja" value="gynecological-pooja">
+                              <label for="gynecological-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="gynecological" id="gynecological-bhavanya" value="gynecological-bhavanya">
+                              <label for="gynecological-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="gynecological" id="gynecological-no" value="gynecological-no">
+                              <label for="gynecological-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Use tobacco products cigarettes or drinks alcohol</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="alcohol" id="alcohol-vinod" value="alcohol-vinod">
+                              <label for="alcohol-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="alcohol" id="alcohol-pooja" value="alcohol-pooja">
+                              <label for="alcohol-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="alcohol" id="alcohol-bhavanya" value="alcohol-bhavanya">
+                              <label for="alcohol-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="alcohol" id="alcohol-no" value="alcohol-no">
+                              <label for="alcohol-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-2">
+                        <div class="form-group">
+                          <p class="form-lbl mb-2">Has the insured sought any medical advice or awaiting any treatment medical or surgical due to any of the diseases or condition listed above or otherwise attend follow up for any diseases or condition or ailment or injury or addiction</p>
+                          <div class="d-flex">
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="surgical" id="surgical-vinod" value="surgical-vinod">
+                              <label for="surgical-vinod">Vinod Kumar <span class="text-gray">(Self)</span></label>
+                            </div>  
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="surgical" id="surgical-pooja" value="surgical-pooja">
+                              <label for="surgical-pooja">Pooja <span class="text-gray">(Spouse)</span></label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="surgical" id="surgical-bhavanya" value="surgical-bhavanya">
+                              <label for="surgical-bhavanya">Bhavanya <span class="text-gray">(Daughter)</span></label>
+                            </div> 
+                            <div class="d-flex align-items-center">
+                              <input type="checkbox" class="radio-btn" name="surgical" id="surgical-no" value="surgical-no">
+                              <label for="surgical-no">No </label>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="col-sm-12">  
+                        <button type="submit" class="form-btn w-auto ms-auto d-table mt-4">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="quote-box mt-4">
+                  <div class="row align-items-center mb-2">
+                    <div class="col-auto">
+                      <div class="quote-img">
+                        <img src="{% static 'home/assets/image/partner-logo/partner-logo-3.png' %}" alt="">
+                      </div>
+                    </div>
+                    <div class="col-md">
+                      <p class="wrap-prgh mb-0"><strong>Health Shield</strong></p>
+                    </div>
+                    <div class="col-md">
+                      <h2 class="wrap-subhding text-end"><i class="fa-solid fa-indian-rupee-sign"></i>19305</h2>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Family Composition</p>
+                        <p class="quote-lbl">2 Adult, 1 Child</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">CRN</p>
+                        <p class="quote-lbl">9563409</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Insurance Cover</p>
+                        <p class="quote-lbl"><i class="fa-solid fa-indian-rupee-sign"></i>5,970</p>
+                      </div>  
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <p class="quote-lbl-gray">Tenure</p>
+                        <p class="quote-lbl">1 year(s)</p>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+    
+          </div>
+        </div>
+      </div>  
+    </section> 
+
+{% include 'home/layouts/footer.html' %}
+
+</body>
+</html>
