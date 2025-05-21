@@ -40,24 +40,14 @@
                 <p>Employee</p>
               </a>
           </li>
-          <li class="nav-item {% if '/franchise-management/' in request.path or '/branch-management/' in request.path or '/user-and-roles/' in request.path %} menu-is-opening menu-open {% endif %}">
+          <li class="nav-item {% if '/branch-management/' in request.path or '/user-and-roles/' in request.path %} menu-is-opening menu-open {% endif %}">
             <a href="#" class="nav-link">
                   <svg class="sidbarmenu-svg">
                       <use xlink:href="#view-policy" />
                   </svg>
                   <p>Master <i class="fas fa-angle-right right"></i></p>
             </a>
-            <ul class="nav nav-treeview" {% if '/franchise-management/' in request.path or '/branch-management/' in request.path or '/referral-management/' in request.path or '/employee-management/' in request.path or '/department-management/' in request.path or '/user-and-roles/' in request.path or '/create-user/' in request.path or '/users/' in request.path %} style="display: block;" {% else %} style="display: none;" {% endif %}>
-                  <li class="nav-item">
-                      <a href="{% url 'franchise-management' %}" class="nav-link {% if '/franchise-management/' in request.path %} active {% endif %}">
-                          <!-- <i class="nav-icon fa-solid fa-building"></i> -->
-                          <svg class="sidbarmenu-svg">
-                            <use xlink:href="#franchise-icon" />
-                          </svg>
-                          <p>Franchise/Entity</p>
-                      </a>
-                  </li>
-                   
+            <ul class="nav nav-treeview" {% if '/branch-management/' in request.path or '/referral-management/' in request.path or '/employee-management/' in request.path or '/department-management/' in request.path or '/user-and-roles/' in request.path or '/create-user/' in request.path or '/users/' in request.path %} style="display: block;" {% else %} style="display: none;" {% endif %}>
                   <!--Source parth-->
                   <li class="nav-item">
                     <a href="{% url 'source_list' %}" 

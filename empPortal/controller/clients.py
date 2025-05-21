@@ -7,6 +7,6 @@ from django.contrib import messages
 
 def index(request):
     if not request.user.is_authenticated and request.user.is_active != 1:
-        messages.errors(request,'Please Login First')
+        messages.error(request,'Please Login First')
         return redirect('login')
     return render(request,'clients/index.html')
