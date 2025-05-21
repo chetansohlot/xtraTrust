@@ -3,14 +3,14 @@ from django.urls import path, include
 from . import views,export
 from . import views
 from . import authenticationView
-from .controller import commissions, profile,policy,Dashboard, Referral, globalController, helpAndSupport, Employee, leads, sellMotor, sellHealth, sellTerm, Franchises, Department, Branches, members, customers, quoteManagement, healthQuoteManagement, homeManagement, exams,SourceMaster,BQP,Credential
+from .controller import commissions, profile,Dashboard, Referral, globalController, helpAndSupport, leads, sellMotor, sellHealth, sellTerm, Franchises, Department, Branches, members, customers, quoteManagement, healthQuoteManagement, homeManagement, exams,SourceMaster,BQP,Credential
 from .controller import reports, PolicyCommission, PolicyPayment, insurance, dispositions, common
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path
 
 # for xtra trust
-from .controller import clients
+from .controller import clients, policy, employee, tpa
 
 motor_patterns = [
     path('quote-management/', quoteManagement.index, name='quote-management'),
@@ -97,19 +97,19 @@ urlpatterns = [
     path('department/toggle-status/<int:department_id>/', Department.toggle_department_status, name='department-toggle-status'),  #Anjali
 
 
-    path('employee-management/', Employee.index, name='employee-management'),
-    path('employee-management/create-employee', Employee.save_or_update_employee, name='employee-management-create'),
-    path('employee-management/update-employee/<str:employee_id>/', Employee.save_or_update_employee, name='employee-management-update'),
-    path('employee-management/view-employee/<str:employee_id>/', Employee.view_employee, name='employee-management-view'),
-    path('employee-management/update-address/<str:employee_id>/', Employee.save_or_update_address, name='employee-management-update-address'),
-    path('employee-management/family-details/<str:employee_id>/', Employee.save_or_update_family_details, name='employee-management-family-details'),
-    path('employee-management/employment-info/<str:employee_id>/', Employee.save_or_update_employment_info, name='employee-management-employment-info'),
-    path('employee-management/update-refrences/<str:employee_id>/', Employee.save_or_update_refrences, name='employee-management-update-refrences'),
-    path('employee-management/update-allocation/<str:employee_id>/', Employee.update_allocation, name='employee-management-update-allocation'),
-    path('employee-management/toggle-status/<str:employee_id>/<str:action>/', Employee.toggle_employee_status, name='employee-toggle-status'),
+    path('employee-management/', employee.index, name='employee-management'),
+    path('employee-management/create-employee', employee.save_or_update_employee, name='employee-management-create'),
+    path('employee-management/update-employee/<str:employee_id>/', employee.save_or_update_employee, name='employee-management-update'),
+    path('employee-management/view-employee/<str:employee_id>/', employee.view_employee, name='employee-management-view'),
+    path('employee-management/update-address/<str:employee_id>/', employee.save_or_update_address, name='employee-management-update-address'),
+    path('employee-management/family-details/<str:employee_id>/', employee.save_or_update_family_details, name='employee-management-family-details'),
+    path('employee-management/employment-info/<str:employee_id>/', employee.save_or_update_employment_info, name='employee-management-employment-info'),
+    path('employee-management/update-refrences/<str:employee_id>/', employee.save_or_update_refrences, name='employee-management-update-refrences'),
+    path('employee-management/update-allocation/<str:employee_id>/', employee.update_allocation, name='employee-management-update-allocation'),
+    path('employee-management/toggle-status/<str:employee_id>/<str:action>/', employee.toggle_employee_status, name='employee-toggle-status'),
 
-    path('employee-management/<str:employee_id>/', Employee.create_or_edit, name='employee-management-edit'),
-    path('employee-management/employee-allocation-employee/<str:employee_id>', Employee.create_or_edit_allocation, name='employee-allocation-update'),
+    path('employee-management/<str:employee_id>/', employee.create_or_edit, name='employee-management-edit'),
+    path('employee-management/employee-allocation-employee/<str:employee_id>', employee.create_or_edit_allocation, name='employee-allocation-update'),
      
     path('v1/get-refferals-for-select',common.get_referrals,name="get-refferals-for-select"),
     path('v1/get-posp-for-select',common.get_posp,name="get-posp-for-select"),
@@ -423,7 +423,10 @@ urlpatterns = [
     
     path('disposition/v1/sub-disposition-list',dispositions.get_sub_disposition_list,name="get-sub-disposition"),
     
-    path('clients/v1/index',clients.index,name="client-view")
+    path('clients/v1/index',clients.index,name="client-view"),
+    path('policy/v1/index',policy.index,name="policy-view"),
+    path('employee/v1/index',employee.index,name="employee-view"),
+    path('tpa/v1/index',tpa.index,name="tpa-view")
 ]   
 
 
