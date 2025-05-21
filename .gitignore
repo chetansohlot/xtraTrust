@@ -37,8 +37,8 @@ Pipfile.lock
 !**/migrations/__init__.py
 
 # Ignore specific views if needed
-empPortal/views.py
-empPortal/views-1.py
+# empPortal/views.py
+# empPortal/views-1.py
 
 # Ignore IDE and editor settings
 .vscode/

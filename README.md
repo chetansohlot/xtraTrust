@@ -28,3 +28,7 @@ wkhtmltopdf = /usr/local/bin/wkhtmltopdf
 
 to run bulk uppload use 
     run cluster =  python manage.py qcluster
+
+
+
+create a folder ->logs
