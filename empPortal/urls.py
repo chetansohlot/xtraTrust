@@ -10,7 +10,7 @@ from django.conf.urls.static import static
 from django.urls import re_path
 
 # for xtra trust
-from .controller import clients, policy, employee, tpa
+from .controller import clients, policy, employee, tpa, settingsController
 
 motor_patterns = [
     path('quote-management/', quoteManagement.index, name='quote-management'),
@@ -426,7 +426,8 @@ urlpatterns = [
     path('clients/v1/index',clients.index,name="client-view"),
     path('policy/v1/index',policy.index,name="policy-view"),
     path('employee/v1/index',employee.index,name="employee-view"),
-    path('tpa/v1/index',tpa.index,name="tpa-view")
+    path('tpa/v1/index',tpa.index,name="tpa-view"),
+    path('settings/v1/index',settingsController.index,name="settings-view")
 ]   
 
 
