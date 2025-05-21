@@ -1,0 +1,67 @@
+.env
+*.env
+*.pyc
+config/settings_local.py
+elevateInsurance/settings.py
+empPortal/media
+
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore database files
+*.sqlite3
+db.sqlite3
+
+# Ignore logs
+logs/
+*.log
+*.out
+
+# Ignore uploaded media files
+/media
+uploads/
+
+# Ignore virtual environments
+venv/
+.env/
+*.venv
+Pipfile
+Pipfile.lock
+
+# Ignore Django migrations (optional but recommended)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Ignore specific views if needed
+empPortal/views.py
+empPortal/views-1.py
+
+# Ignore IDE and editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore compiled and cache files
+*.pyc
+*.pyo
+.DS_Store
+
+# Ignore node_modules (if using frontend dependencies)
+node_modules/
+npm-debug.log
+
+# Ignore zip and backup files
+*.zip
+*.tar.gz
+*.bak
+*.csv
+
+# Ignore Docker and deployment files (if applicable)
+docker-compose.override.yml
+
+
