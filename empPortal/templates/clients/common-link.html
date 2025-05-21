@@ -1,0 +1,14 @@
+{% with step=step|default:1 %}
+
+<ul class="stepflow-text">
+    <li class="{% if step >= 2 %}active{% endif %}"><a href="#link1"><span>Basic Info</span></a></li>
+    <li class="{% if step >= 3 %}active{% endif %}"><a href="#link2"><span>Contact Info</span></a></li>
+    
+</ul>
+
+<ul class="new-stepflow">
+    <li class="{% if step >= 2 %}active{% endif %}"><a href="#link1"></a></li>
+    <li class="{% if step >= 3 %}active{% endif %}"><a href="#link2"></a></li>
+</ul>
+
+{% endwith %}

@@ -1,0 +1,201 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Client
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include "navbar.html" %}
+    {% include "sidebar/sidebar.html" %}
+
+    <div class="content-wrapper">
+        <!-- Breadcrumb Header -->
+        <div class="content-header breadcrump-bg">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Add Client</a>
+                        </div>
+                        <ul class="breadcrump">
+                            <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                            <li><a href="#">Client</a> <i class="fas fa-chevron-right"></i></li>
+                            <li>Add Client</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 d-flex justify-content-end align-items-start">
+                        <a href="{% url 'client-view' %}" class="breadcrump-addbtn mt-2">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-sm-12">
+
+                        {% include 'clients/common-link.html' with step=1 %}
+
+                        <div class="card box-shadow-none p-md-5 p-3">
+                            <div class="card-body px-0 pb-0 pt-0">
+
+                                <form autocomplete="off" id="clientForm" name="clientForm"
+                                    action="{% url 'save-client-info' %}"
+                                    method="post">
+                                    {% csrf_token %}
+                                    {% if client.id %}
+                                    <input type="hidden" name="client_id" value="{{ client.id }}">
+                                     {% endif %}
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2 class="admin-title border-bottom pb-2 mb-4">Basic Details</h2>
+                                        </div>
+
+                                        <!-- Client Name -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="client_name">Client Name</label>
+                                            <input type="text" class="form-field" name="client_name" id="client_name"
+                                                placeholder="Client Name"
+                                                value="{{ client.client_name|default:'' }}">
+                                            <span class="error client_name_err"></span>
+                                        </div>
+
+                                        <!-- Company Type -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="company_type">Company Type</label>
+                                            <select class="form-field" name="company_type" id="company_type">
+                                                <option value="">Select Company Type</option>
+                                                <option value="Private Ltd" {% if client.company_type == "Private Ltd" %}selected{% endif %}>Private Ltd</option>
+                                                <option value="Proprietorship" {% if client.company_type == "Proprietorship" %}selected{% endif %}>Proprietorship</option>
+                                                <option value="Partnership" {% if client.company_type == "Partnership" %}selected{% endif %}>Partnership</option>
+                                                <option value="LLP" {% if client.company_type == "LLP" %}selected{% endif %}>LLP</option>
+                                                <option value="Public Ltd" {% if client.company_type == "Public Ltd" %}selected{% endif %}>Public Ltd</option>
+                                            </select>
+                                            <span class="error company_type_err"></span>
+                                        </div>
+
+                                        <!-- PAN Number -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="pan_number">PAN Number</label>
+                                            <input type="text" class="form-field" name="pan_number" id="pan_number"
+                                                placeholder="PAN Number"
+                                                value="{{ client.pan_number|default:'' }}">
+                                            <span class="error pan_number_err"></span>
+                                        </div>
+
+                                        <!-- GST Number -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="gst_number">GST Number</label>
+                                            <input type="text" class="form-field" name="gst_number" id="gst_number"
+                                                placeholder="GST Number"
+                                                value="{{ client.gst_number|default:'' }}">
+                                            <span class="error gst_number_err"></span>
+                                        </div>
+
+                                        <!-- CIN Number -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="cin_number">CIN Number</label>
+                                            <input type="text" class="form-field" name="cin_number" id="cin_number"
+                                                placeholder="CIN Number"
+                                                value="{{ client.cin_number|default:'' }}">
+                                            <span class="error cin_number_err"></span>
+                                        </div>
+
+                                        <!-- Official Email -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="official_email">Official Email</label>
+                                            <input type="email" class="form-field" name="official_email" id="official_email"
+                                                placeholder="Official Email"
+                                                value="{{ client.official_email|default:'' }}">
+                                            <span class="error official_email_err"></span>
+                                        </div>
+
+                                        <!-- Mobile -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="mobile">Mobile</label>
+                                            <input type="text" class="form-field" maxlength="10" name="mobile" id="mobile"
+                                                placeholder="Mobile Number"
+                                                value="{{ client.mobile|default:'' }}">
+                                            <span class="error mobile_err"></span>
+                                        </div>
+
+                                        <!-- Landline -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="landline">Landline</label>
+                                            <input type="text" class="form-field" name="landline" id="landline"
+                                                placeholder="Landline Number"
+                                                value="{{ client.landline|default:'' }}">
+                                            <span class="error landline_err"></span>
+                                        </div>
+
+                                        <!-- Country -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="country">Country</label>
+                                            <input type="text" class="form-field" name="country" id="country"
+                                                placeholder="Country"
+                                                value="{{ client.country|default:'' }}">
+                                            <span class="error country_err"></span>
+                                        </div>
+
+                                        <!-- State -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="state">State</label>
+                                            <input type="text" class="form-field" name="state" id="state"
+                                                placeholder="State"
+                                                value="{{ client.state|default:'' }}">
+                                            <span class="error state_err"></span>
+                                        </div>
+
+                                        <!-- City -->
+                                        <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl" for="city">City</label>
+                                            <input type="text" class="form-field" name="city" id="city"
+                                                placeholder="City"
+                                                value="{{ client.city|default:'' }}">
+                                            <span class="error city_err"></span>
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="form-group col-md-12">
+                                            <label class="form-lbl" for="address">Address</label>
+                                            <textarea class="form-field" name="address" id="address"
+                                                placeholder="Address">{{ client.address|default:'' }}</textarea>
+                                            <span class="error address_err"></span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="form-submit-btn">
+                                            {% if client.id %}Update Client{% else %}Save Client{% endif %}
+                                        </button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+</div>
+
+<script>
+    document.getElementById("clientForm").addEventListener("submit", function () {
+        document.getElementById("loader").style.display = "flex";
+    });
+</script>
+{% endblock %}

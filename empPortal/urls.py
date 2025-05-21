@@ -427,7 +427,17 @@ urlpatterns = [
     path('policy/v1/index',policy.index,name="policy-view"),
     path('employee/v1/index',employee.index,name="employee-view"),
     path('tpa/v1/index',tpa.index,name="tpa-view"),
-    path('settings/v1/index',settingsController.index,name="settings-view")
+    path('settings/v1/index',settingsController.index,name="settings-view"),
+
+    ## Clients URL ## 
+    path('clients/v1/index',clients.index,name="client-view"),
+    path('clients/v1/basic-info/', clients.client_basic_info, name='create-client'),  # Views form
+    path('clients/v1/basic-info/<int:id>/', clients.client_basic_info, name='edit-client'),  # Edit form
+    path('clients/v1/save-basic-info/', clients.save_clients_basic_info, name='save-client-info'),  # POST handler
+    path('clients/v1/contact-info/<int:id>/', clients.client_contact_info, name='create-contact-info'),  # Form view ka hai
+    path('clients/v1/save-contact-info/', clients.save_contacts_info, name='save-client-contact-info'),  # Form submit ka hai
+
+
 ]   
 
 
