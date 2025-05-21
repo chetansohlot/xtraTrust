@@ -47,7 +47,7 @@
                   </svg>
                   <p>Master <i class="fas fa-angle-right right"></i></p>
             </a>
-            <ul class="nav nav-treeview" {% if '/branch-management/' in request.path or '/referral-management/' in request.path or '/employee-management/' in request.path or '/department-management/' in request.path or '/user-and-roles/' in request.path or '/create-user/' in request.path or '/users/' in request.path %} style="display: block;" {% else %} style="display: none;" {% endif %}>
+            <ul class="nav nav-treeview" {% if '/branch-management/' in request.path or '/referral-management/' in request.path or '/department-management/' in request.path or '/user-and-roles/' in request.path or '/create-user/' in request.path or '/users/' in request.path %} style="display: block;" {% else %} style="display: none;" {% endif %}>
                   <!--Source parth-->
                   <li class="nav-item">
                     <a href="{% url 'source_list' %}" 
@@ -89,14 +89,6 @@
                               <use xlink:href="#roles-icon" />
                           </svg>
                           <p>Roles</p>
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="{% url 'employee-management' %}" class="nav-link {% if '/employee-management/' in request.path %} active {% endif %}">
-                        <svg class="sidbarmenu-svg">
-                          <use xlink:href="#employees-icon" />
-                        </svg>
-                        <p>Employee</p>
                       </a>
                   </li>
 
