@@ -9,7 +9,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path
 
-
+# for xtra trust
+from .controller import clients
 
 motor_patterns = [
     path('quote-management/', quoteManagement.index, name='quote-management'),
@@ -420,8 +421,10 @@ urlpatterns = [
 
     path('get-pos-partners-by-bqp/', views.get_pos_partners_by_bqp,name="get-pos-partners-by-bqp"),
     
-    path('disposition/v1/sub-disposition-list',dispositions.get_sub_disposition_list,name="get-sub-disposition")
-] 
+    path('disposition/v1/sub-disposition-list',dispositions.get_sub_disposition_list,name="get-sub-disposition"),
+    
+    path('clients/v1/index',clients.index,name="client-view")
+]   
 
 
 if settings.DEBUG:
