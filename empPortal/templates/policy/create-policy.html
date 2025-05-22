@@ -1,0 +1,331 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Policy MGT
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include 'sidebar/sidebar.html' %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Policy Mgt</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="{% url 'policy-view' %}">Policy MGT</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add policy</li>
+                </ul>
+              </div>
+              <div class="col-sm-6 d-flex justify-content-end align-items-start">
+                  <a href="{% url 'employee-management' %}" class="breadcrump-addbtn mt-2">
+                     Back
+                  </a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    <form autocomplete="off" id="ss" name="ss" action="" method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="admin-title border-bottom pb-2 mb-4">Basic Details</h2>
+                            </div>
+
+                            <!-- client id -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="client">Client</label>
+                                <select class="form-field" name="client" id="client">
+                                    <option value="">Select Client</option>
+                                    {% if clients_list %}
+                                      {% for clients in clients_list %}
+                                        <option value="{{clients.id}}">{{clients.client_name}}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <!-- insurer id -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="insurer">Insurer</label>
+                                <select class="form-field" name="insurer" id="insurer">
+                                    <option value="">Select Insurer</option>
+                                     {% if insurer_list %}
+                                      {% for insurers in insurer_list %}
+                                        <option value="{{insurers.id}}">{{insurers.master_insurer_name}}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <!-- tpa id -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="tpa">TPA</label>
+                                <select class="form-field" name="tpa" id="tpa">
+                                    <option value="">Select TPA</option>
+                                    {% if tpa_list %}
+                                      {% for tpas in tpa_list %}
+                                        <option value="{{tpas.id}}">{{tpas.master_tpa_name }}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <!-- POLICY NUMBER -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_number">Policy Number</label>
+                                <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Policy Number">
+                            </div>
+
+                            <!-- Product Name -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="product_name">Product Name</label>
+                                <input type="text" class="form-field" name="product_name" id="product_name" placeholder="Product Name">
+                            </div>
+                            
+                              <!-- Claim Process mode -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="claim_process_mode">Claim Process Mode</label>
+                                <select class="form-field" name="claim_process_mode" id="claim_process_mode">
+                                    <option value="">Select Claim Process Mode</option>
+                                </select>
+                            </div>
+
+                            <!-- Policy Start Date -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_start_date">Policy Start Date</label>
+                                <input type="text" name="policy_start_date" id="policy_start_date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker">
+                            </div>
+
+                            <!-- Policy End Date -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_end_date">Policy End Date</label>
+                                <input type="text" name="policy_end_date" id="policy_end_date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker">
+                            </div>
+
+                            <!-- Policy Tenure -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_tenure">Policy Tenure (in monthes)</label>
+                                <input type="text" name="policy_tenure" id="policy_tenure" placeholder="Policy Tenure (in monthes)" class="form-field">
+                            </div>
+
+                            <!-- Toatal Sum Insured -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_sum_insured">Total Sum Insured</label>
+                                <input type="text" name="total_sum_insured" id="total_sum_insured" placeholder="Total Sum Insured" class="form-field">
+                            </div>
+
+                            <!-- Premium Amount -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="Premium Amount">Premium Amount </label>
+                                <input type="text" name="Premium Amount" id="Premium Amount" placeholder="Premium Amount" class="form-field">
+                            </div>
+
+                            <!-- GST Amount -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="gst_amount">GST Amount </label>
+                                <input type="text" name="gst_amount" id="gst_amount" placeholder="GST Amount" class="form-field">
+                            </div>
+
+                            <!-- Total Lives -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_lives">Total Lives </label>
+                                <input type="text" name="total_lives" id="total_lives" placeholder="Total Lives" class="form-field">
+                            </div>
+
+                            <!-- Total Employee -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_employee">Total Employee </label>
+                                <input type="text" name="total_employee" id="total_employee" placeholder="Total Employees" class="form-field">
+                            </div>
+
+                            <!-- Total Dependent -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_dependent">Total Dependent </label>
+                                <input type="text" name="total_dependent" id="total_dependent" placeholder="Total Dependent" class="form-field">
+                            </div>
+
+                            <!-- Remark -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="remark">Remark </label>
+                                <input type="text" name="remark" id="remark" placeholder="Remark" class="form-field">
+                            </div>
+                            
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="form-submit-btn">Save</button>
+                        </div>
+                        
+                    </form>
+
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function() {
+          document.getElementById("loader").style.display = "flex";
+      });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#role').change(function() {
+                var roleId = $(this).val();
+                var userSelect = $('#senior');
+
+                if (roleId) {
+                    $.ajax({
+                        url: "{% url 'get_users_by_role' %}",
+                        type: 'GET',
+                        data: { 'role_id': roleId },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(response) {
+                            userSelect.empty();
+                            userSelect.append('<option value="">Select User</option>');
+                            if (response.users && response.users.length > 0) {
+                                $.each(response.users, function(index, user) {
+                                    userSelect.append(
+                                        `<option value="${user.id}">${user.full_name}</option>`
+                                    );
+                                });
+                            } else {
+                                userSelect.append('<option value="">No users available</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching users');
+                        }
+                    });
+                } else {
+                    userSelect.empty().append('<option value="">Select User</option>');
+                }
+            });
+        });
+</script>
+</body>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- jQuery Validate Plugin (Must be Loaded After jQuery) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  
+<script>
+$(document).ready(function () {
+    // PAN custom method
+    $.validator.addMethod("panFormat", function (value, element) {
+        return this.optional(element) || /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value);
+    }, "Enter valid PAN (e.g., ABCDE1234F)");
+
+    $("#ss").validate({
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 2
+            },
+            last_name: {
+                required: true,
+                minlength: 2
+            },
+            dob: {
+                required: true
+            },
+            gender: {
+                required: true
+            },
+            pan_no: {
+                required: true,
+                panFormat: true
+            },
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            blood_group: {
+                required: true
+            },
+            marital_status: {
+                required: true
+            }
+        },
+        messages: {
+            first_name: "Enter first name",
+            last_name: "Enter last name",
+            dob: "Select DOB",
+            gender: "Select gender",
+            pan_no: {
+                required: "Enter PAN",
+                panFormat: "Invalid PAN format"
+            },
+            phone: {
+                required: "Enter mobile number",
+                digits: "Only digits allowed",
+                minlength: "10 digits required",
+                maxlength: "10 digits required"
+            },
+            email: {
+                required: "Enter email",
+                email: "Invalid email"
+            },
+            blood_group: "Select blood group",
+            marital_status: "Select marital status"
+        },
+        errorElement: "span",
+        errorClass: "text-danger",
+        highlight: function (element) {
+            $(element).addClass("is-invalid");
+        },
+        unhighlight: function (element) {
+            $(element).removeClass("is-invalid");
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+</script>
+
+{% endblock %}

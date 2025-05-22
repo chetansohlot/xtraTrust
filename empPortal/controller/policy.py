@@ -45,7 +45,9 @@ from ..models import (
 )
 from ..model import Insurance
 from empPortal.model import Referral, BankDetails, Partner
-
+from empPortal.model import XtClientsBasicInfo
+from empPortal.model.insurer import WimMasterInsurer
+from empPortal.model.tpas import WimMasterTPA
 from ..forms import DocumentUploadForm
 
 from ..utils import getUserNameByUserId, policy_product, send_sms_post
@@ -59,7 +61,15 @@ def index(request):
     
     return render(request,'policy/index.html')
 
-
+def createPolicy(request):
+    if not request.user.is_authenticated and request.user.is_active != 1:
+        messages.error(request,'Please Login First')
+        return redirect('login')
+    
+    clients_list = XtClientsBasicInfo.objects.filter(active='active')
+    insurer_list = WimMasterInsurer.objects.filter(master_insurer_is_active=True)
+    tpa_list = WimMasterTPA.objects.filter(master_tpa_is_active=True)
+    return render(request,'policy/create-policy.html',{"clients_list":clients_list,"insurer_list":insurer_list,'tpa_list':tpa_list})
 
 def parse_date(date_str):
     try:

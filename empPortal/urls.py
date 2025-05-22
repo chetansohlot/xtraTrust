@@ -424,6 +424,7 @@ urlpatterns = [
     
     # path('clients/v1/index',clients.index,name="client-view"),
     path('policy/v1/index',policy.index,name="policy-view"),
+    path('policy/v1/create-policy-info',policy.createPolicy,name="create-policy"),
     path('employee/v1/index',employee.index,name="employee-view"),
     path('employee-management/create-employee', employee.save_or_update_employee, name='employee-management-create'),
 
