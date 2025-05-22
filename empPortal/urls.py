@@ -439,7 +439,7 @@ urlpatterns = [
     path('clients/v1/save-contact-info/', clients.save_contacts_info, name='save-client-contact-info'),  # Form submit ka hai
     path('clients/v1/save-contact-info/<int:id>/', clients.save_contacts_info, name='update-client-contact-info'),  # Form submit ka hai
     path('clients/v1/contact-info/<int:id>/', clients.client_contact_info, name='edit-contact-info'),  # Form view ka hai
-    # path('clients/v1/')
+    path('clients/v1/delete-client/<int:id>/', clients.clients_delete, name='clients_delete'),
 
 
     path('custom-token/', apis.custom_login, name='custom_token'),

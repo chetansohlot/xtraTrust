@@ -34,5 +34,5 @@ to run bulk uppload use
 create a folder ->logs
 
 
-pip install djangorestframework djangorestframework-simplejwt
-pip install PyJWT
+pip install djangorestframework djangorestframework-simplejwt PyJWT
+pip install 

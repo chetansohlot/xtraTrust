@@ -45,7 +45,7 @@ Client
                             <p class="card-text">
                               Total Clients
                             </p>
-                            <h5 class="card-title card-number">0</h5>
+                            <h5 class="card-title card-number">{{ total_count }}</h5>
                           </div>
                         </div>
                       </div>
@@ -62,7 +62,7 @@ Client
                             <p class="card-text">
                               Active Clients
                             </p>
-                            <h5 class="card-title card-number">0</h5>
+                            <h5 class="card-title card-number">{{ active_count }}</h5>
                           </div>
                         </div>
                       </div>
@@ -79,7 +79,7 @@ Client
                             <p class="card-text">
                               Inactive Clients
                             </p>
-                            <h5 class="card-title card-number">0</h5>
+                            <h5 class="card-title card-number">{{ inactive_count }}</h5>
                           </div>
                         </div>
                       </div>
@@ -260,8 +260,8 @@ Client
 
                                     <!-- <td>{{ client.quote_date|default:"N/A" }}</td> -->
                                     <td>
-                                      <span class="status-badge badge {% if client.active %}badge-success{% else %}badge-danger{% endif %}">
-                                        {% if client.active %}Active{% else %}Inactive{% endif %}
+                                      <span class="status-badge badge {% if client.active == 'active' %}badge-success{% else %}badge-danger{% endif %}">
+                                        {% if client.active == 'active' %}Active{% else %}Inactive{% endif %}
                                     </span>
                                     </td>
                                     <td>
@@ -278,14 +278,14 @@ Client
                                           {% if client.active %}
                                           <!-- Deactivate Button (Trash) - Shown when Active -->
                                           <a href="#" class="btn btn-xs btn-danger toggle-status mx-1"
-                                             data-url="#"
+                                             data-url="{% url 'clients_delete' client.id %}"
                                              data-active="0">
                                               <i class="fas fa-trash"></i>
                                           </a>
-                                      {% else %}
+                                          {% else %}
                                           <!-- Activate Button (Check Circle) - Shown when Inactive -->
                                           <a href="#" class="btn btn-xs btn-primary toggle-status mx-1"
-                                             data-url="#"
+                                             data-url="{% url 'clients_delete' client.id %}"
                                              data-active="1">
                                               <i class="fas fa-check-circle"></i>
                                           </a>
@@ -423,7 +423,7 @@ Client
     </body>
   
     <!--Anjali-->
-    <!-- <script>
+    <script>
      
       $(document).ready(function () {
         function bindToggleStatus() {
@@ -484,6 +484,6 @@ Client
     
     
     
-  </script>     -->
+  </script>    
     
 {% endblock %}

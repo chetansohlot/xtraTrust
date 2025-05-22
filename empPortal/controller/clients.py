@@ -10,7 +10,10 @@ def index(request):
     if not request.user.is_authenticated and request.user.is_active != 1:
         messages.error(request,'Please Login First')
         return redirect('login')
+        # bqp_qs = BqpMaster.objects.all().order_by('-created_at')
+
     
+    client_qs = XtClientsBasicInfo.objects.all().order_by('-created_at')
 
     # clients_info =XtClientsBasicInfo.objects.filter(active=True).order_by('-id')
     clients_info = XtClientsBasicInfo.objects.filter().order_by('-id').prefetch_related('contact_info')
@@ -20,10 +23,17 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    total_count =client_qs.count()
+    active_count =client_qs.filter(active='active').count()
+    inactive_count =client_qs.filter(active='inactive').count()
+
 
     # client_contact_info = XtClientsContactInfo.objects.filter(client__in=clients_info)
     return render(request,'clients/index.html',{
             'clients_info':page_obj,
+            'inactive_count':inactive_count,
+            'active_count':active_count,
+            'total_count':total_count,
             # 'client_contact_info':client_contact_info,
     })
 
@@ -152,8 +162,12 @@ def clients_delete(request,id):
     try:
         clients = get_object_or_404(XtClientsBasicInfo, id=id)
 
-        # Toggle status instead of deleting
-        clients.active = not clients.active
+        # Status change krna 
+        if clients.active == 'active':
+            clients.active = 'inactive'
+        else:
+            clients.active = 'active'
+
         clients.save()
 
         return JsonResponse({'success': True, 'new_status': clients.active})
