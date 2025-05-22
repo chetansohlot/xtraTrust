@@ -1,28 +1,28 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from ..authentication import EmployeeAuthentication
+from ..token import generate_employee_token
+from empPortal.model import Employees
+from empPortal.serializers import EmployeeSerializer
+
 
 @api_view(['POST'])
-def custom_login(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
-    
-    refresh = RefreshToken.for_user(username)
+def employee_login(request):
+    email = request.data.get('email')
 
-    return Response({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-    })
+    try:
+        employee = Employees.objects.get(email_address=email)
+        token = generate_employee_token(employee.employee_id)
+        return Response({'token': token})
+    except Employees.DoesNotExist:
+        return Response({'error': 'Invalid email'}, status=400)
     
-    user = authenticate(username=username, password=password)
-
-    if user is not None:
-        refresh = RefreshToken.for_user(user)
-        return Response({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-        })
-    else:
-        return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+@api_view(['GET'])
+@authentication_classes([EmployeeAuthentication])
+def get_employee_data(request):
+    employee = request.user
+    serialized = EmployeeSerializer(employee)
+    return Response(serialized.data)

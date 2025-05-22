@@ -437,9 +437,8 @@ urlpatterns = [
     path('clients/v1/contact-info/<int:id>/', clients.client_contact_info, name='create-contact-info'),  # Form view ka hai
     path('clients/v1/save-contact-info/', clients.save_contacts_info, name='save-client-contact-info'),  # Form submit ka hai
 
-    path('custom-token/', apis.custom_login, name='custom_token'),
-    path('api/login/', views.employee_login, name='employee_login'),
-    path('api/get-employee-data/', views.get_employee_data, name='get_employee_data'),
+    path('api/login/', apis.employee_login, name='employee_login'),
+    path('api/get-employee-data/', apis.get_employee_data, name='get_employee_data'),
 
 
 
