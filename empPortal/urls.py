@@ -4,7 +4,7 @@ from . import views,export
 from . import views
 from . import authenticationView
 from .controller import commissions, profile,Dashboard, Referral, globalController, helpAndSupport, leads, sellMotor, sellHealth, sellTerm, Franchises, Department, Branches, members, customers, quoteManagement, healthQuoteManagement, homeManagement, exams,SourceMaster,BQP,Credential
-from .controller import reports, PolicyCommission, PolicyPayment, insurance, dispositions, common
+from .controller import reports, PolicyCommission, PolicyPayment, insurance, dispositions, common, apis
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path
@@ -427,7 +427,16 @@ urlpatterns = [
     path('policy/v1/index',policy.index,name="policy-view"),
     path('employee/v1/index',employee.index,name="employee-view"),
     path('tpa/v1/index',tpa.index,name="tpa-view"),
-    path('settings/v1/index',settingsController.index,name="settings-view")
+    path('settings/v1/index',settingsController.index,name="settings-view"),
+
+    # path('employees/', employee_list, name='employee_list'),
+    # from django.urls import path
+    # from .views import 
+
+    path('custom-token/', apis.custom_login, name='custom_token'),
+    path('api/login/', views.employee_login, name='employee_login'),
+    path('api/get-employee-data/', views.get_employee_data, name='get_employee_data'),
+
 ]   
 
 

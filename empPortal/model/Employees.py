@@ -18,13 +18,17 @@ class Employees(models.Model):
     active = models.BooleanField(default=True)
 
     class Meta:
-        db_table = 'employees'  # Ensures Django uses the exact table name
+        db_table = 'employees' 
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+    @property
+    def id(self):
+        return self.employee_id
+
     def get_user(self):
-        from ..models import Users  # Adjust if your Users model is elsewhere
+        from ..models import Users  
 
         """Returns the related Users object if it exists, else None."""
         try:
@@ -59,6 +63,10 @@ class Employees(models.Model):
             return EmployeeReference.objects.get(employee_id=self.employee_id)
         except EmployeeReference.DoesNotExist:
             return None
+        
+    @property
+    def is_authenticated(self):
+        return True
 
 class Address(models.Model):
     address_id = models.AutoField(primary_key=True)
