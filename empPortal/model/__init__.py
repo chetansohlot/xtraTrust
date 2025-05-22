@@ -19,3 +19,5 @@ from .Employees import FamilyDetail
 from .Employees import EmploymentInfo
 from .Employees import EmployeeReference
 from .Credential import Credential
+from .clients import XtClientsBasicInfo
+from .clients import XtClientsContactInfo

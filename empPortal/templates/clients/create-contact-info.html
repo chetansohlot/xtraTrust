@@ -1,0 +1,185 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+Contact Info
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include "navbar.html" %}
+    {% include "sidebar/sidebar.html" %}
+
+    <div class="content-wrapper">
+        <!-- Breadcrumb Header -->
+        <div class="content-header breadcrump-bg">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Contact Info</a>
+                        </div>
+                        <ul class="breadcrump">
+                            <li><a href="#">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                            <li>Contact Info</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 d-flex justify-content-end align-items-start">
+                        <a href="javascript:history.back()" class="breadcrump-addbtn mt-2">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info Form -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="card box-shadow-none p-md-5 p-3">
+                            <div class="card-body px-0 pb-0 pt-0">
+
+                            {% include 'clients/common-link.html' with step=2 %}
+
+                                <form autocomplete="off" id="contactInfoForm" name="contactInfoForm"
+                                    action="{% url 'save-client-contact-info' %}" method="post">
+                                    {% csrf_token %}
+                                    {% if client.id %}
+                                    <input type="hidden" name="client_id" value="{{ client.id }}">
+                                    {% endif %}
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2 class="admin-title border-bottom pb-2 mb-4">Contact Info</h2>
+                                        </div>
+
+                                        <!-- Primary Contact -->
+                                        <div class="col-md-12 mb-3">
+                                            <h4>Primary Contact</h4>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="primary_first_name">First Name</label>
+                                            <input type="text" class="form-field" name="primary_first_name" id="primary_first_name"
+                                                placeholder="First Name"
+                                                value="{{ contact_info.primary_first_name|default:'' }}">
+                                            <span class="error primary_first_name_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="primary_last_name">Last Name</label>
+                                            <input type="text" class="form-field" name="primary_last_name" id="primary_last_name"
+                                                placeholder="Last Name"
+                                                value="{{ contact_info.primary_last_name|default:'' }}">
+                                            <span class="error primary_last_name_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="primary_designation">Designation</label>
+                                            <input type="text" class="form-field" name="primary_designation" id="primary_designation"
+                                                placeholder="Designation"
+                                                value="{{ contact_info.primary_designation|default:'' }}">
+                                            <span class="error primary_designation_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="primary_mobile">Mobile</label>
+                                            <input type="text" maxlength="10" class="form-field" name="primary_mobile" id="primary_mobile"
+                                                placeholder="Mobile Number"
+                                                value="{{ contact_info.primary_mobile|default:'' }}">
+                                            <span class="error primary_mobile_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="primary_email">Email</label>
+                                            <input type="email" class="form-field" name="primary_email" id="primary_email"
+                                                placeholder="Email"
+                                                value="{{ contact_info.primary_email|default:'' }}">
+                                            <span class="error primary_email_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="primary_landline">Landline</label>
+                                            <input type="text" class="form-field" name="primary_landline" id="primary_landline"
+                                                placeholder="Landline Number"
+                                                value="{{ contact_info.primary_landline|default:'' }}">
+                                            <span class="error primary_landline_err"></span>
+                                        </div>
+
+                                        <!-- Secondary Contact -->
+                                        <div class="col-md-12 mt-4 mb-3">
+                                            <h4>Secondary Contact</h4>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="secondary_first_name">First Name</label>
+                                            <input type="text" class="form-field" name="secondary_first_name" id="secondary_first_name"
+                                                placeholder="First Name"
+                                                value="{{ contact_info.secondary_first_name|default:'' }}">
+                                            <span class="error secondary_first_name_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="secondary_last_name">Last Name</label>
+                                            <input type="text" class="form-field" name="secondary_last_name" id="secondary_last_name"
+                                                placeholder="Last Name"
+                                                value="{{ contact_info.secondary_last_name|default:'' }}">
+                                            <span class="error secondary_last_name_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="secondary_designation">Designation</label>
+                                            <input type="text" class="form-field" name="secondary_designation" id="secondary_designation"
+                                                placeholder="Designation"
+                                                value="{{ contact_info.secondary_designation|default:'' }}">
+                                            <span class="error secondary_designation_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="secondary_mobile">Mobile</label>
+                                            <input type="text" maxlength="10" class="form-field" name="secondary_mobile" id="secondary_mobile"
+                                                placeholder="Mobile Number"
+                                                value="{{ contact_info.secondary_mobile|default:'' }}">
+                                            <span class="error secondary_mobile_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="secondary_email">Email</label>
+                                            <input type="email" class="form-field" name="secondary_email" id="secondary_email"
+                                                placeholder="Email"
+                                                value="{{ contact_info.secondary_email|default:'' }}">
+                                            <span class="error secondary_email_err"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-3">
+                                            <label class="form-lbl" for="secondary_landline">Landline</label>
+                                            <input type="text" class="form-field" name="secondary_landline" id="secondary_landline"
+                                                placeholder="Landline Number"
+                                                value="{{ contact_info.secondary_landline|default:'' }}">
+                                            <span class="error secondary_landline_err"></span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="col-md-12 text-center">
+                                            <button type="submit" class="btn btn-primary px-5">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+</div>
+{% endblock %}

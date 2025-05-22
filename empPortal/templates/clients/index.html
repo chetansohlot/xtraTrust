@@ -30,7 +30,7 @@ Client
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex justify-content-end">
-                    <a href="#" class="breadcrump-addbtn"><i class="fas fa-plus"></i> Add Client</a>
+                    <a href="{% url 'create-client' %}" class="breadcrump-addbtn"><i class="fas fa-plus"></i> Add Client</a>
                   </div>
                 </div>
               </div>
@@ -124,10 +124,10 @@ Client
                               <form method="get">
                                 <div class="row align-items-end">
                               
-                                  <!-- Customer ID -->
+                                  <!-- client ID -->
                                   <div class="col-sm-6 col-md">
                                     <div class="form-group">
-                                      <input class="form-field form-control" name="customer_id" type="text" placeholder="Clients ID" value="">
+                                      <input class="form-field form-control" name="client_id" type="text" placeholder="Clients ID" value="">
                                     </div>
                                   </div>
                               
@@ -212,59 +212,80 @@ Client
                                         <input type="checkbox" id="checkall" class="table-chk">
                                         <label for="checkall"></label>
                                     </th>
-                                    <th>Clients ID</th>
-                                    <th>Name</th>
-                                    <th>Mobile Number</th>
-                                    <th>Email Address</th>
-                                    <th>State</th>
-                                    <th>City</th>
+                                    <th>Clients/Company</th>
+                                    <th>KYC Info</th>
+                                    <th>Company Type</th>
+                                    <th>Address</th>
                                     <!-- <th>Quote Date</th> -->
+                                     <th width="200">Primary / Secondary</th>
                                     <th width="100">Status</th>
-                                    <th>Info</th>
+                                    <th>Date Info </th>
                                      <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for customer in page_obj %}
+                                {% for client in clients_info %}
                                 <tr>
+                                 
                                     <td>
-                                        <input type="checkbox" id="check{{ customer.id }}" class="table-chk">
-                                        <label for="check{{ customer.id }}"></label>
+                                        <input type="checkbox" id="check{{ client.id }}" class="table-chk">
+                                        <label for="check{{ client.id }}"></label>
                                     </td>
-                                    <td>{{ customer.customer_id }}</td>
-                                    <td>{{ customer.name_as_per_pan }}</td>
-                                    <td>{{ customer.mobile_number|default:"N/A" }}</td>
-                                    <td>{{ customer.email_address|default:"N/A" }}</td>
-                                    <td>{{ customer.state|default:"N/A" }}</td>
-                                    <td>{{ customer.city|default:"N/A" }}</td>
-                                    <!-- <td>{{ customer.quote_date|default:"N/A" }}</td> -->
+                                    <td>{{ client.client_name }}</td>
+                                    <td>{{ client.pan_number }}
+                                      <span class="d-block text-muted">{{ client.gst_number }}</span>
+                                    </td>
+                                    <td>{{ client.company_type|default:"N/A" }}</td>
+                                    <td>{{ client.state|default:"N/A" }}
+                                      <span class="d-block text-muted">{{ client.city|default:"N/A" }}</span>
+                                    </td>
+
                                     <td>
-                                      <span class="status-badge badge {% if customer.active %}badge-success{% else %}badge-danger{% endif %}">
-                                        {% if customer.active %}Active{% else %}Inactive{% endif %}
+                                      {% with contact=client.contact_info.first %}
+                                        {% if contact %}
+                                            <span class="text-primary"> {{ contact.primary_first_name }} {{ contact.primary_last_name }}</span><br>
+                                              <span class="text-muted">{{ contact.primary_designation }}</span><br>
+                                              {{ contact.primary_contact_no }}<br>
+                                              <span class="text-info">{{ contact.primary_email }}</span><br>
+                                              <hr class="my-1">
+                                              <span class="text-primary">{{ contact.secondary_first_name }}{{ contact.secondary_last_name }} </span><br>
+                                              <span class="text-muted">{{ contact.secondary_designation }}</span><br>
+                                              {{ contact.secondary_contact_no }}<br>
+                                              <span class="text-info">{{ contact.secondary_contact_email }}</span><br>
+                                        {% else %}
+                                          N/A
+                                        {% endif %}
+                                      {% endwith %}
+                                    </td>
+
+                                    <!-- <td>{{ client.quote_date|default:"N/A" }}</td> -->
+                                    <td>
+                                      <span class="status-badge badge {% if client.active %}badge-success{% else %}badge-danger{% endif %}">
+                                        {% if client.active %}Active{% else %}Inactive{% endif %}
                                     </span>
                                     </td>
                                     <td>
-                                        <i class="fas fa-clock text-primary"></i> {{ customer.updated_at|date:"d M Y, H:i:s" }} <br>
-                                        <i class="fas fa-calendar-alt text-secondary"></i> {{ customer.created_at|date:"d M Y, H:i:s" }}
+                                        <i class="fas fa-clock text-primary"></i> {{ client.updated_at|date:"d M Y, H:i:s" }} <br>
+                                        <i class="fas fa-calendar-alt text-secondary"></i> {{ client.created_at|date:"d M Y, H:i:s" }}
                                     </td>
                                     
                                     <td>
                                       <div class="btn-group" role="group">
-                                          <a href="{% url 'quotation-customer-edit' customer_id=customer.id %}" class="btn btn-xs btn-warning mx-1">
+                                          <a href="#" class="btn btn-xs btn-warning mx-1">
                                               <i class="fas fa-pencil-alt"></i> 
                                           </a>
                                             <!--Anjali-->
-                                          {% if customer.active %}
+                                          {% if client.active %}
                                           <!-- Deactivate Button (Trash) - Shown when Active -->
                                           <a href="#" class="btn btn-xs btn-danger toggle-status mx-1"
-                                             data-url="{% url 'customer-toggle-status' customer.id %}"
+                                             data-url="#"
                                              data-active="0">
                                               <i class="fas fa-trash"></i>
                                           </a>
                                       {% else %}
                                           <!-- Activate Button (Check Circle) - Shown when Inactive -->
                                           <a href="#" class="btn btn-xs btn-primary toggle-status mx-1"
-                                             data-url="{% url 'customer-toggle-status' customer.id %}"
+                                             data-url="#"
                                              data-active="1">
                                               <i class="fas fa-check-circle"></i>
                                           </a>
@@ -402,7 +423,7 @@ Client
     </body>
   
     <!--Anjali-->
-    <script>
+    <!-- <script>
      
       $(document).ready(function () {
         function bindToggleStatus() {
@@ -463,6 +484,6 @@ Client
     
     
     
-  </script>    
+  </script>     -->
     
 {% endblock %}
