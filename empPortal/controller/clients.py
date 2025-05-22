@@ -147,3 +147,15 @@ def save_contacts_info(request):
     except Exception as e:
         messages.error(request, f'Something went wrong while saving contact info: {str(e)}')
         return redirect('client-view')
+    
+def clients_delete(request,id):
+    try:
+        clients = get_object_or_404(XtClientsBasicInfo, id=id)
+
+        # Toggle status instead of deleting
+        clients.active = not clients.active
+        clients.save()
+
+        return JsonResponse({'success': True, 'new_status': clients.active})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})

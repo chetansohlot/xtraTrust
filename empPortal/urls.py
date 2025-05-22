@@ -434,8 +434,13 @@ urlpatterns = [
     path('clients/v1/basic-info/', clients.client_basic_info, name='create-client'),  # Views form
     path('clients/v1/basic-info/<int:id>/', clients.client_basic_info, name='edit-client'),  # Edit form
     path('clients/v1/save-basic-info/', clients.save_clients_basic_info, name='save-client-info'),  # POST handler
+    path('clients/v1/update-basic-info/<int:id>', clients.save_clients_basic_info, name='update-client-info'),  # POST handler
     path('clients/v1/contact-info/<int:id>/', clients.client_contact_info, name='create-contact-info'),  # Form view ka hai
     path('clients/v1/save-contact-info/', clients.save_contacts_info, name='save-client-contact-info'),  # Form submit ka hai
+    path('clients/v1/save-contact-info/<int:id>/', clients.save_contacts_info, name='update-client-contact-info'),  # Form submit ka hai
+    path('clients/v1/contact-info/<int:id>/', clients.client_contact_info, name='edit-contact-info'),  # Form view ka hai
+    # path('clients/v1/')
+
 
 
 ]   

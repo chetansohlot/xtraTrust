@@ -243,15 +243,15 @@ Client
                                     <td>
                                       {% with contact=client.contact_info.first %}
                                         {% if contact %}
-                                            <span class="text-primary"> {{ contact.primary_first_name }} {{ contact.primary_last_name }}</span><br>
+                                            <span class="text-primary"> {{ contact.primary_clients_name }} </span><br>
                                               <span class="text-muted">{{ contact.primary_designation }}</span><br>
-                                              {{ contact.primary_contact_no }}<br>
+                                              {{ contact.primary_mobile }}<br>
                                               <span class="text-info">{{ contact.primary_email }}</span><br>
                                               <hr class="my-1">
-                                              <span class="text-primary">{{ contact.secondary_first_name }}{{ contact.secondary_last_name }} </span><br>
+                                              <span class="text-primary">{{ contact.secondary_clients_name }}</span><br>
                                               <span class="text-muted">{{ contact.secondary_designation }}</span><br>
-                                              {{ contact.secondary_contact_no }}<br>
-                                              <span class="text-info">{{ contact.secondary_contact_email }}</span><br>
+                                              {{ contact.secondary_mobile }}<br>
+                                              <span class="text-info">{{ contact.secondary_email }}</span><br>
                                         {% else %}
                                           N/A
                                         {% endif %}
@@ -271,7 +271,7 @@ Client
                                     
                                     <td>
                                       <div class="btn-group" role="group">
-                                          <a href="#" class="btn btn-xs btn-warning mx-1">
+                                          <a href="{% url 'edit-client' client.id %}" class="btn btn-xs btn-warning mx-1">
                                               <i class="fas fa-pencil-alt"></i> 
                                           </a>
                                             <!--Anjali-->

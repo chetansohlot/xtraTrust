@@ -58,5 +58,14 @@ class XtClientsContactInfo(models.Model):
     class Meta:
         db_table = 'xt_clients_contact_info'
 
+    @property
+    def primary_clients_name(self):
+        return self.primary_first_name +" "+ self.primary_last_name
+    
+    @property
+    def secondary_clients_name(self):
+        return self.secondary_first_name +" "+ self.secondary_last_name
+
+
     def __str__(self):
         return f"Contacts for {self.client.client_name}" if self.client and self.client.client_name else "Contacts for Unnamed Client"
