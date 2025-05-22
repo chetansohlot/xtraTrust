@@ -36,3 +36,4 @@ create a folder ->logs
 
 pip install djangorestframework djangorestframework-simplejwt
 pip install PyJWT3
+

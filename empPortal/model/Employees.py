@@ -1,5 +1,8 @@
 from django.db import models
 
+from empPortal.model.clients import XtClientsBasicInfo
+# from empPortal.model import XtClientsBasicInfo
+
 class Employees(models.Model):
     employee_id = models.AutoField(primary_key=True)
     user_id = models.IntegerField()
@@ -7,6 +10,7 @@ class Employees(models.Model):
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
     gender = models.CharField(max_length=20)
+    client = models.ForeignKey(XtClientsBasicInfo,on_delete=models.SET_NULL,null=True,blank=True,related_name="employee_client_id")
     pan_card = models.CharField(max_length=20)
     aadhaar_card = models.CharField(max_length=20)
     mobile_number = models.CharField(max_length=15)

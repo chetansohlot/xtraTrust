@@ -159,7 +159,17 @@ Add Employee
                                 <input type="password" autocomplete="new-password" class="form-field password" name="password" id="password" placeholder="Enter Password" value="">
                                 {% if employee %}<small class="form-text text-muted">Leave blank if you do not want to update</small>{% endif %}
                             </div>
-
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="client">Client</label>
+                                <select class="form-field" name="client" id="client">
+                                    <option value="">Select Client</option>
+                                    {% if clients_list %}
+                                      {% for clients in clients_list %}
+                                        <option value="{{clients.id}}" {% if employee.marital_status == clients.id %}selected{% endif %}>{{clients.client_name}}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-end">
