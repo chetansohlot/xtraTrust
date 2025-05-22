@@ -37,6 +37,7 @@ from django.db.models import Q
 
 from datetime import date
 
+from empPortal.model import XtClientsBasicInfo
 def dictfetchall(cursor):
     "Returns all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -131,15 +132,16 @@ def check_branch_email(request):
 
 
 def save_or_update_employee(request, employee_id=None):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated and request.user.is_active != 1:
+        # messages.error
         return redirect('login')
 
-    user_instance = None
+    # user_instance = None
     employee_instance = None
 
     if employee_id:
-        user_instance = get_object_or_404(Users, id=employee_id)
-        employee_instance = get_object_or_404(Employees, user_id=user_instance.id)
+        # user_instance = get_object_or_404(Users, id=employee_id)
+        employee_instance = get_object_or_404(Employees, employee_id=employee_id)
 
     if request.user.role_id != 1:
         messages.error(request, "You do not have permission to add or edit employees.")
@@ -158,6 +160,7 @@ def save_or_update_employee(request, employee_id=None):
         blood_group = request.POST.get("blood_group", "").strip()
         marital_status = request.POST.get("marital_status", "").strip()
         aadhaar_card = request.POST.get("aadhaar_card", "").strip()
+        client = request.POST.get("client", "").strip()
 
         # Populate employee data for repopulating form in case of errors
         employee_data = {
@@ -179,7 +182,7 @@ def save_or_update_employee(request, employee_id=None):
             messages.error(request, "Invalid date format in DOB field.")
             return render(request, 'employee/create.html', {
                 'employee': employee_data,
-                'user': user_instance
+                # 'user': user_instance
             })
 
         today = date.today()
@@ -187,7 +190,7 @@ def save_or_update_employee(request, employee_id=None):
             messages.error(request, "Employee must be at least 18 years old.")
             return render(request, 'employee/create.html', {
                 'employee': employee_data,
-                'user': user_instance
+                # 'user': user_instance
             })
 
         gender_map = {'Male': 1, 'Female': 2, 'Other': 3}
@@ -197,74 +200,74 @@ def save_or_update_employee(request, employee_id=None):
             messages.error(request, "Please fill all required fields.")
             return render(request, 'employee/create.html', {
                 'employee': employee_data,
-                'user': user_instance
+                # 'user': user_instance
             })
 
         # Check for duplicate Users
-        duplicate_user = Users.objects.filter(
-            Q(email=email) | Q(phone=phone) | Q(pan_no=pan_no)
-        ).exclude(id=user_instance.id if user_instance else None).first()
+        # duplicate_user = Users.objects.filter(
+        #     Q(email=email) | Q(phone=phone) | Q(pan_no=pan_no)
+        # ).exclude(id=user_instance.id if user_instance else None).first()
 
-        if duplicate_user:
-            if duplicate_user.email == email:
-                messages.error(request, "Email already exists.")
-            elif duplicate_user.phone == phone:
-                messages.error(request, "Phone number already exists.")
-            elif duplicate_user.pan_no == pan_no:
-                messages.error(request, "PAN number already exists.")
-            return render(request, 'employee/create.html', {
-                'employee': employee_data,
-                'user': user_instance
-            })
+        # if duplicate_user:
+        #     if duplicate_user.email == email:
+        #         messages.error(request, "Email already exists.")
+        #     elif duplicate_user.phone == phone:
+        #         messages.error(request, "Phone number already exists.")
+        #     elif duplicate_user.pan_no == pan_no:
+        #         messages.error(request, "PAN number already exists.")
+        #     return render(request, 'employee/create.html', {
+        #         'employee': employee_data,
+        #         # 'user': user_instance
+        #     })
 
         # Check for duplicate Employees
         duplicate_employee = Employees.objects.filter(
-            Q(aadhaar_card=aadhaar_card)
-        ).exclude(user_id=user_instance.id if user_instance else None).first()
+            Q(aadhaar_card=aadhaar_card))
+        # ).exclude(user_id=user_instance.id if user_instance else None).first()
 
         if duplicate_employee:
             messages.error(request, "Aadhaar number already exists.")
             return render(request, 'employee/create.html', {
                 'employee': employee_data,
-                'user': user_instance
+                # 'user': user_instance
             })
 
         # Save or update Users table
-        if user_instance:
-            user_instance.first_name = first_name
-            user_instance.last_name = last_name
-            user_instance.email = email
-            user_instance.phone = phone
-            user_instance.pan_no = pan_no
-            user_instance.dob = dob
-            user_instance.gender = user_gender
-            user_instance.updated_at = timezone.now()
-            if password:
-                user_instance.password = make_password(password)
-            user_instance.save()
-        else:
-            last_user = Users.objects.order_by('-id').first()
-            new_gen_id = "UR-0001"
-            if last_user and last_user.user_gen_id.startswith('UR-'):
-                last_num = int(last_user.user_gen_id.split('-')[1])
-                new_gen_id = f"UR-{last_num+1:04d}"
+        # if user_instance:
+        #     user_instance.first_name = first_name
+        #     user_instance.last_name = last_name
+        #     user_instance.email = email
+        #     user_instance.phone = phone
+        #     user_instance.pan_no = pan_no
+        #     user_instance.dob = dob
+        #     user_instance.gender = user_gender
+        #     user_instance.updated_at = timezone.now()
+        #     if password:
+        #         user_instance.password = make_password(password)
+        #     user_instance.save()
+        # else:
+        #     last_user = Users.objects.order_by('-id').first()
+        #     new_gen_id = "UR-0001"
+        #     if last_user and last_user.user_gen_id.startswith('UR-'):
+        #         last_num = int(last_user.user_gen_id.split('-')[1])
+        #         new_gen_id = f"UR-{last_num+1:04d}"
 
-            user_instance = Users.objects.create(
-                user_gen_id=new_gen_id,
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                phone=phone,
-                pan_no=pan_no,
-                dob=dob,
-                gender=user_gender,
-                password=make_password(password),
-                status=1,
-                created_at=timezone.now()
-            )
+        #     user_instance = Users.objects.create(
+        #         user_gen_id=new_gen_id,
+        #         first_name=first_name,
+        #         last_name=last_name,
+        #         email=email,
+        #         phone=phone,
+        #         pan_no=pan_no,
+        #         dob=dob,
+        #         gender=user_gender,
+        #         password=make_password(password),
+        #         status=1,
+        #         created_at=timezone.now()
+        #     )
 
         # Save or update Employees table
-        employee_obj, created = Employees.objects.get_or_create(user_id=user_instance.id)
+        employee_obj, created = Employees.objects.get_or_create(employee_id=employee_id)
         employee_obj.first_name = first_name
         employee_obj.last_name = last_name
         employee_obj.date_of_birth = dob_date
@@ -275,6 +278,7 @@ def save_or_update_employee(request, employee_id=None):
         employee_obj.email_address = email
         employee_obj.blood_group = blood_group
         employee_obj.marital_status = marital_status
+        employee_obj.client_id = client
         employee_obj.updated_at = timezone.now()
         if created:
             employee_obj.created_at = timezone.now()
@@ -284,9 +288,11 @@ def save_or_update_employee(request, employee_id=None):
         return redirect('employee-management-update-address', employee_id=employee_obj.employee_id)
 
     else:
+        clients_list = XtClientsBasicInfo.objects.filter(active='active')
         return render(request, 'employee/create.html', {
             'employee': employee_instance,
-            'user': user_instance
+            'clients_list':clients_list
+            # 'user': user_instance
         })
 
 def view_employee(request, employee_id):
