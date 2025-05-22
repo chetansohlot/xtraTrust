@@ -14,11 +14,11 @@ def employee_login(request):
     email = request.data.get('email')
 
     try:
-        employee = Employees.objects.get(email_address=email)
+        employee = Employees.objects.get(email_address=email,active=True)
         token = generate_employee_token(employee.employee_id)
         return Response({'token': token})
     except Employees.DoesNotExist:
-        return Response({'error': 'Invalid email'}, status=400)
+        return Response({'error': 'Invalid Credentials'}, status=400)
     
 @api_view(['GET'])
 @authentication_classes([EmployeeAuthentication])

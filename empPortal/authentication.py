@@ -25,7 +25,7 @@ class EmployeeAuthentication(BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.headers.get('Authorization')
 
-        if not auth_header or not auth_header.startswith('Token '):
+        if not auth_header or not auth_header.startswith('Bearer '):
             return None
 
         token = auth_header.split(' ')[1]
@@ -42,5 +42,4 @@ class EmployeeAuthentication(BaseAuthentication):
         except Employees.DoesNotExist:
             raise AuthenticationFailed('Employee not found')
 
-        # Return employee as user, token as auth
         return (employee, token)
