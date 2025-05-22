@@ -149,7 +149,7 @@ class GettingSourceIdForSinglePolicies(CronJobBase):
                 is_failed__isnull=False,
                 retry_source_count__lte=2
             )[:10]
-            
+             
             if len(files) > 0:
                 for file in files:
                     pdf_path = file.file_path.path

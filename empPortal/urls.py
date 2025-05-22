@@ -4,7 +4,7 @@ from . import views,export
 from . import views
 from . import authenticationView
 from .controller import commissions, profile,Dashboard, Referral, globalController, helpAndSupport, leads, sellMotor, sellHealth, sellTerm, Franchises, Department, Branches, members, customers, quoteManagement, healthQuoteManagement, homeManagement, exams,SourceMaster,BQP,Credential
-from .controller import reports, PolicyCommission, PolicyPayment, insurance, dispositions, common
+from .controller import reports, PolicyCommission, PolicyPayment, insurance, dispositions, common, apis
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path
@@ -440,6 +440,11 @@ urlpatterns = [
     path('clients/v1/save-contact-info/<int:id>/', clients.save_contacts_info, name='update-client-contact-info'),  # Form submit ka hai
     path('clients/v1/contact-info/<int:id>/', clients.client_contact_info, name='edit-contact-info'),  # Form view ka hai
     # path('clients/v1/')
+
+
+    path('custom-token/', apis.custom_login, name='custom_token'),
+    path('api/login/', views.employee_login, name='employee_login'),
+    path('api/get-employee-data/', views.get_employee_data, name='get_employee_data'),
 
 
 
