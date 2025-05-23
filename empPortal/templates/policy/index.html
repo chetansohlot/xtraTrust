@@ -38,63 +38,13 @@
                       <p class="card-text">
                         Total Policy
                       </p>
-                      <h5 class="card-title card-number">{{ policy_count|default:0 }}</h5>
+                      <h5 class="card-title card-number">{{ total_count|default:0 }}</h5>
                     </div>
                   </div>
                 </div>
               </div>
             </a>   
           </div>  
-          <div class="col-xs-6 col-sm-4 col-md-2">
-            <a href="#">
-              <div class="card counter-img-card counter-active-card ">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <p class="card-text">
-                        Motor Policy
-                      </p>
-                      <h5 class="card-title card-number">{{ policy_count|default:0 }}</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>  
-          </div>  
-          <div class="col-xs-6 col-sm-4 col-md-2">
-            <a href="#">
-              <div class="card counter-img-card counter-deactive-card ">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      
-                      <p class="card-text">
-                        Health Policy
-                      </p>
-                      <h5 class="card-title card-number">0</h5>
-                    </div>
-                    
-                  </div>
-                </div>
-              </div>
-            </a>  
-          </div>  
-          <div class="col-xs-6 col-sm-4 col-md-2">
-            <a href="#">
-              <div class="card counter-img-card counter-pending-card ">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <p class="card-text">
-                        Term Policy
-                      </p>
-                      <h5 class="card-title card-number">0</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>  
-          </div> 
         </div>
       </div>
     </div>
@@ -109,264 +59,26 @@
               <div class="card-body px-0 pb-0 pt-0">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="">
-                    <!-- Filter Start -->
-                    <div class="card">
-                      <div class="card-body pb-0">
-                        <form method="get">
-                          <div class="row align-items-center">
-                            {% include "components/policy-commission/commission-filter.html" %}
-                            <div class="col-sm-6 col-md-2">
-                              <div class="form-group d-flex">
-                                <button type="submit" class="wrap-btn w-100 mr-2">Apply</button>
-                                <a href="{% url 'policy-data' %}" class="wrap-btn w-100 bg-danger text-white text-center">Reset</a>
-                              </div>
-                            </div>
-                              </div>  
-                            </div>
-                          </div>
-                        </form>
-                  
-                </div>  
-                <ul class="nav nav-pills profile-tab">
-                  <li class="nav-item text-bold">
-                      <a class="nav-link active" href="#">MOTOR</a>
-                  </li>
-                  <li class="nav-item text-bold">
-                      <a class="nav-link " href="#">HEALTH</a>
-                  </li>
-                  <li class="nav-item text-bold">
-                      <a class="nav-link " href="#">TERM</a>
-                  </li>
-                </ul>
+                      
                 <div class="tab-content" id="nav-tabContent">
                     <div class="table-responsive">
-                      <table class="table table-design policy-data-table-width">
+                      <table class="table table-design">
                         <thead class="table-thead-bg-light table-header-fix">
                           <tr>
-                            <th class="nowrap">Insurance Co.</th>
-                            <th class="nowrap">Holder</th>
-                            <th class="nowrap">Policy Type</th>
-                            <th class="nowrap">Date</th>
-                            <th class="nowrap">Premium</th>
-                            <th class="nowrap">GST</th>
-                            <th class="nowrap">RM Name</th>
-                            <th class="nowrap">Payment</th>
-                            <th class="nowrap">Vehicle Type</th>
-                            <th class="nowrap">Make/Model</th>
-                            <th class="nowrap">Gross Weight</th>
-                            <th class="nowrap">Sum Insured</th>
-                            <th class="nowrap">Manufacture Year</th>
-                            <th class="nowrap">Commission Status</th>
-                            {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "2" %}
-                            <th class="nowrap">Operator Status</th>
-                            {% endif %}
-                            {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "5" %}
-                            <th class="nowrap">Quality Status</th>
-                            {% endif %}
-                            <th class="nowrap">Action</th>
+                           <th>Id</th>
+                           <th>Edit</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {% for data in page_obj %}
+                          {% for data in policies %}
                             <tr>
+                              <td>{{data.gmc_reference_id}}</td>
                               <td>
-                                <div class="d-flex align-items-start">
-                                  <div>
-                                      <span class="d-block">
-                                          {% if data.insurerInfo.insurance_company %}
-                                              {{ data.insurerInfo.insurance_company }}
-                                          {% elif data.policy_infos.insurance_company %}
-                                              {{ data.policy_infos.insurance_company }}
-                                          {% else %}
-                                              {{ data.insurance_provider }}
-                                          {% endif %}
-                                      </span>
-                                    <span class="text-info d-inline-block"><strong>Policy No.:</strong> {{ data.policy_number|default:"-" }}</span>
-                                  </div>  
-                                  {% if request.user.department_id|stringformat:"s" == "2" and data.operator_verification_status|stringformat:"s" == "1" and data.quality_check_status|stringformat:"s" != "2" %}
-                                  
-                                  {% elif request.user.department_id|stringformat:"s" == "5" and data.quality_check_status|stringformat:"s" == "1" %}
-                                  
-
-                                  {% else %}
-                                  <a href="{% url 'edit-policy' id=data.id %}" class="tooltip-sec ml-2 text-danger" data-title="Edit Policy">
-                                    <i class="fa-solid fa-edit"></i>
-                                  </a>
-                                  {% endif %}
-
-                                </div>  
+                                <a href="{% url 'create-policy-with-id' data.gmc_reference_id %}">Edit Policy Info</a> <br>
+                                <a href="{% url 'create-policy-highlights' data.gmc_reference_id %}">Add Highlights</a> <br>
+                                <a href="{% url 'create-policy-coverages' data.gmc_reference_id %}">Add Coverage</a> <br>
+                                <a href="{% url 'create-policy-exclusions' data.gmc_reference_id %}">Add Exclusions</a>
                               </td>
-                              <!-- <td>{{ data.vehicle_number }}</td> -->
-                              <td>
-                                <div class="d-flex align-items-start">
-                                  <div>
-                                    <span class="d-block">{{ data.policy_infos.insured_name|default:data.holder_name }}</span>
-                                    <span class="d-block "><strong>Reg. No.</strong> {{ data.policy_vehicle_infos.registration_number|default:data.vehicle_number }}</span>
-                                  </div>  
-                                </div>  
-                                <td>{{data.policy_infos.policy_type|default_if_none:data.policy_type|default:"-" }}</td>
-                              <td>
-                                <span class="circle-icon"><i class="far fa-circle"></i></span><strong>Issue:</strong> {{ data.policy_infos.issue_date|default_if_none:data.issue_date|default:"-" }} <br>
-                                <span class="circle-icon"><i class="far fa-circle"></i></span><strong>Start:</strong> {{ data.policy_infos.start_date|default_if_none:data.start_date|default:"-" }}<br>
-                                <span class="circle-icon"><i class="far fa-circle"></i></span><strong>Expiry:</strong> {{ data.policy_infos.end_date|default_if_none:data.expiry_date|default:"-" }}
-                              </td>
-                              <td>
-                                <span class="circle-icon"><i class="far fa-circle"></i></span>
-                                <strong>Net:</strong>
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                {% if data.policyinfos.net_premium and data.policyinfos.net_premium != 0 %}
-                                  {{ data.policyinfos.net_premium|floatformat:2 }}
-                                {% else %}
-                                  {{data.policy_premium|default:0|floatformat:2}}
-                                {% endif %}
-                                <br>
-                                <span class="circle-icon"><i class="far fa-circle"></i></span>
-                                <strong>Gross:</strong>
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                {% if data.policyinfos.gross_premium and data.policyinfos.gross_premium != 0 %}
-                                  {{ data.policyinfos.gross_premium|floatformat:2 }}
-                                {% else %}
-                                  {{data.policy_total_premium|default:0|floatformat:2}}
-                                {% endif %}
-                                <br>
-                                <span class="circle-icon"><i class="far fa-circle"></i></span>
-                                <strong>OD:</strong>
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                {% if data.policyinfos.od_premium and data.policyinfos.od_premium != 0 %}
-                                  {{ data.policyinfos.od_premium|floatformat:2 }}
-                                {% else %}
-                                  {{data.od_premium|default:0|floatformat:2}}
-                                {% endif %}
-                                <br>
-
-                                <span class="circle-icon"><i class="far fa-circle"></i></span>
-                                <strong>TP:</strong>
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                {% if data.policyinfos.tp_premium and data.policyinfos.tp_premium != 0 %}
-                                  {{ data.policyinfos.tp_premium|floatformat:2 }}
-                                {% else %}
-                                  {{data.tp_premium|default:0|floatformat:2}}
-                                {% endif %}
-                                <br>
-                              </td>
-                              <td>
-                                {% if data.policyinfos.gst_premium and data.policyinfos.gst_premium != 0 %}
-                                  {{ data.policyinfos.gst_premium|floatformat:2 }}
-                                {% else %}
-                                  {{data.gst|default:0|floatformat:2}}
-                                {% endif %}
-                              </td>
-                              <td>{{ data.rm_name }}</td>
-                              <td>{{ data.payment_status|default:"Not Paid" }}</td>
-                              <td>
-                                  {% if data.policy_vehicle_infos.vehicle_type %}
-                                    {{ data.policy_vehicle_infos.vehicle_type }}
-                                  {% else %}
-                                    {{data.vehicle_type|default:"-"}}
-                                  {% endif %}
-                              </td>
-                              <td>{{ data.policy_vehicle_infos.vehicle_make|default_if_none:data.vehicle_make|default:"-" }} / {{ data.policy_vehicle_infos.vehicle_model|default_if_none:data.vehicle_model|default:"-" }} </td>
-                              <td>{{ data.policy_vehicle_infos.gvw|default_if_none:data.vehicle_gross_weight|default:"-" }}</td>
-                              <td>{{ data.policy_infos.sum_insured|default_if_none:data.sum_insured|default:"-" }}</td>
-                              <td>{{ data.policy_vehicle_infos.manufacture_year|default_if_none:data.vehicle_manuf_date|default:"-" }}</td>
-                              <td>
-                                <strong>Agent Commission:</strong>
-                                {% if data.agent_payment_details.id != None %}
-                                   <i class="fa fa-check text-success"></i>
-                                {% else %}
-                                   <i class="fa fa-times text-danger"></i>
-                                {% endif %}
-                                <br>
-                                <strong>Insurer Commission:</strong>
-                                {% if data.insurer_payment_details.id != None %}
-                                   <i class="fa fa-check text-success"></i>
-                                {% else %}
-                                   <i class="fa fa-times text-danger"></i>
-                                {% endif %}
-                                <br>
-                                <strong>Franchise Commission:</strong>
-                                {% if data.franchise_payment_details.id != None %}
-                                   <i class="fa fa-check text-success"></i>
-                                {% else %}
-                                   <i class="fa fa-times text-danger"></i>
-                                {% endif %}
-                                <br>
-                              </td>
-                            {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "2" %}
-                              <td>
-                                {% if data.operator_verification_status|stringformat:"s" == "1" %}
-                                  <a href="javascript:void(0);" onclick="showRemark('{{ data.operator_remark|default_if_none:''|escapejs }}', 'Operator Remark')" class="text-success">Verified</a>
-                                {% elif data.operator_verification_status|stringformat:"s" == "2" %}
-                                  <a href="javascript:void(0);" onclick="showRemark('{{ data.operator_remark|default_if_none:''|escapejs }}', 'Operator Remark')" class="text-danger">Not Verified</a>
-                                {% else %}
-                                  <span class="text-warning">Pending</span>
-                                {% endif %}
-                              </td>
-                            {% endif %}
-                            {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "5" %}
-                              <td>
-                                {% if data.quality_check_status|stringformat:"s" == "1" %}
-                                  <a href="javascript:void(0);" onclick="showRemark('{{ data.quality_remark|default_if_none:''|escapejs }}', 'Quality Remark')" class="text-success">Completed</a>
-                                {% elif data.quality_check_status|stringformat:"s" == "2" %}
-                                  <a href="javascript:void(0);" onclick="showRemark('{{ data.quality_remark|default_if_none:''|escapejs }}', 'Quality Remark')" class="text-danger">Re-Verification</a>
-                                {% else %}
-                                  <span class="text-warning">Pending</span>
-                                {% endif %}
-                              </td>
-                            {% endif %}
-
-                              <td>
-                                <div class="d-flex flex-wrap gap-2 align-items-center">
-                                  <!-- Download -->
-                                  <a href="{{ data.filepath }}" class="tooltip-sec text-success" data-title="Download {{ data.filename }}" target="_blank" download>
-                                    <i class="fas fa-download"></i>
-                                  </a>
-                                  {% if request.user.department_id|stringformat:"s" == "2" and data.operator_verification_status|stringformat:"s" == "1" and data.quality_check_status|stringformat:"s" != "2" %}
-                                  
-                                  {% elif request.user.department_id|stringformat:"s" == "5" and data.quality_check_status|stringformat:"s" == "1" %}
-
-                                  {% else %}
-                                  
-                                  <a href="{% url 'edit-policy' id=data.id %}" class="tooltip-sec text-warning" data-title="Edit Policy">
-                                    <i class="fa-solid fa-edit"></i>
-                                  </a>
-                                  {% endif %}
-                                  <!-- Edit -->
-
-                                  <!-- Delete (Admin or RM only) -->
-                                  {% if request.user.role_id == 1 or request.user.id == data.rm_id %}
-                                    <a href="{% url 'delete-policy' id=data.id %}" class="deletePolicyBtn tooltip-sec text-danger" data-title="Delete Policy">
-                                      <i class="fa-solid fa-trash"></i>
-                                    </a>
-                                  {% endif %}
-
-                                  <!-- Operator Verification (Department 2) -->
-                                  {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "2" and data.operator_verification_status|stringformat:"s" == "0" %}
-                                    <a href="javascript:void(0);" class="tooltip-sec text-primary" data-title="Verify with Remark" onclick="approveWithRemark('{{ data.id }}', '1', 'operator')">
-                                      <i class="fas fa-check-circle"></i>
-                                    </a>
-                                    <a href="javascript:void(0);" class="tooltip-sec text-danger" data-title="Reject with Remark" onclick="rejectWithRemark('{{ data.id }}', '2', 'operator')">
-                                      <i class="fas fa-times-circle"></i>
-                                    </a>
-                                  {% endif %}
-
-                                  <!-- Quality Check (Department 5) -->
-                                  {% if request.user.role_id|stringformat:"s" not in "1,4" and request.user.department_id|stringformat:"s" == "5" and data.quality_check_status|stringformat:"s" == "0" %}
-                                    <a href="javascript:void(0);" class="tooltip-sec text-primary" data-title="Approve Quality Check" onclick="approveWithRemark('{{ data.id }}', '1', 'quality')">
-                                      <i class="fas fa-check-circle"></i>
-                                    </a>
-                                    <a href="javascript:void(0);" class="tooltip-sec text-danger" data-title="Reject Quality Check" onclick="rejectWithRemark('{{ data.id }}', '2', 'quality')">
-                                      <i class="fas fa-times-circle"></i>
-                                    </a>
-                                  {% endif %}
-                                  <a href="{% url 'view-policy' id=data.id %}" class="tooltip-sec text-info" title="View Policy">
-                                    <i class="fas fa-eye"></i>
-                                  </a>
-
-                                </div>
-                              </td>
-
                             </tr>
                           {% endfor %}
                         </tbody>
@@ -374,15 +86,8 @@
                     </div>
                 </div>
               </div>
-              
-              
               {% include "components/filter/paginator.html" %}
-              
             </div>
-            
-            
-
-            
           </div>
         </div>
       </div>

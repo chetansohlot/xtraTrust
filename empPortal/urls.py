@@ -425,6 +425,19 @@ urlpatterns = [
     # path('clients/v1/index',clients.index,name="client-view"),
     path('policy/v1/index',policy.index,name="policy-view"),
     path('policy/v1/create-policy-info',policy.createPolicy,name="create-policy"),
+    path('policy/v1/create-policy-info/<str:ref_id>/', policy.createPolicy, name='create-policy-with-id'),
+    path('policy/v1/save-policy-info',policy.savePolicyInfo,name="save-policy-info"),
+    path('policy/v1/create-policy-highlights/<str:ref_id>',policy.createPolicyHighlights,name="create-policy-highlights"),
+    path('policy/v1/delete-policy-highlight/<str:ref_id>/', policy.deletePolicyHighlight, name='delete-policy-highlight'),
+    path('policy/v1/save-policy-highlights',policy.savePolicyHighlight,name="save-policy-highlights"),
+    path('policy/v1/create-policy-coverages/<str:ref_id>',policy.createPolicyCoverages,name="create-policy-coverages"),
+    path('policy/v1/save-policy-coverage',policy.savePolicyCoverage,name="save-policy-coverage"),
+    path('policy/v1/create-policy-exclusions/<str:ref_id>',policy.createPolicyExclusions,name="create-policy-exclusions"),
+    path('policy/v1/save-policy-exclusion',policy.savePolicyExclusion,name="save-policy-exclusion"),
+    path('policy/v1/delete-policy-exclusion/<str:ref_id>/', policy.deletePolicyExclusion, name='delete-policy-exclusion'),
+    path('policy/v1/delete-policy-coverage/<str:ref_id>/', policy.deletePolicyCoverage, name='delete-policy-coverage'),
+    
+    
     path('employee/v1/index',employee.index,name="employee-view"),
     path('employee-management/create-employee', employee.save_or_update_employee, name='employee-management-create'),
 
