@@ -125,3 +125,15 @@ def sync_existing_users_to_partner():
 
     print(f"✅ Synced {synced_count} users to Partner table.")
     return synced_count
+
+from datetime import datetime
+
+def clean_date(date_str):
+    date_str = date_str.strip()
+    if not date_str:
+        return None
+    try:
+        # Try parsing to validate format
+        return datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return None 

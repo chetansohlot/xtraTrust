@@ -292,64 +292,64 @@ def index(request):
 #             # 'user': user_instance
 #         })
 
-def view_employee(request, employee_id):
-    try:
-        user = get_object_or_404(Users, id=employee_id)
-        employee = get_object_or_404(Employees, user_id=employee_id)
+# def view_employee(request, employee_id):
+#     try:
+#         user = get_object_or_404(Users, id=employee_id)
+#         employee = get_object_or_404(Employees, user_id=employee_id)
 
-        # Fetch addresses
-        permanent_address = Address.objects.filter(employee_id=employee.employee_id, type='Permanent').first()
-        correspondence_address = Address.objects.filter(employee_id=employee.employee_id, type='Correspondence').first()
+#         # Fetch addresses
+#         permanent_address = Address.objects.filter(employee_id=employee.employee_id, type='Permanent').first()
+#         correspondence_address = Address.objects.filter(employee_id=employee.employee_id, type='Correspondence').first()
 
-        # Family members
-        family_members = FamilyDetail.objects.filter(employee_id=employee.employee_id)
+#         # Family members
+#         family_members = FamilyDetail.objects.filter(employee_id=employee.employee_id)
 
-        # Employment info
-        employment_info = EmploymentInfo.objects.filter(employee_id=employee.employee_id).first()
+#         # Employment info
+#         employment_info = EmploymentInfo.objects.filter(employee_id=employee.employee_id).first()
 
-        # References
-        references = EmployeeReference.objects.filter(employee_id=employee.employee_id)
+#         # References
+#         references = EmployeeReference.objects.filter(employee_id=employee.employee_id)
 
-        # Fetch manager user
-        manager_details = None
-        if user.department_id:
-            # Assuming 'manager' is the senior or manager related by senior_id or some other logic
-            try:
-                manager_details = Users.objects.get(id=user.senior_id)  # or user.manager_id if you have that
-            except Users.DoesNotExist:
-                manager_details = None
+#         # Fetch manager user
+#         manager_details = None
+#         if user.department_id:
+#             # Assuming 'manager' is the senior or manager related by senior_id or some other logic
+#             try:
+#                 manager_details = Users.objects.get(id=user.senior_id)  # or user.manager_id if you have that
+#             except Users.DoesNotExist:
+#                 manager_details = None
 
-        # Fetch team leader user
-        senior_details = None
-        if user.senior_id:
-            try:
-                senior_details = Users.objects.get(id=user.senior_id)
-            except Users.DoesNotExist:
-                senior_details = None
+#         # Fetch team leader user
+#         senior_details = None
+#         if user.senior_id:
+#             try:
+#                 senior_details = Users.objects.get(id=user.senior_id)
+#             except Users.DoesNotExist:
+#                 senior_details = None
 
-        if user.role_id == 7 or user.role_id == '7':
-            try:
-                manager_details = Users.objects.get(id=senior_details.senior_id)  # or user.manager_id if you have that
-            except Users.DoesNotExist:
-                manager_details = None
+#         if user.role_id == 7 or user.role_id == '7':
+#             try:
+#                 manager_details = Users.objects.get(id=senior_details.senior_id)  # or user.manager_id if you have that
+#             except Users.DoesNotExist:
+#                 manager_details = None
 
-        context = {
-            'employee': employee,
-            'user': user,
-            'permanent_address': permanent_address,
-            'correspondence_address': correspondence_address,
-            'family_members': family_members,
-            'employment_info': employment_info,
-            'references': references,
-            'manager_details': manager_details,
-            'senior_details': senior_details,
-        }
+#         context = {
+#             'employee': employee,
+#             'user': user,
+#             'permanent_address': permanent_address,
+#             'correspondence_address': correspondence_address,
+#             'family_members': family_members,
+#             'employment_info': employment_info,
+#             'references': references,
+#             'manager_details': manager_details,
+#             'senior_details': senior_details,
+#         }
 
-        return render(request, 'employee/view-employee.html', context)
+#         return render(request, 'employee/view-employee.html', context)
 
-    except Exception as e:
-        # Optionally log the exception e here
-        return redirect('employee-view')
+#     except Exception as e:
+#         # Optionally log the exception e here
+#         return redirect('employee-view')
 
 
 # def save_or_update_address(request, employee_id):
@@ -1303,27 +1303,58 @@ def employee_family_details(request, employee_id=None):
    
     employee = get_object_or_404(Employees, employee_id=employee_id) if employee_id else None
 
-    relations = ['Father', 'Mother', 'Spouse']
-    family_qs = FamilyDetail.objects.filter(employee_id=employee_id, active=True) if employee_id else []
-    family_data = {}
+    references = FamilyDetail.objects.filter(employee_id=employee_id, active=True)
+    reference1 = references[0] if references.count() > 0 else None
+    reference2 = references[1] if references.count() > 1 else None    
+    reference3 = references[2] if references.count() > 2 else None
 
-    for relation in relations:
-        record = next((f for f in family_qs if f.relation == relation), None)
-        if record:
-            family_data[relation] = {
-                'first_name': record.first_name,
-                'last_name': record.last_name,
-                'date_of_birth': record.date_of_birth.strftime("%Y-%m-%d") if record.date_of_birth else '',
-                'date_of_anniversary': record.date_of_anniversary.strftime("%Y-%m-%d") if record.date_of_anniversary else '',
-            }
-        else:
-            family_data[relation] = {'first_name': '', 'last_name': '', 'date_of_birth': '', 'date_of_anniversary': ''}
 
-    return render(request, 'employee/create-family-details.html', {
+    context = {
+            'employee': employee,
+            'employee_id': employee_id,
+            'reference1': reference1,
+            'reference2': reference2,
+            'reference3': reference3,
+            'relation_choices': ["Spouse", "Son", "Daughter"],
+        }
+    return render(request, 'employee/create-family-details.html', context)
+
+
+def family_details_view(request, employee_id):
+    # Make sure user is authenticated, otherwise redirect to login
+    if not request.user.is_authenticated and not request.user.is_active:
+        messages.error(request, 'Please Login First')
+        return redirect('login')
+
+    employee = get_object_or_404(Employees, employee_id=employee_id)
+    
+    # Fetch all active family members for the employee
+    family_members = FamilyDetail.objects.filter(employee_id=employee.employee_id, active=True)
+
+    # Relation choices to show in select dropdown or elsewhere
+    relations = ['Spouse', 'Son', 'Daughter']
+
+    context = {
         'employee': employee,
+        'family_members': family_members,
+        'relation_choices': relations,
         'employee_id': employee_id,
-        'family': family_data,
-    })
+    }
+    return render(request, 'employee/create-family-details-views.html', context)
+
+
+from datetime import datetime
+
+def clean_date(date_str):
+    date_str = date_str.strip()
+    if not date_str:
+        return None
+    try:
+        # Try parsing to validate format
+        return datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return None 
+
 
 
 def save_or_update_family_details(request, employee_id):
@@ -1334,77 +1365,73 @@ def save_or_update_family_details(request, employee_id):
     employee = get_object_or_404(Employees, employee_id=employee_id)
 
     if request.user.role_id != 1:
-        messages.error(request, "You do not have permission to modify family details.")
+        messages.error(request, "You do not have permission to update references.")
         return redirect('employee-view')
 
-    if request.method != "POST":
-        return redirect('employee-management-family-details', employee_id=employee_id)
-
-    relations = ['Father', 'Mother', 'Spouse']
-    has_errors = False
-    family_data = {}
-
-    for relation in relations:
-        first_name = request.POST.get(f"{relation.lower()}_first_name", "").strip()
-        last_name = request.POST.get(f"{relation.lower()}_last_name", "").strip()
-        dob = request.POST.get(f"{relation.lower()}_dob", "").strip()
-        anniversary = request.POST.get(f"{relation.lower()}_anniversary", "").strip()
-
-        family_data[relation] = {
-            'first_name': first_name,
-            'last_name': last_name,
-            'date_of_birth': dob,
-        }
-
-        if not first_name and not last_name and not dob:
-            continue
-
-        if not first_name or not last_name or not dob:
-            messages.error(request, f"All fields are required for {relation}.")
-            has_errors = True
-            continue
-
-        try:
-            dob_date = datetime.strptime(dob, "%Y-%m-%d").date()
-        except ValueError:
-            messages.error(request, f"Invalid {relation} DOB format. Use YYYY-MM-DD.")
-            has_errors = True
-            continue
+    references = FamilyDetail.objects.filter(employee_id=employee_id, active=True)
+    reference1 = references[0] if references.count() > 0 else None
+    reference2 = references[1] if references.count() > 1 else None
+    reference3 = references[2] if references.count() > 2 else None
 
 
-        if relation in ['Father', 'Mother']:
-            today = date.today()
-            age = today.year - dob_date.year - ((today.month, today.day) < (dob_date.month, dob_date.day))
-            if age < 18:
-                messages.error(request, f"{relation} must be at least 18 years old.")
-                has_errors = True
-                continue
 
-        family_record, created = FamilyDetail.objects.get_or_create(
-            employee_id=employee_id,
-            relation=relation,
-            defaults={
-                'first_name': first_name,
-                'last_name': last_name,
-                'date_of_birth': dob_date,
-                'active': True,
-                'created_at': now()
-            }
-        )
-        if not created:
-            family_record.first_name = first_name
-            family_record.last_name = last_name
-            family_record.date_of_birth = dob_date
-            family_record.active = True
-            family_record.updated_at = now()
-            family_record.save()
-
-    if has_errors:
-        return render(request, 'employee/create-family-details.html', {
-            'employee': employee,
+    context = {
             'employee_id': employee_id,
-            'family': family_data
-        })
+            'reference1': reference1,
+            'reference2': reference2,
+            'reference3': reference3,
+            'relation_choices': ["Spouse", "Son", "Daughter"],
+        }
+    
+    
+    if request.method != "POST":
+        return redirect('save-employee-family-details', employee_id=employee_id)
+
+    ref1_data = {
+        'relation': request.POST.get("reference1_relation_type", "").strip(),
+        'first_name': request.POST.get("reference1_first_name", "").strip(),
+        'last_name': request.POST.get("reference1_last_name", "").strip(),
+        'date_of_birth': clean_date(request.POST.get("reference1_date_of_birth", "")),
+    }
+
+    ref2_data = {
+            'relation': request.POST.get("reference2_relation_type", "").strip(),
+            'first_name': request.POST.get("reference2_first_name", "").strip(),
+            'last_name': request.POST.get("reference2_last_name", "").strip(),
+            'date_of_birth': clean_date(request.POST.get("reference1_date_of_birth", "")),
+        }
+    
+    ref3_data = {
+            'relation': request.POST.get("reference3_relation_type", "").strip(),
+            'first_name': request.POST.get("reference3_first_name", "").strip(),
+            'last_name': request.POST.get("reference3_last_name", "").strip(),
+            'date_of_birth': clean_date(request.POST.get("reference1_date_of_birth", "")),
+
+        }
+    
+    # Save Reference 1
+    if ref1_data['relation']:
+        FamilyDetail.objects.update_or_create(
+            employee_id=employee_id,
+            relation=ref1_data['relation'],
+            defaults={**ref1_data, 'employee_id': employee_id}
+        )
+
+    # Save Reference 2
+    if ref2_data['relation']:
+        FamilyDetail.objects.update_or_create(
+            employee_id=employee_id,
+            relation=ref2_data['relation'],
+            defaults={**ref2_data, 'employee_id': employee_id}
+        )
+
+    # Save Reference 3
+    if ref3_data['relation']:
+        FamilyDetail.objects.update_or_create(
+            employee_id=employee_id,
+            relation=ref3_data['relation'],
+            defaults={**ref3_data, 'employee_id': employee_id}
+        )    
 
     messages.success(request, f"Family details updated for Employee ID: {employee_id}")
     return redirect('employee-view')

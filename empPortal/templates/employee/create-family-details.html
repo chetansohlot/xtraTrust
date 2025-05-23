@@ -30,6 +30,9 @@ Add Family Details
                   <li>Add Family Details</li>
                 </ul>
               </div>
+              <div class="col-sm-6 d-flex justify-content-end align-items-start">
+                <a href="{% url 'family_details_view' employee.employee_id %}" class="breadcrump-addbtn mt-2"><i class="fas fa-arrow-left"></i> Back</a>
+            </div>
             </div>
           </div>
         </div>
@@ -56,9 +59,19 @@ Add Family Details
                           <h2 class="admin-title border-bottom pb-2 mb-4">Family Details</h2>
                       </div>
 
-                      <!-- Father Section -->
+                     
                       <div class="row border-bottom mb-3 pb-3">
-                          <div class="col-md-12"><h5>Father Details</h5></div>
+
+                        <!-- <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="relation">Relation</label>
+                                <select class="form-field" name="relation" id="relation">
+                                    <option value="">Select Relation</option>
+                                    <option value="Self" {% if family.relation == 'Self' %}selected{% endif %}>Self</option>
+                                    <option value="Spouse" {% if family.relation == 'Spouse' %}selected{% endif %}>Spouse</option>
+                                    <option value="Son" {% if family.relation == 'Son' %}selected{% endif %}>Son</option>
+                                    <option value="Daughter" {% if family.relation == 'Daughter' %}selected{% endif %}>Daughter</option>
+                                </select>
+                            </div>
 
                           <div class="form-group col-sm-6 col-md-4">
                               <label class="form-lbl">First Name</label>
@@ -74,14 +87,79 @@ Add Family Details
 
                           <div class="form-group col-sm-6 col-md-4">
                               <label class="form-lbl">Date of Birth</label>
-                              <input type="date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="father_dob"
+                              <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="father_dob"
                                   value="{{ family.Father.date_of_birth|default:'' }}">
+                          </div> -->
+                            <!-- <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="relation">Relation</label>
+                                <select class="form-field" name="relation" id="relation">
+                                    <option value="">Select Relation</option>
+                                    <option value="Self" {% if family.relation == 'Self' %}selected{% endif %}>Self</option>
+                                    <option value="Spouse" {% if family.relation == 'Spouse' %}selected{% endif %}>Spouse</option>
+                                    <option value="Son" {% if family.relation == 'Son' %}selected{% endif %}>Son</option>
+                                    <option value="Daughter" {% if family.relation == 'Daughter' %}selected{% endif %}>Daughter</option>
+                                </select>
+                                </div>
+
+                                <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">First Name</label>
+                                <input type="text" class="form-field" name="first_name"
+                                    value="{{ family.first_name|default:'' }}" placeholder="First Name">
+                                </div>
+
+                                <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Last Name</label>
+                                <input type="text" class="form-field" name="last_name"
+                                    value="{{ family.last_name|default:'' }}" placeholder="Last Name">
+                                </div>
+
+                                <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Date of Birth</label>
+                                <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="date_of_birth"
+                                    value="{{ family.date_of_birth|default:'' }}">
+                            </div> -->
+
+                            <!-- Reference 1 -->
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Relation</label>
+                              <select name="reference1_relation_type" class="form-field">
+                                  <option value="">Select Relation</option>
+                                  {% for rel in relation_choices %}
+                                      <option value="{{ rel }}" {% if reference1 and reference1.relation == rel %}selected{% endif %}>{{ rel }}</option>
+                                  {% endfor %}
+                              </select>
                           </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">First Name</label>
+                              <input type="text" name="reference1_first_name" class="form-field" placeholder="First Name"
+                                    value="{% if reference1 %}{{ reference1.first_name }}{% endif %}">
+                          </div>
+                          <div class="form-group col-sm-6 col-md-4">
+                              <label class="form-lbl">Last Name</label>
+                              <input type="text" name="reference1_last_name" class="form-field" placeholder="Last Name"
+                                    value="{% if reference1 %}{{ reference1.last_name }}{% endif %}">
+                          </div>
+
+                          <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl">Date of Birth</label>
+                                <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="reference1_date_of_birth"
+                                    value="{{ reference1.date_of_birth|default:'' }}">
+                            </div> 
                       </div>
 
-                      <!-- Mother Section -->
+                      
                       <div class="row border-bottom mb-3 pb-3">
-                          <div class="col-md-12"><h5>Mother Details</h5></div>
+
+                        <!-- <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="relation">Relation</label>
+                                <select class="form-field" name="relation" id="relation">
+                                    <option value="">Select Relation</option>
+                                    <option value="Self" {% if family.relation == 'Self' %}selected{% endif %}>Self</option>
+                                    <option value="Spouse" {% if family.relation == 'Spouse' %}selected{% endif %}>Spouse</option>
+                                    <option value="Son" {% if family.relation == 'Son' %}selected{% endif %}>Son</option>
+                                    <option value="Daughter" {% if family.relation == 'Daughter' %}selected{% endif %}>Daughter</option>
+                                </select>
+                            </div>
 
                           <div class="form-group col-sm-6 col-md-4">
                               <label class="form-lbl">First Name</label>
@@ -97,15 +175,80 @@ Add Family Details
 
                           <div class="form-group col-sm-6 col-md-4">
                               <label class="form-lbl">Date of Birth</label>
-                              <input type="date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="mother_dob"
+                              <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="mother_dob" id="dateLabel"
                                   value="{{ family.Mother.date_of_birth|default:'' }}">
-                          </div>
-                      </div>
+                          </div> -->
+                          <!-- <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="relation">Relation</label>
+                                    <select class="form-field" name="relation" id="relation">
+                                        <option value="">Select Relation</option>
+                                        <option value="Self" {% if family.relation == 'Self' %}selected{% endif %}>Self</option>
+                                        <option value="Spouse" {% if family.relation == 'Spouse' %}selected{% endif %}>Spouse</option>
+                                        <option value="Son" {% if family.relation == 'Son' %}selected{% endif %}>Son</option>
+                                        <option value="Daughter" {% if family.relation == 'Daughter' %}selected{% endif %}>Daughter</option>
+                                    </select>
+                                    </div>
 
-                      <!-- Spouse Section (only if married) -->
-                      {% if employee.marital_status == 'Married' %}
-                      <div class="row mb-4" id="spouseSection">
-                          <div class="col-md-12"><h5>Spouse Details</h5></div>
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">First Name</label>
+                                        <input type="text" class="form-field" name="first_name"
+                                            value="{{ family.first_name|default:'' }}" placeholder="First Name">
+                                    </div>
+
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">Last Name</label>
+                                        <input type="text" class="form-field" name="last_name"
+                                            value="{{ family.last_name|default:'' }}" placeholder="Last Name">
+                                    </div>
+
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">Date of Birth</label>
+                                        <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="date_of_birth"
+                                            value="{{ family.date_of_birth|default:'' }}">
+                                    </div>         -->
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">Relation</label>
+                                        <select name="reference2_relation_type" class="form-field">
+                                        <option value="">Select Relation</option>
+                                        {% for rel in relation_choices %}
+                                            <option value="{{ rel }}" {% if reference2 and reference2.relation == rel %}selected{% endif %}>{{ rel }}</option>
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">First Name</label>
+                                        <input type="text" name="reference2_first_name" class="form-field" placeholder="First Name"
+                                                value="{% if reference2 %}{{ reference2.first_name }}{% endif %}">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">Last Name</label>
+                                        <input type="text" name="reference2_last_name" class="form-field" placeholder="Last Name"
+                                                value="{% if reference2 %}{{ reference2.last_name }}{% endif %}">
+                                    </div>
+
+                                    <div class="form-group col-sm-6 col-md-4">
+                                            <label class="form-lbl">Date of Birth</label>
+                                            <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="reference2_date_of_birth"
+                                                value="{{ reference2.date_of_birth|default:'' }}">
+                                    </div> 
+                             </div>
+
+
+
+                      
+                      
+                       <div class="row border-bottom mb-3 pb-3">
+
+                        <!-- <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="relation">Relation</label>
+                                <select class="form-field" name="relation" id="relation" onchange="UpdateLabel(this)">
+                                    <option value="">Select Relation</option>
+                                    <option value="Self" {% if family.relation == 'Self' %}selected{% endif %}>Self</option>
+                                    <option value="Spouse" {% if family.relation == 'Spouse' %}selected{% endif %}>Spouse</option>
+                                    <option value="Son" {% if family.relation == 'Son' %}selected{% endif %}>Son</option>
+                                    <option value="Daughter" {% if family.relation == 'Daughter' %}selected{% endif %}>Daughter</option>
+                                </select>
+                            </div>
 
                           <div class="form-group col-sm-6 col-md-4">
                               <label class="form-lbl">First Name</label>
@@ -121,14 +264,42 @@ Add Family Details
 
                           <div class="form-group col-sm-6 col-md-4">
                               <label class="form-lbl">Date of Anniversary</label>
-                              <input type="date" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="spouse_dob"
+                              <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="spouse_dob"
                                   value="{{ family.Spouse.date_of_birth|default:'' }}">
-                          </div>
-                      </div>
-                      {% endif %}
+                          </div> -->
+                          <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">Relation</label>
+                                        <select name="reference3_relation_type" class="form-field">
+                                            <option value="">Select Relation</option>
+                                            {% for rel in relation_choices %}
+                                                <option value="{{ rel }}" {% if reference3 and reference3.relation == rel %}selected{% endif %}>{{ rel }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">First Name</label>
+                                        <input type="text" name="reference3_first_name" class="form-field" placeholder="First Name"
+                                                value="{% if reference3 %}{{ reference3.first_name }}{% endif %}">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">Last Name</label>
+                                        <input type="text" name="reference3_last_name" class="form-field" placeholder="Last Name"
+                                                value="{% if reference3 %}{{ reference3.last_name }}{% endif %}">
+                                    </div>
+
+                                    <div class="form-group col-sm-6 col-md-4">
+                                        <label class="form-lbl">Date of Birth</label>
+                                        <input type="text" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" name="reference3_date_of_birth"
+                                            value="{{ reference3.date_of_birth|date:'d-m-Y' }}">
+                                    </div>
+                           </div>
+                        
 
                       <div class="d-flex justify-content-between mt-4">
-                       <a href="{% url 'employee-view' %}" class="btn btn-secondary"> Back</a>
+                       <!-- <a href="{% url 'employee-view' %}" class="btn btn-secondary"> Back</a>
+                         -->
+                         <!-- <a href="{% url 'family_details_view' employee.employee_id %}" class="btn btn-secondary"> Back</a> -->
+                       
                           <button type="submit" class="form-submit-btn">Update Family Details</button>
                       </div>
                   </form>
@@ -137,7 +308,7 @@ Add Family Details
 
                   <!-- Validation Script -->
                   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@31"></script>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
                   <script>
@@ -233,7 +404,24 @@ Add Family Details
                       });
                   });
                   </script>
+                    <script>
+                    function updateLabel(selectElement) {
+                        const label = document.getElementById("dateLabel");
+                        if (selectElement.value === "Spouse") {
+                            label.innerText = "Date of Anniversary";
+                        } else {
+                            label.innerText = "Date of Birth";
+                        }
+                    }
 
+                    // Trigger on page load
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const relationSelect = document.getElementById("relation");
+                        if (relationSelect) {
+                            updateLabel(relationSelect);
+                        }
+                    });
+                    </script>
 
 
 

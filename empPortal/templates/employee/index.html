@@ -198,6 +198,7 @@
                                         <th>Client Name</th>
                                         <th>Kyc Info</th>
                                         <th>Contact Info</th>
+                                        <th>Marital Status</th>
                                         <th>Add Member</th>
                                         <th>Active</th>
                                         <th>Action</th>
@@ -238,7 +239,16 @@
                                           </a>
                                         </td>
                                         <td>
-                                          <i class="fas fa-plus"></i><a href="{% url 'employee-management-family-details' employee.employee_id %}">Add Member</a>
+                                          {{ employee.marital_status|default:"N/A"}}
+                                        </td>
+                                        <td>
+                                          {% if employee.marital_status == 'Married' and employee.active %}
+
+                                          <!-- <i class="fas fa-plus"></i><a href="{% url 'employee-management-family-details' employee.employee_id %}">Add Member</a> -->
+                                           <a href="{% url 'family_details_view' employee.employee_id %}">Add Member</a>
+                                          {% else %}
+                                          N/A
+                                          {% endif %}
                                         </td>
                                         <td>
                                           <span class="status-badge badge {% if employee.active %}badge-success{% else %}badge-danger{% endif %}">
@@ -251,9 +261,7 @@
                                               <a href="{% url 'employee-management-edit' employee_id=employee.id %}" class="btn btn-xs btn-warning mx-1">
                                                 <i class="fas fa-edit"></i>
                                               </a>
-                                              <!-- <a href="{% url 'employee-management-view' employee_id=employee.id %}" class="btn btn-xs btn-primary mx-1">
-                                                <i class="fas fa-eye"></i>
-                                              </a> -->
+                                              
 
                                                {% if employee.active %}
                                           <!-- Deactivate Button (Trash) - Shown when Active -->
