@@ -165,7 +165,7 @@ Contact Info
 
                                     <div class="d-flex justify-content-end">
                                         <button type="submit" class="form-submit-btn">
-                                                {% if client.id %}Update Client{% else %}Save Client{% endif %}
+                                                {% if is_update %}Update Client{% else %}Save Client{% endif %}
                                         </button>
                                     </div>
 
@@ -182,4 +182,107 @@ Contact Info
     {% include "footer.html" %}
     {% include "footer-script.html" %}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $("#contactInfoForm").validate({
+        rules: {
+            // Primary Contact Rules
+            primary_first_name: {
+                required: true,
+                minlength: 2
+            },
+            primary_last_name: {
+                required: true,
+                minlength: 2
+            },
+            primary_designation: {
+                required: true
+            },
+            primary_mobile: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            primary_email: {
+                required: true,
+                email: true
+            },
+            // Secondary Contact Rules
+            secondary_first_name: {
+                required: true,
+                minlength: 2
+            },
+            secondary_last_name: {
+                required: true,
+                minlength: 2
+            },
+            secondary_designation: {
+                required: true
+            },
+            secondary_mobile: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            secondary_email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            primary_first_name: "Enter first name",
+            primary_last_name: "Enter last name",
+            primary_designation: "Enter designation",
+            primary_mobile: {
+                required: "Enter mobile number",
+                digits: "Only digits allowed",
+                minlength: "Enter 10 digits",
+                maxlength: "Enter 10 digits"
+            },
+            primary_email: {
+                required: "Enter email",
+                email: "Invalid email"
+            },
+            secondary_first_name: "Enter first name",
+            secondary_last_name: "Enter last name",
+            secondary_designation: "Enter designation",
+            secondary_mobile: {
+                required: "Enter mobile number",
+                digits: "Only digits allowed",
+                minlength: "Enter 10 digits",
+                maxlength: "Enter 10 digits"
+            },
+            secondary_email: {
+                required: "Enter email",
+                email: "Invalid email"
+            }
+        },
+        errorElement: "span",
+        errorClass: "text-danger",
+        highlight: function (element) {
+            $(element).addClass("is-invalid");
+        },
+        unhighlight: function (element) {
+            $(element).removeClass("is-invalid");
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+
+    // Optional: Convert names/designations to uppercase
+    $("input[type='text']").on("input", function () {
+        if ($(this).attr("name").includes("name") || $(this).attr("name").includes("designation")) {
+            this.value = this.value.toUpperCase();
+        }
+    });
+});
+</script>
+
 {% endblock %}

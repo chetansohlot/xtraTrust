@@ -195,10 +195,11 @@
                                             <label for="checkall"></label>
                                         </th>
                                         <th>Employee Name</th>
-                                        <th>Role Info</th>
+                                        <th>Client Name</th>
+                                        <th>Kyc Info</th>
                                         <th>Contact Info</th>
-                                        <th>Supervisor</th>
-                                        <th>Branch</th>
+                                        <th>Add Member</th>
+                                        <th>Active</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -210,64 +211,64 @@
                                             <label for="check{{ employee.id }}"></label>
                                         </td>
                                         <td>
-                                            <a href="{% url 'employee-management-update' employee_id=employee.id %}" class="trlink">
-                                                {{ employee.full_name|default:"N/A" }}
-                                                <span class="text-gray d-block small">PAN#{{ employee.pan_no }}</span>
+                                            <a href="{% url 'employee-management-edit' employee_id=employee.id %}" class="trlink">
+                                                {{ employee.employee_full_name|default:"N/A" }}
+                                                <!-- <span class="text-gray d-block small">PAN#{{ employee.pan_card }}</span> -->
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'employee-management-edit' employee_id=employee.id %}" class="trlink">
+                                                {{ employee.client.client_name|default:"N/A" }}
+                                                <!-- <span class="text-gray d-block small">PAN#{{ employee.pan_card }}</span> -->
                                             </a>
                                         </td>
                                         
                                         <td>
-                                          <a href="{% url 'employee-management-update-allocation' employee_id=employee.id %}" class="trlink">
-                                              {% if employee.branch_head == 1 %}
-                                                  Branch Head
-                                              {% else %}
-                                                  {{ employee.role.roleName|default:"N/A" }}
-                                                  {% if employee.department %}
-                                                      <span class="text-gray d-block small">{{ employee.department.name }}</span>
-                                                  {% endif %}
-                                              {% endif %}
+                                          <a href="{% url 'employee-management-edit' employee_id=employee.id %}" class="trlink">
+                                            Aadhaar: {{ employee.aadhaar_card|default:"N/A" }}
+                                            <span class="text-gray d-block small">PAN: {{ employee.pan_card }}</span>
+
                                           </a>
                                         </td>
                                         
                                         <td>
                                           <a href="{% url 'employee-management-update' employee_id=employee.id %}" class="trlink">
-                                              {{ employee.phone|default:"-" }}
-                                              <span class="text-gray d-block small">{{ employee.email|default:"-" }}</span>
+                                              {{ employee.mobile_number|default:"-" }}
+                                              <span class="text-gray d-block small">{{ employee.email_address|default:"-" }}</span>
                                           </a>
                                         </td>
                                         <td>
-                                            {% with all_users|get_item:employee.senior_id as supervisor %}
-                                                {% if supervisor and employee.role_id != 2 %}
-                                                    {{ supervisor.first_name }} {{ supervisor.last_name }}
-                                                {% elif employee.role_id == 2 %}
-                                                    Subhash Bishnoi
-                                                {% else %}
-                                                    -
-                                                {% endif %}
-                                            {% endwith %}
+                                          <i class="fas fa-plus"></i><a href="{% url 'employee-management-family-details' employee.employee_id %}">Add Member</a>
                                         </td>
-                                        
-                                        <td>{{ branches|get_item:employee.branch_id|default:"-" }}</td>
-                                        
+                                        <td>
+                                          <span class="status-badge badge {% if employee.active %}badge-success{% else %}badge-danger{% endif %}">
+                                            {% if employee.active %}Active{% else %}Inactive{% endif %}
+                                        </span>
+                                        </td>
+                                
                                         <td>
                                             <div class="d-flex">
-                                              <a href="{% url 'employee-management-update' employee_id=employee.id %}" class="btn btn-xs btn-warning mx-1">
+                                              <a href="{% url 'employee-management-edit' employee_id=employee.id %}" class="btn btn-xs btn-warning mx-1">
                                                 <i class="fas fa-edit"></i>
                                               </a>
-                                              <a href="{% url 'employee-management-view' employee_id=employee.id %}" class="btn btn-xs btn-primary mx-1">
+                                              <!-- <a href="{% url 'employee-management-view' employee_id=employee.id %}" class="btn btn-xs btn-primary mx-1">
                                                 <i class="fas fa-eye"></i>
-                                              </a>
+                                              </a> -->
 
-                                              {% if employee.user_active == 1 %}
-                                                <!-- Deactivate -->
-                                                <a href="javascript:void(0);" onclick="handleEmployeeAction('{{ employee.id }}', 'deactivate')" class="btn btn-xs btn-danger mx-1">
-                                                  <i class="fas fa-trash"></i>                                                  
-                                                </a>
-                                              {% else %}
-                                                <!-- Activate -->
-                                                <a href="javascript:void(0);" onclick="handleEmployeeAction('{{ employee.id }}', 'activate')" class="btn btn-xs btn-success mx-1">
-                                                  <i class="fas fa-check"></i>
-                                                </a>
+                                               {% if employee.active %}
+                                          <!-- Deactivate Button (Trash) - Shown when Active -->
+                                                  <a href="#" class="btn btn-xs btn-danger toggle-status mx-1"
+                                                      data-url="{% url 'employee_delete' employee.employee_id %}"
+                                                      data-active="0">
+                                                      <i class="fas fa-trash"></i>
+                                                  </a>
+                                                  {% else %}
+                                                  <!-- Activate Button (Check Circle) - Shown when Inactive -->
+                                                  <a href="#" class="btn btn-xs btn-primary toggle-status mx-1"
+                                                      data-url="{% url 'employee_delete' employee.employee_id %}"
+                                                      data-active="1">
+                                                      <i class="fas fa-check-circle"></i>
+                                                  </a>
                                               {% endif %}
                                             </div>
                                           </td>
@@ -399,44 +400,72 @@
     
     {% include 'footer-script.html' %}
     
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+
+
+   <!--Anjali-->
     <script>
-      function handleEmployeeAction(employeeId, action) {
-        let config = {
-          title: '',
-          text: '',
-          icon: '',
-          confirmButtonText: '',
-        };
-
-        if (action === 'activate') {
-          config.title = 'Activate employee?';
-          config.text = 'This will activate the employee.';
-          config.icon = 'question';
-          config.confirmButtonText = 'Yes, activate!';
-        } else {
-          config.title = 'Are you sure?';
-          config.text = 'This will deactivate the employee.';
-          config.icon = 'warning';
-          config.confirmButtonText = 'Yes, deactivate!';
+     
+      $(document).ready(function () {
+        function bindToggleStatus() {
+            $(".toggle-status").off("click").on("click", function (e) {
+                e.preventDefault();
+    
+                var button = $(this);
+                var url = button.data("url");
+                var newStatus = button.data("active");
+    
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to change the status!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, change it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: { status: newStatus },
+                            dataType: "json",
+                            headers: { "X-CSRFToken": getCSRFToken() },
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        title: "Success!",
+                                        text: "Status updated successfully!",
+                                        icon: "success",
+                                        timer: 1500,  // Auto-close after 1.5 seconds
+                                        showConfirmButton: false
+                                    }).then(() => {
+                                        location.reload(); // Reload to reflect changes
+                                    });
+                                } else {
+                                    Swal.fire("Error!", response.error || "Failed to update status.", "error");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("AJAX Error:", xhr.responseText);
+                                Swal.fire("Error!", "Something went wrong: " + xhr.responseText, "error");
+                            }
+                        });
+                    }
+                });
+            });
         }
-
-        Swal.fire({
-          title: config.title,
-          text: config.text,
-          icon: config.icon,
-          showCancelButton: true,
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
-          confirmButtonText: config.confirmButtonText
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = `/employee-management/toggle-status/${employeeId}/${action}/`;
-          }
-        });
-      }
-    </script>
-
+    
+        function getCSRFToken() {
+            return document.querySelector("[name=csrfmiddlewaretoken]").value;
+        }
+    
+        bindToggleStatus();
+    });
+    
+    
+    
+  </script>  
  
     
     </body>

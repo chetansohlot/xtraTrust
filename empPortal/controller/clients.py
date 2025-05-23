@@ -105,10 +105,14 @@ def client_contact_info(request, id=None):
 
     client = get_object_or_404(XtClientsBasicInfo, id=id) if id else None
     contact_info = XtClientsContactInfo.objects.filter(client=client).first() if client else None
+  
+    # button label control kay liya
+    is_update = bool(contact_info)
 
     return render(request, 'clients/create-contact-info.html', {
         'client': client,
-        'contact_info': contact_info
+        'contact_info': contact_info,
+        'is_update':is_update
     })
      
 def save_contacts_info(request):

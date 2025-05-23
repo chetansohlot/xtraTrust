@@ -30,6 +30,10 @@ class Employees(models.Model):
     @property
     def id(self):
         return self.employee_id
+    
+    @property
+    def employee_full_name(self):
+        return self.first_name +" "+ self.last_name
 
     def get_user(self):
         from ..models import Users  

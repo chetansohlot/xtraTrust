@@ -50,10 +50,12 @@ Add Employment Info
                         autocomplete="off" 
                         id="employmentForm" 
                         name="employmentForm"
-                        action="{% url 'employee-management-employment-info' employment.employee_id %}"
+                        action="{% url 'save-employee-employment-info' employee_id %}"
                         method="post">
-
-                    {% csrf_token %}
+                        {% csrf_token %}
+                        {% if employee %}
+                                <input type="hidden" name="employee_id" value="{{ employee_id }}">
+                        {% endif %}
                     <div class="row">
                         <div class="col-md-12">
                             <h2 class="admin-title border-bottom pb-2 mb-4">Employment Info</h2>
@@ -68,7 +70,7 @@ Add Employment Info
                         <div class="form-group col-sm-6 col-md-4">
                             <label class="form-lbl">Designation</label>
                             
-                            <input type="text" class="form-field" name="department" placeholder="Designation"
+                            <input type="text" class="form-field" name="designation" placeholder="Designation"
                                   value="{{ employment.designation|default:'' }}">
                         </div>
 

@@ -97,18 +97,17 @@ urlpatterns = [
     path('department/toggle-status/<int:department_id>/', Department.toggle_department_status, name='department-toggle-status'),  #Anjali
 
 
-    path('employee-management/', employee.index, name='employee-management'),
+    # path('employee-management/', employee.index, name='employee-management'),
     path('employee-management/update-employee/<str:employee_id>/', employee.save_or_update_employee, name='employee-management-update'),
     path('employee-management/view-employee/<str:employee_id>/', employee.view_employee, name='employee-management-view'),
     path('employee-management/update-address/<str:employee_id>/', employee.save_or_update_address, name='employee-management-update-address'),
     path('employee-management/family-details/<str:employee_id>/', employee.save_or_update_family_details, name='employee-management-family-details'),
     path('employee-management/employment-info/<str:employee_id>/', employee.save_or_update_employment_info, name='employee-management-employment-info'),
-    path('employee-management/update-refrences/<str:employee_id>/', employee.save_or_update_refrences, name='employee-management-update-refrences'),
-    path('employee-management/update-allocation/<str:employee_id>/', employee.update_allocation, name='employee-management-update-allocation'),
-    path('employee-management/toggle-status/<str:employee_id>/<str:action>/', employee.toggle_employee_status, name='employee-toggle-status'),
+    # path('employee-management/update-allocation/<str:employee_id>/', employee.update_allocation, name='employee-management-update-allocation'),
+    # path('employee-management/toggle-status/<str:employee_id>/<str:action>/', employee.toggle_employee_status, name='employee-toggle-status'),
 
-    path('employee-management/<str:employee_id>/', employee.create_or_edit, name='employee-management-edit'),
-    path('employee-management/employee-allocation-employee/<str:employee_id>', employee.create_or_edit_allocation, name='employee-allocation-update'),
+    # path('employee-management/<str:employee_id>/', employee.create_or_edit, name='employee-management-edit'),
+    # path('employee-management/employee-allocation-employee/<str:employee_id>', employee.create_or_edit_allocation, name='employee-allocation-update'),
      
     path('v1/get-refferals-for-select',common.get_referrals,name="get-refferals-for-select"),
     path('v1/get-posp-for-select',common.get_posp,name="get-posp-for-select"),
@@ -449,9 +448,35 @@ urlpatterns = [
 
     ## Employee URL ## 
     path('employee/v1/index',employee.index,name="employee-view"),
-    path('employee-management/create-employee', employee.save_or_update_employee, name='employee-management-create'),
+    # path('employee-management/create-employee', employee.save_or_update_employee, name='employee-management-create'),
 
 
+    path('employees/v1/basic-info/', employee.employee_basic_info, name='employee-management-create'),  # Create Form
+    path('employees/v1/save-basic-info/', employee.save_or_update_employee, name='save-employee-info'),  # Save POST
+   
+    path('employees/v1/basic-info/<int:employee_id>/', employee.employee_basic_info, name='employee-management-edit'),
+
+    
+    path('employees/v1/save-basic-info/<int:employee_id>/', employee.save_or_update_employee, name='employee-management-update'),
+
+    
+    # Employee address info urls hai
+    path('employees/v1/address-info/<int:employee_id>/', employee.employee_address_info, name='employee-management-update-address'),  # Address Form GET
+    path('employees/v1/save-address/<int:employee_id>/', employee.save_or_update_address, name='save-employee-address'),  # Save POST
+
+    # Family details URLs
+    path('employees/v1/family-details/<int:employee_id>/', employee.employee_family_details, name='employee-management-family-details'),  # Family details Form (GET)
+    path('employees/v1/save-family-details/<int:employee_id>/', employee.save_or_update_family_details, name='save-employee-family-details'),  # Save family details (POST)
+
+    # Employment details URLs
+    path('employees/v1/employment-info/<int:employee_id>/', employee.employee_employment_info, name='employee-management-employment-info'),  # Employment Info Form (GET)
+    path('employees/v1/save-employment-info/<int:employee_id>/', employee.save_or_update_employment_info, name='save-employee-employment-info'),  # Save Employment Info (POST)
+    
+    # Reference details URLs
+    path('employees/v1/references/<int:employee_id>/', employee.employee_references_info, name='employee-management-update-references'),  # Reference Info Form (GET)
+    path('employees/v1/save-references/<int:employee_id>/', employee.save_or_update_references, name='save-employee-references'),
+        
+    path('employees/v1/delete-employee/<str:employee_id>/', employee.employee_delete, name='employee_delete'),
 
 ]   
 

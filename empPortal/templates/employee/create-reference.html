@@ -49,7 +49,7 @@ Add Reference
                     
                     
                     <form autocomplete="off" id="employeeForm" name="employeeForm"
-                        action="{% url 'employee-management-update-refrences' employee_id=employee_id %}" method="post">
+                        action="{% url 'save-employee-references' employee_id=employee_id %}" method="post">
                       {% csrf_token %}
                       <div class="row">
                           <div class="col-md-12">

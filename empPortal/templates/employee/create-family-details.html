@@ -41,13 +41,16 @@ Add Family Details
             <div class="row">
               
               <div class="col-sm-12">  
-                    {% include 'employee/common-link.html' with step=3 %}
+                    
 
                 <div class="card box-shadow-none p-md-5 p-3">
                   <div class="card-body px-0 pb-0 pt-0">
                     <form autocomplete="off" id="employeeFamilyForm" name="employeeForm"
-                      action="{% url 'employee-management-family-details' employee_id %}" method="post">
+                      action="{% url 'save-employee-family-details' employee.employee_id %}" method="post">
                       {% csrf_token %}
+                      {% if employee_id %}
+                            <input type="hidden" name="employee_id" value="{{ employee.employee_id }}">
+                      {% endif %}
 
                       <div class="col-md-12">
                           <h2 class="admin-title border-bottom pb-2 mb-4">Family Details</h2>
@@ -125,7 +128,7 @@ Add Family Details
                       {% endif %}
 
                       <div class="d-flex justify-content-between mt-4">
-                       <a href="{% url 'employee-management-update-address' employee_id=employee_id %}" class="btn btn-secondary"> Back</a>
+                       <a href="{% url 'employee-view' %}" class="btn btn-secondary"> Back</a>
                           <button type="submit" class="form-submit-btn">Update Family Details</button>
                       </div>
                   </form>

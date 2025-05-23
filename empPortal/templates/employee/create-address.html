@@ -48,8 +48,12 @@ Add Address
 
                     
                     <form autocomplete="off" id="employeeForm"
-                          action="{% url 'employee-management-update-address' employee.employee_id %}" method="post">
+                          action="{% url 'save-employee-address' employee_info.employee_id %}" method="post"> 
                       {% csrf_token %}
+                      {% if employee_info %}
+                          <input type="hidden" name="employee_id" value="{{ employee_info.employee_id }}">
+                      {% endif %}
+
                       <div class="row">
                         <div class="col-md-12">
                           <h2 class="admin-title border-bottom pb-2 mb-4">Permanent Address</h2>
@@ -134,7 +138,7 @@ Add Address
                       </div>
 
                       <div class="d-flex justify-content-between mt-4">
-                      <a href="{% url 'employee-management-update' employee_id=employee.user_id %}" class="btn btn-secondary"> Back</a>
+                      <a href="{% url 'employee-management-update' employee_id=employee_info.employee_id %}" class="btn btn-secondary"> Back</a>
                         <button type="submit" class="form-submit-btn">Update Addresses</button>
                       </div>
                     </form>

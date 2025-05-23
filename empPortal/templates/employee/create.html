@@ -31,7 +31,7 @@ Add Employee
                 </ul>
               </div>
               <div class="col-sm-6 d-flex justify-content-end align-items-start">
-                  <a href="{% url 'employee-management' %}" class="breadcrump-addbtn mt-2">
+                  <a href="{% url 'employee-view' %}" class="breadcrump-addbtn mt-2">
                      Back
                   </a>
                 </div>
@@ -53,20 +53,36 @@ Add Employee
                   <div class="card-body px-0 pb-0 pt-0">
 
                     <form autocomplete="off" id="employeeForm" name="employeeForm"
-                        action="{% if user %}{% url 'employee-management-update' employee_id=user.id %}{% else %}{% url 'employee-management-create' %}{% endif %}"
+                        action="{% url 'save-employee-info' %}"
                         method="post">
                         {% csrf_token %}
+                        {% if employee_info %}
+                            <input type="hidden" name="employee_id" value="{{ employee_info.employee_id }}">
+                        {% endif %}
+
 
                         <div class="row">
                             <div class="col-md-12">
                                 <h2 class="admin-title border-bottom pb-2 mb-4">Basic Details</h2>
                             </div>
 
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="client">Client</label>
+                                <select class="form-field" name="client" id="client">
+                                    <option value="">Select Client</option>
+                                    {% if clients_list %}
+                                      {% for clients in clients_list %}
+                                        <option value="{{clients.id}}" {% if employee_info.client.id == clients.id %}selected{% endif %}>{{clients.client_name}}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
                             <!-- First Name -->
                             <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="first_name">First Name</label>
                                 <input type="text" class="form-field" name="first_name" id="first_name" placeholder="First Name"
-                                    value="{{ employee.first_name|default:'' }}">
+                                    value="{{ employee_info.first_name|default:'' }}">
                                 <span class="error first_name_err"></span>
                             </div>
 
@@ -74,14 +90,14 @@ Add Employee
                             <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="last_name">Last Name</label>
                                 <input type="text" class="form-field" name="last_name" id="last_name" placeholder="Last Name"
-                                    value="{{ employee.last_name|default:'' }}">
+                                    value="{{ employee_info.last_name|default:'' }}">
                                 <span class="error last_name_err"></span>
                             </div>
                             
                             <!-- Date of Birth -->
                             <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="dob">Date of Birth</label>
-                                <input type="text" name="dob" id="dob" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" value="{% if employee.date_of_birth %}{{ employee.date_of_birth|date:'Y-m-d' }}{% else %}{{ employee.dob|default:'' }}{% endif %}">
+                                <input type="text" name="dob" id="dob" placeholder="DD-MM-YYYY" class="form-field dob_datepicker" value="{% if employee_info.date_of_birth %}{{ employee_info.date_of_birth|date:'Y-m-d' }}{% else %}{{ employee_info.dob|default:'' }}{% endif %}">
                             </div>
 
                             <!-- Gender -->
@@ -89,9 +105,9 @@ Add Employee
                                 <label class="form-lbl" for="gender">Gender</label>
                                 <select class="form-field" name="gender" id="gender">
                                     <option value="">Select Gender</option>
-                                    <option value="Male" {% if employee.gender == 'Male' %}selected{% endif %}>Male</option>
-                                    <option value="Female" {% if employee.gender == 'Female' %}selected{% endif %}>Female</option>
-                                    <option value="Other" {% if employee.gender == 'Other' %}selected{% endif %}>Other</option>
+                                    <option value="Male" {% if employee_info.gender == 'Male' %}selected{% endif %}>Male</option>
+                                    <option value="Female" {% if employee_info.gender == 'Female' %}selected{% endif %}>Female</option>
+                                    <option value="Other" {% if employee_info.gender == 'Other' %}selected{% endif %}>Other</option>
                                 </select>
                             </div>
 
@@ -99,7 +115,7 @@ Add Employee
                             <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="pan_no">PAN Card</label>
                                 <input type="text" class="form-field pan" maxlength="10" name="pan_no" id="pan_no"
-                                    placeholder="Enter PAN No" value="{{ employee.pan_card|default:'' }}">
+                                    placeholder="Enter PAN No" value="{{ employee_info.pan_card|default:'' }}">
                                 <span class="error pan_no_err"></span>
                             </div>
 
@@ -107,14 +123,14 @@ Add Employee
                             <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="aadhaar_card">Aadhaar Card</label>
                                 <input type="text" class="form-field" maxlength="12" name="aadhaar_card" id="aadhaar_card"
-                                    placeholder="Aadhaar Number" value="{{ employee.aadhaar_card|default:'' }}">
+                                    placeholder="Aadhaar Number" value="{{ employee_info.aadhaar_card|default:'' }}">
                             </div>
 
                             <!-- Mobile Number -->
                             <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="phone">Mobile Number</label>
                                 <input type="text" class="form-field" name="phone" id="phone" placeholder="Mobile Number" maxlength="10"
-                                    value="{{ employee.mobile_number|default:'' }}">
+                                    value="{{ employee_info.mobile_number|default:'' }}">
                                 <span class="error phone_err"></span>
                             </div>
 
@@ -122,7 +138,7 @@ Add Employee
                             <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="email">Email Address</label>
                                 <input type="email" class="form-field" name="email" id="email" placeholder="Email"
-                                    value="{{ employee.email_address|default:'' }}">
+                                    value="{{ employee_info.email_address|default:'' }}">
                                 <span class="error email_err"></span>
                             </div>
 
@@ -132,14 +148,14 @@ Add Employee
                                 <label class="form-lbl" for="blood_group">Blood Group</label>
                                 <select class="form-field" name="blood_group" id="blood_group">
                                     <option value="">Select Blood Group</option>
-                                    <option value="A+" {% if employee.blood_group == 'A+' %}selected{% endif %}>A+</option>
-                                    <option value="A-" {% if employee.blood_group == 'A-' %}selected{% endif %}>A-</option>
-                                    <option value="B+" {% if employee.blood_group == 'B+' %}selected{% endif %}>B+</option>
-                                    <option value="B-" {% if employee.blood_group == 'B-' %}selected{% endif %}>B-</option>
-                                    <option value="O+" {% if employee.blood_group == 'O+' %}selected{% endif %}>O+</option>
-                                    <option value="O-" {% if employee.blood_group == 'O-' %}selected{% endif %}>O-</option>
-                                    <option value="AB+" {% if employee.blood_group == 'AB+' %}selected{% endif %}>AB+</option>
-                                    <option value="AB-" {% if employee.blood_group == 'AB-' %}selected{% endif %}>AB-</option>
+                                    <option value="A+" {% if employee_info.blood_group == 'A+' %}selected{% endif %}>A+</option>
+                                    <option value="A-" {% if employee_info.blood_group == 'A-' %}selected{% endif %}>A-</option>
+                                    <option value="B+" {% if employee_info.blood_group == 'B+' %}selected{% endif %}>B+</option>
+                                    <option value="B-" {% if employee_info.blood_group == 'B-' %}selected{% endif %}>B-</option>
+                                    <option value="O+" {% if employee_info.blood_group == 'O+' %}selected{% endif %}>O+</option>
+                                    <option value="O-" {% if employee_info.blood_group == 'O-' %}selected{% endif %}>O-</option>
+                                    <option value="AB+" {% if employee_info.blood_group == 'AB+' %}selected{% endif %}>AB+</option>
+                                    <option value="AB-" {% if employee_info.blood_group == 'AB-' %}selected{% endif %}>AB-</option>
                                 </select>
                             </div>
 
@@ -149,31 +165,21 @@ Add Employee
                                 <label class="form-lbl" for="marital_status">Marital Status</label>
                                 <select class="form-field" name="marital_status" id="marital_status">
                                     <option value="">Select Marital Status</option>
-                                    <option value="Single" {% if employee.marital_status == 'Single' %}selected{% endif %}>Single</option>
-                                    <option value="Married" {% if employee.marital_status == 'Married' %}selected{% endif %}>Married</option>
-                                    <option value="Unmarried" {% if employee.marital_status == 'Unmarried' %}selected{% endif %}>Unmarried</option>
+                                    <option value="Single" {% if employee_info.marital_status == 'Single' %}selected{% endif %}>Single</option>
+                                    <option value="Married" {% if employee_info.marital_status == 'Married' %}selected{% endif %}>Married</option>
+                                    <option value="Unmarried" {% if employee_info.marital_status == 'Unmarried' %}selected{% endif %}>Unmarried</option>
                                 </select>
                             </div>
-                            <div class="form-group col-sm-6 col-md-4">
+                            <!-- <div class="form-group col-sm-6 col-md-4">
                                 <label class="form-lbl" for="password">Password</label>
                                 <input type="password" autocomplete="new-password" class="form-field password" name="password" id="password" placeholder="Enter Password" value="">
                                 {% if employee %}<small class="form-text text-muted">Leave blank if you do not want to update</small>{% endif %}
-                            </div>
-                            <div class="form-group col-sm-6 col-md-4">
-                                <label class="form-lbl" for="client">Client</label>
-                                <select class="form-field" name="client" id="client">
-                                    <option value="">Select Client</option>
-                                    {% if clients_list %}
-                                      {% for clients in clients_list %}
-                                        <option value="{{clients.id}}" {% if employee.marital_status == clients.id %}selected{% endif %}>{{clients.client_name}}</option>
-                                      {% endfor %}
-                                    {% endif %}
-                                </select>
-                            </div>
+                            </div> -->
+                          
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="form-submit-btn">{% if user %}Update Employee{% else %}Save Employee{% endif %}</button>
+                            <button type="submit" class="form-submit-btn">{% if employee_info %}Update Employee{% else %}Save Employee{% endif %}</button>
                         </div>
                         
                     </form>
@@ -198,7 +204,7 @@ Add Employee
           document.getElementById("loader").style.display = "flex";
       });
     </script>
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('#role').change(function() {
                 var roleId = $(this).val();
@@ -232,7 +238,7 @@ Add Employee
                 }
             });
         });
-</script>
+</script> -->
 </body>
 
 
@@ -244,10 +250,7 @@ Add Employee
   
 <script>
 $(document).ready(function () {
-    // PAN custom method
-    $.validator.addMethod("panFormat", function (value, element) {
-        return this.optional(element) || /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value);
-    }, "Enter valid PAN (e.g., ABCDE1234F)");
+    
 
     $("#employeeForm").validate({
         rules: {
@@ -264,10 +267,6 @@ $(document).ready(function () {
             },
             gender: {
                 required: true
-            },
-            pan_no: {
-                required: true,
-                panFormat: true
             },
             phone: {
                 required: true,
@@ -291,10 +290,6 @@ $(document).ready(function () {
             last_name: "Enter last name",
             dob: "Select DOB",
             gender: "Select gender",
-            pan_no: {
-                required: "Enter PAN",
-                panFormat: "Invalid PAN format"
-            },
             phone: {
                 required: "Enter mobile number",
                 digits: "Only digits allowed",
