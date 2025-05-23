@@ -82,6 +82,8 @@ def index(request):
     #     users_with_employees = users_with_employees.order_by('-created_at')  # Default Sorting  
 
     total_count = employees_qs.count()
+    active_count = employees_qs.filter(active=True).count()
+    inactive_count = employees_qs.filter(active=False).count()
     
     
 
@@ -93,6 +95,8 @@ def index(request):
     return render(request, 'employee/index.html', {
         'page_obj': page_obj, 
         'total_count': total_count,
+        'active_count':active_count,
+        'inactive_count':inactive_count,
         'search_field': search_field,
         'search_query': search_query,
         'per_page': per_page,
