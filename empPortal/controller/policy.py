@@ -34,6 +34,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from decimal import Decimal, InvalidOperation
 
 from django_q.tasks import async_task
 
@@ -45,6 +46,14 @@ from ..models import (
 )
 from ..model import Insurance
 from empPortal.model import Referral, BankDetails, Partner
+from empPortal.model import XtClientsBasicInfo
+from empPortal.model.insurer import WimMasterInsurer
+from empPortal.model.tpas import WimMasterTPA
+from empPortal.model.wimGmcPolicyInfo import WimGmcPolicyInfo
+from empPortal.model.wimMasterPolicyTypes import MasterPolicyType
+from empPortal.model.gmcPolicyHighlights import GmcPolicyHighlights
+from empPortal.model.gmcPolicyCoverages import GmcPolicyCoverage
+from empPortal.model.gmcPolicyExclusions import GmcPolicyExclusions
 
 from ..forms import DocumentUploadForm
 
@@ -53,22 +62,308 @@ from ..utils import getUserNameByUserId, policy_product, send_sms_post
 app = FastAPI()
 
 def index(request):
+    if not request.user.is_authenticated or not request.user.is_active:
+        messages.error(request, 'Please Login First')
+        return redirect('login')
+    
+    policies = WimGmcPolicyInfo.objects.all()
+    total_count = WimGmcPolicyInfo.objects.count()
+    
+    return render(request, 'policy/index.html', {"policies": policies, 'total_count': total_count})
+
+def createPolicy(request, ref_id=None):
     if not request.user.is_authenticated and request.user.is_active != 1:
         messages.error(request,'Please Login First')
         return redirect('login')
     
-    return render(request,'policy/index.html')
+    policy = None
+    if ref_id:
+        policy = WimGmcPolicyInfo.objects.filter(gmc_reference_id=ref_id).last()
+        
+    clients_list = XtClientsBasicInfo.objects.filter(active='active')
+    insurer_list = WimMasterInsurer.objects.filter(master_insurer_is_active=True)
+    tpa_list = WimMasterTPA.objects.filter(master_tpa_is_active=True)
+    policy_type_list = MasterPolicyType.objects.filter(master_policy_type_is_active=True)
+    return render(request,'policy/create-policy.html',{"clients_list":clients_list,"insurer_list":insurer_list,'tpa_list':tpa_list,'policy_type_list':policy_type_list,'policy':policy})
 
+def savePolicyInfo(request):
+    if not request.user.is_authenticated or not request.user.is_active:
+        messages.error(request, 'Please Login First')
+        return redirect('login')
+
+    required_fields = {
+        'client': 'Client is required',
+        'insurer': 'Insurer is required',
+        'tpa': 'TPA is required',
+        'policy_type': 'Policy type is required',
+        'policy_number': 'Policy number is required',
+        'product_name': 'Product name is required',
+        'claim_process_mode': 'Claim process mode is required',
+        'policy_start_date': 'Policy start date is required',
+        'policy_end_date': 'Policy end date is required',
+        'policy_tenure': 'Policy tenure is required',
+        'total_sum_insured': 'Total sum insured is required',
+        'premium_amount': 'Premium is required',
+        'gst_amount': 'GST amount is required',
+        'total_lives': 'Total lives is required',
+        'total_employee': 'Total employee count is required',
+        'total_dependent': 'Total dependent count is required',
+        'total_spouse': 'Total spouse count is required',
+        'total_child': 'Total child count is required',
+        'remark': 'Remark is required',
+    }
+
+    data = {key: request.POST.get(key) for key in required_fields}
+    missing = [field for field, value in data.items() if not value]
+
+    for field in missing:
+        messages.error(request, required_fields[field])
+
+    if missing:
+        return redirect(request.META.get('HTTP_REFERER', 'policy-view'))
+
+    try:
+        policy_id = int(request.POST.get('policy_id'))
+        if policy_id:
+            policy_data = get_object_or_404(WimGmcPolicyInfo, id=policy_id)
+            policy_data.master_insurer_id=data['insurer']
+            policy_data.master_tpa_id=data['tpa']
+            policy_data.master_policy_type_id=data['policy_type']
+            policy_data.gmc_policy_number=data['policy_number']
+            policy_data.gmc_product_name=data['product_name']
+            policy_data.gmc_claim_process_mode=data['claim_process_mode']
+            policy_data.gmc_policy_start_date=data['policy_start_date']
+            policy_data.gmc_policy_end_date=data['policy_end_date']
+            policy_data.gmc_policy_term_months=data['policy_tenure']
+            policy_data.gmc_policy_total_sum_insured=data['total_sum_insured']
+            policy_data.gmc_policy_premium_amount=data['premium_amount']
+            policy_data.gmc_policy_gst_amount=data['gst_amount']
+            policy_data.gmc_policy_total_lives=data['total_lives']
+            policy_data.gmc_policy_total_employees=data['total_employee']
+            policy_data.gmc_policy_total_dependents=data['total_dependent']
+            policy_data.gmc_policy_total_spouses=data['total_spouse']
+            policy_data.gmc_policy_total_childs=data['total_child']
+            policy_data.gmc_policy_remarks=data['remark']
+            policy_data.save()
+            messages.success(request, "Policy updated successfully.")
+        else:
+            policy_data = WimGmcPolicyInfo.objects.create(
+                client_id=data['client'],
+                master_insurer_id=data['insurer'],
+                master_tpa_id=data['tpa'],
+                master_policy_type_id=data['policy_type'],
+                gmc_policy_number=data['policy_number'],
+                gmc_product_name=data['product_name'],
+                gmc_claim_process_mode=data['claim_process_mode'],
+                gmc_policy_start_date=data['policy_start_date'],
+                gmc_policy_end_date=data['policy_end_date'],
+                gmc_policy_term_months=data['policy_tenure'],
+                gmc_policy_total_sum_insured=data['total_sum_insured'],
+                gmc_policy_premium_amount=data['premium_amount'],
+                gmc_policy_gst_amount=data['gst_amount'],
+                gmc_policy_total_lives=data['total_lives'],
+                gmc_policy_total_employees=data['total_employee'],
+                gmc_policy_total_dependents=data['total_dependent'],
+                gmc_policy_total_spouses=data['total_spouse'],
+                gmc_policy_total_childs=data['total_child'],
+                gmc_policy_remarks=data['remark'],
+            )
+            messages.success(request, "Policy information saved successfully.")
+        
+        return redirect('policy-view')
+    except Exception as e:
+        messages.error(request, f"Failed to save policy: {str(e)}")
+
+    return redirect('policy-view')
+
+def createPolicyHighlights(request,ref_id):
+    if not request.user.is_authenticated and request.user.is_active != 1:
+        messages.error(request,'Please Login First')
+        return redirect('login')
+    
+    policy_data = WimGmcPolicyInfo.objects.filter(gmc_reference_id=ref_id).last()
+    policy_highlights = GmcPolicyHighlights.objects.filter(policy_id=policy_data.id,status=True)
+    return render(request,'policy/create-highlights-policy.html',{"policy_data":policy_data,"policy_highlights":policy_highlights})
+
+def savePolicyHighlight(request):
+    if not request.user.is_authenticated and request.user.is_active != 1:
+        messages.error(request,'Please Login First')
+        return redirect('login')
+    
+    if request.method == 'POST':
+        policy_id = request.POST.get('policy_id')
+        category = request.POST.get('category')
+        description = request.POST.get('description')
+
+        required_fields = {
+            'category': 'Category is required',
+            'description': 'Description is required',
+        }
+
+        data = {key: request.POST.get(key) for key in required_fields}
+    
+        missing = [field for field, value in data.items() if not value]
+
+        for field in missing:
+            messages.error(request, required_fields[field])
+
+        if missing:
+            return redirect(request.META.get('HTTP_REFERER', 'policy-view'))
+        
+        try:
+            policy = get_object_or_404(WimGmcPolicyInfo, id=policy_id)
+            highlight = GmcPolicyHighlights(policy_id=policy_id, category=category, highlight=description, created_by_id= request.user.id)
+            highlight.save()
+
+            messages.success(request, "Policy highlight saved successfully.")
+            return redirect('create-policy-highlights',ref_id=policy.gmc_reference_id)
+        except Exception as e:
+            messages.error(request, f"Failed to save policy: {str(e)}")
+
+    return redirect('policy-view')
+
+def deletePolicyHighlight(request, ref_id):
+    highlight = get_object_or_404(GmcPolicyHighlights, highlight_ref_id=ref_id)
+    highlight.status = False
+    highlight.save()
+    
+    messages.success(request, "Policy highlight deleted successfully.")
+    return redirect(request.META.get('HTTP_REFERER', 'policy-view'))
+
+def createPolicyCoverages(request,ref_id):
+    if not request.user.is_authenticated and request.user.is_active != 1:
+        messages.error(request,'Please Login First')
+        return redirect('login')
+    
+    policy_data = WimGmcPolicyInfo.objects.filter(gmc_reference_id=ref_id).last()
+    policy_coverages = GmcPolicyCoverage.objects.filter(policy_id=policy_data.id,status=True)
+    
+    return render(request,'policy/create-coverage-policy.html',{"policy_data":policy_data,"policy_coverages":policy_coverages})
+
+def savePolicyCoverage(request):
+    if request.method == 'POST':
+        policy_id = request.POST.get('policy_id')
+        coverage_item = request.POST.get('coverage_item')
+        description = request.POST.get('description')
+        sum_insured = request.POST.get('sum_insured')
+
+        if sum_insured:
+            try:
+                sum_insured = Decimal(sum_insured)
+            except (InvalidOperation, TypeError):
+                messages.error(request, "Sum Insured must be a valid number.")
+                return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            sum_insured = None
+        
+        required_fields = {
+            'coverage_item': 'Coverage Item is required',
+            'description': 'Description is required',
+        }
+
+        data = {key: request.POST.get(key) for key in required_fields}
+    
+        missing = [field for field, value in data.items() if not value]
+
+        for field in missing:
+            messages.error(request, required_fields[field])
+
+        if missing:
+            return redirect(request.META.get('HTTP_REFERER', 'policy-view'))
+
+        policy = get_object_or_404(WimGmcPolicyInfo, id=policy_id)
+
+        GmcPolicyCoverage.objects.create(
+            policy_id=policy_id,
+            coverage_item=coverage_item,
+            coverage_description=description,
+            sum_insured=sum_insured,
+            created_by_id = request.user.id
+        )
+
+        messages.success(request, "Policy coverage saved successfully.")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    return redirect('policy-view')
+
+
+def deletePolicyCoverage(request, ref_id):
+    coverage = get_object_or_404(GmcPolicyCoverage, coverage_ref_id=ref_id)
+    coverage.status = False
+    coverage.save()
+    
+    messages.success(request, "Policy coverage deleted successfully.")
+    return redirect(request.META.get('HTTP_REFERER', 'policy-view'))
+
+
+def createPolicyExclusions(request,ref_id):
+    if not request.user.is_authenticated and request.user.is_active != 1:
+        messages.error(request,'Please Login First')
+        return redirect('login')
+    
+    policy_data = WimGmcPolicyInfo.objects.filter(gmc_reference_id=ref_id).last()
+    policy_exclusions = GmcPolicyExclusions.objects.filter(policy_id=policy_data.id,status=True)
+    
+    return render(request,'policy/create-exclusions-policy.html',{"policy_data":policy_data,"policy_exclusions":policy_exclusions})
+
+def savePolicyExclusion(request):
+    if request.method == 'POST':
+        policy_id = request.POST.get('policy_id')
+        exclusion_title = request.POST.get('exclusion_title')
+        description = request.POST.get('description')
+        
+        required_fields = {
+            'exclusion_title': 'Exclusion Item is required',
+            'description': 'Description is required',
+        }
+
+        data = {key: request.POST.get(key) for key in required_fields}
+    
+        missing = [field for field, value in data.items() if not value]
+
+        for field in missing:
+            messages.error(request, required_fields[field])
+
+        if missing:
+            return redirect(request.META.get('HTTP_REFERER', 'policy-view'))
+        
+        try:
+            policy_id = request.POST.get('policy_id')
+            exclusion_title = request.POST.get('exclusion_title')
+            description = request.POST.get('description')
+
+            policy = get_object_or_404(WimGmcPolicyInfo, id=policy_id)
+
+            GmcPolicyExclusions.objects.create(
+                policy_id=policy_id,
+                exclusion_title=exclusion_title,
+                exclusion_description=description,
+                created_by_id=request.user.id
+            )
+
+            messages.success(request, "Policy exclusion saved successfully.")
+        except Exception as e:
+            messages.error(request, f"Failed to save policy exclusion: {str(e)}")
+            
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    return redirect('policy-view')
+
+def deletePolicyExclusion(request, ref_id):
+    exclusion = get_object_or_404(GmcPolicyExclusions, exclusion_ref_id=ref_id)
+    exclusion.status = False
+    exclusion.save()
+    
+    messages.success(request, "Policy exclusion deleted successfully.")
+    return redirect(request.META.get('HTTP_REFERER', 'policy-view'))
 
 
 def parse_date(date_str):
     try:
-        # Try parsing with common datetime format first
         parsed = datetime.strptime(date_str, "%b. %d, %Y, %I:%M %p")
         return parsed.date()
     except ValueError:
         try:
-            # Try ISO format fallback
             return datetime.strptime(date_str, "%Y-%m-%d").date()
         except ValueError:
             return None  # You can handle invalid dates as needed

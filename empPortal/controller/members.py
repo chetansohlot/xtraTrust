@@ -581,7 +581,7 @@ def posTrainingCertificate(request, user_id):
         "docs": docs,
         "customer": customer,
         "logo_url": os.path.join(settings.BASE_DIR, getattr(settings, 'LOGO_WITH_EMP_PORTAL', 'empPortal/static/dist/img/logo2.png')),
-        "signature_elevate": os.path.join(settings.BASE_DIR, getattr(settings, 'SIGNATURE_ELEVATE', 'empPortal/static/dist/img/elevate-signature.png')),
+        "signature_xtraTrust": os.path.join(settings.BASE_DIR, getattr(settings, 'SIGNATURE_XTRATRUST', 'empPortal/static/dist/img/xtratrust-signature.png')),
         "default_image_pos": profile_image_url,
         "signature_pos": os.path.join(settings.BASE_DIR, getattr(settings, 'SIGNATURE_POS', 'empPortal/static/dist/img/signature-pos.webp')),
     }
@@ -631,7 +631,7 @@ def posCertificate(request, user_id):
         "passed_date": passed_date,
         "docs": docs,
         "logo_url": os.path.join(settings.BASE_DIR, getattr(settings, 'LOGO_WITH_EMP_PORTAL', 'empPortal/static/dist/img/logo2.png')),
-        "signature_elevate": os.path.join(settings.BASE_DIR, getattr(settings, 'SIGNATURE_ELEVATE', 'empPortal/static/dist/img/elevate-signature.png')),
+        "signature_xtraTrust": os.path.join(settings.BASE_DIR, getattr(settings, 'SIGNATURE_XTRATRUST', 'empPortal/static/dist/img/xtratrust-signature.png')),
         "profile_image_url": profile_image_url,
         "signature_pos": os.path.join(settings.BASE_DIR, getattr(settings, 'SIGNATURE_POS', 'empPortal/static/dist/img/signature-pos.webp')),
     }
@@ -1735,14 +1735,14 @@ def activationPdf(request, user_id):
 
     customer = get_object_or_404(Users, id=user_id)
 
-    training_pdf_path = os.path.join(settings.MEDIA_ROOT, 'training/Training_Material_Elevate_Insurance_V1.0.pdf')
+    training_pdf_path = os.path.join(settings.MEDIA_ROOT, 'training/Training_Material_XtraTrust_Insurance_V1.0.pdf')
 
     context = {
         "user": customer,
-        "support_email": getattr(settings, 'SUPPORT_EMAIL', 'support@elevateinsurance.in'),
-        "company_website": getattr(settings, 'COMPANY_WEBSITE', 'https://pos.elevateinsurance.in/'),
-        "sub_broker_test_url": getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.elevateinsurance.in/'),
-        "terms_conditions_url": getattr(settings, 'TERMS_URL', 'https://pos.elevateinsurance.in/empPortal/media/terms/Terms_And_Conditions.pdf'),
+        "support_email": getattr(settings, 'SUPPORT_EMAIL', 'support@xtratrust.in'),
+        "company_website": getattr(settings, 'COMPANY_WEBSITE', 'https://pos.xtratrust.in/'),
+        "sub_broker_test_url": getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.xtratrust.in/'),
+        "terms_conditions_url": getattr(settings, 'TERMS_URL', 'https://pos.xtratrust.in/empPortal/media/terms/Terms_And_Conditions.pdf'),
         "training_material_url": training_pdf_path,
         "support_number": getattr(settings, 'SUPPORT_NUMBER', '+918887779999'),
         "logo_url": request.build_absolute_uri(static('dist/img/logo2.png')),
@@ -1791,17 +1791,17 @@ def activateUser(request, user_id):
             user = get_object_or_404(Users, id=user_id)
             user_email = user.email
 
-            training_file_name = getattr(settings, 'TRAINING_PDF_PATH', 'training/Training_Material_Elevate_Insurance_V1.0.pdf')
+            training_file_name = getattr(settings, 'TRAINING_PDF_PATH', 'training/Training_Material_XtraTrust_Insurance_V1.0.pdf')
             training_pdf_path = os.path.join(settings.MEDIA_ROOT, training_file_name)
             training_material_url = request.build_absolute_uri(settings.MEDIA_URL + training_file_name)
 
             email_body = render_to_string('members/activation-email.html', {
                 'user': user,
                 'logo_url': request.build_absolute_uri(static(getattr(settings, 'GLOBAL_FILE_LOGO', 'dist/img/logo2.png'))),
-                'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@elevateinsurance.in'),
+                'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@xtratrustinsurance.in'),
                 'terms_conditions_url': request.build_absolute_uri(settings.MEDIA_URL + 'terms/Terms_And_Conditions.pdf'),
-                'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.elevateinsurance.in/'),
-                'sub_broker_test_url': getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.elevateinsurance.in/'),
+                'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.xtratrustinsurance.in/'),
+                'sub_broker_test_url': getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.xtratrustinsurance.in/'),
                 'training_material_url': training_material_url,
                 'support_number': getattr(settings, 'SUPPORT_PARTNER_PHONE', '+918887779999'),
             })
@@ -1906,17 +1906,17 @@ def deactivateUser(request, user_id):
         user = get_object_or_404(Users, id=user_id)
         user_email = user.email
 
-        training_file_name = getattr(settings, 'TRAINING_PDF_PATH', 'training/Training_Material_Elevate_Insurance_V1.0.pdf')
+        training_file_name = getattr(settings, 'TRAINING_PDF_PATH', 'training/Training_Material_XtraTrust_Insurance_V1.0.pdf')
         training_material_url = request.build_absolute_uri(settings.MEDIA_URL + training_file_name)
 
         # Render email HTML template
         email_body = render_to_string('members/activation-email.html', {
             'user': user,
             'logo_url': request.build_absolute_uri(static(getattr(settings, 'GLOBAL_FILE_LOGO', 'dist/img/logo2.png'))),
-            'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@elevateinsurance.in'),
+            'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@xtratrustinsurance.in'),
             'terms_conditions_url': request.build_absolute_uri(settings.MEDIA_URL + 'terms/Terms_And_Conditions.pdf'),
-            'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.elevateinsurance.in/'),
-            'sub_broker_test_url': getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.elevateinsurance.in/'),
+            'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.xtratrustinsurance.in/'),
+            'sub_broker_test_url': getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.xtratrustinsurance.in/'),
             'training_material_url': training_material_url,
             'support_number': getattr(settings, 'SUPPORT_PARTNER_PHONE', '+918887779999'),
         })
@@ -1954,17 +1954,17 @@ def loginActivateUser(request, user_id):
         user = get_object_or_404(Users, id=user_id)
         user_email = user.email
 
-        training_file_name = getattr(settings, 'TRAINING_PDF_PATH', 'training/Training_Material_Elevate_Insurance_V1.0.pdf')
+        training_file_name = getattr(settings, 'TRAINING_PDF_PATH', 'training/Training_Material_XtraTrust_Insurance_V1.0.pdf')
         training_material_url = request.build_absolute_uri(settings.MEDIA_URL + training_file_name)
 
         # Render email HTML template
         email_body = render_to_string('members/activation-email.html', {
             'user': user,
             'logo_url': request.build_absolute_uri(static(getattr(settings, 'GLOBAL_FILE_LOGO', 'dist/img/logo2.png'))),
-            'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@elevateinsurance.in'),
+            'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@xtratrustinsurance.in'),
             'terms_conditions_url': request.build_absolute_uri(settings.MEDIA_URL + 'terms/Terms_And_Conditions.pdf'),
-            'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.elevateinsurance.in/'),
-            'sub_broker_test_url': getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.elevateinsurance.in/'),
+            'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.xtratrustinsurance.in/'),
+            'sub_broker_test_url': getattr(settings, 'SUB_BROKER_TEST_URL', 'https://pos.xtratrustinsurance.in/'),
             'training_material_url': training_material_url,
             'support_number': getattr(settings, 'SUPPORT_PARTNER_PHONE', '+918887779999'),
         })
@@ -2162,8 +2162,8 @@ def requestForDoc(request, user_id):
             email_body = render_to_string('members/request-doc-email.html', {
                 'user': user,
                 'logo_url': request.build_absolute_uri(static(getattr(settings, 'GLOBAL_FILE_LOGO', 'dist/img/logo2.png'))),
-                'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@elevateinsurance.in'),
-                'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.elevateinsurance.in/'),
+                'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@xtratrustinsurance.in'),
+                'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.xtratrustinsurance.in/'),
                 'support_number': getattr(settings, 'SUPPORT_PARTNER_PHONE', '+918887779999'),
             })
 
@@ -2191,16 +2191,16 @@ def send_training_mail(request, user_id):
         user = get_object_or_404(Users, id=user_id)
         user_email = user.email
 
-        training_filename = getattr(settings, 'TRAINING_MATERIAL_FILE', 'training/Training_Material_Elevate_Insurance_V1.0.pdf')
+        training_filename = getattr(settings, 'TRAINING_MATERIAL_FILE', 'training/Training_Material_XtraTrust_Insurance_V1.0.pdf')
         training_pdf_path = os.path.join(settings.MEDIA_ROOT, training_filename)
         training_material_url = request.build_absolute_uri(settings.MEDIA_URL + training_filename)
 
         email_body = render_to_string('members/training-email.html', {
             'user': user,
             'logo_url': request.build_absolute_uri(static(getattr(settings, 'GLOBAL_FILE_LOGO', 'dist/img/logo2.png'))),
-            'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@elevateinsurance.in'),
-            'terms_conditions_url': getattr(settings, 'TERMS_CONDITIONS_URL', 'https://pos.elevateinsurance.in/empPortal/media/terms/Terms_And_Conditions.pdf'),
-            'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.elevateinsurance.in/'),
+            'support_email': getattr(settings, 'SUPPORT_EMAIL', 'support@xtratrustinsurance.in'),
+            'terms_conditions_url': getattr(settings, 'TERMS_CONDITIONS_URL', 'https://pos.xtratrustinsurance.in/empPortal/media/terms/Terms_And_Conditions.pdf'),
+            'company_website': getattr(settings, 'COMPANY_WEBSITE', 'https://pos.xtratrustinsurance.in/'),
             'training_material_url': training_material_url,
             'support_number': getattr(settings, 'SUPPORT_PARTNER_PHONE', '+918887779999'),
         })

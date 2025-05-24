@@ -1,0 +1,363 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Policy MGT
+{% endblock %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    
+        {% include "navbar.html" %}
+        {% include 'sidebar/sidebar.html' %}
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header breadcrump-bg">
+          <div class="container-fluid">
+            <div class="row py-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center">
+                  <a href="javascript:void(0)" class="admin-title m-0 pt-2 text-dark">Policy Mgt</a>
+                </div>
+                <ul class="breadcrump">
+                  <li> <a href="{% url 'dashboard' %}">Dashboard</a> <i class="fas fa-chevron-right"></i></li>
+                  <li> <a href="{% url 'policy-view' %}">Policy MGT</a> <i class="fas fa-chevron-right"></i></li>
+                  <li>Add policy</li>
+                </ul>
+              </div>
+              <div class="col-sm-6 d-flex justify-content-end align-items-start">
+                  <a href="{% url 'policy-view' %}" class="breadcrump-addbtn mt-2">
+                     Back
+                  </a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              
+              <div class="col-sm-12">  
+                
+                <div class="card box-shadow-none p-md-5 p-3">
+                  <div class="card-body px-0 pb-0 pt-0">
+
+                    <form autocomplete="off" id="policy-basic-info" name="policy_basic_info" action="{% url 'save-policy-info' %}" method="post">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="policy_id" id="policy_id" value="{{policy.id}}">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="admin-title border-bottom pb-2 mb-4">Basic Details</h2>
+                            </div>
+
+                            <!-- client id -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="client">Client</label>
+                                <select class="form-field" id="client" name="client" {% if policy %} disabled {% endif %} >
+                                    <option value="">Select Client</option>
+                                    {% for clients in clients_list %}
+                                        <option value="{{clients.id}}" {% if policy.client_id|stringformat:"s" == clients.id|stringformat:"s" %} selected {% endif %}>
+                                        {{clients.client_name}}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                {% if policy %}
+                                    <input type="hidden" name="client" value="{{ policy.client_id }}">
+                                {% endif %}
+                            </div>
+
+                            <!-- insurer id -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="insurer">Insurer</label>
+                                <select class="form-field" name="insurer" id="insurer">
+                                    <option value="">Select Insurer</option>
+                                     {% if insurer_list %}
+                                      {% for insurers in insurer_list %}
+                                        <option value="{{insurers.id}}"  {% if policy.master_insurer_id|stringformat:"s" == insurers.id|stringformat:"s" %}  selected {% endif %}>{{insurers.master_insurer_name}}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <!-- tpa id -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="tpa">TPA</label>
+                                <select class="form-field" name="tpa" id="tpa">
+                                    <option value="">Select TPA</option>
+                                    {% if tpa_list %}
+                                      {% for tpas in tpa_list %}
+                                        <option value="{{tpas.id}}"  {% if policy.master_tpa_id|stringformat:"s" == tpas.id|stringformat:"s" %}  selected {% endif %}>{{tpas.master_tpa_name }}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <!-- Policy Type -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_type">Policy Type</label>
+                                <select class="form-field" name="policy_type" id="policy_type">
+                                    <option value="">Select Policy Type</option>
+                                    {% if policy_type_list %}
+                                      {% for policy_types in policy_type_list %}
+                                        <option value="{{policy_types.id}}"  {% if policy.master_policy_type_id|stringformat:"s" == policy_types.id|stringformat:"s" %}  selected {% endif %}>{{policy_types.master_policy_type_name }}</option>
+                                      {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <!-- POLICY NUMBER -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_number">Policy Number</label>
+                                <input type="text" class="form-field" name="policy_number" id="policy_number" placeholder="Policy Number" maxlength="50" value="{{policy.gmc_policy_number|default:''}}">
+                            </div>
+
+                            <!-- Product Name -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="product_name">Product Name</label>
+                                <input type="text" class="form-field" name="product_name" id="product_name" placeholder="Product Name" maxlength="50"  value="{{policy.gmc_product_name|default:''}}">
+                            </div>
+                            
+                              <!-- Claim Process mode -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="claim_process_mode">Claim Process Mode</label>
+                                <select class="form-field" name="claim_process_mode" id="claim_process_mode">
+                                    <option value="Both">Both</option>
+                                    <option value="Reimbursement">Reimbursement</option>
+                                    <option value="Cashless">Cashless</option>
+                                </select>
+                            </div>
+
+                            <!-- Policy Start Date -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_start_date">Policy Start Date</label>
+                                <input type="text" name="policy_start_date" id="policy_start_date" placeholder="YYYY-MM-DD" class="form-field policy_dates_datepicker" value="{{ policy.gmc_policy_start_date|default:''|date:'Y-m-d' }}">
+                            </div>
+
+                            <!-- Policy End Date -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_end_date">Policy End Date</label>
+                                <input type="text" name="policy_end_date" id="policy_end_date" placeholder="YYYY-MM-DD" class="form-field policy_dates_datepicker" value="{{ policy.gmc_policy_end_date|default:''|date:'Y-m-d' }}">
+                            </div>
+
+                            <!-- Policy Tenure -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="policy_tenure">Policy Tenure (in monthes)</label>
+                                <input type="text" name="policy_tenure" id="policy_tenure" placeholder="Policy Tenure (in monthes)" class="form-field" maxlength="2" min="1" max="99" value="{{ policy.gmc_policy_term_months|default:''}}">
+                            </div>
+
+                            <!-- Toatal Sum Insured -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_sum_insured">Total Sum Insured</label>
+                                <input type="text" name="total_sum_insured" id="total_sum_insured" placeholder="Total Sum Insured" class="form-field number" maxlength="8" value="{{ policy.gmc_policy_total_sum_insured|default:''}}">
+                            </div>
+
+                            <!-- Premium Amount -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="Premium Amount">Premium Amount </label>
+                                <input type="text" name="premium_amount" id="premium_amount" placeholder="Premium Amount"  class="form-field number" maxlength="8" value="{{ policy.gmc_policy_premium_amount|default:''}}">
+                            </div>
+
+                            <!-- GST Amount -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="gst_amount">GST Amount </label>
+                                <input type="text" name="gst_amount" id="gst_amount" placeholder="GST Amount" class="form-field number" maxlength="8" value="{{ policy.gmc_policy_gst_amount|default:''}}">
+                            </div>
+
+                            <!-- Total Lives -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_lives">Total Lives </label>
+                                <input type="text" name="total_lives" id="total_lives" placeholder="Total Lives" class="form-field number" maxlength="4" max="1000" min="1" value="{{ policy.gmc_policy_total_lives|default:''}}">
+                            </div>
+
+                            <!-- Total Employee -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_employee">Total Employee </label>
+                                <input type="text" name="total_employee" id="total_employee" placeholder="Total Employees" class="form-field number" maxlength="4" max="1000" min="1" value="{{ policy.gmc_policy_total_employees|default:''}}">
+                            </div>
+
+                            <!-- Total Dependent -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_dependent">Total Dependent </label>
+                                <input type="text" name="total_dependent" id="total_dependent" placeholder="Total Dependent" class="form-field number" maxlength="4" max="1000" min="1" value="{{ policy.gmc_policy_total_dependents|default:''}}">
+                            </div>
+
+                            <!-- Total spouse -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_spouse">Total Spouse Count</label>
+                                <input type="text" name="total_spouse" id="total_spouse" placeholder="Total Spouse Count" class="form-field number" maxlength="4" max="1000" min="1" value="{{ policy.gmc_policy_total_spouses|default:''}}">
+                            </div>
+                            
+                            <!-- Total child -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="total_child">Total Children Count </label>
+                                <input type="text" name="total_child" id="total_child" placeholder="Total Children Count" class="form-field number" maxlength="4" max="1000" min="1" value="{{ policy.gmc_policy_total_childs|default:''}}">
+                            </div>
+
+                            <!-- Remark -->
+                            <div class="form-group col-sm-6 col-md-4">
+                                <label class="form-lbl" for="remark">Remark </label>
+                                <input type="text" name="remark" id="remark" placeholder="Remark" class="form-field" value="{{ policy.gmc_policy_remarks|default:''}}">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="form-submit-btn">Save</button>
+                        </div>
+                        
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+        
+    </div>
+    
+    {% include "footer.html" %}
+    {% include "footer-script.html" %}
+    
+    <script>
+        $(document).ready(function () {
+            $("#policy-basic-info").validate({
+                rules: {
+                    client: {
+                        required: true
+                    },
+                    insurer: {
+                        required: true
+                    },
+                    tpa: {
+                        required: true
+                    },
+                    policy_type: {
+                        required: true
+                    },
+                    policy_number: {
+                        required: true
+                    },
+                    product_name: {
+                        required: true
+                    },
+                    claim_process_mode: {
+                        required: true
+                    },
+                    policy_start_date: {
+                        required: true,
+                        dateISO: true
+                    },
+                    policy_end_date: {
+                        required: true,
+                        dateISO: true
+                    },
+                    policy_tenure: {
+                        required: true,
+                        digits: true,
+                        min: 1,
+                        max: 99
+                    },
+                    total_sum_insured: {
+                        required: true,
+                        number: true
+                    },
+                    premium_amount: {
+                        required: true,
+                        number: true
+                    },
+                    gst_amount: {
+                        required: true,
+                        number: true
+                    },
+                    total_lives: {
+                        required: true,
+                        digits: true,
+                        min: 1,
+                        max: 1000
+                    },
+                    total_employee: {
+                        required: true,
+                        digits: true,
+                        min: 1,
+                        max: 1000
+                    },
+                    total_dependent: {
+                        required: true,
+                        digits: true,
+                        min: 1,
+                        max: 1000
+                    },
+                    total_spouse: {
+                        required: true,
+                        digits: true,
+                        min: 1,
+                        max: 1000
+                    },
+                    total_child: {
+                        required: true,
+                        digits: true,
+                        min: 1,
+                        max: 1000
+                    }
+                },
+                messages: {
+                    client: "Select Client",
+                    insurer: "Select Insurer",
+                    tpa: "Select TPA",
+                    policy_type: "Select Policy Type",
+                    policy_number: "Enter Policy Number",
+                    product_name: "Enter Product Name",
+                    claim_process_mode: "Select Claim Process Mode",
+                    policy_start_date: {
+                        required: "Enter Policy Start Date",
+                        dateISO: "Enter a valid date (YYYY-MM-DD)"
+                    },
+                    policy_end_date: {
+                        required: "Enter Policy End Date",
+                        dateISO: "Enter a valid date (YYYY-MM-DD)"
+                    },
+                    policy_tenure: {
+                        required: "Enter Policy Tenure",
+                        digits: "Only digits allowed",
+                        min: "Minimum 1 month",
+                        max: "Maximum 99 months"
+                    },
+                    total_sum_insured: "Enter Total Sum Insured",
+                    premium_amount: "Enter Premium Amount",
+                    gst_amount: "Enter GST Amount",
+                    total_lives: "Enter Total Lives",
+                    total_employee: "Enter Total Employee",
+                    total_dependent: "Enter Total Dependent",
+                    total_spouse: "Enter Total Spouse Count",
+                    total_child: "Enter Total Children Count"
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function (element) {
+                    $(element).addClass("is-invalid");
+                },
+                unhighlight: function (element) {
+                    $(element).removeClass("is-invalid");
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+
+        });
+    </script>
+
+</body>
+  
+
+
+{% endblock %}
