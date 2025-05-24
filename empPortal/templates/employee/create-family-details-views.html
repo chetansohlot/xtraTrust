@@ -41,21 +41,21 @@ Add Family Details
                         <div class="col-sm-12">
                             <!-- Family Details Table -->
                             <div class="card shadow-sm">
-                                <div class="card-header d-flex justify-content-between align-items-center px-3 py-2">
-                                    <h3 class="card-title mb-0">
-                                        Family Members of {{ employee.first_name }} {{ employee.last_name }}
-                                    </h3>
-                                    <a href="{% url 'employee-management-family-details' employee.employee_id %}" class="btn btn-primary btn-sm">
+                                <div class="card-header d-flex align-items-center">
+                                    <h3 class="card-title mb-0">Family Members of {{ employee.first_name }} {{ employee.last_name }}</h3>
+                                    <a href="{% url 'employee-management-family-details' employee.employee_id %}" class="btn btn-primary btn-sm ml-auto">
                                         <i class="fas fa-plus"></i> Add Member
                                     </a>
                                 </div>
 
                                 <div class="card-body px-3">
                                     {% if family_members %}
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped text-center align-middle mb-0">
-                                            <thead class="thead-light">
-                                                <tr>
+                                     <table class="table table-design table-trlink">
+                                    <thead class="table-thead-bg-light table-header-fix">
+                                    <tr>
+                                        <th width="10">
+                                            <input type="checkbox" id="checkall" class="table-chk">
+                                            <label for="checkall"></label>
                                                     <th>Relation</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
@@ -65,6 +65,10 @@ Add Family Details
                                             <tbody>
                                                 {% for member in family_members %}
                                                 <tr>
+                                                    <td>
+                                                        <input type="checkbox" id="check{{ employee.id }}" class="table-chk">
+                                                        <label for="check{{ employee.id }}"></label>
+                                                    </td>
                                                     <td>{{ member.relation }}</td>
                                                     <td>{{ member.first_name|capfirst }}</td>
                                                     <td>{{ member.last_name|capfirst }}</td>
