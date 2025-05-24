@@ -7,7 +7,7 @@ import os
 import django
 
 # Ensure Django is initialized
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "elevatInsurance.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "xtraTrustInsurance.settings")
 django.setup()
 
 from empPortal.models import Base  # Import your SQLAlchemy models

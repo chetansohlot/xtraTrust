@@ -13,11 +13,11 @@ from .insurance_info import InsuranceCategory
 from .insurance_info import InsuranceProduct
 from .EmployeeDetails import EmployeeDetails
 
-from .Employees import Employees
-from .Employees import Address
-from .Employees import FamilyDetail
-from .Employees import EmploymentInfo
-from .Employees import EmployeeReference
+from .employees import Employees
+from .employees import Address
+from .employees import FamilyDetail
+from .employees import EmploymentInfo
+from .employees import EmployeeReference
 from .Credential import Credential
 from .clients import XtClientsBasicInfo
 from .clients import XtClientsContactInfo

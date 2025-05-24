@@ -2,7 +2,6 @@
 *.env
 *.pyc
 config/settings_local.py
-xtraTrustInsurance/settings.py
 empPortal/media
 
 
